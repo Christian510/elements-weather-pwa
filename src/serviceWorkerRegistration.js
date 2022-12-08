@@ -1,6 +1,8 @@
 // This optional code is used to register a service worker.
 // register() is not called by default.
 
+import { resultingClientExists } from "workbox-core/_private";
+
 // This lets the app load faster on subsequent visits in production, and gives
 // it offline capabilities. However, it also means that developers (and users)
 // will only see deployed updates on subsequent visits to a page, after all the
@@ -19,10 +21,13 @@ const isLocalhost = Boolean(
 );
 
 export function register(config) {
+  console.log('service worker function fired');
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+    console.log('URL constructor is available in all browsers that support SW');
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
+      console.log('line 30: Our service worker wont work if PUBLIC_URL is on a different origin');
       // Our service worker won't work if PUBLIC_URL is on a different origin
       // from what our page is served on. This might happen if a CDN is used to
       // serve assets; see https://github.com/facebook/create-react-app/issues/2374
@@ -31,8 +36,9 @@ export function register(config) {
 
     window.addEventListener('load', () => {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
-
+      console.log('loaded: ', swUrl);
       if (isLocalhost) {
+        console.log('served on localhost')
         // This is running on localhost. Let's check if a service worker still exists or not.
         checkValidServiceWorker(swUrl, config);
 
@@ -56,6 +62,7 @@ function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
     .then((registration) => {
+      console.log("registerValidSW resp: ", registration);
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         if (installingWorker == null) {
@@ -97,17 +104,21 @@ function registerValidSW(swUrl, config) {
 }
 
 function checkValidServiceWorker(swUrl, config) {
+  console.log('checking if service worker can be found');
   // Check if the service worker can be found. If it can't reload the page.
   fetch(swUrl, {
     headers: { 'Service-Worker': 'script' },
   })
     .then((response) => {
+      console.log('ensure service worker exists');
+      console.log('resp: ', response);
       // Ensure service worker exists, and that we really are getting a JS file.
       const contentType = response.headers.get('content-type');
       if (
         response.status === 404 ||
         (contentType != null && contentType.indexOf('javascript') === -1)
       ) {
+        console.log('No service worker found. Probably a different app. Reload the page.');
         // No service worker found. Probably a different app. Reload the page.
         navigator.serviceWorker.ready.then((registration) => {
           registration.unregister().then(() => {
@@ -115,6 +126,7 @@ function checkValidServiceWorker(swUrl, config) {
           });
         });
       } else {
+        console.log('Service worker found. Proceed as normal.');
         // Service worker found. Proceed as normal.
         registerValidSW(swUrl, config);
       }
