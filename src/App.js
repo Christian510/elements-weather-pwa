@@ -3,7 +3,7 @@ import React from 'react';
 import './App.css';
 import LandingPageView from './views/LandingView.js/LandingPageView/LandingPageView';
 
-class App extends React.Component() {
+class App extends React.Component {
     constructor (props) {
       super(props);
       this.state = {        
