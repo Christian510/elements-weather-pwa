@@ -1,14 +1,21 @@
-.App {
+.App-container {
   text-align: center;
-  background: url('/public/images/mountains-cover-img.jpeg');
-  opacity: .4;
   height: 100vh;
+  overflow: hidden;
 }
 
-/* .App-logo {
-  height: 40vmin;
-  pointer-events: none;
-} */
+.App-container::after {
+  content: '';
+  position: absolute;
+  background-image: url('/public/images/mountains-cover-img.jpeg');
+  background-size: cover;
+  opacity: .4;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+
+}
 
 /* @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -16,16 +23,13 @@
   }
 } */
 
-/* .App-header { */
-  /* background-color: #282c34; */
-  /* min-height: 100vh; */
-  /* display: flex;
+.App-header {
+  min-height: 100vh;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white; */
-/* } */
+}
 
 /* .App-link {
   color: #61dafb;
