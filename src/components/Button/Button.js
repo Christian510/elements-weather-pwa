@@ -1,11 +1,13 @@
 import React from 'react';
+import { Outlet, Link } from "react-router-dom";
 import '../Button/button.css';
 
 function Button(props) {
+
     return (
-        <button className='add-button' onClick={() => console.log('clicked')}>
-           {props.name}
-        </button>
+        <div className='add-button'>
+            <Link to={props.path}>{props.name}</Link>
+        </div>
     );
 }
 

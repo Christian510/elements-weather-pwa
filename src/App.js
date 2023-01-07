@@ -1,7 +1,13 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 // import logo from './logo.svg';
 import './App.css';
-import LandingPageView from './views/LandingView.js/LandingPageView/LandingPageView';
+import './styles/index.css';
+import './styles/root.css';
+import './styles/skeleton.css';
+import LandingPageView from './views/LandingPageView/LandingPageView';
+import SearchBar from './components/SearchBar/SearchBar';
+import CreateAccountView from './views/CreateAccountView/CreateAccountView';
 
 class App extends React.Component {
     constructor (props) {
@@ -15,15 +21,16 @@ class App extends React.Component {
     render() {
 
       return (
+        <>
+        {/* all the other elements */}
         <div className="App-container">
+          <SearchBar />
           <LandingPageView />
-          {/* Login view */}
-          {/* About page view */}
-          {/* SavedWeatherView */}
-          {/* CurrentWeatherView */}
-          {/* WeatherMapView */}
-          
+        <div id="detail">
+          <Outlet />
         </div>
+        </div>
+        </>
       );
     }
 }

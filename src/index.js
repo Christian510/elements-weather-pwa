@@ -1,18 +1,46 @@
 import React from 'react';
-import './styles/index.css';
-import App from './App';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import reportWebVitals from './reportWebVitals';
 import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import reportWebVitals from './reportWebVitals';
+import App from './App';
+// import './styles/index.css';
+import AboutAppView from './views/AboutAppView/AboutAppView';
+import ErrorPage from './views/ErrorPage/ErrorPage';
+import CreateAccountView from './views/CreateAccountView/CreateAccountView';
+import LandingPageView from './views/LandingPageView/LandingPageView';
+// import LoginView  from './views/LoginView/LoginView';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/landingPageView",
+        element: <LandingPageView />
+      },
+      {
+        path: "/createAccount",
+        element: <CreateAccountView name={`Create An Account`} />,
+      },
+      {
+        path: "/about",
+        element: <AboutAppView />,
+      },
+      {
+        path: "/saved",
+        element: <div>Saved Locations and search feature</div>
+      },
+      {
+        path: "/login",
+        element: <div>Login View</div>
+      }
+    ],
   },
 ]);
 
