@@ -1,7 +1,7 @@
 .App-container {
-  text-align: center;
   height: 100vh;
   overflow: hidden;
+  padding: 5px;
 }
 
 .App-container::after {

@@ -1,3 +1,4 @@
+// import exp from "constants";
 import React from "react";
 import '../LoginView/loginview.css';
 
@@ -10,3 +11,5 @@ function LoginView(props) {
         </>
     );
 }
+
+export default LoginView;

@@ -1,0 +1,23 @@
+.nav-link {
+    list-style-type: none;
+}
+
+.link {
+    text-decoration: none;
+}
+nav.nav-menu a {
+    text-decoration: none;
+    color: gray;
+}
+nav.nav-menu a.active {
+    font-size: bold;
+    color: black;
+}
+
+.nav-menu {
+    position:absolute;
+    top: 5rem;
+    left: 0;
+    background: bisque;
+    width: 100%;
+}

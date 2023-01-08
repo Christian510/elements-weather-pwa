@@ -7,12 +7,12 @@ import {
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import App from './App';
-// import './styles/index.css';
 import AboutAppView from './views/AboutAppView/AboutAppView';
 import ErrorPage from './views/ErrorPage/ErrorPage';
 import CreateAccountView from './views/CreateAccountView/CreateAccountView';
-import LandingPageView from './views/LandingPageView/LandingPageView';
-// import LoginView  from './views/LoginView/LoginView';
+import LoginView  from './views/LoginView/LoginView';
+import AccountView from './views/AccountView/AccountView';
+import SavedWeatherView from './views/SavedWeatherView/SavedWeatherView';
 
 const router = createBrowserRouter([
   {
@@ -20,10 +20,6 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
-      {
-        path: "/landingPageView",
-        element: <LandingPageView />
-      },
       {
         path: "/createAccount",
         element: <CreateAccountView name={`Create An Account`} />,
@@ -34,11 +30,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/saved",
-        element: <div>Saved Locations and search feature</div>
+        element: <SavedWeatherView />,
       },
       {
         path: "/login",
-        element: <div>Login View</div>
+        element: <LoginView />
+      },
+      {
+        path: "/user_account",
+        elements: <AccountView user='Trinity' />,
       }
     ],
   },

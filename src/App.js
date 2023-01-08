@@ -5,9 +5,9 @@ import './App.css';
 import './styles/index.css';
 import './styles/root.css';
 import './styles/skeleton.css';
-import LandingPageView from './views/LandingPageView/LandingPageView';
+import Header from './views/Header/Header';
 import SearchBar from './components/SearchBar/SearchBar';
-import CreateAccountView from './views/CreateAccountView/CreateAccountView';
+import NavDropdown from './components/NavDropdown/NavDropDown';
 
 class App extends React.Component {
     constructor (props) {
@@ -15,6 +15,7 @@ class App extends React.Component {
       this.state = {        
         isLoggedIn: false,
         hasSession: false,
+        user: "Sam"
       }
 
     }
@@ -24,8 +25,10 @@ class App extends React.Component {
         <>
         {/* all the other elements */}
         <div className="App-container">
-          <SearchBar />
-          <LandingPageView />
+          <Header>
+            <SearchBar />
+            <NavDropdown user={this.state.user} />
+          </Header>
         <div id="detail">
           <Outlet />
         </div>
