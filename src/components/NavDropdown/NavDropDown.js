@@ -3,63 +3,68 @@ import { NavLink } from 'react-router-dom';
 import './navDropdown.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
+// import { useState } from 'react';
 
 
 
 
 function NavDropdown (props) {
       
+    // const [currentView, setCurrentView] = useState()
+    
     function toggleDropdown() {
         let menu = document.querySelector('.nav-menu');
         menu.classList.toggle('hide');
     }
+
+
     return (
         <>
         <div onClick={() => toggleDropdown()}>
             <FontAwesomeIcon icon={faBars} size='2x' />
         </div>
-        <nav className='nav-menu'>
+        <nav className='nav-menu hide'>
             <ul className='nav-list'>
-                <li className='nav-link'>
+                <li className='nav-link' onClick={() => toggleDropdown()}>
                     <NavLink
-                    to='/createAccount'
+                    to='/'
+                    >
+                    Home
+                    </NavLink>
+                </li>
+                <li className='nav-link' onClick={() => toggleDropdown()}>
+                    <NavLink
+                    to='/create_account'
                     >
                     Create Account
                     </NavLink>
                 </li>
-                <li className='nav-link'>
+                <li className='nav-link' onClick={() => toggleDropdown()}>
                     <NavLink
                     to='/login'
                     >
                     Login
                     </NavLink>
                 </li>
-                <li className='nav-link'>
+                <li className='nav-link' onClick={() => toggleDropdown()}>
                     <NavLink
                     to='/about'
                     >
-                    About Elements Weather
+                    About
                     </NavLink>
                 </li>
-                <li className='nav-link'>
+                <li className='nav-link' onClick={() => toggleDropdown()}>
                     <NavLink
                     to='/user_account'
                     >
                     {props.user}'s Account
                     </NavLink>
                 </li>
-                <li className='nav-link'>
+                <li className='nav-link' onClick={() => toggleDropdown()}>
                     <NavLink
-                    to=''
+                    to='/favorites'
                     >
-
-                    </NavLink>
-                </li>
-                <li className='nav-link'>
-                    <NavLink
-                    to=''
-                    >
-
+                    Favorites
                     </NavLink>
                 </li>
             </ul>

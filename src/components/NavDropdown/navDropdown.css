@@ -20,4 +20,6 @@ nav.nav-menu a.active {
     left: 0;
     background: bisque;
     width: 100%;
+    padding: 1.5rem;
+    z-index: 2;
 }

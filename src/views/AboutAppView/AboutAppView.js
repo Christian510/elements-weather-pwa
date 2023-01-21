@@ -1,10 +1,9 @@
 import React from "react";
 import '../AboutAppView/aboutappview.css';
 
-function AboutView() {
-
+function AboutView(props) {
     return (
-        <div id="about-page">
+        <div id="about-page" className="container">
             <h2>About Elements Weather</h2>
         </div>
     );
