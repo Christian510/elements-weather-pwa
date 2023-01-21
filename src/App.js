@@ -35,17 +35,24 @@ import LoginView  from './views/LoginView/LoginView';
 import AccountView from './views/AccountView/AccountView';
 import FavoritesView from './views/Favorites/Favorites';
 import CurrentWeatherView from './views/CurrentWeatherView/CurrentWeatherView';
+import { getWeatherByCity } from './models/weather_data';
 
 
 let router = createBrowserRouter(
   createRoutesFromElements(
     <Route 
-      path='/' 
+      path='/'
       element={<Home />}
+      // action={Home.action}
       errorElement={<ErrorPage />}
       >
         <Route path='/about' element={<AboutAppView />} />
-        <Route path='/weather' element={<CurrentWeatherView />} />
+        <Route 
+              path='/weather' 
+              element={<CurrentWeatherView />} 
+              loader={weatherLoader}
+              // action={}
+              />
         <Route path='/favorites' element={<FavoritesView />} />
         <Route path='/create_account' element={<CreateAccountView />} />
         <Route path='/login' element={<LoginView />} />
@@ -70,6 +77,11 @@ export function sleep(n = 500) {
 export function Fallback() {
   // TODO: Style this up and maybe add a spinner
   return <p>Performing initial data load</p>;
+}
+
+export async function weatherLoader() {
+  const city = await getWeatherByCity();
+  return { city };
 }
 
 export function Home() {
