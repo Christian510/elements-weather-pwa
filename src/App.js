@@ -26,7 +26,7 @@ import './styles/index.css';
 import './styles/root.css';
 import './styles/skeleton.css';
 import Header from './views/Header/Header';
-import SearchBar from './components/SearchBar/SearchBar';
+import SearchBar, { action } from './components/SearchBar/SearchBar';
 import NavDropdown from './components/NavDropdown/NavDropDown';
 import AboutAppView from './views/AboutAppView/AboutAppView';
 import ErrorPage from './views/ErrorPage/ErrorPage';
@@ -35,7 +35,7 @@ import LoginView  from './views/LoginView/LoginView';
 import AccountView from './views/AccountView/AccountView';
 import FavoritesView from './views/Favorites/Favorites';
 import CurrentWeatherView from './views/CurrentWeatherView/CurrentWeatherView';
-import { getWeatherByCity } from './models/weather_data';
+import { getForecastByCity } from './models/weather_data';
 
 
 let router = createBrowserRouter(
@@ -50,9 +50,11 @@ let router = createBrowserRouter(
         <Route 
               path='/weather' 
               element={<CurrentWeatherView />} 
-              loader={weatherLoader}
-              // action={}
-              />
+              loader={async ({ request }) => {
+                let url = new URL(request.url);
+                let city = url.searchParams.get("citySearch");
+                return getForecastByCity(city);
+              }}/>
         <Route path='/favorites' element={<FavoritesView />} />
         <Route path='/create_account' element={<CreateAccountView />} />
         <Route path='/login' element={<LoginView />} />
@@ -79,10 +81,10 @@ export function Fallback() {
   return <p>Performing initial data load</p>;
 }
 
-export async function weatherLoader() {
-  const city = await getWeatherByCity();
-  return { city };
-}
+// export async function weatherLoader() {
+//   const city = await getWeatherByCity();
+//   return { city };
+// }
 
 export function Home() {
 

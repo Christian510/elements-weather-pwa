@@ -7,24 +7,21 @@ import {
     useLoaderData,
     redirect,
   } from "react-router-dom";
-//   import { updateContact } from "../contacts";
-  
-  export async function action({ request, params }) {
-    const formData = await request.formData();
-    const updates = Object.fromEntries(formData);
-
-    console.log('form data', formData);
-    console.log('formatted', updates);
-    // await updateContact(params.contactId, updates);
-    // return redirect(`/contacts/${params.contactId}`);
-  }
+// import { fetchCities } from '../../models/weather_data';
+// import { getForecastByCity } from '../../models/weather_data';
 
 function SearchBar(props) {
+  // const cities = fetchCities() /* this should get moved to app.js and loaded with a loader */
+  //   for (let i = 0; i < cities.length; i++) {
+
+  //   }
     return (
         <nav id='searchbar' className='search-bar'>
-            <Form id='' className='search-form' action='/weather' method='POST'>                
-                <input list="city-search" id="city-search-selection" type="search" name="city-search-selection" placeholder='City, State' />
+            <Form id='' className='search-form' action='/weather' method='GET'>                
+                <input list="city-search" id="city-search" type="search" name="citySearch" placeholder='City, State, Country' />
                 <datalist id="city-search">
+                  {/* REPLACE WITH DYNAMIC DATA FROM API */}
+
                     <option value="Boise, ID" />
                     <option value="Sandpoint, ID" />
                     <option value="Seattle, WA" />

@@ -34,6 +34,20 @@ function NavDropdown (props) {
                 </li>
                 <li className='nav-link' onClick={() => toggleDropdown()}>
                     <NavLink
+                    to='/favorites'
+                    >
+                    Favorites
+                    </NavLink>
+                </li>
+                <li className='nav-link' onClick={() => toggleDropdown()}>
+                    <NavLink
+                    to='/weather'
+                    >
+                    Check The Weather
+                    </NavLink>
+                </li>
+                <li className='nav-link' onClick={() => toggleDropdown()}>
+                    <NavLink
                     to='/create_account'
                     >
                     Create Account
@@ -58,13 +72,6 @@ function NavDropdown (props) {
                     to='/user_account'
                     >
                     {props.user}'s Account
-                    </NavLink>
-                </li>
-                <li className='nav-link' onClick={() => toggleDropdown()}>
-                    <NavLink
-                    to='/favorites'
-                    >
-                    Favorites
                     </NavLink>
                 </li>
             </ul>
