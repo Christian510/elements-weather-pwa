@@ -26,7 +26,7 @@ import './styles/index.css';
 import './styles/root.css';
 import './styles/skeleton.css';
 import Header from './views/Header/Header';
-import SearchBar, { action } from './components/SearchBar/SearchBar';
+// import SearchBar, { action } from './components/SearchBar/SearchBar';
 import NavDropdown from './components/NavDropdown/NavDropDown';
 import AboutAppView from './views/AboutAppView/AboutAppView';
 import ErrorPage from './views/ErrorPage/ErrorPage';
@@ -36,7 +36,7 @@ import AccountView from './views/AccountView/AccountView';
 import FavoritesView from './views/Favorites/Favorites';
 import CurrentWeatherView from './views/CurrentWeatherView/CurrentWeatherView';
 import { getForecastByCity } from './models/weather_data';
-
+import MuiSearchBar from './components/MuiSearchBar/MuiSearchBar';
 
 let router = createBrowserRouter(
   createRoutesFromElements(
@@ -53,6 +53,7 @@ let router = createBrowserRouter(
               loader={async ({ request }) => {
                 let url = new URL(request.url);
                 let city = url.searchParams.get("citySearch");
+                console.log("city url: ", city);
                 return getForecastByCity(city);
               }}/>
         <Route path='/favorites' element={<FavoritesView />} />
@@ -100,7 +101,7 @@ export function Home() {
     {/* all the other elements */}
     <div className="App-container">
       <Header>
-        <SearchBar />
+        <MuiSearchBar />
         <NavDropdown user="Glen" />
       </Header>
       <h2>Welcome to Elements Weather</h2>

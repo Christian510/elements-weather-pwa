@@ -44,9 +44,8 @@
 //         });
 // }
 
-// CONVERT THESE FUNCTIONS TO PROMISE BASED FUNCTIONS AND MOVE AWAY FROM CALLBACKS.
 
-// GET THE CURRENT WEATHER FORECAST FROM API
+// GET WEATHER BY LAT AND LONG
 export const getForecastByLatLon = (lat, lon) => {
     // const key = process.env.REACT_APP_TOKEN1;
     const key = process.env.REACT_APP_TOKEN2;
@@ -61,14 +60,23 @@ export const getForecastByLatLon = (lat, lon) => {
                     console.log(error);
                 });
 }
-export const getForecastByCity = async (search='', countrycode='USA') => { /* In the future could default to a current geo-location */
-    
-    let array = search.split(', ')
-    const city = array[0];
+
+// GET WEATHER BY CITY NAME
+export const getForecastByCity = async (search=null, countrycode='USA') => { /* In the future could default to a current geo-location */
+    console.log("search param: ", search);
+    let array;
+    let city;
+    if(search) {
+        array = search.split(', ')
+        city = array[0];
+        
+    } else {
+        city = null;
+    }
     const key = process.env.REACT_APP_TOKEN1;
     // const key = process.env.REACT_APP_TOKEN2;
     const units = ['imperial', 'metric', 'standard'];
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${countrycode}&appid=${key}`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${countrycode}&appid=${key}&units=${units[0]}`;
     return await fetch(url)
                     .then((response) =>{ 
                         if(response.ok) {
@@ -82,6 +90,11 @@ export const getForecastByCity = async (search='', countrycode='USA') => { /* In
                         console.log("Error Getting Weather Data: ");
                         console.log(error);
                     });
+}
+
+// RETURNS AN EXTENDED FORECAST FROM 1 TO 16 DAYS
+export const getExtendedForecast = async (lat='', lon='', countrycode='USA') => {
+    // api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}
 }
 
 
@@ -107,20 +120,6 @@ export const getForecastByCity = async (search='', countrycode='USA') => { /* In
     
 // }
 
-export const fetchCities = (city) => {
-    const options = {
-        method: 'GET',
-        headers: {
-            'X-RapidAPI-Key': '3cf82375eemshd107dbee8b4c8fep1242ffjsn894f7b10703c',
-            'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com'
-        }
-    };
-    
-    const response = fetch(`https://wft-geo-db.p.rapidapi.com/v1/geo/${city}`, options)
-        return response.then(response => response.json())
-            .then(response => console.log(response))
-            .catch(err => console.error(err));
-}
 // module.exports = class WeatherData {
 //     constructor(id, city, state, lat, lon) {
 //         this._id = id;
