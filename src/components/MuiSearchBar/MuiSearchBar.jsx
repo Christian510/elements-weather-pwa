@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { TextField, Button } from '@mui/material';
 // import Button from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { useNavigate, Form } from 'react-router-dom';
+import { useHistory, Form } from 'react-router-dom';
 
 function CitySearch() {
     const cities = [
@@ -19,7 +19,7 @@ function CitySearch() {
     // const navigate = useNavigate();
     const [value, setValue] = useState('');
     const inputRef = useRef();
-    console.log('value: ', value);
+    // console.log('value: ', value);
     // const handleSelection = (e) => {
     //     setValue(e.target.value);
     // }

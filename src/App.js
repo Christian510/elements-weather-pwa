@@ -78,6 +78,7 @@ export function sleep(n = 500) {
 }
 
 export function Fallback() {
+
   // TODO: Style this up and maybe add a spinner
   return <p>Performing initial data load</p>;
 }
@@ -89,6 +90,10 @@ export function Fallback() {
 
 export function Home() {
 
+  // eventually, if there is any city weather data saved then do not display the about/welcome page.
+  // Maybe directly add the about component to this function so that it can be turned off when there is saved weather data.
+  // Then we just navigate back to the home page to view the favorites view.
+
   let navigation = useNavigation();
   let revalidator = useRevalidator();
   let fetchers = useFetchers();
@@ -96,21 +101,30 @@ export function Home() {
     ['loading', 'submitting'].includes(f.state)
   );
 
+  console.log('navigation: ', navigation);
+  console.log('revalidator: ', revalidator);
+  console.log('fetchers: ', fetchers);
+  console.log('fetcherInProggress: ', fetcherInProgress);
+
   return (
     <>
     {/* all the other elements */}
     <div className="App-container">
       <Header>
         <MuiSearchBar />
-        <NavDropdown user="Glen" />
       </Header>
-      <h2>Welcome to Elements Weather</h2>
 
       <div style={{ position: 'fixed', top: 40, right: 20 }}>
         {navigation.state !== 'idle' && <p>Navigation in progress...</p>}
         {revalidator.state !== 'idle' && <p>Revalidation in progress...</p>}
         {fetcherInProgress && <p>Fetcher in progress...</p>}
       </div>
+        <NavDropdown user="Conrad" />
+        {/* if (data) {
+          <AboutAppView />
+        } else {
+          <FavoritesView />
+        } */}
       <Outlet />
     </div>
     </>
