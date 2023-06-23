@@ -16,10 +16,12 @@ nav.nav-menu a.active {
 
 .nav-menu {
     position:absolute;
-    top: 5rem;
+    top: 0;
     left: 0;
     background: bisque;
     width: 100%;
-    padding: 1.5rem;
-    z-index: 2;
+    height: 5vh;
+    /* padding: 1.5rem; */
+    z-index: -1;
+    transition: height 3s ease-out;
 }
