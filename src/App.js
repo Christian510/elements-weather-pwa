@@ -22,12 +22,13 @@ import {
 } from 'react-router-dom';
 // import logo from './logo.svg';
 import './App.css';
-import './styles/index.css';
-import './styles/root.css';
-import './styles/skeleton.css';
+import '../src/styles/index.css';
+import '../src/styles/root.css';
+import '../src/styles/skeleton.css';
 import Header from './views/Header/Header';
 // import SearchBar, { action } from './components/SearchBar/SearchBar';
-import NavDropdown from './components/NavDropdown/NavDropDown';
+// import NavDropdown from './components/NavDropdown/NavDropDown';
+import TopDrawer from './components/MuiDrawer/MuiDrawer';
 import AboutAppView from './views/AboutAppView/AboutAppView';
 import ErrorPage from './views/ErrorPage/ErrorPage';
 import CreateAccountView from './views/CreateAccountView/CreateAccountView';
@@ -88,7 +89,7 @@ export function Fallback() {
 //   return { city };
 // }
 
-export function Home() {
+export function Home() { // Maybe this should be a class component w/ constructor etc.
 
   // eventually, if there is any city weather data saved then do not display the about/welcome page.
   // Maybe directly add the about component to this function so that it can be turned off when there is saved weather data.
@@ -112,6 +113,7 @@ export function Home() {
     <div className="App-container">
       <Header>
         <MuiSearchBar />
+        <TopDrawer />
       </Header>
 
       <div style={{ position: 'fixed', top: 40, right: 20 }}>
@@ -119,9 +121,8 @@ export function Home() {
         {revalidator.state !== 'idle' && <p>Revalidation in progress...</p>}
         {fetcherInProgress && <p>Fetcher in progress...</p>}
       </div>
-        <NavDropdown user="Conrad" />
-        {/* if (data) {
-          <AboutAppView />
+        {/* if (!favorites data) {
+          <AboutAppView /> or <Outlet />
         } else {
           <FavoritesView />
         } */}

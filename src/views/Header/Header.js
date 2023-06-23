@@ -5,7 +5,7 @@ import './header.css';
 function Header (props) {
     const { children } = props;
     return (
-        <header id="header" className="header flex row">
+        <header id="header" className="header flex row justify-between">
             {children}
         </header>
     );

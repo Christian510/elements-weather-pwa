@@ -14,7 +14,9 @@ function NavDropdown (props) {
     
     function toggleDropdown() {
         let menu = document.querySelector('.nav-menu');
+        console.log('menu: ', menu);
         menu.classList.toggle('hide');
+    
     }
 
 
@@ -23,7 +25,7 @@ function NavDropdown (props) {
         <div onClick={() => toggleDropdown()}>
             <FontAwesomeIcon icon={faBars} size='2x' />
         </div>
-        <nav className='nav-menu hide'>
+        <nav className='nav-menu flex column justify-end hide'>
             <ul className='nav-list'>
                 <li className='nav-link' onClick={() => toggleDropdown()}>
                     <NavLink

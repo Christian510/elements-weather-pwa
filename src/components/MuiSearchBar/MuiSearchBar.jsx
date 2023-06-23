@@ -47,7 +47,7 @@ function CitySearch() {
             />
         )}
         />
-        <Button type="submit" variant="contained" sx={{ ml: 2 }}>Search</Button>
+        {/* <Button type="submit" variant="contained" sx={{ ml: 2 }}>Search</Button> */}
     </Form>
   );
 }
