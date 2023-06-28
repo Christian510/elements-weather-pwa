@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './navDropdown.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 // import { useState } from 'react';
 
@@ -19,11 +19,13 @@ function NavDropdown (props) {
     
     }
 
+    const Menu = () =>  <FontAwesomeIcon icon={faBars} size='2x' />
+
 
     return (
         <>
         <div onClick={() => toggleDropdown()}>
-            <FontAwesomeIcon icon={faBars} size='2x' />
+            {Menu}
         </div>
         <nav className='nav-menu flex column justify-end hide'>
             <ul className='nav-list'>

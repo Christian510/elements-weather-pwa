@@ -1,67 +1,120 @@
-import React from 'react';
-import { useState, useRef, useEffect } from 'react';
-// import { Form }from 'react-router-dom';
-// import Button from '../Button/Button';
-import '../SearchBar/searchBar.css';
-import {
-    Form,
-    useLoaderData,
-    redirect,
-  } from "react-router-dom";
-import { GeoLocation } from '../../models/city_data';
-import { usePrevious } from '../../custom_hooks/customHooks';
+// import * as React from 'react';
+import React, { useState, useRef } from 'react';
+import { styled, alpha } from '@mui/material/styles';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+// import InputBase from '@mui/material/InputBase';
+import Autocomplete from '@mui/material/Autocomplete';
+import RtDrawer from '../MuiDrawer/MuiDrawer';
+import SearchIcon from '@mui/icons-material/Search';
+import { TextField } from '@mui/material';
 
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(1),
+    width: 'auto',
+  },
+}));
 
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
 
-function SearchBar(props) {
+const StyledAutocomplete = styled(Autocomplete)(({ theme }) => ({
+  // color: 'inherit',
+  // '& .MuiInputBase-input': {
+  //   padding: theme.spacing(1, 1, 1, 0),
+  //   // vertical padding + font size from searchIcon
+  //   paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+  //   transition: theme.transitions.create('width'),
+  //   width: '100%',
+  //   [theme.breakpoints.up('sm')]: {
+  //     width: '12ch',
+  //     '&:focus': {
+  //       width: '20ch',
+  //     },
+  //   },
+  // },
+}));
 
-  // const [backStop, setBackStop] = useState([{backStop: ''}])
-  const [query, setQuery] = useState([{query: ''}]);
-  console.log(query)
-  
-  // const input = (input) => input;
-  // setQuery(input);
-  const prevCount = usePrevious(query);
+export default function SearchAppBar() {
+    const cities = [
+      'Boise, ID',
+      'Sandpoint, ID',
+      'Portland, OR',
+      'Hailey, ID',
+      'Bozeman, MT',
+      'Salt Lake City, UT',
+      'Seattle, WA',
+      'Denver, CO',
+  ];
 
-    if(query > prevCount) {
-      console.log('prevCount checked.')
-        debounce(query);
-    }
-
-  function debounce(keys) {
-    if (keys.length > 5) {
-      console.log('debounce triggered.')
-      const search = new GeoLocation(query);
-      // return search.cities.then(data => data); 
-      search.cities.then(data => console.log('data: ',data)); 
-    }
-  }
-  
-  // console.log("query: ", query)
-
-    return (
-        <nav id='searchbar' className='search-bar'>
-            <Form id='' className='search-form' action='/weather' method='GET'>                
-                <input list="city-search" 
-                id="city-search" 
-                type="search" 
-                name="citySearch" 
-                placeholder='City, State, Country' 
-                onChange={(e) => setQuery(e.target.value)} />
-                <datalist id="city-search">
-                  {/* REPLACE WITH DYNAMIC DATA FROM API */}
-                    {/* <option value="Boise, ID" />
-                    <option value="Sandpoint, ID" />
-                    <option value="Seattle, WA" />
-                    <option value="Bozeman, MT" />
-                    <option value="Salt Lake City, UT" />
-                    <option value="Boulder, CO" />
-                    <option value="Denver, CO" /> */}
-                </datalist>
-                <button id='' className='search-btn' type='submit' value="submit" >Search</button> {/*review code below */}
-            </Form>
-        </nav>
-    );
+  // const navigate = useNavigate();
+  const [value, setValue] = useState('');
+  const inputRef = useRef();
+  // console.log('value: ', value);
+  // const handleSelection = (e) => {
+  //     setValue(e.target.value);
+  // }
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+          >
+            ELM
+          </Typography>
+          <Search>
+            {/* <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper> */}
+            <StyledAutocomplete
+              value={value}
+              onChange={(event, newValue) => {
+                  event.preventDefault();
+                  setValue(newValue);
+              }}
+          
+              id="city-search"
+              options={cities}
+              //   getOptionLabel={(option) => `${option}`}
+              sx={{ width: 300 }}
+              renderInput={(params) => (
+                <TextField
+                {...params}
+                  name="citySearch"
+                  label="Search for a city"
+                  variant="outlined"
+                  inputRef={inputRef}
+                  //   onSelect={handleSelection}
+                  />
+              )}
+            />
+          </Search>
+          <RtDrawer />
+        </Toolbar>
+      </AppBar>
+    </Box>
+  );
 }
-
-export default SearchBar;

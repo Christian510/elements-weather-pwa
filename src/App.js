@@ -24,11 +24,10 @@ import {
 import './App.css';
 import '../src/styles/index.css';
 import '../src/styles/root.css';
-import '../src/styles/skeleton.css';
+// import '../src/styles/skeleton.css';
 import Header from './views/Header/Header';
 // import SearchBar, { action } from './components/SearchBar/SearchBar';
 // import NavDropdown from './components/NavDropdown/NavDropDown';
-import TopDrawer from './components/MuiDrawer/MuiDrawer';
 import AboutAppView from './views/AboutAppView/AboutAppView';
 import ErrorPage from './views/ErrorPage/ErrorPage';
 import CreateAccountView from './views/CreateAccountView/CreateAccountView';
@@ -37,7 +36,8 @@ import AccountView from './views/AccountView/AccountView';
 import FavoritesView from './views/Favorites/Favorites';
 import CurrentWeatherView from './views/CurrentWeatherView/CurrentWeatherView';
 import { getForecastByCity } from './models/weather_data';
-import MuiSearchBar from './components/MuiSearchBar/MuiSearchBar';
+// import MuiSearchBar from './components/MuiSearchBar/MuiSearchBar';
+import SearchBar from './components/SearchBar/SearchBar';
 
 let router = createBrowserRouter(
   createRoutesFromElements(
@@ -112,8 +112,7 @@ export function Home() { // Maybe this should be a class component w/ constructo
     {/* all the other elements */}
     <div className="App-container">
       <Header>
-        <MuiSearchBar />
-        <TopDrawer />
+        <SearchBar />
       </Header>
 
       <div style={{ position: 'fixed', top: 40, right: 20 }}>
