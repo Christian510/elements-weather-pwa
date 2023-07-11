@@ -27,31 +27,46 @@ const Search = styled('div')(({ theme }) => ({
   },
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
+// const SearchIconWrapper = styled('div')(({ theme }) => ({
+//   padding: theme.spacing(0, 2),
+//   height: '100%',
+//   position: 'absolute',
+//   pointerEvents: 'none',
+//   display: 'flex',
+//   alignItems: 'center',
+//   justifyContent: 'center',
+// }));
 
 const StyledAutocomplete = styled(Autocomplete)(({ theme }) => ({
-  // color: 'inherit',
-  // '& .MuiInputBase-input': {
-  //   padding: theme.spacing(1, 1, 1, 0),
-  //   // vertical padding + font size from searchIcon
-  //   paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-  //   transition: theme.transitions.create('width'),
-  //   width: '100%',
-  //   [theme.breakpoints.up('sm')]: {
-  //     width: '12ch',
-  //     '&:focus': {
-  //       width: '20ch',
-  //     },
-  //   },
-  // },
+  // backgroundColor: theme.palette.action,
+}));
+
+const StyledTextField = styled(TextField)(({theme}) =>({
+  color: 'inherit',
+  '& .MuiInputBase-root': {
+    '&::before': {
+      borderBottom: 'none',
+    },
+  '& .MuiInput-input': {
+    padding: '4px 4px 4px 12px',
+  }
+  },
+  '& .MuiInput-root' : {
+    marginTop: 'revert',
+  },
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '12ch',
+      '&:focus': {
+        width: '20ch',
+      },
+    },
+  },
 }));
 
 export default function SearchAppBar() {
@@ -85,11 +100,12 @@ export default function SearchAppBar() {
           >
             ELM
           </Typography>
-          <Search>
+          {/* <Search> */}
             {/* <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper> */}
             <StyledAutocomplete
+              freeSolo
               value={value}
               onChange={(event, newValue) => {
                   event.preventDefault();
@@ -101,17 +117,18 @@ export default function SearchAppBar() {
               //   getOptionLabel={(option) => `${option}`}
               sx={{ width: 300 }}
               renderInput={(params) => (
-                <TextField
+                <StyledTextField
                 {...params}
+                  datatype='TextField'
                   name="citySearch"
                   label="Search for a city"
-                  variant="outlined"
+                  variant="standard"
                   inputRef={inputRef}
-                  //   onSelect={handleSelection}
+                  type='search'
                   />
               )}
             />
-          </Search>
+          {/* </Search> */}
           <RtDrawer />
         </Toolbar>
       </AppBar>
