@@ -102,10 +102,10 @@ export function Home() { // Maybe this should be a class component w/ constructo
     ['loading', 'submitting'].includes(f.state)
   );
 
-  console.log('navigation: ', navigation);
-  console.log('revalidator: ', revalidator);
-  console.log('fetchers: ', fetchers);
-  console.log('fetcherInProggress: ', fetcherInProgress);
+  // console.log('navigation: ', navigation);
+  // console.log('revalidator: ', revalidator);
+  // console.log('fetchers: ', fetchers);
+  // console.log('fetcherInProggress: ', fetcherInProgress);
 
   return (
     <>

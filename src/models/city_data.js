@@ -15,16 +15,18 @@ export class GeoLocation {
     queryCities() {
         const options = {
             method: 'GET',
-            headers: {
-                'X-RapidAPI-Key': process.env.REACT_APP_GEODB_KEY,
-                'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com',
-            }
+            // headers: {
+            //     'X-RapidAPI-Key': process.env.REACT_APP_GEODB_KEY,
+            //     'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com',
+            // }
         };
         
-        return fetch(`https://wft-geo-db.p.rapidapi.com/v1/geo/cities?countryIds=${this.country}&namePrefix=${this.query}`, options)
+        // return fetch(`https://wft-geo-db.p.rapidapi.com/v1/geo/cities?countryIds=${this.country}&namePrefix=${this.query}`, options)
+        return fetch(`http://api.geonames.org/searchJSON?q=${this.query}&maxRows=10&username=${process.env.USER_NAME}`, options)
                 .then((response) =>{ 
                     if(response.ok) {
-                        return response.json()
+                        // return response.json()
+                        console.log(response.json())
                     } else {
                         throw new Error("Oops, response failed!")
                     }

@@ -5,11 +5,16 @@
 - https://countrystatecity.in/docs/api/all-countries/
 - 
 
-*** Ideas
 
-Features for subscribers:
-1. add custom background to home screen.
-2. Faforite weather stations saved for life.
-3. Access to historical weather data for saved weather stations.
-4. Weather notifications.
-5. 
+*** GEONAMES API
+
+Discovered a new open source api which I can access an incredible amount of data about cities and populated places all over the world via REST API.  
+
+Question I have now is, do I stream that data into a mysql database?
+Or just consome it as needed.  
+Latter for now seems appropiate.
+
+** Resources:
+- https://hevodata.com/learn/rest-api-to-mysql-2-easy-methods/
+- https://github.com/geopipes/geonames-stream
+- https://www.geonames.org/export/geonames-search.html

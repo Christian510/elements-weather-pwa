@@ -11,6 +11,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import RtDrawer from '../MuiDrawer/MuiDrawer';
 import SearchIcon from '@mui/icons-material/Search';
 import { TextField } from '@mui/material';
+import { GeoLocation } from '../../models/city_data';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -70,21 +71,12 @@ const StyledTextField = styled(TextField)(({theme}) =>({
 }));
 
 export default function SearchAppBar() {
-    const cities = [
-      'Boise, ID',
-      'Sandpoint, ID',
-      'Portland, OR',
-      'Hailey, ID',
-      'Bozeman, MT',
-      'Salt Lake City, UT',
-      'Seattle, WA',
-      'Denver, CO',
-  ];
+    const cities = value; // This should populate from api call.
 
   // const navigate = useNavigate();
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState([]);
   const inputRef = useRef();
-  // console.log('value: ', value);
+  console.log('value: ', value);
   // const handleSelection = (e) => {
   //     setValue(e.target.value);
   // }
