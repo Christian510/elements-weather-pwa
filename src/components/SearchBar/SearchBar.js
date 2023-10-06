@@ -71,15 +71,24 @@ const StyledTextField = styled(TextField)(({theme}) =>({
 }));
 
 export default function SearchAppBar() {
-    const cities = value; // This should populate from api call.
+    const cities = [];
 
   // const navigate = useNavigate();
-  const [value, setValue] = useState([]);
+  const [value, setValue] = useState('');
   const inputRef = useRef();
   console.log('value: ', value);
   // const handleSelection = (e) => {
   //     setValue(e.target.value);
   // }
+
+  const handleSearchInput = (e) => {
+    console.log('e: ', e.target.value);
+    // (event, newValue) => {
+    //   console.log('newValue: ', newValue);
+    //   event.preventDefault();
+    //   setValue(newValue);
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -97,18 +106,22 @@ export default function SearchAppBar() {
               <SearchIcon />
             </SearchIconWrapper> */}
             <StyledAutocomplete
+              filterOptions={(x) => x}
               freeSolo
               value={value}
-              onChange={(event, newValue) => {
-                  event.preventDefault();
-                  setValue(newValue);
-              }}
+              // onChange={(event, newValue) => {
+              //     console.log('newValue: ', newValue);
+              //     event.preventDefault();
+              //     setValue(newValue);
+              // }}
+              onChange = {handleSearchInput}
           
               id="city-search"
               options={cities}
               //   getOptionLabel={(option) => `${option}`}
               sx={{ width: 300 }}
               renderInput={(params) => (
+                console.log('params: ', params.inputProps.value),
                 <StyledTextField
                 {...params}
                   datatype='TextField'
