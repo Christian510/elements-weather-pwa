@@ -19,6 +19,7 @@ function AboutView(props) {
 
     const [value, setValue] = useState(null);
     const [inputValue, setInputValue] = useState('');
+    console.log('inputValue set: ', inputValue)
     const [options, setOptions] = useState([]);
     const loaded = useRef(false);
 
@@ -26,6 +27,7 @@ function AboutView(props) {
         () =>
             debounce((request, callback) => {
                 console.log('request: ', request);
+                console.log('callback: ', callback);
                 // Fetch a list of cities and locations based on inputValue and then setOptions.
                 // Star tetch when inputValue has at least 3 characters.
             }, 400),
@@ -79,7 +81,7 @@ function AboutView(props) {
                 <h3>A person project to create a weather app I like using.</h3>
             </div>
             <Autocomplete
-                id="google-map-demo"
+                id="get-search-results"
                 sx={{ width: 300 }}
                 getOptionLabel={(option) =>
                     typeof option === 'string' ? option : option.description

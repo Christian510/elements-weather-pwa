@@ -35,7 +35,8 @@ import LoginView  from './views/LoginView/LoginView';
 import AccountView from './views/AccountView/AccountView';
 import FavoritesView from './views/Favorites/Favorites';
 import CurrentWeatherView from './views/CurrentWeatherView/CurrentWeatherView';
-import { getForecastByCity } from './models/weather_data';
+import DemoView from './views/DemoView/DemoView';
+import { getForecastByCity } from './models/weather_api';
 // import MuiSearchBar from './components/MuiSearchBar/MuiSearchBar';
 import SearchBar from './components/SearchBar/SearchBar';
 
@@ -61,6 +62,7 @@ let router = createBrowserRouter(
         <Route path='/create_account' element={<CreateAccountView />} />
         <Route path='/login' element={<LoginView />} />
         <Route path='/user_account' element={<AccountView />} />
+        <Route path='/demo_view' element={<DemoView />} />
 
     </Route>
   )

@@ -11,7 +11,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import RtDrawer from '../MuiDrawer/MuiDrawer';
 import SearchIcon from '@mui/icons-material/Search';
 import { TextField } from '@mui/material';
-import { GeoLocation } from '../../models/city_data';
+import { GeoLocation } from '../../models/city_api';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
