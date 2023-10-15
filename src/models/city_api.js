@@ -1,44 +1,42 @@
 // GET A LIST OF CITIES BASED ON A QUERY STRING
 
-export class GeoLocation {
-    constructor(query, country = "US") {
-        this.query = query;
-        this.country = country;
-        // this.max_pop = maxPop;
-        // this.min_pop = minPop;
-    }
+// export class GeoLocation {
+//     constructor(query, country = "US") {
+//         this.query = query;
+//         this.country = country;
+//         // this.max_pop = maxPop;
+//         // this.min_pop = minPop;
+//     }
 
-    get cities() {
-        return this.queryCities()
-    }
+//     get cities() {
+//         return this.queryCities()
+//     }
 
-    queryCities() {
-        const options = {
-            method: 'GET',
-            // headers: {
-            //     'X-RapidAPI-Key': process.env.REACT_APP_GEODB_KEY,
-            //     'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com',
-            // }
-        };
+//     queryCities() {
+//         const options = {
+//             method: 'GET',
+//             // headers: {
+//             // }
+//         };
 
-        // return fetch(`https://wft-geo-db.p.rapidapi.com/v1/geo/cities?countryIds=${this.country}&namePrefix=${this.query}`, options)
-        return fetch(`http://api.geonames.org/searchJSON?q=${this.query}&maxRows=10&username=${process.env.USER_NAME}`, options)
-            .then((response) => {
-                if (response.ok) {
-                    // return response.json()
-                    console.log(response.json())
-                } else {
-                    throw new Error("Oops, response failed!")
-                }
-            })
-        // .then(data => data)
-        // .catch(err => console.error('Error msg: ', err));
-    }
+//         return fetch(`http://api.geonames.org/searchJSON?q=${this.query}&maxRows=10&username=${process.env.USER_NAME}`, options)
+//             .then((response) => {
+//                 if (response.ok) {
+//                     // return response.json()
+//                     console.log(response.json())
+//                 } else {
+//                     throw new Error("Oops, response failed!")
+//                 }
+//             })
+//         // .then(data => data)
+//         // .catch(err => console.error('Error msg: ', err));
+//     }
 
-}
+// }
 
+// Fetch a list of cities and locations.
 export async function queryLocations(query, country = "US") {
-    console.log("query: ", query);
+    // console.log("query: ", query);
     const options = {
         method: 'GET',
         // headers: {
@@ -62,3 +60,5 @@ export async function queryLocations(query, country = "US") {
             .catch(err => console.error('Error msg: ', err));
     }
 }
+
+// Fetch the weather for a city or location

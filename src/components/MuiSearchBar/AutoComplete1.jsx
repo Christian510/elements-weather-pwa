@@ -4,6 +4,7 @@ import { useAutocomplete } from '@mui/base/useAutocomplete';
 import { styled } from '@mui/system';
 import { debounce } from '@mui/material/utils';
 import { queryLocations } from '../../models/city_api';
+import { getForecastByLatLon } from '../../models/weather_api';
 
 // const options = [{label: 'Boise, ID', id: 1}, {label: 'Sandpoint, ID', id: 2}, {label: 'Portland, OR', id: 3}, {label: 'Hailey, ID', id: 4}, {label: 'Bozeman, MT', id: 5}, {label: 'Salt Lake City, UT', id: 6}, {label: 'Seattle, WA', id: 7}, {label: 'Denver, CO', id: 8}];
 // const options = [];
@@ -11,46 +12,56 @@ export default function WeatherSearch() {
     const [value, setValue] = useState(null);
     const [inputValue, setInputValue] = useState('');
     const [options, setOptions] = useState([]);
+    const [forecast, setForecast] = useState(null);
     console.log('value: ', value);
     console.log('inputValue: ', inputValue);
     console.log('options: ', options);
 
 
-    const fetch = useMemo(() => {
+    const fetchLocations = useMemo(() => {
         return debounce(async () => {
-          const response = await queryLocations(inputValue);
-          console.log('response: ', response.geonames);
-        //   console.log('name: ', response.geonames[0].name);
-
-            let results = response.geonames.map((item, index) => {
-                return {
-                    'name': `${item.toponymName}, ${item.adminCode1}`, 
-                    'coodinates': 
-                    {
-                        'lat': item.lat, 
-                        'lng': item.lng
-                    }, 
-                    'id': index,
-                }
-
+            const response = await queryLocations(inputValue);
+            // console.log('response: ', response.geonames);
+            //   console.log('name: ', response.geonames[0].name);
+            
+            if(response.geonames === undefined) {
+                return;
+            } else {
+                let results = response.geonames.map((item, index) => {
+                    return {
+                        'name': `${item.toponymName}, ${item.adminCode1}`,
+                        'coodinates':
+                        {
+                            'lat': item.lat,
+                            'lng': item.lng
+                        },
+                        'id': index,
+                    }
+    
                 });
-                console.log('results: ', results);
-            setOptions(results);
-            // [{name: item.name, coodinates: {lat: item.lat, lng: item.lng}, id: index}]
-          // if response is empty, set options to empty array
-          // if response is not empty, set options to response
-          // format the response to be an array of objects with label and id
+                // console.log('results: ', results);
+                setOptions(results);
+            }
 
         }, 500);
-      }, [inputValue]);
-    
-      useEffect(() => {
+    }, [inputValue]);
 
-        if (inputValue.length > 2 && options.length === 0) {
-            fetch();
+    useEffect(() => {
+        if (inputValue === '') {
+            setOptions([]);
+            setValue(null);
+        } else if (inputValue.length > 2) {
+            fetchLocations();
         }
+        if (value !== null) {
+            console.log('value: ', value);
+            console.log('value.coodinates: ', value.coodinates);
+            let forecast = getForecastByLatLon(value.coodinates.lat, value.coodinates.lng);
+            console.log('forecast: ', forecast);
+        }
+        // fetch weather data
 
-      }, [, inputValue, options, fetch, value]);
+    }, [inputValue, value]);
 
     const {
         getRootProps,
@@ -60,9 +71,10 @@ export default function WeatherSearch() {
         groupedOptions,
         focused,
     } = useAutocomplete({
+        getOptionLabel: (option) => option.name,
         freeSolo: true,
-        filterOptions: (x) => x,
-        filterSelectedOptions: true,
+        // filterOptions: (x) => x,
+        // filterSelectedOptions: true,
         id: 'weather-search',
         autoComplete: true,
         options: options,

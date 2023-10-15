@@ -49,7 +49,7 @@ export default function MuiDrawer() {
   );
 
   return (
-    <div className=''>
+    <div className='navList'>
       {['right'].map((anchor) => (
         <React.Fragment key={anchor}>
           <Button onClick={toggleDrawer(anchor, true)} startIcon={<MenuIcon fontSize='large' />} />
