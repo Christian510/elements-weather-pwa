@@ -1,5 +1,6 @@
 import React from 'react';
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect} from 'react';
+import { usePrevious } from '../../custom_hooks/customHooks';
 import { useAutocomplete } from '@mui/base/useAutocomplete';
 import { styled } from '@mui/system';
 import { debounce } from '@mui/material/utils';
@@ -9,18 +10,23 @@ export default function SearchInput({ functions }) {
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState([]);
-  console.log('value: ', value);
-  console.log('inputValue: ', inputValue);
+  // const updateOptions = usePrevious(options);
+  // console.log('value: ', value);
+  // console.log('inputValue: ', inputValue);
   console.log('options: ', options);
+  // console.log('updateOptions: ', updateOptions);
+  // console.log('is equal: ', options === updateOptions);
   
   const getForecast = functions.getForecast;
+
+  // NEED TO WORK ON A WAY TO FILTER OPTIONS LIST AS THE USER TYPES TO CONTINUE NARROWING THE OPTIONS
 
   const fetchLocations = useMemo(() => {
     return debounce(async () => {
       const response = await queryLocations(inputValue);
       // console.log('response: ', response.geonames);
 
-      if (response.geonames === undefined) {
+      if (response?.geonames === undefined) {
         return;
       } else {
         let results = response.geonames.map((item, index) => {

@@ -34,11 +34,10 @@ import CreateAccountView from './views/CreateAccountView/CreateAccountView';
 import LoginView from './views/LoginView/LoginView';
 import AccountView from './views/AccountView/AccountView';
 import FavoritesView from './views/Favorites/Favorites';
-import CurrentWeatherView from './views/WeatherForecastView/WeatherForecastView';
+import WeatherForecastView from './views/WeatherForecastView/WeatherForecastView';
 import DemoView from './views/DemoView/DemoView';
 
 import Header from './components/NavBar/Header';
-import { queryLocations } from './models/city_api'
 import { getForecastByLatLon } from './models/weather_api';
 
 let router = createBrowserRouter( // Make this a component and pass in props
@@ -51,15 +50,8 @@ let router = createBrowserRouter( // Make this a component and pass in props
     >
       <Route path='/about' element={<AboutAppView />} />
       <Route
-        path='/weather'
-        element={<CurrentWeatherView />}
-      // loader={async ({ request }) => {
-      //   let url = new URL(request.url);
-      //   let city = url.searchParams.get("citySearch");
-      //   console.log("city url: ", city);
-      //   return getForecastByCity(city);
-      // }} 
-      />
+        path='/weather-forecast'
+        element={<WeatherForecastView />}/>
       <Route path='/favorites' element={<FavoritesView />} />
       <Route path='/create_account' element={<CreateAccountView />} />
       <Route path='/login' element={<LoginView />} />
@@ -96,17 +88,8 @@ export function Home() {
     ['loading', 'submitting'].includes(f.state)
   );
 
-  // console.log('navigation: ', navigation);
-  // console.log('revalidator: ', revalidator);
-  // console.log('fetchers: ', fetchers);
-  // console.log('fetcherInProggress: ', fetcherInProgress);
-
   const [forecast, setForecast] = useState(null);
-  console.log('Home()forecast: ', forecast);
-
-  // const fetchWeather = useMemo(() => {
-
-  // }, [forecast]);
+  console.log('forecast: ', forecast);
 
   const getForecast = async (city) => {
     console.log('city: ', city);
