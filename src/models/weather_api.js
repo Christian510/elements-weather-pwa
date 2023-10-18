@@ -54,7 +54,7 @@ export const getForecastByLatLon = (lat, lon) => {
     const fetchWeather = fetch(url);
         return fetchWeather
                 .then( response => response.json())
-                .then( data => console.log(data))
+                .then( data => data)
                 .catch(function (error) {
                     console.log("API Error message: ");
                     console.log(error);

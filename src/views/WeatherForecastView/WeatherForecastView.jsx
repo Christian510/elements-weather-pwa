@@ -26,30 +26,13 @@ import { WeatherDate } from '../../models/date';
 
 
 
-function Weather(props) {
-    let w = useLoaderData();
-    console.log("Weather comp: ", w);
-    if(!w) {
-        console.log("You need to provide a city and state.")
-    }
-    else {
-        console.log('weather obj: ', w)
-        // let offset = w.timezone_offset;
-        let timezone = w.timezone;
-        // let getDate = WeatherDate.convertUTC(w.dt, w.sunrise, w.sunset, offset, timezone);
-        // console.log(getDate);
-        // console.log("city: ", w.name)
-        // console.log('offset', offset)
-        console.log('timezone', timezone)
-    }
+export default function WeatherForecast(props) {
+
         return (
             <>
             <div className='heading'>                
-                <div>{w.name}, ID</div>
-                <div>32deg F</div>
+                <h1>Weather Forecast</h1>
             </div>
             </>
         );
 }
-
-export default Weather;

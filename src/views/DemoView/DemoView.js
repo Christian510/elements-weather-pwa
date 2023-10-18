@@ -1,5 +1,5 @@
 import React from 'react';
-import ControlledStates from '../../components/MuiSearchBar/AutoComplete1';
+import ControlledStates from '../../components/MuiSearchBar/SearchWeatherByLocation';
 
 function DemoView() {
     return (
