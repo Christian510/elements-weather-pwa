@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useMemo, useState, useEffect} from 'react';
-import { usePrevious } from '../../custom_hooks/customHooks';
+// import { usePrevious } from '../../custom_hooks/customHooks';
 import { useAutocomplete } from '@mui/base/useAutocomplete';
 import { styled } from '@mui/system';
 import { debounce } from '@mui/material/utils';
@@ -13,18 +14,18 @@ export default function SearchInput({ functions }) {
   // const updateOptions = usePrevious(options);
   // console.log('value: ', value);
   // console.log('inputValue: ', inputValue);
-  console.log('options: ', options);
+  // console.log('options: ', options);
   // console.log('updateOptions: ', updateOptions);
   // console.log('is equal: ', options === updateOptions);
   
-  const getForecast = functions.getForecast;
+  // const getForecast = functions.getForecast;
 
   // NEED TO WORK ON A WAY TO FILTER OPTIONS LIST AS THE USER TYPES TO CONTINUE NARROWING THE OPTIONS
 
   const fetchLocations = useMemo(() => {
     return debounce(async () => {
       const response = await queryLocations(inputValue);
-      // console.log('response: ', response.geonames);
+      console.log('response: ', response.geonames);
 
       if (response?.geonames === undefined) {
         return;
@@ -45,21 +46,14 @@ export default function SearchInput({ functions }) {
       }
 
     }, 400);
-  }, [inputValue]);
+  });
 
   useEffect(() => {
-    if (inputValue === '' || inputValue === undefined) {
-      setOptions([]);
-      setValue(null);
-    } else if (inputValue.length > 2) {
+    if (inputValue.length > 2) {
       fetchLocations();
     }
-    if (value !== null || value !== undefined) {
-      // console.log('value set', value);
-      getForecast(value);
-    }
 
-  }, [inputValue, value]);
+  }, [inputValue, options.length]);
 
   const {
     getRootProps,
@@ -76,7 +70,7 @@ export default function SearchInput({ functions }) {
     id: 'weather-search',
     autoComplete: true,
     options: options,
-    value: value,
+    value,
     defaultValue: 'Type your search here...',
     isOptionEqualToValu: (option, value) => option.id === value.id,
     onChange: (event, newValue) => { setValue(newValue) },
@@ -93,9 +87,11 @@ export default function SearchInput({ functions }) {
         {groupedOptions.length > 0 && (
           <StyledListbox {...getListboxProps()}>
             {groupedOptions.map((option, index) => (
+            <Link to={`/weather-forecast/${JSON.stringify(option)}`}>
               <StyledOption {...getOptionProps({ option, index })}>
                 {option.name}
               </StyledOption>
+            </Link>
             ))}
           </StyledListbox>
         )}

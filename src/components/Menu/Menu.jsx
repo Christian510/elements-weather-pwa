@@ -1,14 +1,5 @@
-// import * as React from 'react';
 import React from 'react';
-// import Box from '@mui/material/Box';
-// import Drawer from '@mui/material/Drawer';
-// import Button from '@mui/material/Button';
 import { IconButton, Box, Drawer, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
-// import List from '@mui/material/List';
-// import ListItem from '@mui/material/ListItem';
-// import ListItemButton from '@mui/material/ListItemButton';
-// import ListItemIcon from '@mui/material/ListItemIcon';
-// import ListItemText from '@mui/material/ListItemText';
 import { NavLink } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 
@@ -32,13 +23,13 @@ export default function Menu() {
 
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 150 }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {[{label:'Home', route: '/'}, {label:'Favorites', route: '/favorites'}, {label:'Weather', route: '/weather'}, {label:'Create Account', route:'/create_account'}, {label:'Login', route: '/login'}, {label:'About', route: '/about'}, ].map((text, index) => (
+        {[{label:'Home', route: '/'}, {label:'Favorites', route: '/favorites'}, {label:'Create Account', route:'/create_account'}, {label:'Login', route: '/login'}, {label:'About', route: '/about'}, ].map((text, index) => (
           <ListItem key={text.label} disablePadding>
             <ListItemButton>
               <NavLink to={text.route}>{text.label}</NavLink>

@@ -18,3 +18,7 @@ Latter for now seems appropiate.
 - https://hevodata.com/learn/rest-api-to-mysql-2-easy-methods/
 - https://github.com/geopipes/geonames-stream
 - https://www.geonames.org/export/geonames-search.html
+
+Weather.gov finally has a useful api.
+- https://api.weather.gov/points/{lat},{lon}
+

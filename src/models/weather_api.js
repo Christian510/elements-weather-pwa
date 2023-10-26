@@ -45,20 +45,29 @@
 // }
 
 
-// GET WEATHER BY LAT AND LONG
-export const getForecastByLatLon = (lat, lon) => {
+// GET WEATHER URL BY LAT AND LONG
+export const getForecastByLatLon = async (lat, lon) => {
+    // console.log('coords: ', lat + ':' + lng)
     // const key = process.env.REACT_APP_TOKEN1;
-    const key = process.env.REACT_APP_TOKEN2;
+    // const key = process.env.REACT_APP_TOKEN2;
     const units = ['imperial', 'metric', 'standard'];
-    const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely&appid=${key}&units=${units[0]}`
-    const fetchWeather = fetch(url);
-        return fetchWeather
-                .then( response => response.json())
-                .then( data => data)
-                .catch(function (error) {
-                    console.log("API Error message: ");
-                    console.log(error);
-                });
+    // const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely&appid=${key}&units=${units[0]}`;
+    const url = `https://api.weather.gov/points/${lat},${lon}`;
+    return await fetch(url)
+    .then(response => {
+        if (response.ok !== true) {
+                // console.log('api resp: ', response)
+                console.log('status:', response.status)
+                console.log('error msg: ', response.statusText)
+            }
+
+            else {return response.json()}
+        })
+        .then(data => data)
+        .catch(function (error) {
+            console.log("API Error message: ");
+            console.log(error);
+        });
 }
 
 // GET WEATHER BY CITY NAME
@@ -76,7 +85,7 @@ export const getForecastByCity = async (search=null, countrycode='USA') => { /* 
     const key = process.env.REACT_APP_TOKEN1;
     // const key = process.env.REACT_APP_TOKEN2;
     const units = ['imperial', 'metric', 'standard'];
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${countrycode}&appid=${key}&units=${units[0]}`;
+    const url = `https://api.openweathermap.org/data/3/weather?q=${city},${countrycode}&appid=${key}&units=${units[0]}`;
     return await fetch(url)
                     .then((response) =>{ 
                         if(response.ok) {

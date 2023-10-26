@@ -1,17 +1,13 @@
 import React from 'react';
 import { useState, useMemo } from 'react';
-import { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router-dom';
+// import { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router-dom';
 import { debounce } from '@mui/material/utils';
 import {
   Await,
-  createBrowserRouter,
-  createRoutesFromElements,
   defer,
   Form,
   Link,
   Outlet,
-  Route,
-  RouterProvider,
   useAsyncError,
   useAsyncValue,
   useFetcher,
@@ -20,7 +16,6 @@ import {
   useNavigation,
   useParams,
   useRevalidator,
-  useRouteError,
 } from 'react-router-dom';
 // import logo from './logo.svg';
 import './App.css';
@@ -28,57 +23,18 @@ import '../src/styles/index.css';
 import '../src/styles/root.css';
 import SearchInput from './components/MuiSearchBar/SearchWeatherByLocation';
 import RtDrawer from './components/Menu/Menu';
-import AboutAppView from './views/AboutAppView/AboutAppView';
-import ErrorPage from './views/ErrorPage/ErrorPage';
-import CreateAccountView from './views/CreateAccountView/CreateAccountView';
-import LoginView from './views/LoginView/LoginView';
-import AccountView from './views/AccountView/AccountView';
-import FavoritesView from './views/Favorites/Favorites';
-import WeatherForecastView from './views/WeatherForecastView/WeatherForecastView';
-import DemoView from './views/DemoView/DemoView';
+// import AboutAppView from './views/AboutAppView/AboutAppView';
+// import ErrorPage from './views/ErrorPage/ErrorPage';
+// import CreateAccountView from './views/CreateAccountView/CreateAccountView';
+// import LoginView from './views/LoginView/LoginView';
+// import AccountView from './views/AccountView/AccountView';
+// import FavoritesView from './views/Favorites/Favorites';
+// import WeatherForecastView from './views/WeatherForecastView/WeatherForecastView';
+// import DemoView from './views/DemoView/DemoView';
 
 import Header from './components/NavBar/Header';
 import { getForecastByLatLon } from './models/weather_api';
 
-let router = createBrowserRouter( // Make this a component and pass in props
-  createRoutesFromElements(
-    <Route
-      path='/'
-      element={<Home />}
-      // action={Home.action}
-      errorElement={<ErrorPage />}
-    >
-      <Route path='/about' element={<AboutAppView />} />
-      <Route
-        path='/weather-forecast'
-        element={<WeatherForecastView />}/>
-      <Route path='/favorites' element={<FavoritesView />} />
-      <Route path='/create_account' element={<CreateAccountView />} />
-      <Route path='/login' element={<LoginView />} />
-      <Route path='/user_account' element={<AccountView />} />
-      <Route path='/demo_view' element={<DemoView />} />
-
-    </Route>
-  )
-);
-
-if (import.meta.hot) {
-  import.meta.hot.dispose(() => router.dispose());
-}
-
-export default function App() {
-  return <RouterProvider router={router} fallbackElement={<Fallback />} />;
-}
-
-export function sleep(n = 500) {
-  return new Promise((r) => setTimeout(r, n));
-}
-
-export function Fallback() {
-
-  // TODO: Style this up and maybe add a spinner
-  return <p>Performing initial data load</p>;
-}
 
 export function Home() {
   let navigation = useNavigation();
@@ -88,29 +44,35 @@ export function Home() {
     ['loading', 'submitting'].includes(f.state)
   );
 
-  const [forecast, setForecast] = useState(null);
-  console.log('forecast: ', forecast);
+  // const [forecast, setForecast] = useState(null);
+  // console.log('forecast: ', forecast);
 
-  const getForecast = async (city) => {
-    console.log('city: ', city);
-    if (city === null || city === undefined) {
-      return;
-    } else {
-    let f = await getForecastByLatLon(city.coords.lat, city.coords.lng);
-    console.log('f: ', f);
-    // setForecast(f);
-    // console.log('forecast: ', forecast);
-    }
-  }
+
+
+  // const getForecast = async (city) => {
+  //   console.log('city: ', city);
+  //   if (city === null || city === undefined) {
+  //     return;
+  //   } else {
+  //     let f = await getForecastByLatLon(city.coords.lat, city.coords.lng);
+  //     console.log('f: ', f);
+  //     setForecast(f);
+  
+  //   }
+  // }
+  
 
   return (
     <>
       <Header >
         <SearchInput
-          functions={{ 'getForecast': getForecast }}
+          // functions={{ 'getForecast': getForecast }}
         />
         <RtDrawer />
       </Header>
+      <div id="outlet">
+        <Outlet />
+      </div>
 
       <div style={{ position: 'fixed', top: 40, right: 20 }}>
         {navigation.state !== 'idle' && <p>Navigation in progress...</p>}
@@ -122,7 +84,6 @@ export function Home() {
         } else {
           <FavoritesView />
         } */}
-      <Outlet />
     </>
   );
 }
