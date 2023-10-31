@@ -65,9 +65,7 @@ export function Home() {
   return (
     <>
       <Header >
-        <SearchInput
-          // functions={{ 'getForecast': getForecast }}
-        />
+        <SearchInput />
         <RtDrawer />
       </Header>
       <div id="outlet">

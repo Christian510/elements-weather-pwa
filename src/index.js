@@ -22,25 +22,29 @@ import {
 import ReactDOM from "react-dom/client";
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import { Home} from './App';
+import { Home } from './App';
 import ErrorPage from './views/ErrorPage/ErrorPage';
 import WeatherForecastView from './views/WeatherForecastView/WeatherForecastView';
+import Favorites from './views/Favorites/Favorites';
 
 let router = createBrowserRouter([ // Make this a component and pass in props
-    {
+  {
     path: '/',
-    element:<Home />,
-    errorElement:<ErrorPage />,
+    element: <Home />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: '/weather-forecast/:city',
         element: <WeatherForecastView />,
       }
     ],
-
   },
+  {
+    path: '/favorites',
+    element: <Favorites />,
+  }
 ]);
-  {/* <Route path='/about' element={<AboutAppView />} />
+{/* <Route path='/about' element={<AboutAppView />} />
   <Route
     path='/weather-forecast'
   <Route path='/favorites' element={<FavoritesView />} />

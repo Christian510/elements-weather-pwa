@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
 import { useMemo, useState, useEffect} from 'react';
 // import { usePrevious } from '../../custom_hooks/customHooks';
 import { useAutocomplete } from '@mui/base/useAutocomplete';
@@ -12,7 +12,7 @@ export default function SearchInput({ functions }) {
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState([]);
   // const updateOptions = usePrevious(options);
-  // console.log('value: ', value);
+  console.log('value: ', value);
   // console.log('inputValue: ', inputValue);
   // console.log('options: ', options);
   // console.log('updateOptions: ', updateOptions);
@@ -38,7 +38,7 @@ export default function SearchInput({ functions }) {
               'lat': item.lat,
               'lng': item.lng
             },
-            'id': index,
+            'id': item.geonameId,
           }
 
         });
@@ -70,13 +70,13 @@ export default function SearchInput({ functions }) {
     id: 'weather-search',
     autoComplete: true,
     options: options,
-    value,
+    value: value,
     defaultValue: 'Type your search here...',
     isOptionEqualToValu: (option, value) => option.id === value.id,
     onChange: (event, newValue) => { setValue(newValue) },
     inputValue,
     onInputChange: (event, newValue) => { setInputValue(newValue); },
-  }, [options, inputValue]);
+  }, [options, inputValue, value]);
 
   return (
     <Layout>
@@ -87,7 +87,10 @@ export default function SearchInput({ functions }) {
         {groupedOptions.length > 0 && (
           <StyledListbox {...getListboxProps()}>
             {groupedOptions.map((option, index) => (
-            <Link to={`/weather-forecast/${JSON.stringify(option)}`}>
+            <Link 
+            to={`/weather-forecast/${JSON.stringify(option)}`}
+            onKeyUp={ (e) => console.log(e.target.value)} // Not sure how to do this quite yet.
+            >
               <StyledOption {...getOptionProps({ option, index })}>
                 {option.name}
               </StyledOption>
