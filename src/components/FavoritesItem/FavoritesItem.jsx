@@ -7,18 +7,28 @@ import { useFetchData } from "../../custom_hooks/useFetch";
 import { useFetchUrl } from "../../custom_hooks/useFetchUrl";
 
 function FavoritesItem({ location }) {
-    console.log('forecast: ', location);
+    // console.log('forecast: ', location);
     const { url, fetching } = useFetchUrl(location);
+    // console.log('FavoritesItem : url: ', url);
     const { data, loading } = useFetchData(url);
-    console.log('data: ', data);
+    // console.log('data: ', data);
     const [dense, setDense] = useState(false);
     const [secondary, setSecondary] = useState(false);
-    const [itemDetails, setItemDetails] = useState({
+
+    const [items, setItems] = useState({'name': '', 'temp': '','unit': '', 'icon': ''});
+
+    useEffect(() => {
+    setItems({
         'name': location.name, 
-        'temp': `${data.properties.periods[0].temperature} ${data.properties.periods[0].temperatureUnit}`,
-        'icon': data.properties.periods[0].icon,
+        'temp': data?.properties.periods[0].temperature, 
+        'unit': data?.properties.periods[0].temperatureUnit, 
+        'icon': <img src={data?.properties.periods[0].icon} />
     });
-    const details = `${itemDetails.name} ${itemDetails.temp}}`;
+        
+    }, [data, setItems]);
+
+    const details = `${items.name} ${items.temp} ${items.unit} ${items.icon}`;
+
     return (
         <ListItem
         secondaryAction={

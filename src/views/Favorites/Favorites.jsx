@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Card, Link, List} from '@mui/material';
-import {CardWithDrawer as FavoritesCard} from '../../components/ListCard/ListCard';
+// import { useParams } from 'react-router-dom';
+import { List } from '@mui/material';
 import favorites from "../../models/favorites.json";
 import FavoritesItem from "../../components/FavoritesItem/FavoritesItem";
 
@@ -12,24 +12,16 @@ import FavoritesItem from "../../components/FavoritesItem/FavoritesItem";
 // 
 
 function Favorites(props) {
-
+    // Will receive a listof favorites from database.
+    // Passed from parent component.
     // console.log('favorites: ', favorites);
     const list = favorites.saved_locations.map(elm => <FavoritesItem key={elm.id} location={elm} />
     );
 
     return (
-        <>
-            <div>Favorite Locations</div>
-            {/* <ul className="favorites">
-                {list}
-            </ul> */}
-            {/* <FavoritesCard /> */}
-
-            <List>
-                {list}
-            </List>
-
-        </>
+        <List>
+            {list}
+        </List>
     );
 }
 

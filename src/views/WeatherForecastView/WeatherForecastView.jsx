@@ -8,36 +8,27 @@ import { styled } from '@mui/system';
 import '../../styles/index.css';
 import '../../styles/root.css';
 import '../../styles/skeleton.css';
-import date from '../../models/date';
 import { DateTime } from '../../models/date';
-import { getForecastByLatLon } from '../../models/weather_api';
-import { debounce } from '@mui/material/utils';
 import { useFetchData } from '../../custom_hooks/useFetch';
 import { useFetchUrl } from '../../custom_hooks/useFetchUrl';
+
+// create a spinner to wait for the data to update?
+// Save forecast to database button needed.
 
 
 export default function WeatherForecast() {
   const [forecast, setForecast] = useState(null);
-  // console.log('url', url);
-  // Need to create state for weather data.  Then update when weather changes?
-  // unmount useEffect?
-  // create a spinner to wait for the data to update?
-  
   
   let { city } = useParams();
   const c = JSON.parse(city);
   // console.log('params: ', c);
-  
-
   const { url, fetching } = useFetchUrl(c);
   const { data, loading} = useFetchData(url)
-  // console.log('wd: ', data)
-  // const current = data?.properties.periods[0];
+
   const properties = data?.properties;
   const dateTime = DateTime.convertISO8601Format(properties?.generatedAt);
-  
   // console.log('properties: ', properties);
-
+  
   // const example = styled('div')(
   //   ({ theme }) => `
   //     background: url(${data.somedata});
@@ -48,7 +39,6 @@ export default function WeatherForecast() {
  const icon = properties?.periods[0].icon;
  const tempUnit = properties?.periods[0].temperatureUnit;
  const detailedForecast = properties?.periods[0].detailedForecast;
-
 
   return (
     <>
