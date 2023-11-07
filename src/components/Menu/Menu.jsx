@@ -29,7 +29,7 @@ export default function Menu() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {[{label:'Home', route: '/'}, {label:'Favorites', route: '/favorites'}, {label:'Create Account', route:'/create_account'}, {label:'Login', route: '/login'}, {label:'About', route: '/about'}, ].map((text, index) => (
+        {[{label:'Home', route: '/'}, {label:'Create Account', route:'/create_account'}, {label:'Login', route: '/login'}, {label:'About', route: '/about'}, ].map((text, index) => (
           <ListItem key={text.label} disablePadding>
             <ListItemButton>
               <NavLink to={text.route}>{text.label}</NavLink>

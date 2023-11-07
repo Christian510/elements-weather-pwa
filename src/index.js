@@ -14,48 +14,63 @@ import { Home } from './App';
 import ErrorPage from './views/ErrorPage/ErrorPage';
 import WeatherForecastView from './views/WeatherForecastView/WeatherForecastView';
 import Favorites from './views/Favorites/Favorites';
+import AboutAppView from './views/AboutAppView/AboutAppView';
+import LoginView from './views/LoginView/LoginView';
 import { create } from '@mui/material/styles/createTransitions';
 
-// let router = createBrowserRouter([ // Make this a component and pass in props
-//   {
-//     path: '/',
-//     element: <Home />,
-//     errorElement: <ErrorPage />,
-//     children: [
-//       {
-//         path: 'favorites',
-//         element: <Favorites />,
-//       },
-//       {
-//         path: 'weather-forecast/:city',
-//         element: <WeatherForecastView />,
-//       },
-//     ],
-//   },
-// ]);
+let router = createBrowserRouter([ // Make this a component and pass in props
+  {
+    path: '/',
+    element: <Home />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <Favorites />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'forecast/:city',
+        element: <WeatherForecastView />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: '/about',
+        element: <AboutAppView />,
+        errorElement: <ErrorPage />,
+      },
+    ],
+  },
+  {
+    path: 'login',
+    element: <LoginView />,
+    errorElement: <ErrorPage />,
+  }
+]);
 
-let router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route
-      path='/'
-      element={<Home />}
-      errorElement={<ErrorPage />}
-    >
-      <Route
-        index
-        element={<Favorites />} />
-      <Route path='forecast/:city' element={<WeatherForecastView />} />
-    </Route>
-  )
-);
-{/* <Route path='/about' element={<AboutAppView />} />
-  <Route
-    path='/weather-forecast'
-  <Route path='/favorites' element={<FavoritesView />} />
-  <Route path='/create_account' element={<CreateAccountView />} />
-  <Route path='/login' element={<LoginView />} />
-  <Route path='/user_account' element={<AccountView />} />
-  <Route path='/demo_view' element={<DemoView />} /> */}
+// let router = createBrowserRouter(
+//   createRoutesFromElements(
+//     <Route
+//       path='/'
+//       element={<Home />}
+//       errorElement={<ErrorPage />}
+//     >
+//       <Route
+//         index
+//         element={<Favorites />} />
+//       <Route 
+//       path='forecast/:city' 
+//       element={<WeatherForecastView />} />
+//       <Route path='/about' element={<AboutAppView />} />
+
+//     </Route>
+//     // <Route path='/demo_view' element={<DemoView />} />
+//   )
+// );
+
+  // <Route path='/create_account' element={<CreateAccountView />} />
+  // <Route path='/login' element={<LoginView />} />
+  // <Route path='/user_account' element={<AccountView />} />
 
 if (import.meta.hot) {
   import.meta.hot.dispose(() => router.dispose());
