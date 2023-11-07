@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState, useMemo } from 'react';
-// import { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router-dom';
 import { debounce } from '@mui/material/utils';
 import {
   Await,
@@ -18,20 +17,11 @@ import {
   useRevalidator,
 } from 'react-router-dom';
 // import logo from './logo.svg';
-import './App.css';
-import '../src/styles/index.css';
-import '../src/styles/root.css';
+// import './App.css';
+// import '../src/styles/index.css';
+// import '../src/styles/root.css';
 import SearchInput from './components/MuiSearchBar/SearchWeatherByLocation';
 import RtDrawer from './components/Menu/Menu';
-// import AboutAppView from './views/AboutAppView/AboutAppView';
-// import ErrorPage from './views/ErrorPage/ErrorPage';
-// import CreateAccountView from './views/CreateAccountView/CreateAccountView';
-// import LoginView from './views/LoginView/LoginView';
-// import AccountView from './views/AccountView/AccountView';
-// import FavoritesView from './views/Favorites/Favorites';
-// import WeatherForecastView from './views/WeatherForecastView/WeatherForecastView';
-// import DemoView from './views/DemoView/DemoView';
-
 import Header from './components/NavBar/Header';
 import { getForecastByLatLon } from './models/weather_api';
 
@@ -43,25 +33,7 @@ export function Home() {
   let fetcherInProgress = fetchers.some((f) =>
     ['loading', 'submitting'].includes(f.state)
   );
-
-  // const [forecast, setForecast] = useState(null);
-  // console.log('forecast: ', forecast);
-
-
-
-  // const getForecast = async (city) => {
-  //   console.log('city: ', city);
-  //   if (city === null || city === undefined) {
-  //     return;
-  //   } else {
-  //     let f = await getForecastByLatLon(city.coords.lat, city.coords.lng);
-  //     console.log('f: ', f);
-  //     setForecast(f);
   
-  //   }
-  // }
-  
-
   return (
     <>
       <Header >
@@ -69,7 +41,7 @@ export function Home() {
         <RtDrawer />
       </Header>
       <div id="outlet">
-        <Outlet />
+          <Outlet />
       </div>
 
       <div style={{ position: 'fixed', top: 40, right: 20 }}>

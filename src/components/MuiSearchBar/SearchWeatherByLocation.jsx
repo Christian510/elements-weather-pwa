@@ -12,7 +12,7 @@ export default function SearchInput({ functions }) {
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState([]);
   // const updateOptions = usePrevious(options);
-  console.log('value: ', value);
+  // console.log('value: ', value);
   // console.log('inputValue: ', inputValue);
   // console.log('options: ', options);
   // console.log('updateOptions: ', updateOptions);
@@ -87,10 +87,7 @@ export default function SearchInput({ functions }) {
         {groupedOptions.length > 0 && (
           <StyledListbox {...getListboxProps()}>
             {groupedOptions.map((option, index) => (
-            <Link 
-            to={`/weather-forecast/${JSON.stringify(option)}`}
-            onKeyUp={ (e) => console.log(e.target.value)} // Not sure how to do this quite yet.
-            >
+            <Link to={`forecast/${JSON.stringify(option)}`}>
               <StyledOption {...getOptionProps({ option, index })}>
                 {option.name}
               </StyledOption>

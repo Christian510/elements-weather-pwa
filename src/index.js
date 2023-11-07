@@ -1,23 +1,11 @@
 import React from 'react';
 import {
-  Await,
+  BrowserRouter,
   createBrowserRouter,
   createRoutesFromElements,
-  defer,
-  Form,
-  Link,
-  Outlet,
-  Route,
   RouterProvider,
-  useAsyncError,
-  useAsyncValue,
-  useFetcher,
-  useFetchers,
-  useLoaderData,
-  useNavigation,
-  useParams,
-  useRevalidator,
-  useRouteError,
+  Route,
+  Routes,
 } from 'react-router-dom';
 import ReactDOM from "react-dom/client";
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
@@ -26,24 +14,40 @@ import { Home } from './App';
 import ErrorPage from './views/ErrorPage/ErrorPage';
 import WeatherForecastView from './views/WeatherForecastView/WeatherForecastView';
 import Favorites from './views/Favorites/Favorites';
+import { create } from '@mui/material/styles/createTransitions';
 
-let router = createBrowserRouter([ // Make this a component and pass in props
-  {
-    path: '/',
-    element: <Home />,
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        path: '/weather-forecast/:city',
-        element: <WeatherForecastView />,
-      }
-    ],
-  },
-  {
-    path: '/favorites',
-    element: <Favorites />,
-  }
-]);
+// let router = createBrowserRouter([ // Make this a component and pass in props
+//   {
+//     path: '/',
+//     element: <Home />,
+//     errorElement: <ErrorPage />,
+//     children: [
+//       {
+//         path: 'favorites',
+//         element: <Favorites />,
+//       },
+//       {
+//         path: 'weather-forecast/:city',
+//         element: <WeatherForecastView />,
+//       },
+//     ],
+//   },
+// ]);
+
+let router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route
+      path='/'
+      element={<Home />}
+      errorElement={<ErrorPage />}
+    >
+      <Route
+        index
+        element={<Favorites />} />
+      <Route path='forecast/:city' element={<WeatherForecastView />} />
+    </Route>
+  )
+);
 {/* <Route path='/about' element={<AboutAppView />} />
   <Route
     path='/weather-forecast'

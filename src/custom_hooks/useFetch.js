@@ -15,7 +15,7 @@ export function useFetchData(url) {
     // }
 
     useEffect(() => {
-        console.log('mounted!!!')
+        // console.log('mounted!!!')
         setState(state => ({ data: state.data, loading: true }));
         // console.log('state: ', state);
         if (url !== null) {
@@ -27,7 +27,7 @@ export function useFetchData(url) {
                 });
         }
         return () => {
-            console.log('unmounted!!!')
+            // console.log('unmounted!!!')
             setState({ data: null, loading: true });
         }
     }, [url, setState]);

@@ -14,16 +14,16 @@ export function useFetchUrl(loc) {
         setState({ url: response.properties.forecast, fetching: false });
 
     }
-    console.log('url: ', state.url);
+    // console.log('url: ', state.url);
     useEffect(() => {
-        console.log('mounted!!!')
+        // console.log('mounted!!!')
         setState( state => ({url: state.url, fetching: true}));
         if(loc !== null && loc !== undefined) {
             fetchForecastUrl(loc)
         }
         // console.log('state: ', state);
         return () => {
-            console.log('unmounted!!!')
+            // console.log('unmounted!!!')
             setState({ url: null, fetching: true });
         }
     }, []);
