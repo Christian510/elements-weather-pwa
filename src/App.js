@@ -1,6 +1,4 @@
 import React from 'react';
-import { useState, useMemo } from 'react';
-import { debounce } from '@mui/material/utils';
 import {
   Await,
   defer,
@@ -23,8 +21,6 @@ import {
 import SearchInput from './components/MuiSearchBar/SearchWeatherByLocation';
 import RtDrawer from './components/Menu/Menu';
 import Header from './components/NavBar/Header';
-import { getForecastByLatLon } from './models/weather_api';
-
 
 export function Home() {
   let navigation = useNavigation();
@@ -49,11 +45,6 @@ export function Home() {
         {revalidator.state !== 'idle' && <p>Revalidation in progress...</p>}
         {fetcherInProgress && <p>Fetcher in progress...</p>}
       </div>
-      {/* if (!favorites data) {
-          <AboutAppView /> or <Outlet />
-        } else {
-          <FavoritesView />
-        } */}
     </>
   );
 }

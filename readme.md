@@ -1,3 +1,21 @@
+*** TODOS
+- Add sessions to server.
+- Create local db for saved forecast locations.
+- Create Sessions db.
+- DB for historical forecast data.
+- Secure Login form
+- Figure out how to test app on phone.
+- Convert to production:
+    - host.
+    - remote db
+    - PWA process
+
+
+** Bug Fixes:
+- lag in data display.
+- Handle errors.
+
+
 *** Resources
 
 - https://stackoverflow.com/questions/35485453/changing-views-in-reactjs
