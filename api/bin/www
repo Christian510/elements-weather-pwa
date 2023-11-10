@@ -3,7 +3,8 @@
 /**
  * Module dependencies.
  */
-
+require('dotenv').config({ path: '../.env' });
+console.log(process.env.DB_HOST);
 var app = require('../app');
 var debug = require('debug')('api:server');
 var http = require('http');

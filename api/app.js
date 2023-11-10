@@ -1,7 +1,9 @@
+require('dotenv').config({ path: './.env' });
 var express = require('express');
-// var path = require('path');
+const MySQLStore = require('express-mysql-session')(session);
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+// var path = require('path');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -17,7 +19,24 @@ app.use(cookieParser());
 // Need to add cors
 // session
 // session sql store
-// Axios both frontend and backend.
+
+const options = {
+	host: process.env.DB_HOST,
+	port: process.env.DB_PORT,
+	user: process.env.DB_USER,
+	password: process.env.DB_PW,
+	database: process.env.DB_NAME
+};
+
+const sessionStore = new MySQLStore(options);
+
+app.use(session({
+	key: process.env.SESSION_KEY,
+	secret: process.env.SESSION_SECRET,
+	store: sessionStore,
+	resave: false,
+	saveUninitialized: false
+}));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
