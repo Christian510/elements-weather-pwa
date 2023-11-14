@@ -3,19 +3,17 @@ console.log(process.env.DB_HOST);
 const express = require('express');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
-const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-// var path = require('path');
 
 const indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
+var usersRouter = require('./routes/users');
 
 const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+// app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 
 // Need to add cors
@@ -31,14 +29,15 @@ app.use(cookieParser());
 // const sessionStore = new MySQLStore(options);
 
 // app.use(session({
-// 	key: process.env.SESSION_KEY,
-// 	secret: process.env.SESSION_SECRET,
-// 	store: sessionStore,
+// 	key: '',
+// 	secret: 'supersecretsecret',
+// 	// store: sessionStore,
 // 	resave: false,
 // 	saveUninitialized: false
 // }));
 
 app.use('/', indexRouter);
+app.use('/users', usersRouter);
 
 // ERROR HANDLING
 // app.get('/500', errorController.get500);
