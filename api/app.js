@@ -1,8 +1,9 @@
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config({ path: './.env' });
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const MySQLStore = require('express-mysql-session')(session);
+const mysql = require('mysql');
 const logger = require('morgan');
 const cors = require('cors');
 const path = require('path');
@@ -26,14 +27,15 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 const options = {
-    host: 'localhost',
-    user: 'your_username',
-    password: 'your_password',
-    database: 'your_database',
-    port: 3306 // Your MySQL port, default is 3306
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT || 3306,
 };
 
-const dbConnection = mysql.createConnection(dbOptions);
+const dbConnection = mysql.createConnection(options);
+console.log('dbConnection: ', dbConnection);
 
 const sessionStore = new MySQLStore({
     expiration: 3600000, // Session expiration time in milliseconds
@@ -42,9 +44,10 @@ const sessionStore = new MySQLStore({
 
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
-  secret: 'supersecretsecret',
+  secret: process.env.SESSION_SECRET,
+  store: sessionStore,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: { secure: false }
 }))
 
