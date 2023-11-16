@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useMemo, useState, useEffect} from 'react';
 // import { usePrevious } from '../../custom_hooks/customHooks';
 import { useAutocomplete } from '@mui/base/useAutocomplete';
@@ -21,7 +21,19 @@ export default function SearchInput({ functions }) {
   // const getForecast = functions.getForecast;
 
   // NEED TO WORK ON A WAY TO FILTER OPTIONS LIST AS THE USER TYPES TO CONTINUE NARROWING THE OPTIONS
-
+  // Listen for the option selected and save that to state then save to session storage?
+  // Save the sessionID as the User name.
+  // Save the city forecast data with the sessionID.
+  // {name: sessionID, locations: {index1{name: 'city', state', coords{lat: 123, lng: 123}}, index2{name: 'city', state', coords{lat: 123, lng: 123}}}}
+  // Users session will last for 6 months before it is deleted.
+  // If the user creates an account then the sessionID will be saved to the account and the users data will last indefinitely.
+  // If the user does not create an account then the sessionID will be saved to the browser and the users data will last for 6 months.
+  
+  const saveLocation = () => {
+    // Theck for a sessionID matches one in DB.
+    // If match then check if value exists in db.
+    // If value does not exist save to db.
+  }
   const fetchLocations = useMemo(() => {
     return debounce(async () => {
       const response = await queryLocations(inputValue);
@@ -53,7 +65,11 @@ export default function SearchInput({ functions }) {
       fetchLocations();
     }
 
-  }, [inputValue, options.length]);
+    // if (value !== null) {
+    //   saveLocation(value);
+    // }
+
+  }, [inputValue, options.length]); // add function and value to the dependency array.
 
   const {
     getRootProps,

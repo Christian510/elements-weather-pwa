@@ -1,13 +1,10 @@
 import React from 'react';
 import {
-  BrowserRouter,
   createBrowserRouter,
-  createRoutesFromElements,
   RouterProvider,
-  Route,
-  Routes,
 } from 'react-router-dom';
 import ReactDOM from "react-dom/client";
+import Axios from 'axios';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { Home } from './App';
@@ -19,8 +16,16 @@ import LoginView from './views/LoginView/LoginView';
 import CreateAccountView from './views/CreateAccountView/CreateAccountView';
 import AccountView from './views/AccountView/AccountView';
 import { create } from '@mui/material/styles/createTransitions';
-import favorites from './models/favorites';
 
+
+async function getFavorites() {
+  const response = await Axios.get('http://localhost:8080/locations');
+  if (response.status === 200) {
+    return response.data.locations;
+  } else {
+    throw new Error('Unable to get locations');
+  }
+}
 
 let router = createBrowserRouter([
   {
@@ -34,7 +39,7 @@ let router = createBrowserRouter([
         errorElement: <ErrorPage />,
         loader: async () => {
           return {
-            data: favorites.saved_locations, // TODO: Add a real db call here.
+            data: await getFavorites(),
           };
         },
       },
