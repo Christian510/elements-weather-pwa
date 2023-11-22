@@ -14,6 +14,7 @@
 ** Bug Fixes:
 [] lag in data display.
 [] Handle errors.
+[] Debug margin issue on body. inline style added as temp fix.
 
 *** IDEAS
 

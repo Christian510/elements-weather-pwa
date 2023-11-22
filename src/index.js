@@ -18,8 +18,14 @@ import AccountView from './views/AccountView/AccountView';
 import { create } from '@mui/material/styles/createTransitions';
 
 
+const scheme = 'http';
+const domain = 'localhost';
+const port = '8080';
+const path = 'locations';
+// How do I create dynamic routes here?
+
 async function getFavorites() {
-  const response = await Axios.get('http://localhost:8080/locations');
+  const response = await Axios.get('http://localhost:8080/locations'); 
   if (response.status === 200) {
     return response.data.locations;
   } else {

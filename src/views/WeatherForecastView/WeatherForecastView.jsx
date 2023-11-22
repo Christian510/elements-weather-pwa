@@ -1,10 +1,8 @@
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   useParams,
 } from 'react-router-dom';
 import { Box, Card, Container, Button } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
-import { styled } from '@mui/system';
 import { DateTime } from '../../models/date';
 import { useFetchData } from '../../custom_hooks/useFetch';
 import { useFetchUrl } from '../../custom_hooks/useFetchUrl';

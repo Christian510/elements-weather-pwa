@@ -29,11 +29,6 @@ export default function SearchInput({ functions }) {
   // If the user creates an account then the sessionID will be saved to the account and the users data will last indefinitely.
   // If the user does not create an account then the sessionID will be saved to the browser and the users data will last for 6 months.
   
-  const saveLocation = () => {
-    // Theck for a sessionID matches one in DB.
-    // If match then check if value exists in db.
-    // If value does not exist save to db.
-  }
   const fetchLocations = useMemo(() => {
     return debounce(async () => {
       const response = await queryLocations(inputValue);
