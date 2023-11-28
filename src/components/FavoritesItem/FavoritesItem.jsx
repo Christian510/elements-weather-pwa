@@ -20,7 +20,7 @@ const ForwardRefLink = React.forwardRef(
 
 
 function FavoritesItem({ location }) {
-  // console.log('forecast: ', location);
+  // console.log('location: ', location);
   const { url, fetching } = useFetchUrl(location);
   // console.log('FavoritesItem : url: ', url);
   const { data, loading } = useFetchData(url);

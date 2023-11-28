@@ -15,6 +15,8 @@
 [] lag in data display.
 [] Handle errors.
 [] Debug margin issue on body. inline style added as temp fix.
+[] If No data is passed to the FavoritesItem component. How shall I handle the error?
+
 
 *** IDEAS
 
