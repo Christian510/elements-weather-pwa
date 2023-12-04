@@ -16,7 +16,7 @@ import {
 } from 'react-router-dom';
 // import logo from './logo.svg';
 // import './App.css';
-// import '../src/styles/index.css';
+import './index.css';
 // import '../src/styles/root.css';
 import SearchInput from './components/MuiSearchBar/SearchWeatherByLocation';
 import RtDrawer from './components/Menu/Menu';

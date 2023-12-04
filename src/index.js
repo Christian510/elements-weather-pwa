@@ -9,13 +9,14 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { Home } from './App';
 import ErrorPage from './views/ErrorPage/ErrorPage';
-import WeatherForecastView from './views/WeatherForecastView/WeatherForecastView';
+import CurrentConditionsView from './views/CurrentConditionsView/CurrentConditionsView';
 import Favorites from './views/Favorites/Favorites';
 import AboutAppView from './views/AboutAppView/AboutAppView';
 import LoginView from './views/LoginView/LoginView';
 import CreateAccountView from './views/CreateAccountView/CreateAccountView';
 import AccountView from './views/AccountView/AccountView';
 import { create } from '@mui/material/styles/createTransitions';
+import DemoView from './views/DemoView/DemoView';
 
 
 const scheme = 'http';
@@ -50,10 +51,14 @@ let router = createBrowserRouter([
         },
       },
       {
-        element: <WeatherForecastView />,
+        element: <CurrentConditionsView />, // TODO: rename this to CurrentConditionsView
         path: 'forecast/:city',
         errorElement: <ErrorPage />,
       },
+      // {
+      //   element: <DetailedForecastView />,
+      //   path: 'forecast/:city/extended',
+      // },
       {
         element: <AboutAppView />,
         path: 'about',
@@ -74,6 +79,11 @@ let router = createBrowserRouter([
   {
     element: <AccountView />,
     path: 'user_account',
+    errorElement: <ErrorPage />,
+  },
+  {
+    element: <DemoView />,
+    path: 'demo',
     errorElement: <ErrorPage />,
   }
 ]);

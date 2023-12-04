@@ -39,7 +39,7 @@ console.log('dbConnection: ', dbConnection);
 
 const sessionStore = new MySQLStore({
     expiration: 3600000, // Session expiration time in milliseconds
-    createDatabaseTable: true // Automatically create session table if not exists
+    createDatabaseTable: true // Automatically create session table if none exists
   }, dbConnection);
 
 app.set('trust proxy', 1) // trust first proxy

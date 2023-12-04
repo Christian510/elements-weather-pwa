@@ -5,6 +5,7 @@
 [] DB for historical forecast data.
 [] Secure Login form
 [] Figure out how to test app on phone.
+[] Rename ForecastView to CurrentConditionsView
 [] Convert to production:
     [] host.
     [] remote db

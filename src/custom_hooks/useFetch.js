@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 export function useFetchData(url) {
     // console.log('url: ', url)
     const [state, setState] = useState({ data: null, loading: true });
-
+    
     // const fetchData = async (url) => {
     //     return await fetch(url)
     //         .then(resp => resp.json())
@@ -31,6 +31,6 @@ export function useFetchData(url) {
             setState({ data: null, loading: true });
         }
     }, [url, setState]);
-
+    console.log('state: ', state);
     return state;
 };

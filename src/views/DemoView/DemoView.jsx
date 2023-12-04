@@ -1,10 +1,10 @@
 import React from 'react';
-import ControlledStates from '../../components/MuiSearchBar/SearchWeatherByLocation';
+import ElmCarousel from '../../components/Carousel/Carousel';
 
 function DemoView() {
     return (
-        <div id='demo'style={container}>
-            <ControlledStates />
+        <div id='demo'>
+            <ElmCarousel />
         </div>
     );
 

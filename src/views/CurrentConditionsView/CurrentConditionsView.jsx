@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ElmCard from '../../components/ElmCard/ElmCard';
+import Carousel from '../../components/Carousel/Carousel';
 import {
   useParams,
 } from 'react-router-dom';
@@ -12,7 +13,8 @@ import { useFetchUrl } from '../../custom_hooks/useFetchUrl';
 // Save forecast to database button needed.
 
 
-export default function WeatherForecast() {
+export default function CurrentConditions() {
+
   const [forecast, setForecast] = useState(null);
 
   let { city } = useParams();
@@ -21,14 +23,13 @@ export default function WeatherForecast() {
   const { url, fetching } = useFetchUrl(c);
   const { data, loading } = useFetchData(url)
 
+  console.log('data: ', data);
+
   const properties = data?.properties;
+  // setForecast(data?.properties);
+  // console.log('forecast: ', forecast);
   const dateTime = DateTime.convertISO8601Format(properties?.generatedAt);
   // console.log('properties: ', properties);
-
-  // const example = styled('div')(
-  //   ({ theme }) => `
-  //     background: url(${data.somedata});
-  //   `);
 
   // Need to add some logic to display an error message if the weather does not display or absent.
   const temp = properties?.periods[0].temperature;
@@ -38,22 +39,22 @@ export default function WeatherForecast() {
 
   // Extended forecast for 7 days
 
-  const extendedForecast = properties?.periods.map((item, index) =>
-  {
+  // const extendedForecast = properties?.periods.map((item, index) =>
+  // {
     
-    if (index > 0) {
-      // console.log('item: ', item.name);
-      return (
-        <ElmCard
-          key={index}
-          name={item.name}
-          detailedForecast={item.detailedForecast}
-          icon={item.icon}
-          shortForecast={item.shortForecast} />
-      );
-    }
-  }
-  );
+  //   if (index > 0) {
+  //     // console.log('item: ', item.name);
+  //     return (
+  //       <ElmCard
+  //         key={index}
+  //         name={item.name}
+  //         detailedForecast={item.detailedForecast}
+  //         icon={item.icon}
+  //         shortForecast={item.shortForecast} />
+  //     );
+  //   }
+  // }
+  // );
 
   return (
     <>
@@ -65,9 +66,12 @@ export default function WeatherForecast() {
           <img className="icon" src={icon} />
           <div className="today">{detailedForecast}</div>
         </Card>
-        <List className='extended-forecast'>
+        <div className="carousel">Forecast</div>
+        {/* <Carousel properties={properties} /> */}
+        
+        {/* <List className='extended-forecast'>
           {extendedForecast}
-        </List>
+        </List> */}
       </Container>
     </>
   );

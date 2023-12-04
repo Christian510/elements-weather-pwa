@@ -7,9 +7,4 @@ router.get('/', function(req, res) {
     res.send({ message: 'Elements Weather API' });
   });
 
-  router.get('/users', function(req, res) {
-    // console.log('request: ', req);
-    res.send({ message: 'GET USERS FROM DB' });
-  });
-
   module.exports = router;
