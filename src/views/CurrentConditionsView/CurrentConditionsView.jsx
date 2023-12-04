@@ -25,18 +25,44 @@ export default function CurrentConditions() {
 
   console.log('data: ', data);
 
-  const properties = data?.properties;
-  // setForecast(data?.properties);
-  // console.log('forecast: ', forecast);
-  const dateTime = DateTime.convertISO8601Format(properties?.generatedAt);
-  // console.log('properties: ', properties);
+  // until the data is fetched from the api, display a loading message.
 
-  // Need to add some logic to display an error message if the weather does not display or absent.
-  const temp = properties?.periods[0].temperature;
-  const icon = properties?.periods[0].icon;
-  const tempUnit = properties?.periods[0].temperatureUnit;
-  const detailedForecast = properties?.periods[0].detailedForecast;
 
+
+  const renderPage = () => {
+    if (loading === true && fetching === true) {
+      console.log('loading: ', loading);
+      return <div>Loading...</div>
+    } else {
+      console.log('loading: ', loading);
+      setForecast(data?.properties);
+      const dateTime = DateTime.convertISO8601Format(forecast.generatedAt);
+    
+      // Need to add some logic to display an error message if the weather does not display or absent.
+      const temp = forecast.periods[0].temperature;
+      const icon = forecast.periods[0].icon;
+      const tempUnit = forecast.periods[0].temperatureUnit;
+      const detailedForecast = forecast.periods[0].detailedForecast;
+      return (
+          <>
+              <Card className='heading' >
+              <p>{c.name}</p>
+              <p className="date-time">{dateTime}</p>
+              <p className="temperature">{temp} {tempUnit}</p>
+              <img className="icon" src={icon} />
+              <div className="today">{detailedForecast}</div>
+            </Card>
+            <div className="carousel">Forecast</div>
+            <Carousel properties={forecast} />
+            {/* <List className='extended-forecast'>
+              {extendedForecast}
+            </List> */}
+          </>
+      )
+      
+      
+    }
+  }
   // Extended forecast for 7 days
 
   // const extendedForecast = properties?.periods.map((item, index) =>
@@ -59,19 +85,7 @@ export default function CurrentConditions() {
   return (
     <>
       <Container id='forecast-view' maxWidth='xs'>
-        <Card className='heading' >
-          <p>{c.name}</p>
-          <p className="date-time">{dateTime}</p>
-          <p className="temperature">{temp} {tempUnit}</p>
-          <img className="icon" src={icon} />
-          <div className="today">{detailedForecast}</div>
-        </Card>
-        <div className="carousel">Forecast</div>
-        {/* <Carousel properties={properties} /> */}
-        
-        {/* <List className='extended-forecast'>
-          {extendedForecast}
-        </List> */}
+        {renderPage()}
       </Container>
     </>
   );

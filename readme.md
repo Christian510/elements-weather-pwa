@@ -10,6 +10,7 @@
     [] host.
     [] remote db
     [] PWA process
+[] Before production remove all dev console logs
 
 
 ** Bug Fixes:
