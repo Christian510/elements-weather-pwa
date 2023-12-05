@@ -60,10 +60,6 @@ export default function SearchInput({ functions }) {
       fetchLocations();
     }
 
-    // if (value !== null) {
-    //   saveLocation(value);
-    // }
-
   }, [inputValue, options.length]); // add function and value to the dependency array.
 
   const {

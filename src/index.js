@@ -12,6 +12,7 @@ import ErrorPage from './views/ErrorPage/ErrorPage';
 import CurrentConditionsView from './views/CurrentConditionsView/CurrentConditionsView';
 import Favorites from './views/Favorites/Favorites';
 import AboutAppView from './views/AboutAppView/AboutAppView';
+import ExtendedForecastView from './views/ExtendedForecastView/ExtendedForecastView';
 import LoginView from './views/LoginView/LoginView';
 import CreateAccountView from './views/CreateAccountView/CreateAccountView';
 import AccountView from './views/AccountView/AccountView';
@@ -55,10 +56,11 @@ let router = createBrowserRouter([
         path: 'forecast/:city',
         errorElement: <ErrorPage />,
       },
-      // {
-      //   element: <DetailedForecastView />,
-      //   path: 'forecast/:city/extended',
-      // },
+      {
+        element: <ExtendedForecastView />,
+        path: 'forecast/:city/extended',
+        errorElement: <ErrorPage />,
+      },
       {
         element: <AboutAppView />,
         path: 'about',

@@ -28,13 +28,16 @@ export class DateTime {
     }
 
     static convertISO8601Format(dt) {
+
+      let dateTime = {}
       const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat' ];
       const displayDate = new Date(dt);
       const num = displayDate.getDay();
       const day = daysOfWeek.find((elm, i) => i === num)
       console.log('day: ', day);
       const dtOptions = { month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric'};
-      const dateTime = displayDate.toLocaleString('en-US', dtOptions);
+      dateTime.date = displayDate.toLocaleString('en-US', dtOptions);
+      dateTime.dow = day;
       return dateTime;
     }
   }

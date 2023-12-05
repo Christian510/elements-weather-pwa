@@ -19,8 +19,7 @@ function Favorites(props) {
     
     const favorites = useLoaderData();
 
-    const list = favorites.data.map(elm => <FavoritesItem key={elm.id} location={elm} />
-    );
+    const list = favorites.data.map(elm => <FavoritesItem key={elm.id} location={elm} />);
 
     return (
         <List>

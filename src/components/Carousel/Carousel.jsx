@@ -1,30 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import { Box, Button, Card, CardContent, Typography, ButtonBase, Paper, Container, Stack } from '@mui/material';
 import ForecastCard from '../ForecastCard/ForecastCard';
 
 
-const Carousel = ({ properties }) => {
+const Carousel = ({ properties, loading }) => {
 
     console.log('properties: ', properties)
 
 
     const [cards, setCards] = useState([]);
 
-    // properties.periods.map((item, index) => {
+    useEffect(() => {
 
-    //     if (index > 0 && properties.length) {
-    //         setCards((prev) => [...prev, { 
-    //             title: item.name, 
-    //             icon: item.icon, 
-    //             forecast: item.shoreForecast, 
-    //             temp: item.temperature,
-    //             tempUnit: item.temperatureUnit,}])
-    //     }
-    // }
-    // );
-
-    // console.log('cards: ', cards);
+        properties.periods.map((item, index) => {
+            
+            if (index > 0 && loading === false) {
+                setCards((prev) => [...prev, {
+                    title: item.name,
+                    icon: item.icon,
+                    forecast: item.shortForecast,
+                    temp: item.temperature,
+                    tempUnit: item.temperatureUnit,
+                }])
+            }
+        }
+        );
+    }, [properties, loading]);
 
     return (
         <Stack
@@ -46,17 +48,18 @@ const Carousel = ({ properties }) => {
                 },
             }}
         >
-            {/* {cards.map((card, index) => (
-                <ForecastCard 
-                key={index} 
-                title={card.title} 
-                content={''} 
-                direction='col'
-                square={false}
-                shape={{height: 250, width: 150}}
-                img={{src: 'https://via.placeholder.com/125', alt: 'placeholder'}}
+            {cards.map((item, index) => (
+                <ForecastCard
+                    key={index}
+                    title={item.title}
+                    content={item.forecast}
+                    direction='col'
+                    square={false}
+                    shape={{ height: 250, width: 150 }}
+                    img={{ src: item.icon, alt: item.forecast }}
+                    temp={{ temp: item.temp, tempUnit: item.tempUnit }}
                 />
-            ))} */}
+            ))}
         </Stack>
     );
 };

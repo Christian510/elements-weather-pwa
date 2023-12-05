@@ -6,11 +6,13 @@ import {
   ListItemText, 
   IconButton, 
   Link, 
-  ListItemButton, } from '@mui/material';
+  ListItemButton, 
+  Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useFetchData } from "../../custom_hooks/useFetch";
 import { useFetchUrl } from "../../custom_hooks/useFetchUrl";
-import { useMatch } from 'react-router-dom';
+// import { useMatch } from 'react-router-dom';
+import ElmSpinner from '../ElmSpinner/ElmSpinner';
 
 const ForwardRefLink = React.forwardRef(
   (linkProps, ref) => (
@@ -25,10 +27,10 @@ function FavoritesItem({ location }) {
   // console.log('FavoritesItem : url: ', url);
   const { data, loading } = useFetchData(url);
   // console.log('data: ', data.properties?.periods[0]);
-  const [dense, setDense] = useState(false);
+  // const [dense, setDense] = useState(false);
   const [secondary, setSecondary] = useState(false);
 
-  const match = useMatch('/:city');
+  // const match = useMatch('/:city');
 
   const [items, setItems] = useState({ 'name': '', 'temp': '', 'short_forecast': '', 'unit': '', 'icon': '' });
 
@@ -46,34 +48,40 @@ function FavoritesItem({ location }) {
   const details = `${items.name} ${items.temp}${items.unit} ${items.short_forecast}`;
   const path = `forecast/${JSON.stringify(location)}`;
 
-  return (
-    <ListItem
-      divider={true}
-      secondaryAction={
-        <IconButton
-          edge="end"
-          aria-label="delete"
-          onClick={() => console.log('clicked!')}>
-          <DeleteIcon />
-        </IconButton>
-      }
-    >
-      <ListItemButton 
-        component={ForwardRefLink} 
-        to={path}
-        >
-      <ListItemAvatar>
-        <Avatar>
-          {items.icon}
-        </Avatar>
-      </ListItemAvatar>
-      <ListItemText
-        primary={details}
-        secondary={secondary ? 'Location Missing' : null}
-      />
-      </ListItemButton>
-    </ListItem>
-  );
+  if (loading) {
+    return (<ElmSpinner />);
+  } else {
+    return (
+      <ListItem
+        divider={true}
+        secondaryAction={
+          <IconButton
+            edge="end"
+            aria-label="delete"
+            onClick={() => console.log('clicked!')}>
+            <DeleteIcon />
+          </IconButton>
+        }
+      >
+        <ListItemButton 
+          component={ForwardRefLink} 
+          to={path}
+          >
+        <ListItemAvatar>
+          <Avatar>
+            {items.icon}
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText
+          primary={details}
+          secondary={secondary ? 'Location Missing' : null}
+        />
+        </ListItemButton>
+      </ListItem>
+    );
+
+  }
+
 }
 
 export default FavoritesItem;

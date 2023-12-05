@@ -4,7 +4,7 @@ import { CardContent, Typography, Paper } from '@mui/material';
 
 
 const ForecastCard = ({ title, content, direction, square, shape, img }) => {
-
+    console.log('content: ', content);
     // I need this to be a rectangle for the FavoritesView.
     // And a square for the extended forecast view.
 
@@ -14,7 +14,7 @@ const ForecastCard = ({ title, content, direction, square, shape, img }) => {
         padding: '5px 5px',
         margin: '5px 5px',
     });
-    
+
     return (
         <Container
             display='flex'
