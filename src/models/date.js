@@ -34,7 +34,6 @@ export class DateTime {
       const displayDate = new Date(dt);
       const num = displayDate.getDay();
       const day = daysOfWeek.find((elm, i) => i === num)
-      console.log('day: ', day);
       const dtOptions = { month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric'};
       dateTime.date = displayDate.toLocaleString('en-US', dtOptions);
       dateTime.dow = day;

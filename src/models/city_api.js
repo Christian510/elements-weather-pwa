@@ -1,3 +1,6 @@
+// const  getForecastByLatLon = require('../models/weather_api') ;
+import { getForecastByLatLon } from "./weather_api";
+
 // GET A LIST OF CITIES BASED ON A QUERY STRING
 
 // export class GeoLocation {
@@ -61,4 +64,28 @@ export async function queryLocations(query, country = "US") {
     }
 }
 
-// Fetch the weather for a city or location
+// Fetch the forecast for by url
+export async function queryForecastData(url) {
+    const response = await fetch(url)
+    .then(resp => {
+        if(resp.ok) {
+            return resp.json();
+        } else {
+            throw new Error("Oops, response failed!")
+        }
+    })
+    .then(data => data)
+    .catch(err => console.error('Error msg: ', err));
+}
+
+// Fetch the forecast for a location
+export async function queryForecastUrl(l) {
+    const response = await getForecastByLatLon(l.coords.lat, l.coords.lng);
+    console.log('forecast resp: ', response.properties.forecast)
+
+    if (response.status === 200 && response.properties.forecast !== null) {
+        return queryForecastData(response.properties.forecast);
+    }
+}
+
+

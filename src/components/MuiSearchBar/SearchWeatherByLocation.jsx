@@ -5,7 +5,7 @@ import { useMemo, useState, useEffect} from 'react';
 import { useAutocomplete } from '@mui/base/useAutocomplete';
 import { styled } from '@mui/system';
 import { debounce } from '@mui/material/utils';
-import { queryLocations } from '../../models/city_api';
+import { queryForecast, queryForecastUrl, queryLocations } from '../../models/city_api';
 
 export default function SearchInput({ functions }) {
   const [value, setValue] = useState(null);
@@ -53,7 +53,7 @@ export default function SearchInput({ functions }) {
       }
 
     }, 400);
-  });
+  }, [inputValue]);
 
   useEffect(() => {
     if (inputValue.length > 2) {
@@ -79,7 +79,7 @@ export default function SearchInput({ functions }) {
     options: options,
     value: value,
     defaultValue: 'Type your search here...',
-    isOptionEqualToValu: (option, value) => option.id === value.id,
+    isOptionEqualToValue: (option, value) => option.id === value.id,
     onChange: (event, newValue) => { setValue(newValue) },
     inputValue,
     onInputChange: (event, newValue) => { setInputValue(newValue); },
@@ -94,7 +94,7 @@ export default function SearchInput({ functions }) {
         {groupedOptions.length > 0 && (
           <StyledListbox {...getListboxProps()}>
             {groupedOptions.map((option, index) => (
-            <Link to={`forecast/${JSON.stringify(option)}`}>
+            <Link to={`forecast/${JSON.stringify(option)}`} onClick={()=>queryForecastUrl(option)}>
               <StyledOption {...getOptionProps({ option, index })}>
                 {option.name}
               </StyledOption>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Carousel from '../../components/Carousel/Carousel';
 import {
   useParams,
@@ -10,61 +10,57 @@ import { DateTime } from '../../models/date';
 import { useFetchData } from '../../custom_hooks/useFetch';
 import { useFetchUrl } from '../../custom_hooks/useFetchUrl';
 import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
+import { margin } from '@mui/system';
+import { queryForecastUrl } from '../../models/city_api';
 
-// create a spinner to wait for the data to update?
 // Save forecast to database button needed.
-
+// I'll have to scrap the custom hooks and add the fetch to the server and then get the data from the server.
 
 export default function CurrentConditions() {
-
   let { city } = useParams();
+  console.log('city: ', city);
   const c = JSON.parse(city);
   // console.log('params: ', c);
   const { url, fetching } = useFetchUrl(c);
   const { data, loading } = useFetchData(url)
-  
-  const renderPage = () => {
-    if (loading === true ) {
-      return (
-      
-      <ElmSpinner size='lg' />
-      
-      );
+  console.log('data update?: ', data);
+
+  useEffect(() => {
+    console.log('city updated: ', city);
+  }, [city]);
+
+    if (loading) {
+      return (<ElmSpinner size='lg' />);
     } else {
-      // console.log('loading: ', loading);
-      // console.log('data: ', data);
-      let forecast = data.properties;
-      
+      const forecast = data.properties;
       const dateTime = DateTime.convertISO8601Format(forecast.generatedAt);
       const temp = forecast.periods[0].temperature;
       const icon = forecast.periods[0].icon;
       const tempUnit = forecast.periods[0].temperatureUnit;
       const detailedForecast = forecast.periods[0].detailedForecast;
       const date = `Last updated: ${dateTime.dow}, ${dateTime.date}`
+      console.log('forecast: ', forecast);
       return (
-          <>
-              <Card className='heading' >
-              <p>{c.name}</p>
-              <p className="date-time">{date}</p>
-              <p className="temperature">{temp} {tempUnit}</p>
-              <img className="icon" src={icon} />
-              <div className="today">{detailedForecast}</div>
+        <>
+          <Card className='forecast-view heading' >
+            <p>{c.name}</p>
+            <p className="date-time">{date}</p>
+            <p className="temperature">{temp} {tempUnit}</p>
+            <img className="icon" src={icon} />
+            <div className="today">{detailedForecast}</div>
 
-            </Card>
-            <div className="carousel">Forecast</div>
-            <Carousel properties={forecast} loading={loading} />
-          </>
+          </Card>
+          <Typography
+            className="carousel"
+            variant='h6'
+            sx={
+              {
+                margin: (theme) => theme.spacing(1, 0, 1, 0),
+                textAlign: 'center',
+              }
+            }>Forecast</Typography>
+          {forecast && <Carousel forecast={forecast} loading={loading} />}
+        </>
       )
-      
-      
     }
-  }
-
-  return (
-    <>
-      <Container id='forecast-view' maxWidth='xs'>
-        {renderPage()}
-      </Container>
-    </>
-  );
 }

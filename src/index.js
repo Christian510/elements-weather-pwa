@@ -52,7 +52,7 @@ let router = createBrowserRouter([
         },
       },
       {
-        element: <CurrentConditionsView />, // TODO: rename this to CurrentConditionsView
+        element: <CurrentConditionsView />,
         path: 'forecast/:city',
         errorElement: <ErrorPage />,
       },

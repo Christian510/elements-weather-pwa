@@ -14,10 +14,9 @@ import {
   useParams,
   useRevalidator,
 } from 'react-router-dom';
-// import logo from './logo.svg';
+import { Container } from '@mui/material';
 // import './App.css';
 import './index.css';
-// import '../src/styles/root.css';
 import SearchInput from './components/MuiSearchBar/SearchWeatherByLocation';
 import RtDrawer from './components/Menu/Menu';
 import Header from './components/NavBar/Header';
@@ -29,16 +28,21 @@ export function Home() {
   let fetcherInProgress = fetchers.some((f) =>
     ['loading', 'submitting'].includes(f.state)
   );
-  
+
   return (
     <>
       <Header >
         <SearchInput />
         <RtDrawer />
       </Header>
-      <div id="outlet">
-          <Outlet />
-      </div>
+      <Container id="outlet" sx={
+        {
+          padding: (theme) => theme.spacing(.75),
+          margin: (theme) => theme.spacing(1, 'auto'),
+        }
+      }>
+        <Outlet />
+      </Container>
 
       <div style={{ position: 'fixed', top: 40, right: 20 }}>
         {navigation.state !== 'idle' && <p>Navigation in progress...</p>}
