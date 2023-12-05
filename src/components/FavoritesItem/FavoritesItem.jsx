@@ -49,7 +49,19 @@ function FavoritesItem({ location }) {
   const path = `forecast/${JSON.stringify(location)}`;
 
   if (loading) {
-    return (<ElmSpinner />);
+    return (
+      <ListItem
+        divider={true}
+        sx={
+          {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }
+        }>
+        <ElmSpinner size='sm' />
+      </ListItem>
+    );
   } else {
     return (
       <ListItem
@@ -79,9 +91,7 @@ function FavoritesItem({ location }) {
         </ListItemButton>
       </ListItem>
     );
-
   }
-
 }
 
 export default FavoritesItem;

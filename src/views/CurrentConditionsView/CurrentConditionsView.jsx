@@ -27,7 +27,7 @@ export default function CurrentConditions() {
     if (loading === true ) {
       return (
       
-      <ElmSpinner />
+      <ElmSpinner size='lg' />
       
       );
     } else {
