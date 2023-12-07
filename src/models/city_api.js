@@ -64,28 +64,41 @@ export async function queryLocations(query, country = "US") {
     }
 }
 
-// Fetch the forecast for by url
+// Fetch the forecast data from url
 export async function queryForecastData(url) {
-    const response = await fetch(url)
-    .then(resp => {
-        if(resp.ok) {
-            return resp.json();
-        } else {
-            throw new Error("Oops, response failed!")
-        }
-    })
-    .then(data => data)
-    .catch(err => console.error('Error msg: ', err));
+    console.log('queryForecastData url: ', url);
+    const options = {
+        method: 'GET',
+        // headers: {
+        //     'X-RapidAPI-Key': process.env.REACT_APP_GEODB_KEY,
+        //     'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com',
+        // }
+    };
+    return await fetch(url, options)
+        .then(resp => {
+            if (resp.ok) {
+                return resp.json();
+            } else {
+                throw new Error("Oops, response failed!")
+            }
+        })
+        .then(data => data)
+        .catch(err => console.error('Error msg: ', err));
 }
 
-// Fetch the forecast for a location
+// Fetch a forecast location
 export async function queryForecastUrl(l) {
-    const response = await getForecastByLatLon(l.coords.lat, l.coords.lng);
-    console.log('forecast resp: ', response.properties.forecast)
+    console.log('location: ', l)
+    return await getForecastByLatLon(l.coords.lat, l.coords.lng)
+    .then(resp => {
+        if (resp.properties.forecast !== null) {
+            console.log('queried url: ', resp.properties.forecast)
+            return queryForecastData(resp.properties.forecast);
+        }
 
-    if (response.status === 200 && response.properties.forecast !== null) {
-        return queryForecastData(response.properties.forecast);
-    }
+    })
+    .then(data => data)
+    .catch(err => console.error('Eorror msg: ', err))
 }
 
 

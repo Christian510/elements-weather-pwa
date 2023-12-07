@@ -4,8 +4,8 @@ import { CardContent, Typography, Paper } from '@mui/material';
 
 
 const ForecastCard = ({ title, content, direction, square, shape, img }) => {
-    console.log('title: ', title);
-    console.log('content: ', content);
+    // console.log('title: ', title);
+    // console.log('content: ', content);
     // I need this to be a rectangle for the FavoritesView.
     // And a square for the extended forecast view.
 
@@ -33,7 +33,8 @@ const ForecastCard = ({ title, content, direction, square, shape, img }) => {
             <Content>
                 <Typography variant="subTitle1">{title}</Typography>
                 <img src={img.src} alt={img.alt} />
-                <Typography variant="body2">{content}</Typography>
+                <Typography variant="body2">{content.isDaytime ? 'High' : 'Low'} {content.temp.temp} {content.temp.tempUnit}</Typography>
+                <Typography variant="body2">{content.forecast}</Typography>
             </Content>
         </Container>
     );

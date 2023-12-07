@@ -5,20 +5,12 @@ import { useMemo, useState, useEffect} from 'react';
 import { useAutocomplete } from '@mui/base/useAutocomplete';
 import { styled } from '@mui/system';
 import { debounce } from '@mui/material/utils';
-import { queryForecast, queryForecastUrl, queryLocations } from '../../models/city_api';
+import { queryLocations } from '../../models/city_api';
 
 export default function SearchInput({ functions }) {
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState([]);
-  // const updateOptions = usePrevious(options);
-  // console.log('value: ', value);
-  // console.log('inputValue: ', inputValue);
-  // console.log('options: ', options);
-  // console.log('updateOptions: ', updateOptions);
-  // console.log('is equal: ', options === updateOptions);
-  
-  // const getForecast = functions.getForecast;
 
   // NEED TO WORK ON A WAY TO FILTER OPTIONS LIST AS THE USER TYPES TO CONTINUE NARROWING THE OPTIONS
   // Listen for the option selected and save that to state then save to session storage?
@@ -32,7 +24,7 @@ export default function SearchInput({ functions }) {
   const fetchLocations = useMemo(() => {
     return debounce(async () => {
       const response = await queryLocations(inputValue);
-      console.log('response: ', response.geonames);
+      // console.log('response: ', response.geonames);
 
       if (response?.geonames === undefined) {
         return;
@@ -94,7 +86,7 @@ export default function SearchInput({ functions }) {
         {groupedOptions.length > 0 && (
           <StyledListbox {...getListboxProps()}>
             {groupedOptions.map((option, index) => (
-            <Link to={`forecast/${JSON.stringify(option)}`} onClick={()=>queryForecastUrl(option)}>
+            <Link to={`forecast/${JSON.stringify(option)}`} >
               <StyledOption {...getOptionProps({ option, index })}>
                 {option.name}
               </StyledOption>

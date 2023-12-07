@@ -1,17 +1,8 @@
 import React from 'react';
 import {
-  Await,
-  defer,
-  Form,
-  Link,
   Outlet,
-  useAsyncError,
-  useAsyncValue,
-  useFetcher,
   useFetchers,
-  useLoaderData,
   useNavigation,
-  useParams,
   useRevalidator,
 } from 'react-router-dom';
 import { Container } from '@mui/material';
@@ -37,8 +28,8 @@ export function Home() {
       </Header>
       <Container id="outlet" sx={
         {
-          padding: (theme) => theme.spacing(.75),
-          margin: (theme) => theme.spacing(1, 'auto'),
+          padding: (theme) => theme.spacing(0),
+          margin: (theme) => theme.spacing(.25, 'auto'),
         }
       }>
         <Outlet />

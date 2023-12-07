@@ -1,9 +1,56 @@
-
 // const axios = require('axios');
 // const mongodb = require('mongodb');
 // const getDb = require('../util/database').getDb;
 // const { ObjectID } = require('mongodb');
 // const { listenerCount } = require('process');
+
+
+// GET WEATHER URL BY LAT AND LONG
+export const getForecastByLatLon = async (lat, lng) => {
+    console.log('coords: ', lat + ':' + lng)
+    // const units = ['imperial', 'metric', 'standard'];
+    const url = `https://api.weather.gov/points/${lat},${lng}`;
+    return await fetch(url)
+    .then(response => {
+        if (response.ok !== true) {
+                // console.log('api resp: ', response)
+                console.log('status:', response.status)
+                console.log('error msg: ', response.statusText)
+            }
+            
+            else {
+                return response.json()
+            }
+        })
+        .then(data => data)
+        .catch(function (error) {
+            console.log("API Error message: ");
+            console.log(error);
+        });
+}
+
+// Fetch the forecast data from url
+export async function queryForecastData(url) {
+    console.log('ForecastData: ', url);
+    const options = {
+        method: 'GET',
+    };
+    return await fetch(url, options)
+        .then(resp => {
+            if (resp.ok) {
+                return resp.json();
+            } else {
+                throw new Error("Oops, response failed!")
+            }
+        })
+        .then(data => {
+            return data
+        })
+        .catch(err => console.error('Error msg: ', err));
+}
+
+
+
 
 // GETS DATA FOR ONE CITY
 // const getCityData = (sq, cb) => {
@@ -45,31 +92,7 @@
 // }
 
 
-// GET WEATHER URL BY LAT AND LONG
-export const getForecastByLatLon = async (lat, lon) => {
-    // console.log('coords: ', lat + ':' + lng)
-    // const key = process.env.REACT_APP_TOKEN1;
-    // const key = process.env.REACT_APP_TOKEN2;
-    const units = ['imperial', 'metric', 'standard'];
-    // const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely&appid=${key}&units=${units[0]}`;
-    const url = `https://api.weather.gov/points/${lat},${lon}`;
-    return await fetch(url)
-    .then(response => {
-        if (response.ok !== true) {
-                // console.log('api resp: ', response)
-                console.log('status:', response.status)
-                console.log('error msg: ', response.statusText)
-            }
-
-            else {return response.json()}
-        })
-        .then(data => data)
-        .catch(function (error) {
-            console.log("API Error message: ");
-            console.log(error);
-        });
-}
-
+// OPEN WEATHER API ******
 // GET WEATHER BY CITY NAME
 export const getForecastByCity = async (search=null, countrycode='USA') => { /* In the future could default to a current geo-location */
     console.log("search param: ", search);
@@ -100,6 +123,7 @@ export const getForecastByCity = async (search=null, countrycode='USA') => { /* 
                         console.log(error);
                     });
 }
+
 
 // RETURNS AN EXTENDED FORECAST FROM 1 TO 16 DAYS
 export const getExtendedForecast = async (lat='', lon='', countrycode='USA') => {

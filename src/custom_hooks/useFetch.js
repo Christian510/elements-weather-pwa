@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 // fetches the current weather for a location.
 export function useFetchData(url) {
-    console.log('url: ', url)
+    // console.log('url: ', url)
     const [state, setState] = useState({ data: null, loading: true });
     const [urlState, setUrlState] = useState(url);
     const prevUrlRef = useRef(url);
@@ -22,8 +22,8 @@ export function useFetchData(url) {
         // console.log('mounted!!!')
         prevUrlRef.current = url;
         setUrlState(url);
-        console.log('previous: ', prevUrlRef.current);
-        console.log('current: ', urlState);
+        // console.log('previous: ', prevUrlRef.current);
+        // console.log('current: ', urlState);
 
         setState(state => ({ data: state.data, loading: true }));
         // console.log('state: ', state);
