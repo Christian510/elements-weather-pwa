@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useMemo, useState, useEffect} from 'react';
 // import { usePrevious } from '../../custom_hooks/customHooks';
 import { useAutocomplete } from '@mui/base/useAutocomplete';
@@ -11,6 +11,11 @@ export default function SearchInput({ functions }) {
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState([]);
+  const location = useLocation();
+  console.log('location pathname: ', location.pathname)
+  // const history = 
+  // console.log('inputValue: ', inputValue)
+  // console.log('options: ', options)
 
   // NEED TO WORK ON A WAY TO FILTER OPTIONS LIST AS THE USER TYPES TO CONTINUE NARROWING THE OPTIONS
   // Listen for the option selected and save that to state then save to session storage?
@@ -48,9 +53,18 @@ export default function SearchInput({ functions }) {
   }, [inputValue]);
 
   useEffect(() => {
+    console.log('useEffect fired')
     if (inputValue.length > 2) {
       fetchLocations();
+      
     }
+    if (inputValue.length < 1) {
+      console.log('length: ', inputValue.length)
+      setOptions([])
+    }
+  // return () => {
+  //   console.log('cleanup fired')
+  // }
 
   }, [inputValue, options.length]); // add function and value to the dependency array.
 

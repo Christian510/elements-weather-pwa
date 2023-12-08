@@ -48,52 +48,51 @@ export default function CurrentConditions() {
       })
 
   }, [city]);
-
   // console.log('forecast: ', forecast);
+  const dateTime = DateTime.convertISO8601Format(forecast.generatedAt);
+  const temp = forecast.periods[0].temperature;
+  const icon = forecast.periods[0].icon;
+  const tempUnit = forecast.periods[0].temperatureUnit;
+  const detailedForecast = forecast.periods[0].detailedForecast;
+  const date = `Last updated: ${dateTime.dow}, ${dateTime.date}`
+  console.log('forecast: ', forecast);
 
-  if (loading) {
-    return (<ElmSpinner size='lg' />);
-  } else {
-    // const forecast = data.properties;
-    const dateTime = DateTime.convertISO8601Format(forecast.generatedAt);
-    const temp = forecast.periods[0].temperature;
-    const icon = forecast.periods[0].icon;
-    const tempUnit = forecast.periods[0].temperatureUnit;
-    const detailedForecast = forecast.periods[0].detailedForecast;
-    const date = `Last updated: ${dateTime.dow}, ${dateTime.date}`
-    console.log('forecast: ', forecast);
-    return (
-      <>
-        <Card
-          id='forecast-view-heading'
-          sx={{
-            padding: (theme) => theme.spacing(1),
-            margin: (theme) => theme.spacing(.5)
-          }}
-        >
-          <p>{c.name}</p>
-          <p className="date-time">{date}</p>
-          <p className="temperature">{temp} {tempUnit}</p>
-          <img className="icon" src={icon} />
-          <div className="today">{detailedForecast}</div>
-        </Card>
-        <Container
-          sx={{
-            padding: 0,
-          }}
-        >
-          <Typography
-            className="carousel"
-            variant='h6'
-            sx={
-              {
-                margin: (theme) => theme.spacing(1, 0, 1, 0),
-                textAlign: 'center',
-              }
-            }>Forecast</Typography>
-          {forecast && <Carousel id='Carousel' forecast={forecast} loading={loading} />}
-        </Container>
-      </>
-    )
-  }
+  return (
+    <>
+      {loading ? (
+        <ElmSpinner size='lg' />
+      ) : (
+        <>
+          <Card
+            id='forecast-view-heading'
+            sx={{
+              padding: (theme) => theme.spacing(1),
+              margin: (theme) => theme.spacing(.5)
+            }}>
+            <p>{c.name}</p>
+            <p className="date-time">{date}</p>
+            <p className="temperature">{temp} {tempUnit}</p>
+            <img className="icon" src={icon} />
+            <div className="today">{detailedForecast}</div>
+          </Card>
+          <Container
+            sx={{
+              padding: 0,
+            }}
+          >
+            <Typography
+              className="carousel"
+              variant='h6'
+              sx={
+                {
+                  margin: (theme) => theme.spacing(1, 0, 1, 0),
+                  textAlign: 'center',
+                }
+              }>Forecast</Typography>
+            {forecast && <Carousel id='Carousel' forecast={forecast} loading={loading} />}
+          </Container>
+        </>
+      )}
+    </>
+  )
 }
