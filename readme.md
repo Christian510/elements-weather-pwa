@@ -30,6 +30,10 @@
 - https://countrystatecity.in/docs/api/all-countries/
 - 
 
+*** DEBUG SERVER COMMANDS: (Run these in different terminals)
+Debug Express: DEBUG=express:* node app.js
+Debug Server: DEBUG=elements_weather_api:* npm start;     
+Debug Session: DEBUG=express-mysql-session* node app.js;     
 
 *** GEONAMES API
 

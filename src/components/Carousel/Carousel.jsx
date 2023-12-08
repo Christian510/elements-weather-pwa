@@ -6,8 +6,8 @@ import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
 
 
 const Carousel = ({ forecast, loading }) => {
-    // console.log('forecast: ', forecast)
-    // console.log('loading: ', loading)
+    console.log('carousel forecast: ', forecast)
+    console.log('carousel loading: ', loading)
     const [cards, setCards] = useState([]);
 
     useEffect(() => {
@@ -37,7 +37,7 @@ const Carousel = ({ forecast, loading }) => {
         <>
             {loading ?
                 (
-                    <ElmSpinner size='md'/>
+                    <ElmSpinner size='md' />
                 ) : (
                     <Stack
                         direction='row'
@@ -71,9 +71,7 @@ const Carousel = ({ forecast, loading }) => {
                                     direction='col'
                                     square={false}
                                     shape={{ height: 230, width: 150 }}
-                                    img={{ src: item.icon, alt: item.forecast }}
-                                // temp={{ temp: item.temp, tempUnit: item.tempUnit }}
-                                />
+                                    img={{ src: item.icon, alt: item.forecast }} />
                             }
                         }
                         )}

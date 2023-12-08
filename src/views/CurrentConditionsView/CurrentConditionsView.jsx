@@ -20,12 +20,7 @@ export default function CurrentConditions() {
   let { city } = useParams();
   // console.log('city: ', city);
   const c = JSON.parse(city);
-
-  // console.log('forecast data: ', forecast);
   console.log('params: ', c);
-  // const { url, fetching } = useFetchUrl(c);
-  // const { data, loading } = useFetchData(url)
-  // console.log('data update?: ', data);
 
   const [forecast, setForecast] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -48,14 +43,13 @@ export default function CurrentConditions() {
       })
 
   }, [city]);
-  // console.log('forecast: ', forecast);
-  const dateTime = DateTime.convertISO8601Format(forecast.generatedAt);
-  const temp = forecast.periods[0].temperature;
-  const icon = forecast.periods[0].icon;
-  const tempUnit = forecast.periods[0].temperatureUnit;
-  const detailedForecast = forecast.periods[0].detailedForecast;
+
+  const dateTime = DateTime.convertISO8601Format(forecast?.generatedAt);
+  const temp = forecast?.periods[0].temperature;
+  const icon = forecast?.periods[0].icon;
+  const tempUnit = forecast?.periods[0].temperatureUnit;
+  const detailedForecast = forecast?.periods[0].detailedForecast;
   const date = `Last updated: ${dateTime.dow}, ${dateTime.date}`
-  console.log('forecast: ', forecast);
 
   return (
     <>

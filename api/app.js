@@ -3,7 +3,7 @@ const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const MySQLStore = require('express-mysql-session')(session);
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const logger = require('morgan');
 const cors = require('cors');
 const path = require('path');
@@ -29,13 +29,12 @@ app.use(cors(corsOptions));
 const options = {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
+    password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     port: process.env.DB_PORT || 3306,
 };
 
 const dbConnection = mysql.createConnection(options);
-console.log('dbConnection: ', dbConnection);
 
 const sessionStore = new MySQLStore({
     expiration: 3600000, // Session expiration time in milliseconds
@@ -49,18 +48,19 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: { secure: false }
-}))
+}
+));
 
-// app.use((req, res, next) => {
-//     console.log('sessionID', req.sessionID);
-//     // console.log(req);
-//     if (req.session.viewCount) {
-//       console.log('session count: ', req.session.viewCount++)
-//     } else {
-//       req.session.viewCount = 1;
-//     }
-//     next();
-//   });
+app.use((req, res, next) => {
+    console.log('sessionID', req.sessionID);
+    // console.log(req);
+    if (req.session.viewCount) {
+      console.log('session count: ', req.session.viewCount++)
+    } else {
+      req.session.viewCount = 1;
+    }
+    next();
+  });
 
 app.use('/', router);
 // app.use('/', indexRouter);

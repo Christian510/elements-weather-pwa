@@ -11,8 +11,8 @@ export default function SearchInput({ functions }) {
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState([]);
-  const location = useLocation();
-  console.log('location pathname: ', location.pathname)
+  // const location = useLocation();
+  // console.log('location pathname: ', location.pathname)
   // const history = 
   // console.log('inputValue: ', inputValue)
   // console.log('options: ', options)

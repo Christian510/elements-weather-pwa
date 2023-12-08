@@ -28,13 +28,14 @@ const path = 'locations';
 
 async function getFavorites() {
   const response = await Axios.get('http://localhost:8080/locations'); 
+  console.log('response: ', response);
   if (response.status === 200) {
     return response.data.locations;
   } else {
     throw new Error('Unable to get locations');
   }
 }
-
+// If No Favorites, then render  "Your saved Weather will appear here."
 let router = createBrowserRouter([
   {
     path: '/',

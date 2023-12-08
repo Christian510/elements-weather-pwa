@@ -18,6 +18,7 @@ import FavoritesItem from "../../components/FavoritesItem/FavoritesItem";
 function Favorites(props) {
     
     const favorites = useLoaderData();
+    console.log('favorites: ', favorites)
 
     const list = favorites.data.map(elm => <FavoritesItem key={elm.id} location={elm} />);
 

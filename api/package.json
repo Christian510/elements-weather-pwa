@@ -1,5 +1,5 @@
 {
-  "name": "api",
+  "name": "elements_weather_api",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -15,6 +15,6 @@
     "express-mysql-session": "^3.0.0",
     "express-session": "^1.17.3",
     "morgan": "~1.9.1",
-    "mysql": "^2.18.1"
+    "mysql2": "^3.6.5"
   }
 }
