@@ -1,37 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { styled } from '@mui/material/styles';
+import React from 'react';
 import Stack from '@mui/material/Stack';
 import ForecastCard from '../ForecastCard/ForecastCard';
 import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
 
 
 const Carousel = ({ forecast, loading }) => {
-    console.log('carousel forecast: ', forecast)
-    console.log('carousel loading: ', loading)
-    const [cards, setCards] = useState([]);
+    // console.log('carousel forecast: ', forecast)
+    // console.log('carousel loading: ', loading)
 
-    useEffect(() => {
-        // console.log('is loading: ', loading)
-        // console.log('cards updated: ', forecast)
-
-        if (loading === false) {
-            let updateCards = forecast.periods.map((item, index) => (
-                {
-                    key: index,
-                    title: item.name,
-                    icon: item.icon,
-                    forecast: item.shortForecast,
-                    temp: item.temperature,
-                    tempUnit: item.temperatureUnit,
-                    isDaytime: item.isDaytime,
-                }
-            ));
-            setCards(updateCards);
+    let cards = forecast.periods.map((item, index) => (
+        {
+            key: index,
+            title: item.name,
+            icon: item.icon,
+            forecast: item.shortForecast,
+            temp: item.temperature,
+            tempUnit: item.temperatureUnit,
+            isDaytime: item.isDaytime,
         }
-
-
-
-    }, [forecast]);
+    ));
 
     return (
         <>

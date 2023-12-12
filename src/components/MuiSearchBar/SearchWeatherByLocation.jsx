@@ -49,17 +49,17 @@ export default function SearchInput({ functions }) {
         setOptions(results);
       }
 
-    }, 400);
+    }, 100);
   }, [inputValue]);
 
   useEffect(() => {
-    console.log('useEffect fired')
+    // console.log('useEffect fired')
     if (inputValue.length > 2) {
       fetchLocations();
       
     }
     if (inputValue.length < 1) {
-      console.log('length: ', inputValue.length)
+      // console.log('length: ', inputValue.length)
       setOptions([])
     }
   // return () => {

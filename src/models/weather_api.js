@@ -7,7 +7,7 @@
 
 // GET WEATHER URL BY LAT AND LONG
 export const getForecastByLatLon = async (lat, lng) => {
-    console.log('coords: ', lat + ':' + lng)
+    // console.log('coords: ', lat + ':' + lng)
     // const units = ['imperial', 'metric', 'standard'];
     const url = `https://api.weather.gov/points/${lat},${lng}`;
     return await fetch(url)

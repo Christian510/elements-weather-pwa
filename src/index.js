@@ -25,10 +25,10 @@ const domain = 'localhost';
 const port = '8080';
 const path = 'locations';
 // How do I create dynamic routes here?
+// if production else if dev = the correct url var.
 
 async function getFavorites() {
   const response = await Axios.get('http://localhost:8080/locations'); 
-  console.log('response: ', response);
   if (response.status === 200) {
     return response.data.locations;
   } else {

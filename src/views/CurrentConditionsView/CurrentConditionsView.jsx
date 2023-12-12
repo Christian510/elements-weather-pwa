@@ -32,6 +32,7 @@ export default function CurrentConditions() {
       .then(resp => {
         if (resp) {
           console.log(resp.properties.forecast)
+          // Here I want to save the locations name, lat, lon, and the forecast url to the db.
           return queryForecastData(resp.properties.forecast)
         }
       })

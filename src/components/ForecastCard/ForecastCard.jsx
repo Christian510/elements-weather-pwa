@@ -28,7 +28,7 @@ const ForecastCard = ({ title, content, direction, square, shape, img }) => {
         <Container
             display='flex'
             flexdirection= {direction.col}
-            elevation={12}
+            elevation={5}
             square={square}>
             <Content>
                 <Typography variant="subTitle1">{title}</Typography>
