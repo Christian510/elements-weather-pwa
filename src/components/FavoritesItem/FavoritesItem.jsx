@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, forwardRef } from 'react';
 import { 
   ListItem, 
   ListItemAvatar, 
@@ -14,7 +14,7 @@ import { useFetchUrl } from "../../custom_hooks/useFetchUrl";
 // import { useMatch } from 'react-router-dom';
 import ElmSpinner from '../ElmSpinner/ElmSpinner';
 
-const ForwardRefLink = React.forwardRef(
+const ForwardRefLink = forwardRef(
   (linkProps, ref) => (
   <Link ref={ref} to={linkProps.to} {...linkProps} />
 )
@@ -23,31 +23,23 @@ const ForwardRefLink = React.forwardRef(
 
 function FavoritesItem({ location }) {
   // console.log('location: ', location);
-  const { url, fetching } = useFetchUrl(location);
+  // const { url, fetching } = useFetchUrl(location);
   // console.log('FavoritesItem : url: ', url);
-  const { data, loading } = useFetchData(url);
-  // console.log('data: ', data.properties?.periods[0]);
+  console.log('location sql data: ', location);
+  const { data, loading } = useFetchData(location.fetch_url);
+  console.log('data: ', data);
   // const [dense, setDense] = useState(false);
   const [secondary, setSecondary] = useState(false);
 
-  // const match = useMatch('/:city');
+  let name = location.name;
+  let temp = data?.properties.periods[0].temperature;
+  let shortForecast = data?.properties.periods[0].shortForecast;
+  let unit = data?.properties.periods[0].temperatureUnit;
+  let icon = <img src={data?.properties.periods[0].icon} />;
 
-  const [items, setItems] = useState({ 'name': '', 'temp': '', 'short_forecast': '', 'unit': '', 'icon': '' });
-
-  useEffect(() => {
-    setItems({
-      'name': location.name,
-      'temp': data?.properties.periods[0].temperature,
-      'short_forecast': data?.properties.periods[0].shortForecast,
-      'unit': data?.properties.periods[0].temperatureUnit,
-      'icon': <img src={data?.properties.periods[0].icon} />
-    });
-
-  }, [data, setItems]);
-
-  const details = `${items.name} ${items.temp}${items.unit} ${items.short_forecast}`;
+  const details = `${name} ${temp}${unit} ${shortForecast}`;
   const path = `forecast/${JSON.stringify(location)}`;
-
+console.log('path: ', path);
   if (loading) {
     return (
       <ListItem
@@ -81,7 +73,7 @@ function FavoritesItem({ location }) {
           >
         <ListItemAvatar>
           <Avatar>
-            {items.icon}
+            {icon}
           </Avatar>
         </ListItemAvatar>
         <ListItemText

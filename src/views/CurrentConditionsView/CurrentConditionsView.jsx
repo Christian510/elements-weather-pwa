@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import Carousel from '../../components/Carousel/Carousel';
 import {
   useParams,
@@ -7,32 +7,35 @@ import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { DateTime } from '../../models/date';
-import { useFetchData } from '../../custom_hooks/useFetch';
-import { useFetchUrl } from '../../custom_hooks/useFetchUrl';
 import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
 import { margin, padding } from '@mui/system';
-import { queryForecastUrl, getForecastByLatLon, queryForecastData } from '../../models/weather_api';
-
+import { getForecastByLatLon, queryForecastData } from '../../models/weather_api';
+import Axios from 'axios';
 // Save forecast to database button needed.
 // I'll have to scrap the custom hooks and add the fetch to the server and then get the data from the server.
 
 export default function CurrentConditions() {
   let { city } = useParams();
-  // console.log('city: ', city);
+  console.log('city: ', city);
   const c = JSON.parse(city);
-  console.log('params: ', c);
+  // console.log('params: ', c);
 
   const [forecast, setForecast] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    console.log('useEffect fired')
+  useMemo(() => {
+    console.log('useMemo fired')
+
+    // Axios.get('/favorite')
 
     getForecastByLatLon(c.coords.lat, c.coords.lng)
       .then(resp => {
         if (resp) {
-          console.log(resp.properties.forecast)
+          // console.log('forecast url: ', resp.properties.forecast)
           // Here I want to save the locations name, lat, lon, and the forecast url to the db.
+          c.url = resp.properties.forecast;
+          console.log('c: ', c);
+          Axios.post('/favorite', c)
           return queryForecastData(resp.properties.forecast)
         }
       })
@@ -44,7 +47,7 @@ export default function CurrentConditions() {
       })
 
   }, [city]);
-
+  
   const dateTime = DateTime.convertISO8601Format(forecast?.generatedAt);
   const temp = forecast?.periods[0].temperature;
   const icon = forecast?.periods[0].icon;

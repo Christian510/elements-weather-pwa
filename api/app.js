@@ -47,7 +47,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   store: sessionStore,
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   cookie: {
     secure: false,
     // EQUALS 1 DAY ( 1 DAY * 24 HR/1 DAY * 60 MIN/1 HR)
@@ -58,19 +58,19 @@ app.use(session({
 
 app.use((req, res, next) => {
   console.log('sessionID: ', req.sessionID);
-  db.execute('SELECT * FROM sessions')
-    .then(result => {
-      // console.log('saved sessions: ', result)
-      result[0].forEach(elm => {
-        if (elm.sission_id === req.sessionID) {
-          console.log('saved session: ', elm);
-          console.log('current session: ', req.sessionID)
-        }
-      })
-    })
-    .catch(err => {
-      console.log('error msg: ', err)
-    })
+//   db.execute('SELECT * FROM sessions')
+//     .then(result => {
+//       // console.log('saved sessions: ', result)
+//       result[0].forEach(elm => {
+//         if (elm.sission_id === req.sessionID) {
+//           console.log('saved session: ', elm);
+//           console.log('current session: ', req.sessionID)
+//         }
+//       })
+//     })
+//     .catch(err => {
+//       console.log('error msg: ', err)
+//     })
   next();
 });
 

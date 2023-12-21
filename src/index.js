@@ -19,23 +19,20 @@ import AccountView from './views/AccountView/AccountView';
 import { create } from '@mui/material/styles/createTransitions';
 import DemoView from './views/DemoView/DemoView';
 
-
-const scheme = 'http';
-const domain = 'localhost';
-const port = '8080';
-const path = 'locations';
-// How do I create dynamic routes here?
-// if production else if dev = the correct url var.
-
-async function getFavorites() {
-  const response = await Axios.get('http://localhost:8080/locations'); 
-  if (response.status === 200) {
-    return response.data.locations;
-  } else {
-    throw new Error('Unable to get locations');
-  }
+function getFavorites() {
+  return Axios.get('/favorites')
+    .then(response => {
+      if (response.status === 200) {
+        console.log('clientside response: ', response.data.locations)
+        return response.data.locations;
+      } else {
+        throw new Error('Unable to get locations');
+      }
+    })
+    .catch(err => console.error('Error msg: ', err));
 }
-// If No Favorites, then render  "Your saved Weather will appear here."
+
+
 let router = createBrowserRouter([
   {
     path: '/',
@@ -95,20 +92,14 @@ if (import.meta.hot) {
   import.meta.hot.dispose(() => router.dispose());
 }
 
-// export default function App() {
-//   return <RouterProvider router={router} fallbackElement={<Fallback />} />;
-// }
-
 export function sleep(n = 500) {
   return new Promise((r) => setTimeout(r, n));
 }
 
 export function Fallback() {
-
   // TODO: Style this up and maybe add a spinner
   return <p>Performing initial data load</p>;
 }
-
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

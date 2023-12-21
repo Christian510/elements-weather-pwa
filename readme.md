@@ -11,6 +11,13 @@
     [] remote db
     [] PWA process
 [] Before production remove all dev console logs
+[] NEED TO WORK ON A WAY TO FILTER OPTIONS LIST AS THE USER TYPES TO CONTINUE NARROWING THE OPTIONS
+[] Save the sessionID as the User name.
+[] Save the city forecast data with the sessionID.
+[] {name: sessionID, locations: {index1{name: 'city', state', coords{lat: 123, lng: 123}}, index2{name: 'city', state', coords{lat: 123, lng: 123}}}}
+[] Users session will last for 6 months before it is deleted.
+[] If the user creates an account then the sessionID will be saved to the account and the users data will last indefinitely.
+[] If the user does not create an account then the sessionID will be saved to the browser and the users data will last for 6 months.
 
 
 ** Bug Fixes:
@@ -32,8 +39,8 @@
 
 *** DEBUG SERVER COMMANDS: (Run these in different terminals)
 Debug Express: DEBUG=express:* node app.js
-Debug Server: DEBUG=elements_weather_api:* npm start;     
-Debug Session: DEBUG=express-mysql-session* node app.js;     
+Debug Server: DEBUG=elements_weather_api:* npm start     
+Debug Session: DEBUG=express-mysql-session* node app.js     
 
 *** GEONAMES API
 
@@ -68,3 +75,8 @@ CREATE TABLE locations (
   longitude DECIMAL(10,7) NOT NULL
 );
 
+
+SESSION:
+Here is what I understand.  Session storage will remember the url until the tab is closed.
+So, when the user navigate to the url I need to save the sessionID to the session storage.
+Then that sessionID will be available to check against the session_id in the db.
