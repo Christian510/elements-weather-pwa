@@ -27,14 +27,25 @@ export const getForecastByLatLon = async (lat, lng) => {
     // console.log('coords: ', lat + ':' + lng)
     // const units = ['imperial', 'metric', 'standard'];
     const url = `https://api.weather.gov/points/${lat},${lng}`;
-    return await fetch(url)
-    .then(response => {
-        if (response.ok !== true) {
-                // console.log('api resp: ', response)
-                console.log('status:', response.status)
-                console.log('error msg: ', response.statusText)
+    const options = {
+        'method': 'GET',
+        'mode': 'cors',
+        // 'headers': {
+        //     'Access-Control-Allow-Origin': '*',
+        //     'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        // }
+    }
+    return await fetch(url, options)
+        .then(response => {
+            console.log('response: ', response);
+            if (response.ok !== true) {
+                // console.log('status:', response.status)
+                // console.log('body:', response.body);
+                // throw new Error('Unable to get forecast data');
+                return null;
             }
-            
+
             else {
                 return response.json()
             }
@@ -50,7 +61,11 @@ export const getForecastByLatLon = async (lat, lng) => {
 export async function queryForecastData(url) {
     // console.log('ForecastData: ', url);
     const options = {
-        method: 'GET',
+        'method': 'GET',
+        'mode': 'cors',
+        'headers': {
+            'Accept': 'application/json'
+        }
     };
     return await fetch(url, options)
         .then(resp => {
@@ -68,6 +83,6 @@ export async function queryForecastData(url) {
 
 
 // RETURNS AN EXTENDED FORECAST FROM 1 TO 16 DAYS
-export const getExtendedForecast = async (lat='', lon='', countrycode='USA') => {
+export const getExtendedForecast = async (lat = '', lon = '', countrycode = 'USA') => {
     // api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}
 }

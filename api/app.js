@@ -10,8 +10,9 @@ const path = require('path');
 const db = require('../db/database');
 
 // const indexRouter = require('./routes/index');
-// const usersRouter = require('./routes/users');
-const router = require('./routes/index');
+const userRouter = require('./routes/user');
+// const router = require('./routes/index');
+const favoritesRouter = require('./routes/favorites');
 
 const app = express();
 
@@ -74,9 +75,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/', router);
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
+app.get('/', (req, res) => { res.send('API is working'); });
+app.use('/favorites', favoritesRouter);
+// app.use('/user', userRouter);
 
 // ERROR HANDLING
 // app.get('/500', errorController.get500);

@@ -1,11 +1,11 @@
 *** TODOS
-[] Add sessions to server.
-[] Create local db for saved forecast locations.
-[] Create Sessions db.
+[X] Add sessions to server.
+[X] Create local test db for saved forecast locations.
+[X] Create Sessions db.
 [] DB for historical forecast data.
 [] Secure Login form
 [] Figure out how to test app on phone.
-[] Rename ForecastView to CurrentConditionsView
+[X] Rename ForecastView to CurrentConditionsView
 [] Convert to production:
     [] host.
     [] remote db
@@ -38,8 +38,7 @@
 - 
 
 *** DEBUG SERVER COMMANDS: (Run these in different terminals)
-Debug Express: DEBUG=express:* node app.js
-Debug Server: DEBUG=elements_weather_api:* npm start     
+Debug Express: DEBUG=express:* node ./bin/www    
 Debug Session: DEBUG=express-mysql-session* node app.js     
 
 *** GEONAMES API
@@ -56,10 +55,14 @@ Latter for now seems appropiate.
 - https://www.geonames.org/export/geonames-search.html
 
 ** Weather.gov finally has a useful api.
-- GitHub acct: https://weather-gov.github.io/api/gridpoints
-- Endpoints: https://www.weather.gov/documentation/services-web-api
+- Forecast Endpoints: https://www.weather.gov/documentation/services-web-api#/default/gridpoint_forecast
+- API Overview: https://www.weather.gov/documentation/services-web-api
+- FAQ Page: https://weather-gov.github.io/api/gridpoints
 - https://api.weather.gov/points/{lat},{lon}
 - https://www.noaa.gov/tools-and-resources/weather-and-climate-resources#historic
+- Area Alerts:
+https://api.weather.gov/alerts/active?area={state}
+For example: https://api.weather.gov/alerts/active?area=KS
 
 ** Weather Data:
 - Snowpack: https://www.nrcs.usda.gov/resources/data-and-reports/snow-and-climate-monitoring-predefined-reports-and-maps

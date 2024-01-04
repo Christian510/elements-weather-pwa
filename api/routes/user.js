@@ -8,16 +8,32 @@ router.get('/user', function (req, res) {
 });
 
 // POST saved location for a user
-router.post('/user', function (req, res) {
+router.post('/add', function (req, res) {
   // console.log('request: ', req);
   res.send({ message: 'POST USER TO DB' });
 });
 
-router.put('/user', function (req, res) {
+router.put('/update', function (req, res) {
     res.send({ message: 'UPDATE USER IN DB' });
   });
 
-router.delete('/user', function (req, res) {
+router.delete('/delete', function (req, res) {
 
   res.send({ message: 'DELETE USER FROM DB' });
 });
+
+router.post('/login', function (req, res) {
+
+  res.send({ message: 'LOGIN USER' });
+});
+
+router.put('/logout', function (req, res) {
+
+  res.send({ message: 'LOGOUT USER' });
+});
+
+router.post('/create_account', function (req, res) {
+  res.send({ message: 'CREATE ACCOUNT' });
+});
+
+module.exports = router;

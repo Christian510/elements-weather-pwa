@@ -26,16 +26,19 @@ export default function CurrentConditions() {
   useMemo(() => {
     console.log('useMemo fired')
 
-    // Axios.get('/favorite')
+    // Axios.get('/favorite/all')
 
     getForecastByLatLon(c.coords.lat, c.coords.lng)
       .then(resp => {
+        console.log('resp: ', resp);
+        if (resp === null) {
+          setLoading(false)
+        }
         if (resp) {
-          // console.log('forecast url: ', resp.properties.forecast)
           // Here I want to save the locations name, lat, lon, and the forecast url to the db.
           c.url = resp.properties.forecast;
           console.log('c: ', c);
-          Axios.post('/favorite', c)
+          // Axios.post('/favorite', c)
           return queryForecastData(resp.properties.forecast)
         }
       })

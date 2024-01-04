@@ -22,13 +22,10 @@ const ForwardRefLink = forwardRef(
 
 
 function FavoritesItem({ location }) {
-  // console.log('location: ', location);
-  // const { url, fetching } = useFetchUrl(location);
-  // console.log('FavoritesItem : url: ', url);
+
   console.log('location sql data: ', location);
-  const { data, loading } = useFetchData(location.fetch_url);
-  console.log('data: ', data);
-  // const [dense, setDense] = useState(false);
+  const { data, loading, error } = useFetchData(location.fetch_url);
+  console.log('useFetch: ', data, loading, error);
   const [secondary, setSecondary] = useState(false);
 
   let name = location.name;
@@ -39,7 +36,7 @@ function FavoritesItem({ location }) {
 
   const details = `${name} ${temp}${unit} ${shortForecast}`;
   const path = `forecast/${JSON.stringify(location)}`;
-console.log('path: ', path);
+// console.log('path: ', path);
   if (loading) {
     return (
       <ListItem
@@ -54,7 +51,24 @@ console.log('path: ', path);
         <ElmSpinner size='sm' />
       </ListItem>
     );
-  } else {
+  } 
+  if (loading === false && error.isError === true) {
+    return (
+      <ListItem
+        divider={true}
+        sx={
+          {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }
+        }>
+        <Typography variant='h6' color='error'>
+          {error.message}
+        </Typography>
+      </ListItem>
+    );
+      } else {
     return (
       <ListItem
         divider={true}

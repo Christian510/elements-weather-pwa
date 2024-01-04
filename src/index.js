@@ -20,7 +20,7 @@ import { create } from '@mui/material/styles/createTransitions';
 import DemoView from './views/DemoView/DemoView';
 
 function getFavorites() {
-  return Axios.get('/favorites')
+  return Axios.get('/favorites/all')
     .then(response => {
       if (response.status === 200) {
         console.log('clientside response: ', response.data.locations)
@@ -31,7 +31,6 @@ function getFavorites() {
     })
     .catch(err => console.error('Error msg: ', err));
 }
-
 
 let router = createBrowserRouter([
   {
