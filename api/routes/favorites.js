@@ -5,12 +5,15 @@ const db = require('../../db/database')
 // GET saved locations for a user
 router.get('/all', function (req, res) {
   console.log('/favorites/all GET request')
-  console.log('sessionID: ', req.sessionID)
+  // console.log('sessionID: ', req.sessionID)
+  // document.cookie = 'sessionID=' + req.sessionID
+  // console.log('cookie: ', document.cookie);
 
   return db.execute(`SELECT * FROM locations WHERE session_id = "${req.sessionID}"`)
     .then(result => res.send({
       message: 'GET FAVORITES FROM DB',
       locations: result[0],
+      session: req.sessionID,
     })
     )
     .catch(err => {

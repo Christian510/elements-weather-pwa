@@ -23,7 +23,9 @@ function getFavorites() {
   return Axios.get('/favorites/all')
     .then(response => {
       if (response.status === 200) {
-        console.log('clientside response: ', response.data.locations)
+        console.log('server resp: ', response.data.locations)
+        console.log('sessionID: ', response.data.session)
+        document.cookie = 'sessionID=' + response.data.session;
         return response.data.locations;
       } else {
         throw new Error('Unable to get locations');
@@ -36,12 +38,12 @@ let router = createBrowserRouter([
   {
     path: '/',
     element: <Home />,
-    errorElement: <ErrorPage />,
+    errorElement: <ErrorPage title="Home View" />,
     children: [
       {
         element: <Favorites />,
         index: true,
-        errorElement: <ErrorPage />,
+        errorElement: <ErrorPage title="Favorites View" />,
         loader: async () => {
           return {
             data: await getFavorites(),
@@ -50,12 +52,12 @@ let router = createBrowserRouter([
       },
       {
         element: <CurrentConditionsView />,
-        path: 'forecast/:city',
-        errorElement: <ErrorPage />,
+        path: 'forecast/:location',
+        errorElement: <ErrorPage title="Current Conditions View" />,
       },
       {
         element: <ExtendedForecastView />,
-        path: 'forecast/:city/extended',
+        path: 'forecast/:location/extended',
         errorElement: <ErrorPage />,
       },
       {
@@ -97,7 +99,7 @@ export function sleep(n = 500) {
 
 export function Fallback() {
   // TODO: Style this up and maybe add a spinner
-  return <p>Performing initial data load</p>;
+  return <p>Server maybe down Please try back later or try and refresh the page.</p>;
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

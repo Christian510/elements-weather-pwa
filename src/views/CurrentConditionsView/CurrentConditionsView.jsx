@@ -15,10 +15,12 @@ import Axios from 'axios';
 // I'll have to scrap the custom hooks and add the fetch to the server and then get the data from the server.
 
 export default function CurrentConditions() {
-  let { city } = useParams();
-  console.log('city: ', city);
-  const c = JSON.parse(city);
-  // console.log('params: ', c);
+  const sessionId = document.cookie.split('=')[1];
+  // console.log('session_id: ', sessionId);
+  let { location } = useParams();
+  
+  const params = JSON.parse(location);
+  console.log('params: ', params);
 
   const [forecast, setForecast] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -26,19 +28,19 @@ export default function CurrentConditions() {
   useMemo(() => {
     console.log('useMemo fired')
 
-    // Axios.get('/favorite/all')
+    // Axios.get('/forecast', { params: { id: c.id } })')
 
-    getForecastByLatLon(c.coords.lat, c.coords.lng)
+    getForecastByLatLon(params.coords.lat, params.coords.lng)
       .then(resp => {
-        console.log('resp: ', resp);
+        // console.log('resp: ', resp);
         if (resp === null) {
           setLoading(false)
         }
         if (resp) {
           // Here I want to save the locations name, lat, lon, and the forecast url to the db.
-          c.url = resp.properties.forecast;
-          console.log('c: ', c);
-          // Axios.post('/favorite', c)
+          params.url = resp.properties.forecast;
+          console.log('params: ', params);
+          // Axios.post('favorite/forecast/', c)
           return queryForecastData(resp.properties.forecast)
         }
       })
@@ -49,7 +51,7 @@ export default function CurrentConditions() {
         }
       })
 
-  }, [city]);
+  }, [location]);
   
   const dateTime = DateTime.convertISO8601Format(forecast?.generatedAt);
   const temp = forecast?.periods[0].temperature;
@@ -57,7 +59,19 @@ export default function CurrentConditions() {
   const tempUnit = forecast?.periods[0].temperatureUnit;
   const detailedForecast = forecast?.periods[0].detailedForecast;
   const date = `Last updated: ${dateTime.dow}, ${dateTime.date}`
+  // Add detailed extended forecast.
 
+  const extendedForecast = forecast?.periods.map((elm, i) => {
+    if (i > 0) {
+      return (
+        <Container key={i}>
+          <Typography variant='h6'>{elm.name}</Typography>
+          <Typography variant='body1'>{elm.detailedForecast}</Typography>
+        </Container>
+      );
+    }
+  });
+  
   return (
     <>
       {loading ? (
@@ -70,7 +84,7 @@ export default function CurrentConditions() {
               padding: (theme) => theme.spacing(1),
               margin: (theme) => theme.spacing(.5)
             }}>
-            <p>{c.name}</p>
+            <p>{params.name}</p>
             <p className="date-time">{date}</p>
             <p className="temperature">{temp} {tempUnit}</p>
             <img className="icon" src={icon} />

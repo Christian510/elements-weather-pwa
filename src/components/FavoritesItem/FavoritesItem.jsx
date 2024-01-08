@@ -1,4 +1,4 @@
-import React, { useEffect, useState, forwardRef } from 'react';
+import React, { useState, forwardRef } from 'react';
 import { 
   ListItem, 
   ListItemAvatar, 
@@ -23,19 +23,21 @@ const ForwardRefLink = forwardRef(
 
 function FavoritesItem({ location }) {
 
-  console.log('location sql data: ', location);
+  // console.log('location sql data: ', location);
   const { data, loading, error } = useFetchData(location.fetch_url);
-  console.log('useFetch: ', data, loading, error);
+  // console.log('data: ', data);
   const [secondary, setSecondary] = useState(false);
 
-  let name = location.name;
-  let temp = data?.properties.periods[0].temperature;
-  let shortForecast = data?.properties.periods[0].shortForecast;
-  let unit = data?.properties.periods[0].temperatureUnit;
-  let icon = <img src={data?.properties.periods[0].icon} />;
 
-  const details = `${name} ${temp}${unit} ${shortForecast}`;
-  const path = `forecast/${JSON.stringify(location)}`;
+  const details = `
+  ${location.name} 
+  ${data?.properties.periods[0].temperature}
+  ${data?.properties.periods[0].temperatureUnit} 
+  ${data?.properties.periods[0].shortForecast}`;
+
+  // const path = `forecast/${JSON.stringify(location)}`;
+  const path = `forecast/${encodeURIComponent(JSON.stringify(location))}`;
+
 // console.log('path: ', path);
   if (loading) {
     return (
@@ -87,7 +89,7 @@ function FavoritesItem({ location }) {
           >
         <ListItemAvatar>
           <Avatar>
-            {icon}
+          <img src={data?.properties.periods[0].icon} />
           </Avatar>
         </ListItemAvatar>
         <ListItemText

@@ -57,8 +57,12 @@ app.use(session({
 }
 ));
 
+app.use('/favorites', favoritesRouter);
+
 app.use((req, res, next) => {
   console.log('sessionID: ', req.sessionID);
+  // document.cookie = 'sessionID=' + req.sessionID;
+  // console.log('cookie: ', document.cookie);
 //   db.execute('SELECT * FROM sessions')
 //     .then(result => {
 //       // console.log('saved sessions: ', result)
@@ -75,8 +79,11 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/', (req, res) => { res.send('API is working'); });
-app.use('/favorites', favoritesRouter);
+app.get('/', (req, res) => { 
+  res.send('API is working'); 
+
+});
+
 // app.use('/user', userRouter);
 
 // ERROR HANDLING

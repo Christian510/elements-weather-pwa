@@ -15,12 +15,12 @@ import FavoritesItem from "../../components/FavoritesItem/FavoritesItem";
 // console.log('favorites: ', favorites);
 // if no favorites display a default brand message such as the logo and a message to add favorites.
 
-function Favorites(props) {
+function Favorites() {
     
     const favorites = useLoaderData();
     console.log('favorites: ', favorites)
 
-    const list = favorites.data?.map(elm => <FavoritesItem key={elm.id} location={elm} />);
+    const list = favorites.data?.map((elm, i) => <FavoritesItem key={i} location={elm} />);
 
     return (
         <List>

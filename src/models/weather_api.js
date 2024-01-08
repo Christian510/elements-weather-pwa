@@ -24,17 +24,17 @@
 // }
 // GET WEATHER URL BY LAT AND LONG
 export const getForecastByLatLon = async (lat, lng) => {
-    // console.log('coords: ', lat + ':' + lng)
+    console.log('coords: ', lat + ':' + lng)
     // const units = ['imperial', 'metric', 'standard'];
     const url = `https://api.weather.gov/points/${lat},${lng}`;
     const options = {
         'method': 'GET',
         'mode': 'cors',
-        // 'headers': {
+        'headers': {
         //     'Access-Control-Allow-Origin': '*',
         //     'Content-Type': 'application/json',
             'Accept': 'application/json'
-        // }
+        }
     }
     return await fetch(url, options)
         .then(response => {

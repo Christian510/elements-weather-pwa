@@ -26,29 +26,29 @@ export function useFetchData(url) {
             const options = {
                 'method': 'GET',
                 'mode': 'cors',
-                // 'headers' : {
+                'headers' : {
                 // 'Access-Control-Allow-Origin': '*',
                 // 'Content-Type': 'application/json',
-                // 'Accept': 'application/json'
-            // }
+                'Accept': 'application/json'
+            }
         };
             fetch(url, options)
                 .then(resp => {
-                    console.log('resp: ', resp);
+                    // console.log('resp: ', resp);
                     if (resp.ok !== true && resp.body == null) {
                         console.log('status:', resp.status)
                         console.log('body:', resp.body);
                         setState({ data: null, loading: false, error: {isError: true, message: 'Server Error'} });
                         // throw new Error('Unable to get forecast data');
                     } if (resp.ok) {
-                        console.log('resp.ok: ', resp.ok);
+                        // console.log('resp.ok: ', resp.ok);
                         // console.log('resp.json(): ', resp.json());
                         return resp.json();
 
                     }
                 })
                 .then(wd => {
-                    console.log('wd: ', wd);
+                    // console.log('wd: ', wd);
                     setState({ data: wd, loading: false, error: {isError: false, message: ''} })})
                 .catch(error =>
                     console.log('Error msg: ', error)
