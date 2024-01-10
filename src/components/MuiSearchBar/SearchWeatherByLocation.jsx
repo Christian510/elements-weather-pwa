@@ -22,11 +22,8 @@ export default function SearchInput({ functions }) {
         let results = response.geonames.map((item, index) => {
           return {
             'name': `${item.toponymName}, ${item.adminCode1}`,
-            'coords':
-            {
-              'lat': item.lat,
-              'lng': item.lng
-            },
+            'lat': item.lat,
+            'lng': item.lng,
             'id': item.geonameId,
           }
 

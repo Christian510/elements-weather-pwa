@@ -53,6 +53,8 @@ Latter for now seems appropiate.
 - https://hevodata.com/learn/rest-api-to-mysql-2-easy-methods/
 - https://github.com/geopipes/geonames-stream
 - https://www.geonames.org/export/geonames-search.html
+- Weather Icons: https://react-icons.github.io/react-icons/icons/wi/
+
 
 ** Weather.gov finally has a useful api.
 - Forecast Endpoints: https://www.weather.gov/documentation/services-web-api#/default/gridpoint_forecast

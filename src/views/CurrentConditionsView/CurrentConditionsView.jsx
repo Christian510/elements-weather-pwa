@@ -4,10 +4,13 @@ import {
   useParams,
 } from 'react-router-dom';
 import Card from '@mui/material/Card';
+import Grid from '@mui/material/Unstable_Grid2';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+import { styled } from '@mui/system';
 import { DateTime } from '../../models/date';
 import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
+import ElmList from '../../components/ElmList/ElmList';
 import { margin, padding } from '@mui/system';
 import { getForecastByLatLon, queryForecastData } from '../../models/weather_api';
 import Axios from 'axios';
@@ -18,7 +21,7 @@ export default function CurrentConditions() {
   const sessionId = document.cookie.split('=')[1];
   // console.log('session_id: ', sessionId);
   let { location } = useParams();
-  
+
   const params = JSON.parse(location);
   console.log('params: ', params);
 
@@ -30,7 +33,7 @@ export default function CurrentConditions() {
 
     // Axios.get('/forecast', { params: { id: c.id } })')
 
-    getForecastByLatLon(params.coords.lat, params.coords.lng)
+    getForecastByLatLon(params.lat, params.lon)
       .then(resp => {
         // console.log('resp: ', resp);
         if (resp === null) {
@@ -39,7 +42,7 @@ export default function CurrentConditions() {
         if (resp) {
           // Here I want to save the locations name, lat, lon, and the forecast url to the db.
           params.url = resp.properties.forecast;
-          console.log('params: ', params);
+          // console.log('params: ', params);
           // Axios.post('favorite/forecast/', c)
           return queryForecastData(resp.properties.forecast)
         }
@@ -52,13 +55,17 @@ export default function CurrentConditions() {
       })
 
   }, [location]);
-  
+
+
+
   const dateTime = DateTime.convertISO8601Format(forecast?.generatedAt);
   const temp = forecast?.periods[0].temperature;
   const icon = forecast?.periods[0].icon;
   const tempUnit = forecast?.periods[0].temperatureUnit;
   const detailedForecast = forecast?.periods[0].detailedForecast;
+  const shortForecast = forecast?.periods[0].shortForecast;
   const date = `Last updated: ${dateTime.dow}, ${dateTime.date}`
+  // console.log('forecast: ', forecast)
   // Add detailed extended forecast.
 
   const extendedForecast = forecast?.periods.map((elm, i) => {
@@ -71,7 +78,7 @@ export default function CurrentConditions() {
       );
     }
   });
-  
+
   return (
     <>
       {loading ? (
@@ -81,14 +88,44 @@ export default function CurrentConditions() {
           <Card
             id='forecast-view-heading'
             sx={{
+              // flexGrow: 1,
               padding: (theme) => theme.spacing(1),
               margin: (theme) => theme.spacing(.5)
             }}>
-            <p>{params.name}</p>
-            <p className="date-time">{date}</p>
-            <p className="temperature">{temp} {tempUnit}</p>
-            <img className="icon" src={icon} />
-            <div className="today">{detailedForecast}</div>
+            <Grid id="forecast" container spacing={2}>
+              <Grid container spacing={2}>
+                <Grid container spacing={.5} xs={12}>
+                  <Grid xs={12}>
+                    <Content variant='h5'>Forecast for {params.name}</Content>
+                  </Grid>
+                  <Grid xs={12}>
+                    <Typography variant='subtitle2'>{date}</Typography>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid xs={4}>
+                    <img className="icon" src={icon} alt={shortForecast} />
+                  </Grid>
+                  <Grid xs={4}>
+                    <Typography variant='h4'>{temp}&deg;{tempUnit}</Typography>
+                  </Grid>
+                  <Grid xs={4}>
+                    <Typography variant='body1' >Content</Typography>
+                    <Typography variant='body1' >Content</Typography>
+                    <Typography variant='body1' >Content</Typography>
+                    <Typography variant='body1' >Content</Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              {/* <Grid container spacing={2}>
+
+              </Grid> */}
+
+            </Grid>
+            {/* <Typography variant='h4'>{params.name}</Typography>
+            <Typography variant='subtitle2'>{date}</Typography>
+            <Typography variant='h3'>{temp}&deg;{tempUnit}</Typography>
+            <img className="icon" src={icon} alt={shortForecast} /> */}
           </Card>
           <Container
             sx={{
@@ -106,8 +143,28 @@ export default function CurrentConditions() {
               }>Forecast</Typography>
             {forecast && <Carousel id='Carousel' forecast={forecast} loading={loading} />}
           </Container>
+          <Container
+            sx={{
+
+            }}>
+            {/* <ElmList
+              key={index}
+              items={}
+              renderItem={() =>
+                <Row
+                  key={product.id}
+                  title={product.title}
+                />
+              }
+              /> */}
+          </Container>
         </>
       )}
     </>
   )
 }
+
+const Content = styled(Typography)`
+  padding-top: ${props => props.theme.spacing(2)}px;
+  padding-bottom: ${props => props.theme.spacing(2)}px;
+`;
