@@ -2,9 +2,10 @@ import React from "react";
 import List from  "@mui/material/List";
 
 
-export default function ElmList({ items, renderItem }) {
+export default function ElmList({type='List', items, renderItem }) {
+    console.log('items: ', items);
     return (
-      <List>
+      <List id={type}>
           {items.map((item, index) => {
             return renderItem(item);
           })}
