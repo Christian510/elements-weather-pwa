@@ -5,6 +5,7 @@ import { useAutocomplete } from '@mui/base/useAutocomplete';
 import { styled } from '@mui/system';
 import { debounce } from '@mui/material/utils';
 import { queryLocations } from '../../models/city_api';
+import Axios from 'axios';
 
 export default function SearchInput({ functions }) {
   const [value, setValue] = useState(null);
@@ -14,7 +15,7 @@ export default function SearchInput({ functions }) {
   const fetchLocations = useMemo(() => {
     return debounce(async () => {
       const response = await queryLocations(inputValue);
-      // console.log('response: ', response.geonames);
+      console.log('response: ', response.geonames);
 
       if (response?.geonames === undefined) {
         return;
@@ -49,6 +50,7 @@ export default function SearchInput({ functions }) {
   // }
 
   }, [inputValue, options.length]); // add function and value to the dependency array.
+  
 
   const {
     getRootProps,

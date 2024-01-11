@@ -8,16 +8,13 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import ListItem from '@mui/material/ListItem';
-import { styled } from '@mui/system';
+import ElmImg from '../../components/ElmImage/ElmImage';
+import Styled from '@mui/system/styled';
 import { DateTime } from '../../models/date';
 import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
 import ElmList from '../../components/ElmList/ElmList';
-import { margin, padding } from '@mui/system';
 import { getForecastByLatLon, queryForecastData } from '../../models/weather_api';
 import Axios from 'axios';
-import { List } from '@mui/material';
-// Save forecast to database button needed.
-// I'll have to scrap the custom hooks and add the fetch to the server and then get the data from the server.
 
 export default function CurrentConditions() {
   const sessionId = document.cookie.split('=')[1];
@@ -25,7 +22,7 @@ export default function CurrentConditions() {
   let { location } = useParams();
 
   const params = JSON.parse(location);
-  // console.log('params: ', params);
+  console.log('params: ', params);
 
   const [forecast, setForecast] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -35,7 +32,7 @@ export default function CurrentConditions() {
 
     // Axios.get('/forecast', { params: { id: c.id } })')
 
-    getForecastByLatLon(params.lat, params.lon)
+    getForecastByLatLon(params.lat, params.lng)
       .then(resp => {
         // console.log('resp: ', resp);
         if (resp === null) {
@@ -147,26 +144,33 @@ export default function CurrentConditions() {
               }>Forecast</Typography> */}
             {forecast && <Carousel id='Carousel' forecast={forecast} loading={loading} />}
           </Container>
-          <ElmList
-            key={extendedForecast.id}
-            type="Detailed-Forecast"
-            items={extendedForecast}
-            renderItem={(forecast) =>
-              <ListItem
-                key={forecast.number}
-              >
-                <img className="forecast-icon" src={forecast.icon} alt={forecast.shortForecast} />
-                <Typography variant='body1'>{forecast.detailedForecast}</Typography>
-              </ListItem>
-            }
-          />
+          <Card>
+            <ElmList
+              key={extendedForecast.id}
+              type="Detailed-Forecast"
+              items={extendedForecast}
+              renderItem={(forecast) =>
+                <ListItem
+                  key={forecast.number}
+                  divider={true}
+                >
+                  <ElmImg src={forecast.icon} alt={forecast.shortForecast} width='80px' height='80px' />
+                  <Typography variant='body1'>{forecast.detailedForecast}</Typography>
+                </ListItem>
+              }
+            />
+          </Card>
         </>
       )}
     </>
   )
 }
 
-const Content = styled(Typography)`
+const Content = Styled(Typography)`
   padding-top: ${props => props.theme.spacing(2)}px;
   padding-bottom: ${props => props.theme.spacing(2)}px;
+`;
+const ElmCard = Styled(Card)`
+  padding: ${props => props.theme.spacing(1)}px;
+  margin: ${props => props.theme.spacing(.5)}px;
 `;
