@@ -22,7 +22,7 @@ export default function CurrentConditions() {
   let { location } = useParams();
 
   const params = JSON.parse(location);
-  console.log('params: ', params);
+  // console.log('params: ', params);
 
   const [forecast, setForecast] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -56,7 +56,7 @@ export default function CurrentConditions() {
   }, [location]);
 
 
-  console.log('forecast: ', forecast);
+  // console.log('forecast: ', forecast);
   const dateTime = DateTime.convertISO8601Format(forecast?.generatedAt);
   const temp = forecast?.periods[0].temperature;
   const icon = forecast?.periods[0].icon;

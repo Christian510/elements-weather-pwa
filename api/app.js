@@ -7,7 +7,7 @@ const mysql = require('mysql2');
 const logger = require('morgan');
 const cors = require('cors');
 const path = require('path');
-const db = require('../db/database');
+const db = require('./db/database');
 
 // const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
@@ -61,21 +61,6 @@ app.use('/favorites', favoritesRouter);
 
 app.use((req, res, next) => {
   console.log('sessionID: ', req.sessionID);
-  // document.cookie = 'sessionID=' + req.sessionID;
-  // console.log('cookie: ', document.cookie);
-//   db.execute('SELECT * FROM sessions')
-//     .then(result => {
-//       // console.log('saved sessions: ', result)
-//       result[0].forEach(elm => {
-//         if (elm.sission_id === req.sessionID) {
-//           console.log('saved session: ', elm);
-//           console.log('current session: ', req.sessionID)
-//         }
-//       })
-//     })
-//     .catch(err => {
-//       console.log('error msg: ', err)
-//     })
   next();
 });
 

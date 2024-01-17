@@ -24,7 +24,7 @@
 // }
 // GET WEATHER URL BY LAT AND LONG
 export const getForecastByLatLon = async (lat, lng) => {
-    console.log('coords: ', lat + ':' + lng)
+    // console.log('coords: ', lat + ':' + lng)
     // const units = ['imperial', 'metric', 'standard'];
     const url = `https://api.weather.gov/points/${lat},${lng}`;
     const options = {
@@ -38,7 +38,7 @@ export const getForecastByLatLon = async (lat, lng) => {
     }
     return await fetch(url, options)
         .then(response => {
-            console.log('response: ', response);
+            // console.log('response: ', response);
             if (response.ok !== true) {
                 // console.log('status:', response.status)
                 // console.log('body:', response.body);

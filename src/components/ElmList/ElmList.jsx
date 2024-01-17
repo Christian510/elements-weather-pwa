@@ -3,7 +3,7 @@ import List from  "@mui/material/List";
 
 
 export default function ElmList({type='List', items, renderItem }) {
-    console.log('items: ', items);
+    // console.log('items: ', items);
     return (
       <List id={type}>
           {items.map((item, index) => {

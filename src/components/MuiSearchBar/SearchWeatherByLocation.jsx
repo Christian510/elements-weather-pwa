@@ -15,7 +15,7 @@ export default function SearchInput({ functions }) {
   const fetchLocations = useMemo(() => {
     return debounce(async () => {
       const response = await queryLocations(inputValue);
-      console.log('response: ', response.geonames);
+      // console.log('response: ', response.geonames);
 
       if (response?.geonames === undefined) {
         return;
@@ -44,6 +44,14 @@ export default function SearchInput({ functions }) {
     if (inputValue.length < 1) {
       // console.log('length: ', inputValue.length)
       setOptions([])
+    }
+    if (value !== null) {
+      console.log('value set axios post fired: ');
+      Axios.post('/favorites/add-one', value).then((response) => {
+        console.log('axios post response: ', response);
+      }).catch((error) => {
+        console.log('error: ', error);
+      });
     }
   // return () => {
   //   console.log('cleanup fired')

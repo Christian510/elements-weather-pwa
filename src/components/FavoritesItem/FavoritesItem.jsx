@@ -23,7 +23,7 @@ const ForwardRefLink = forwardRef(
 
 function FavoritesItem({ location }) {
 
-  console.log('location sql data: ', location);
+  // console.log('location sql data: ', location);
   const { data, loading, error } = useFetchData(location.fetch_url);
   // console.log('data: ', data);
   const [secondary, setSecondary] = useState(false);
