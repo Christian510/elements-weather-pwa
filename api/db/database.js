@@ -43,34 +43,48 @@ async function getSessions() {
 }
 // getSessions()
 
-async function getLocations(sessionID) {
-    try {
-        const result = await pool.query(`SELECT * FROM locations WHERE session_id = ?`, [sessionID]);
-        console.log('locations: ', result[0]);
-        // pool.end();
-        return result[0];
-      } catch (error) {
-        console.error('Error fetching locations:', error);
-        throw error; // Re-throw to handle it appropriately in calling code
-      }
+// function getFavorites(sessionID) {
+//     try {
+//         const result = await pool.execute(`SELECT * FROM locations WHERE session_id = ?`, [req.sessionID]);
+//         console.log('locations: ', result[0]);
+//         // pool.end();
+//         return result[0];
+//       } catch (error) {
+//         console.error('Error fetching locations:', error);
+//         throw error; // Re-throw to handle it appropriately in calling code
+//       }
+// }
+
+function getFavorites(sessionID) {
+    return pool.execute(`SELECT * FROM locations WHERE session_id = ?`, [sessionID])
+        .then(result => {
+            console.log('locations: ', result[0]);
+            pool.end();
+            return result[0];
+        })
+        .catch(err => {
+            console.log('error msg: ', err)
+        });
 }
-// getLocations('7tvrVX2rMmXDwaP-FRW6XxUuTN1JbbN6')
+// getFavorites('7tvrVX2rMmXDwaP-FRW6XxUuTN1JbbN6')
 
 // Insert one Location
-async function insertLocation(location) {
-    const [rows, fields] = await pool.execute('INSERT INTO locations (location_id, session_id) VALUES (?, ?)', location);
-    console.log('updatedd locations: ', rows);
-    return rows;
+function insertLocation(location) {
+    return pool.execute('INSERT INTO locations (location_id, session_id) VALUES (?, ?)', location)
+      .then(result => {
+        console.log('result: ', result[0]);
+        pool.end();
+        return result[0];
+      })
+      .catch(err => {
+        console.log('error msg: ', err)
+        throw new Error('Unable to insert location: ', err);
+      })
 }
 
 // insertLocation(['12345', '7tvrVX2rMmXDwaP-FRW6XxUuTN1JbbN6'])
 
-
 // // Delete a Location
-// async function deleteLocation(location) {
-//     const [rows, fields] = await pool.execute('DELETE FROM locations WHERE location_id = ?', location);
-//     return rows;
-// }
 
 // // If no users table exits create one
 // async function createUsersTable() {
@@ -80,33 +94,23 @@ async function insertLocation(location) {
 //     password VARCHAR(255))`);
 //     return rows;
 // }
-// // Insert One User
-// async function insertUser(user) {
-//     const [rows, fields] = await pool.execute('INSERT INTO users (username, password) VALUES (?, ?)', user);
-//     return rows;
-// }
 
-// // Get User
-// async function getUser(user) {
-//     const [rows, fields] = await pool.execute('SELECT * FROM users WHERE username = ?', user);
-//     return rows;
-// }
+// Insert One User
 
-// // Update User
-// async function updateUser(user) {
-//     const [rows, fields] = await pool.execute('UPDATE users SET password = ? WHERE username = ?', user);
-//     return rows;
-// }
+// Get User
 
-// // Delete User
-// async function deleteUser(user) {
-//     const [rows, fields] = await pool.execute('DELETE FROM users WHERE username = ?', user);
-//     return rows;
-// }
+// Update User
+
+// Delete User
+
 // Save Session
 
 // Get Session
 
 // Delete Session
 
-module.exports = pool;
+// module.exports = pool;
+module.exports = {
+  pool,
+  getFavorites,
+}
