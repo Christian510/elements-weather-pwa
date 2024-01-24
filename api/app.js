@@ -7,7 +7,7 @@ const mysql = require('mysql2');
 const logger = require('morgan');
 const cors = require('cors');
 const path = require('path');
-const db = require('./db/database');
+const db = require('./db/database').pool;
 
 // const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-// const db = require('../db/database').pool;
+const db = require('../db/database').pool;
 const favoritesController = require('../controllers/favorites')
 
 // GET saved locations for a user
