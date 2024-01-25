@@ -2,6 +2,7 @@
 const db = require('../db/database').pool;
 const findAllById = require('../db/database').findAllById;
 const findOneById = require('../db/database').findOneById;
+const insertOne = require('../db/database').insertOne;
 
 exports.fetchFavorites = (req, res, next) => {
   console.log('req.seesionID: ', req.sessionID)
@@ -29,45 +30,43 @@ exports.fetchFavorites = (req, res, next) => {
 // if session id exists in sessions table, 
 // if forecast id does not exist in forecast table,
 // add one favorite forecast to forecast table
-exports.addOneFavorite = (req, res, next) => {
+exports.addOneFavorite = async (req, res, next) => {
   // console.log('sessionID: ', req.sessionID)
-  console.log('body: ', req.body);
-  // Check for session id in sessions table
-  // Join locations table and sessions table
-  // insert one location into locations table
-  const sessionID = findOneById('sessions', 'session_id', req.sessionID)
-    .then(result => {
-      console.log('session: ', result)
-      return result;
-    });
-  const locationID = findOneById('locations', 'location_id', req.body.id)
-    .then(result => {
-      console.log('location: ', result)
-      return result;
-    });
-    console.log('sessionID: ', sessionID)
-    console.log('locationID: ', locationID)
+  // console.log('body: ', req.body);
+  try {
+    const sessionData = await findOneById('sessions', 'session_id', req.sessionID)
+    console.log('sessionData: ', sessionData[0])
+    if (sessionData[0].session_id === req.sessionID) {
+      const locationID = await findOneById('locations', 'location_id', req.body.id)
+      console.log('locationID: ', locationID);
+      if (locationID == null) {
+        console.log('success');
+        const keys = ['session_id', 'name', 'fetch_url', 'lat', 'lng'];
+        const values = [req.sessionID, req.body.name, req.body.fetch_url, req.body.lat, req.body.lng];
+        const result = await insertOne('locations', keys, values)
+        console.log('result: ', result);
+      }
+    }
+  }
+  catch (err) {
+    console.log('error msg: ', err)
+  }
+    
+  // const locationID = findOneById('locations', 'location_id', req.body.id)
+  //   .then(result => {
+  //     // console.log('location: ', result)
+  //     return result;
+  //   });
+
+  //   res.send({
+  //     message: 'ADD A LOCATION TO DB',
+  //     session: sessionID,
+  //     location: locationID,
+  //   })
     // if (sessionID && !locationID) {
     //   console.log('sessionID: ', sessionID)
     //   console.log('locationID: ', locationID)
     // }
-  // return db.execute(`
-  // SELECT *
-  // FROM locations
-  // JOIN sessions ON locations.session_id = sessions.session_id
-  // WHERE locations.location_id = :location_id AND sessions.session_id = :session_id`,
-  //   [req.body.id, req.sessionID])
-  //   .then(result => {
-  //     console.log('result: ', result)
-  //     // return result;
-  //     // res.send({
-  //     //   message: 'POST A LOCATION TO DB',
-  //     //   result: result,
-  //     // });
-  //   })
-  //   .catch(err => {
-  //     console.log('error msg: ', err)
-  //   });
 }
 
 exports.deleteOneFavorite = (req, res, next) => {
@@ -75,8 +74,6 @@ exports.deleteOneFavorite = (req, res, next) => {
   // if session id exists in sessions table,
   // and if forecast id exists in forecast table,
   // delete one favorite forecast from forecast table
-
-  // db.end();
 }
 
 

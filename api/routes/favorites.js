@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db/database').pool;
+// const db = require('../db/database').pool;
 const favoritesController = require('../controllers/favorites')
 
 // GET saved locations for a user
@@ -28,9 +28,7 @@ router.get('/all', favoritesController.fetchFavorites);
 
 router.post('/add-one', favoritesController.addOneFavorite);
 
-router.delete('/delete-one/:id', function (req, res) {
-  res.send({ message: 'DELETE A LOCATION FROM DB' });
-});
+router.delete('/delete-one/:id', favoritesController.deleteOneFavorite);
 
 
 module.exports = router;
