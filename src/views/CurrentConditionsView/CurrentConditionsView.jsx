@@ -41,8 +41,13 @@ export default function CurrentConditions() {
         if (resp) {
           // Here I want to save the locations name, lat, lon, and the forecast url to the db.
           params.url = resp.properties.forecast;
-          // console.log('params: ', params);
-          // Axios.post('favorite/forecast/', c)
+          console.log('params: ', params);
+          Axios.post('/favorites/add-one', params)
+            .then((response) => {
+              console.log('axios post response: ', response);
+            }).catch((error) => {
+              console.log('error: ', error);
+            });
           return queryForecastData(resp.properties.forecast)
         }
       })
@@ -54,7 +59,6 @@ export default function CurrentConditions() {
       })
 
   }, [location]);
-
 
   // console.log('forecast: ', forecast);
   const dateTime = DateTime.convertISO8601Format(forecast?.generatedAt);

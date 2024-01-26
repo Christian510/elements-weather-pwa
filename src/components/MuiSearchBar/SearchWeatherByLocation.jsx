@@ -45,16 +45,6 @@ export default function SearchInput({ functions }) {
       // console.log('length: ', inputValue.length)
       setOptions([])
     }
-    if (value !== null) {
-      console.log('value set axios post fired: ');
-      console.log('value: ', value);
-      Axios.post('/favorites/add-one', value)
-      .then((response) => {
-        console.log('axios post response: ', response);
-      }).catch((error) => {
-        console.log('error: ', error);
-      });
-    }
   // return () => {
   //   console.log('cleanup fired')
   // }

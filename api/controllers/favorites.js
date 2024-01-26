@@ -3,6 +3,7 @@ const db = require('../db/database').pool;
 const findAllById = require('../db/database').findAllById;
 const findOneById = require('../db/database').findOneById;
 const insertOne = require('../db/database').insertOne;
+const deleteOne = require('../db/database').deleteOne;
 
 exports.fetchFavorites = (req, res, next) => {
   console.log('req.seesionID: ', req.sessionID)
@@ -41,39 +42,33 @@ exports.addOneFavorite = async (req, res, next) => {
       console.log('locationID: ', locationID);
       if (locationID == null) {
         console.log('success');
-        const keys = ['session_id', 'name', 'fetch_url', 'lat', 'lng'];
-        const values = [req.sessionID, req.body.name, req.body.fetch_url, req.body.lat, req.body.lng];
+        const keys = ['location_id', 'session_id', 'name', 'fetch_url', 'lat', 'lng'];
+        const values = [req.body.id, req.sessionID, req.body.name, req.body.url, req.body.lat, req.body.lng];
         const result = await insertOne('locations', keys, values)
         console.log('result: ', result);
+      }
+      if(locationID) {
+        console.log('location already exists');
+        return;
       }
     }
   }
   catch (err) {
     console.log('error msg: ', err)
+    throw new Error('Unable to add location: ', err);
   }
-    
-  // const locationID = findOneById('locations', 'location_id', req.body.id)
-  //   .then(result => {
-  //     // console.log('location: ', result)
-  //     return result;
-  //   });
-
-  //   res.send({
-  //     message: 'ADD A LOCATION TO DB',
-  //     session: sessionID,
-  //     location: locationID,
-  //   })
-    // if (sessionID && !locationID) {
-    //   console.log('sessionID: ', sessionID)
-    //   console.log('locationID: ', locationID)
-    // }
 }
 
 exports.deleteOneFavorite = (req, res, next) => {
   console.log('sessionID: ', req.sessionID)
-  // if session id exists in sessions table,
-  // and if forecast id exists in forecast table,
-  // delete one favorite forecast from forecast table
+  console.log('params: ', req.params.id);
+  try {
+    
+  }
+  catch (err) {
+    console.log('error msg: ', err)
+    throw new Error('Unable to delete location: ', err);
+  }
 }
 
 

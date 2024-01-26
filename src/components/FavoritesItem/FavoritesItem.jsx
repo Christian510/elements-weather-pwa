@@ -13,6 +13,7 @@ import { useFetchData } from "../../custom_hooks/useFetch";
 import { useFetchUrl } from "../../custom_hooks/useFetchUrl";
 // import { useMatch } from 'react-router-dom';
 import ElmSpinner from '../ElmSpinner/ElmSpinner';
+import Axios from 'axios';
 
 const ForwardRefLink = forwardRef(
   (linkProps, ref) => (
@@ -20,10 +21,18 @@ const ForwardRefLink = forwardRef(
 )
 );
 
+const deleteLocation = (id) => {
+  console.log('delete location by id: ', id);
+  Axios.delete('/favorites/delete-one/:id', { data: id })
+    // .then((response) => {
+    //   console.log('axios delete response: ', response);
+    // }).catch((error) => {
+    //   console.log('error: ', error);
+    // });
+}
 
 function FavoritesItem({ location }) {
-
-  // console.log('location sql data: ', location);
+  // console.log('location: ', location);
   const { data, loading, error } = useFetchData(location.fetch_url);
   // console.log('data: ', data);
   const [secondary, setSecondary] = useState(false);
@@ -78,7 +87,7 @@ function FavoritesItem({ location }) {
           <IconButton
             edge="end"
             aria-label="delete"
-            onClick={() => console.log('clicked!')}>
+            onClick={() => deleteLocation(location.id)}>
             <DeleteIcon />
           </IconButton>
         }
