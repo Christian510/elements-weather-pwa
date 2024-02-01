@@ -6,11 +6,11 @@ const insertOne = require('../db/database').insertOne;
 const deleteOne = require('../db/database').deleteOne;
 
 exports.fetchFavorites = (req, res, next) => {
-  console.log('req.seesionID: ', req.sessionID)
+  // console.log('req.seesionID: ', req.sessionID)
 
   return findAllById('locations', 'session_id', req.sessionID)
     .then(data => {
-      console.log('result: ', data);
+      // console.log('result: ', data);
       if (res.statusCode === 200) {
         res.send({
           message: 'GET FAVORITES FROM DB',
@@ -38,20 +38,20 @@ exports.addOneFavorite = async (req, res, next) => {
     const sessionData = await findOneById('sessions', 'session_id', req.sessionID)
     console.log('sessionData: ', sessionData[0])
     if (sessionData[0].session_id === req.sessionID) {
-      const locationID = await findOneById('locations', 'location_id', req.body.id)
-      console.log('locationID: ', locationID);
-      if (locationID == null) {
-        console.log('success');
         const keys = ['location_id', 'session_id', 'name', 'fetch_url', 'lat', 'lng'];
         const values = [req.body.id, req.sessionID, req.body.name, req.body.url, req.body.lat, req.body.lng];
         const result = await insertOne('locations', keys, values)
         console.log('result: ', result);
+        res.send({
+          message: 'SUCCESS',
+          session: req.sessionID,
+        })
       }
       if(locationID) {
         console.log('location already exists');
         return;
       }
-    }
+    // }
   }
   catch (err) {
     console.log('error msg: ', err)
@@ -59,11 +59,19 @@ exports.addOneFavorite = async (req, res, next) => {
   }
 }
 
-exports.deleteOneFavorite = (req, res, next) => {
+exports.deleteOneFavorite = async (req, res, next) => {
   console.log('sessionID: ', req.sessionID)
-  console.log('params: ', req.params.id);
+  console.log('location_id: ', req.query.id);
   try {
-    
+    const result = await deleteOne('locations', 'location_id', req.sessionID, req.query.id)
+    console.log('result: ', result);
+    if (result) {
+      console.log('result: ', result);
+      res.send({
+        message: 'LOCATION DELETED FROM DB',
+        result: result,
+      })
+    } 
   }
   catch (err) {
     console.log('error msg: ', err)

@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import Carousel from '../../components/Carousel/Carousel';
 import {
   useParams,
+  useRouteLoaderData,
 } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -18,8 +19,9 @@ import Axios from 'axios';
 
 export default function CurrentConditions() {
   const sessionId = document.cookie.split('=')[1];
-  // console.log('session_id: ', sessionId);
   let { location } = useParams();
+  const { favorites } = useRouteLoaderData("root");
+  // console.log('favorites at CurrentConditionsView: ', favorites);
 
   const params = JSON.parse(location);
   // console.log('params: ', params);
@@ -30,8 +32,6 @@ export default function CurrentConditions() {
   useMemo(() => {
     console.log('useMemo fired')
 
-    // Axios.get('/forecast', { params: { id: c.id } })')
-
     getForecastByLatLon(params.lat, params.lng)
       .then(resp => {
         // console.log('resp: ', resp);
@@ -40,14 +40,21 @@ export default function CurrentConditions() {
         }
         if (resp) {
           // Here I want to save the locations name, lat, lon, and the forecast url to the db.
+          // console.log('resp: ', resp);
           params.url = resp.properties.forecast;
           console.log('params: ', params);
-          Axios.post('/favorites/add-one', params)
-            .then((response) => {
-              console.log('axios post response: ', response);
-            }).catch((error) => {
-              console.log('error: ', error);
-            });
+          const match = favorites.find( elm => elm.location_id === params.id)
+          if (match === undefined) {
+            console.log('no match');
+            Axios.post('/favorites/add-one', params)
+              .then((response) => {
+                console.log('axios post response: ', response);
+              }).catch((error) => {
+                console.log('error: ', error);
+              });
+          } else {
+            console.log('match: ', match.location_id);
+          }
           return queryForecastData(resp.properties.forecast)
         }
       })

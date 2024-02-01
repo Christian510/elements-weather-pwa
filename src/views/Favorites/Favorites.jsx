@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLoaderData } from 'react-router-dom';
+import { useRouteLoaderData } from 'react-router-dom';
 import { List } from '@mui/material';
 // import favorites from "../../models/favorites.json";
 import FavoritesItem from "../../components/FavoritesItem/FavoritesItem";
@@ -17,10 +17,8 @@ import FavoritesItem from "../../components/FavoritesItem/FavoritesItem";
 
 function Favorites() {
     
-    const favorites = useLoaderData();
-    // console.log('favorites: ', favorites)
-
-    const list = favorites.data?.map((elm, i) => <FavoritesItem key={i} location={elm} />);
+    const { favorites } = useRouteLoaderData("root");
+    const list = favorites?.map((elm, i) => <FavoritesItem key={i} location={elm} />);
 
     return (
         <List>

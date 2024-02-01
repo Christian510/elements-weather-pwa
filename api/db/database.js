@@ -104,9 +104,12 @@ function insertOne(table, col = [], values = []) {
 
 
 // // Delete a Location
-function deleteOne(table, col, id) {
-  const query = `DELETE FROM ${table} WHERE ${col} = ?`
-  return pool.execute(query, [id])
+function deleteOne(table, location_id, session_id) {
+  console.log('location_id: ', location_id);
+  console.log('session_id: ', session_id);
+  console.log('table: ', table);
+  const query = `DELETE FROM ${table} WHERE location_id = ? AND session_id = ?`
+  return pool.execute(query, [parseInt(location_id), session_id])
     .then(result => {
       console.log('result: ', result[0]);
       return result[0];
@@ -117,7 +120,7 @@ function deleteOne(table, col, id) {
     })
 }
 
-// deleteOne('locations', 'location_id', '5586437');
+// deleteOne('locations', '5586437', '7tvrVX2rMmXDwaP-FRW6XxUuTN1JbbN6');
 
 function deleteExpiredSession() {
   // this will need to delete expired session and all locations associated with that session.
@@ -134,14 +137,20 @@ function deleteExpiredSession() {
 }
 // deleteExpiredSession();
 
-// // If no users table exits create one
-// async function createUsersTable() {
-//     const [rows, fields] = await pool.execute(`
-//     CREATE TABLE IF NOT EXISTS users 
-//     (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), 
-//     password VARCHAR(255))`);
-//     return rows;
-// }
+function CreateUserTable() {
+  const query = `CREATE TABLE IF NOT EXISTS users 
+  (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), 
+  password VARCHAR(255))`;
+  return pool.execute(query)
+    .then(result => {
+      console.log('result: ', result[0]);
+      return result[0];
+    })
+    .catch(err => {
+      console.log('error msg: ', err)
+      throw new Error('Unable to create users table: ', err);
+    })
+}
 
 // Insert One User
 
@@ -151,13 +160,6 @@ function deleteExpiredSession() {
 
 // Delete User
 
-// Save Session
-
-// Get Session
-
-// Delete Session
-
-// module.exports = pool;
 module.exports = {
   pool,
   findAllById,

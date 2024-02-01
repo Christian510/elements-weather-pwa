@@ -23,12 +23,12 @@ const ForwardRefLink = forwardRef(
 
 const deleteLocation = (id) => {
   console.log('delete location by id: ', id);
-  Axios.delete('/favorites/delete-one/:id', { data: id })
-    // .then((response) => {
-    //   console.log('axios delete response: ', response);
-    // }).catch((error) => {
-    //   console.log('error: ', error);
-    // });
+  Axios.delete(`/favorites/delete-one/?id=${id}`, { data: id })
+    .then((response) => {
+      console.log('axios delete response: ', response.data.result);
+    }).catch((error) => {
+      console.log('error: ', error);
+    });
 }
 
 function FavoritesItem({ location }) {
@@ -87,7 +87,7 @@ function FavoritesItem({ location }) {
           <IconButton
             edge="end"
             aria-label="delete"
-            onClick={() => deleteLocation(location.id)}>
+            onClick={() => deleteLocation(location.location_id)}>
             <DeleteIcon />
           </IconButton>
         }

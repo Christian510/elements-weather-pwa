@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect} from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 // import { usePrevious } from '../../custom_hooks/customHooks';
 import { useAutocomplete } from '@mui/base/useAutocomplete';
@@ -7,11 +7,11 @@ import { debounce } from '@mui/material/utils';
 import { queryLocations } from '../../models/city_api';
 import Axios from 'axios';
 
-export default function SearchInput({ functions }) {
+export default function SearchInput() {
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState([]);
-  
+
   const fetchLocations = useMemo(() => {
     return debounce(async () => {
       const response = await queryLocations(inputValue);
@@ -39,18 +39,36 @@ export default function SearchInput({ functions }) {
     console.log('useEffect fired')
     if (inputValue.length > 2) {
       fetchLocations();
-      
+
     }
     if (inputValue.length < 1) {
       // console.log('length: ', inputValue.length)
       setOptions([])
     }
-  // return () => {
-  //   console.log('cleanup fired')
-  // }
+    // if (value !== null) {
+    //   console.log('value set: ', value);
+    //   console.log('favorites: ', favorites);
+    //   for (let i = 0; i < favorites.length; i++) {
+    //     if (favorites[i].id !== value.id) {
+    //       console.log('no match');
+    //       Axios.post('/favorites/add-one', value)
+    //         .then((response) => {
+    //           console.log('axios post response: ', response);
+    //         }).catch((error) => {
+    //           console.log('error: ', error);
+    //         });
+    //       } else {            
+    //         console.log('match');
+    //         return;
+    //     }
+    //   }
+    // }
+    // return () => {
+    //   console.log('cleanup fired')
+    // }
 
-  }, [inputValue, options.length]); // add function and value to the dependency array.
-  
+  }, [inputValue, options.length, value]); // add function and value to the dependency array.
+
 
   const {
     getRootProps,
@@ -84,11 +102,11 @@ export default function SearchInput({ functions }) {
         {groupedOptions.length > 0 && (
           <StyledListbox {...getListboxProps()}>
             {groupedOptions.map((option, index) => (
-            <Link to={`forecast/${JSON.stringify(option)}`} >
-              <StyledOption {...getOptionProps({ option, index })}>
-                {option.name}
-              </StyledOption>
-            </Link>
+              <Link to={`forecast/${JSON.stringify(option)}`} >
+                <StyledOption {...getOptionProps({ option, index })}>
+                  {option.name}
+                </StyledOption>
+              </Link>
             ))}
           </StyledListbox>
         )}

@@ -4,6 +4,7 @@ import {
   useFetchers,
   useNavigation,
   useRevalidator,
+  useLoaderData,
 } from 'react-router-dom';
 import { Container } from '@mui/material';
 // import './App.css';
@@ -19,6 +20,7 @@ export function Home() {
   let fetcherInProgress = fetchers.some((f) =>
     ['loading', 'submitting'].includes(f.state)
   );
+  const favorites = useLoaderData();
 
   return (
     <>
