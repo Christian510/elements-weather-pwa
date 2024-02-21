@@ -7,7 +7,7 @@ const mysql = require('mysql2');
 const logger = require('morgan');
 const cors = require('cors');
 const path = require('path');
-const db = require('./db/database').pool;
+const sqlformat = require('./logger');
 
 // const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
@@ -16,7 +16,11 @@ const favoritesRouter = require('./routes/favorites');
 
 const app = express();
 
-app.use(logger('dev'));
+app.use(logger('combined'));
+const morganMiddleware = logger(sqlformat);
+app.use(morganMiddleware);
+// app.use(logger(format));
+
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 

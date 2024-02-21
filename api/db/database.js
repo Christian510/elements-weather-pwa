@@ -81,7 +81,6 @@ function findAllById(table, col, id) {
 }
 // findAllById('locations', 'session_id', '7tvrVX2rMmXDwaP-FRW6XxUuTN1JbbN6')
 
-
 // Insert one Location
 function insertOne(table, col = [], values = []) {
   console.log('col: ', col);
@@ -105,11 +104,12 @@ function insertOne(table, col = [], values = []) {
 
 // // Delete a Location
 function deleteOne(table, location_id, session_id) {
-  console.log('location_id: ', location_id);
-  console.log('session_id: ', session_id);
-  console.log('table: ', table);
-  const query = `DELETE FROM ${table} WHERE location_id = ? AND session_id = ?`
-  return pool.execute(query, [parseInt(location_id), session_id])
+  console.log('location_id: ', typeof parseInt(location_id), location_id);
+  console.log('session_id: ', typeof session_id, session_id);
+  console.log('table: ', typeof table, table);
+  
+  const query = `DELETE FROM ${table} WHERE id = ? AND session_id = ?`;
+  return pool.execute(query, [1, session_id]) // key field appears to be required for delete to work.
     .then(result => {
       console.log('result: ', result[0]);
       return result[0];

@@ -64,12 +64,12 @@ exports.deleteOneFavorite = async (req, res, next) => {
   console.log('location_id: ', req.query.id);
   try {
     const result = await deleteOne('locations', 'location_id', req.sessionID, req.query.id)
-    console.log('result: ', result);
+    console.log('result: ', result[0]);
     if (result) {
       console.log('result: ', result);
       res.send({
         message: 'LOCATION DELETED FROM DB',
-        result: result,
+        result: result[0],
       })
     } 
   }

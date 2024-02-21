@@ -18,6 +18,7 @@ import FavoritesItem from "../../components/FavoritesItem/FavoritesItem";
 function Favorites() {
     
     const { favorites } = useRouteLoaderData("root");
+    console.log('favorites at Favorites.jsx: ', favorites);
     const list = favorites?.map((elm, i) => <FavoritesItem key={i} location={elm} />);
 
     return (
