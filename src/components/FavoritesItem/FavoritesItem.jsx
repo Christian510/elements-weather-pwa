@@ -32,19 +32,12 @@ const deleteLocation = (id) => {
 }
 
 function FavoritesItem({ location }) {
-  console.log('location: ', location);
-  const { url, loading, error } = useFetchUrl(location);
-  // const { url, fetching} = useFetchData(data.fetch_url);
+  // console.log('location: ', location);
+  const { url, fetching } = useFetchUrl(location);
+  const { data, loading, error } = useFetchData(url);
   console.log('url: ', url);
-  // console.log('url: ', url);
-  // if (location.url == "") {
-  //   const { data, loading, error } = useFetchUrl(location);
-  //   const { url, fetching} = useFetchData(data.fetch_url);
-  // }
-  // else {
-  //   const { data, loading, error } = useFetchData(location.url);
-  // }
-  // console.log('data: ', data);
+  console.log('data: ', data);
+
   const [secondary, setSecondary] = useState(false);
 
 

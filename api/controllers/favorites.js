@@ -10,11 +10,11 @@ exports.fetchFavorites = (req, res, next) => {
 
   return findAllById('sessions', 'session_id', req.sessionID)
     .then(data => {
-      // console.log('result: ', data);
+      console.log('result: ', data);
       if (res.statusCode === 200) {
         res.send({
           message: 'GET FAVORITES FROM DB',
-          locations: data.favorites,
+          locations: data[0].favorites,
           session: req.sessionID,
         })
       } else {

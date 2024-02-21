@@ -59,5 +59,6 @@ export function useFetchData(url) {
         //     setState({ data: null, loading: true });
         // }
     }, [url]);
+    // console.log('state: ', state);
     return state;
 };

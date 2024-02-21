@@ -23,7 +23,7 @@ function getFavorites() {
   return Axios.get('/favorites/all')
     .then(response => {
       if (response.status === 200) {
-        // console.log('server resp: ', response.data.locations)
+        // console.log('server resp: ', response)
         // console.log('session from db: ', JSON.parse(response.data.locations));
         document.cookie = 'sessionID=' + response.data.session;
         return JSON.parse(response.data.locations);
