@@ -8,13 +8,13 @@ const deleteOne = require('../db/database').deleteOne;
 exports.fetchFavorites = (req, res, next) => {
   // console.log('req.seesionID: ', req.sessionID)
 
-  return findAllById('locations', 'session_id', req.sessionID)
+  return findAllById('sessions', 'session_id', req.sessionID)
     .then(data => {
       // console.log('result: ', data);
       if (res.statusCode === 200) {
         res.send({
           message: 'GET FAVORITES FROM DB',
-          locations: data,
+          locations: data.favorites,
           session: req.sessionID,
         })
       } else {

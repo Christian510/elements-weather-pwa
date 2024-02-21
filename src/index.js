@@ -24,9 +24,9 @@ function getFavorites() {
     .then(response => {
       if (response.status === 200) {
         // console.log('server resp: ', response.data.locations)
-        console.log('sessionID: ', response.data.session)
+        // console.log('session from db: ', JSON.parse(response.data.locations));
         document.cookie = 'sessionID=' + response.data.session;
-        return response.data.locations;
+        return JSON.parse(response.data.locations);
       } else {
         throw new Error('Unable to get locations');
       }

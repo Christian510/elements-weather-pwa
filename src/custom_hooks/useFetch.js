@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-// fetches the current weather for a location.
+// fetches the current weather for a location with a url passed in.
 export function useFetchData(url) {
     // console.log('url: ', url)
     const [state, setState] = useState({ data: null, loading: true, isError: false, error: {isError: false, message: ''} });

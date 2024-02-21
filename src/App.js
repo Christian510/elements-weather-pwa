@@ -21,6 +21,7 @@ export function Home() {
     ['loading', 'submitting'].includes(f.state)
   );
   const favorites = useLoaderData();
+  // console.log('favorites at Home.jsx: ', favorites);
 
   return (
     <>

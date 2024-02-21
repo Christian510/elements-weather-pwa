@@ -20,8 +20,9 @@ import Axios from 'axios';
 export default function CurrentConditions() {
   const sessionId = document.cookie.split('=')[1];
   let { location } = useParams();
+  console.log('location: ', location);
   const { favorites } = useRouteLoaderData("root");
-  // console.log('favorites at CurrentConditionsView: ', favorites);
+  console.log('favorites at CurrentConditionsView: ', favorites);
 
   const params = JSON.parse(location);
   // console.log('params: ', params);

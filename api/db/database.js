@@ -70,6 +70,7 @@ function findOneById(table, col, id) {
 //         });
 // }
 
+// returns a stringifyed json object
 function findAllById(table, col, id) {
   return pool.execute('SELECT * FROM ' + table + ' WHERE ' + col + ' = ?', [id])
     .then(result => {
@@ -79,6 +80,7 @@ function findAllById(table, col, id) {
       console.log('error msg: ', err)
     });
 }
+
 // findAllById('locations', 'session_id', '7tvrVX2rMmXDwaP-FRW6XxUuTN1JbbN6')
 
 // Insert one Location
