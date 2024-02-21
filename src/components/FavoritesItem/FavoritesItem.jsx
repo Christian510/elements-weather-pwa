@@ -35,11 +35,10 @@ function FavoritesItem({ location }) {
   // console.log('location: ', location);
   const { url, fetching } = useFetchUrl(location);
   const { data, loading, error } = useFetchData(url);
-  console.log('url: ', url);
-  console.log('data: ', data);
+  // console.log('url: ', url);
+  // console.log('data: ', data);
 
   const [secondary, setSecondary] = useState(false);
-
 
   const details = `
   ${location.name} 
@@ -47,9 +46,7 @@ function FavoritesItem({ location }) {
   ${data?.properties.periods[0].temperatureUnit} 
   ${data?.properties.periods[0].shortForecast}`;
 
-  // const path = `forecast/${JSON.stringify(location)}`;
   const path = `forecast/${encodeURIComponent(JSON.stringify(location))}`;
-
 // console.log('path: ', path);
   if (loading) {
     return (

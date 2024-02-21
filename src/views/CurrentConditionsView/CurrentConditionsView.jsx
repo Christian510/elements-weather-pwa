@@ -20,7 +20,6 @@ import Axios from 'axios';
 export default function CurrentConditions() {
   const sessionId = document.cookie.split('=')[1];
   let { location } = useParams();
-  console.log('location: ', location);
   const { favorites } = useRouteLoaderData("root");
   console.log('favorites at CurrentConditionsView: ', favorites);
 
@@ -33,7 +32,7 @@ export default function CurrentConditions() {
   useMemo(() => {
     console.log('useMemo fired')
 
-    getForecastByLatLon(params.lat, params.lng)
+    getForecastByLatLon(params.coords.lat, params.coords.lng)
       .then(resp => {
         // console.log('resp: ', resp);
         if (resp === null) {
@@ -43,18 +42,19 @@ export default function CurrentConditions() {
           // Here I want to save the locations name, lat, lon, and the forecast url to the db.
           // console.log('resp: ', resp);
           params.url = resp.properties.forecast;
-          console.log('params: ', params);
-          const match = favorites.find( elm => elm.location_id === params.id)
+          // console.log('params: ', params);
+          const match = favorites.find( elm => parseInt(elm.id) == parseInt(params.id))
+          console.log('result: ', match);
           if (match === undefined) {
             console.log('no match');
-            Axios.post('/favorites/add-one', params)
-              .then((response) => {
-                console.log('axios post response: ', response);
-              }).catch((error) => {
-                console.log('error: ', error);
-              });
+            // Axios.post('/favorites/add-one', params)
+            //   .then((response) => {
+            //     console.log('axios post response: ', response);
+            //   }).catch((error) => {
+            //     console.log('error: ', error);
+            //   });
           } else {
-            console.log('match: ', match.location_id);
+            console.log('match: ', match);
           }
           return queryForecastData(resp.properties.forecast)
         }
