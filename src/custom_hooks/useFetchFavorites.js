@@ -17,7 +17,7 @@ function useFetchFavorites() {
 
     fetchData();
   }, []); // Empty dependency array means this effect runs once on mount
-    console.log('favorites: ', favorites);
+    // console.log('favorites: ', favorites);
     return favorites;
 }
 

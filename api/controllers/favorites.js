@@ -32,24 +32,28 @@ exports.fetchFavorites = (req, res, next) => {
 // if forecast id does not exist in forecast table,
 // add one favorite forecast to forecast table
 exports.addOneFavorite = async (req, res, next) => {
-  console.log('sessionID: ', req.sessionID)
-  console.log('body: ', req.body);
+  // console.log('sessionID: ', req.sessionID)
+  // console.log('body: ', req.body);
   try {
     const sessionData = await findOneById('sessions', 'session_id', req.sessionID)
     // console.log('sessionData: ', sessionData[0])
     if (sessionData[0].session_id === req.sessionID) {
         const result = await insertOne('sessions', 'favorites', req.sessionID, req.body)
-        console.log('result: ', result);
+        // console.log('result: ', result);
         res.send({
           message: 'SUCCESS',
+          result: result[0],
           session: req.sessionID,
         })
       }
       if(sessionData[0].session_id !== req.sessionID) {
         console.log('location already exists');
-        return;
+        res.send({
+          message: 'LOCATION ALREADY EXISTS',
+          result: [],
+          session: req.sessionID,
+        })
       }
-    // }
   }
   catch (err) {
     console.log('error msg: ', err)

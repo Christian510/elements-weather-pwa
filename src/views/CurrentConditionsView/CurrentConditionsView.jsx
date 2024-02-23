@@ -32,39 +32,30 @@ export default function CurrentConditions() {
   const [forecast, setForecast] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useMemo(() => {
+  useEffect(() => {
     console.log('useEffect fired')
     let isMounted = true;
-    if (!isMounted) return; // Check if component is still mounted before updating state
 
     getForecastByLatLon(params.coords.lat, params.coords.lng)
       .then(resp => {
-        // console.log('resp: ', resp);
+        if (!isMounted) return; // Check if component is still mounted before updating state
         if (resp === null) {
           setLoading(false)
         }
         if (resp) {
           // console.log('resp: ', resp);
           params.url = resp.properties.forecast;
-          // console.log('params: ', params);
-          // const match = favorites.find( elm => parseInt(elm.id) == parseInt(params.id))
-          // if (match === undefined) {
-            // console.log('no match', match);
-            // console.log('params: ', params);
             Axios.post('/favorites/add-one', params)
               .then((response) => {
-                console.log('axios post response: ', response);
+                console.log('add one resp: ', response);
               }).catch((error) => {
                 console.log('error: ', error);
               });
-          // } else {
-            // console.log('match: ', match);
-            // return;
-          // }
           return queryForecastData(resp.properties.forecast)
         }
       })
       .then(data => {
+        if (!isMounted) return;
         if (data) {
           setForecast(data.properties)
           setLoading(false)

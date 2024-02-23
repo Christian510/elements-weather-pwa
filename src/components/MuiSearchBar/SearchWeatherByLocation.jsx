@@ -10,30 +10,39 @@ export default function SearchInput() {
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState([]);
-
+  
   const fetchLocations = useMemo(() => {
-    return debounce(async () => {
-      const response = await queryLocations(inputValue);
-      // console.log('response: ', response.geonames);
+    let isMounted = true;
+    if (!isMounted) return; // Check if component is still mounted before updating state
+    else if (isMounted) {
+      return debounce(async () => {
+        const response = await queryLocations(inputValue);
+        // console.log('response: ', response.geonames);
+        if (response?.geonames === undefined) {
+          return;
+        } else {
+          let results = response.geonames.map((item, index) => {
+            return {
+              'name': `${item.toponymName}, ${item.adminCode1}`,
+              'coords': {
+              'lat': item.lat,
+              'lng': item.lng,
+              },
+              'id': item.geonameId,
+            }
+  
+          });
+          setOptions(results);
+        }
+  
+      }, 100);
+    }
 
-      if (response?.geonames === undefined) {
-        return;
-      } else {
-        let results = response.geonames.map((item, index) => {
-          return {
-            'name': `${item.toponymName}, ${item.adminCode1}`,
-            'coords': {
-            'lat': item.lat,
-            'lng': item.lng,
-            },
-            'id': item.geonameId,
-          }
+    return () => {
+      // Cleanup function
+      isMounted = false; // Update flag to indicate component is unmounted
+    };
 
-        });
-        setOptions(results);
-      }
-
-    }, 100);
   }, [inputValue]);
 
   useEffect(() => {
@@ -47,7 +56,7 @@ export default function SearchInput() {
       setOptions([])
     }
 
-  }, [inputValue, options.length]); // add function and value to the dependency array.
+  }, [inputValue]);
 
 
   const {

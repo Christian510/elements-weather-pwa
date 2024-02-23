@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { List } from '@mui/material';
 import FavoritesItem from "../../components/FavoritesItem/FavoritesItem";
 import useFetchFavorites from "../../custom_hooks/useFetchFavorites";
