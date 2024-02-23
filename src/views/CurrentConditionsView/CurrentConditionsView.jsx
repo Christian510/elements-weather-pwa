@@ -17,13 +17,14 @@ import ElmList from '../../components/ElmList/ElmList';
 import { getForecastByLatLon, queryForecastData } from '../../models/weather_api';
 import Axios from 'axios';
 
+// const { favorites } = useRouteLoaderData("root");
+// maybe instead of using useRouteLoaderData, use a custom hook to get the favorites. Or just fetch the favorites 
+// from the server each time to update the list and check for duplicates.
+// console.log('favorites at CurrentConditionsView: ', favorites);
+
 export default function CurrentConditions() {
   const sessionId = document.cookie.split('=')[1];
   let { location } = useParams();
-  // const { favorites } = useRouteLoaderData("root");
-  // maybe instead of using useRouteLoaderData, use a custom hook to get the favorites. Or just fetch the favorites 
-  // from the server each time to update the list and check for duplicates.
-  // console.log('favorites at CurrentConditionsView: ', favorites);
 
   const params = JSON.parse(location);
   // console.log('params: ', params);
@@ -50,12 +51,12 @@ export default function CurrentConditions() {
           // if (match === undefined) {
             // console.log('no match', match);
             // console.log('params: ', params);
-            // Axios.post('/favorites/add-one', params)
-            //   .then((response) => {
-            //     console.log('axios post response: ', response);
-            //   }).catch((error) => {
-            //     console.log('error: ', error);
-            //   });
+            Axios.post('/favorites/add-one', params)
+              .then((response) => {
+                console.log('axios post response: ', response);
+              }).catch((error) => {
+                console.log('error: ', error);
+              });
           // } else {
             // console.log('match: ', match);
             // return;

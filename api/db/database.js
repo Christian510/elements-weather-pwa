@@ -85,18 +85,24 @@ function findAllById(table, col, id) {
 // findAllById('locations', 'session_id', '7tvrVX2rMmXDwaP-FRW6XxUuTN1JbbN6')
 
 // Insert one Location
-function insertOne(table, col='', session = '', obj={}) {
-  console.log('table: ', table, 'col: ', col, 'session: ', session, 'data: ', obj);
-  // const query = `INSERT INTO ${table} (${col.join(', ')}) VALUES (${values.map(v => pool.escape(v)).join(', ')})`;
-  const jsonStr = JSON.stringify(obj);
-  const query = `
-  UPDATE ${table} 
-  SET ${col} = JSON_ARRAY_APPEND(${col},'$',CAST(? AS JSON))
-  WHERE session_id = ?;`;
+async function insertOne(table, col='', session = '', obj={}) {
+  console.log('obj: ', obj);
+  const query1 = `SELECT JSON_CONTAINS(JSON_EXTRACT(${col}, '$[*].id'), ?) AS id_exists
+                  FROM ${table}
+                  WHERE session_id = ?;`;
+  const id = JSON.stringify(obj.id);
+  // console.log('id: ', id);
+  const [value] = await pool.execute(query1, [id, session])
+  console.log('value: ', value[0]);
 
-  console.log('query: ', query);
+  if (value[0].id_exists === 0) {
+    console.log(`${value[0]}: location does not exist`)
+    const jsonStr = JSON.stringify(obj);
+  const query2 = `UPDATE ${table} 
+                  SET ${col} = JSON_ARRAY_APPEND(${col},'$',CAST(? AS JSON))
+                  WHERE session_id = ?;`;
 
-  return pool.execute(query, [jsonStr, session])
+  return await pool.execute(query2, [jsonStr, session])
     .then(result => {
       console.log('result: ', result[0]);
       return result[0];
@@ -105,6 +111,10 @@ function insertOne(table, col='', session = '', obj={}) {
       console.log('error msg: ', err);
       throw new Error('Unable to insert location: ', err);
     });
+  } else if (value[0].id_exists === 1) {
+    console.log(`${value[0].id_exists}: location already exists`)
+    return;
+  }
 }
 
 // // Delete a Location

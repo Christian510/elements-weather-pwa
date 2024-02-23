@@ -5,7 +5,6 @@ import { useAutocomplete } from '@mui/base/useAutocomplete';
 import { styled } from '@mui/system';
 import { debounce } from '@mui/material/utils';
 import { queryLocations } from '../../models/city_api';
-import Axios from 'axios';
 
 export default function SearchInput() {
   const [value, setValue] = useState(null);
