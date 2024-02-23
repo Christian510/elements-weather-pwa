@@ -3,6 +3,7 @@
  - Pre defined db functions
 */
 
+const { json } = require('body-parser');
 const mysql = require('mysql2');
 
 const pool = mysql.createPool({
@@ -84,11 +85,18 @@ function findAllById(table, col, id) {
 // findAllById('locations', 'session_id', '7tvrVX2rMmXDwaP-FRW6XxUuTN1JbbN6')
 
 // Insert one Location
-function insertOne(table, col = [], values = []) {
-  console.log('col: ', col);
-  console.log('values: ', values);
-  const query = `INSERT INTO ${table} (${col.join(', ')}) VALUES (${values.map(v => pool.escape(v)).join(', ')})`;
-  return pool.execute(query)
+function insertOne(table, col='', session = '', obj={}) {
+  console.log('table: ', table, 'col: ', col, 'session: ', session, 'data: ', obj);
+  // const query = `INSERT INTO ${table} (${col.join(', ')}) VALUES (${values.map(v => pool.escape(v)).join(', ')})`;
+  const jsonStr = JSON.stringify(obj);
+  const query = `
+  UPDATE ${table} 
+  SET ${col} = JSON_ARRAY_APPEND(${col},'$',CAST(? AS JSON))
+  WHERE session_id = ?;`;
+
+  console.log('query: ', query);
+
+  return pool.execute(query, [jsonStr, session])
     .then(result => {
       console.log('result: ', result[0]);
       return result[0];
@@ -98,11 +106,6 @@ function insertOne(table, col = [], values = []) {
       throw new Error('Unable to insert location: ', err);
     });
 }
-
-// insertOne('locations', 
-// ['location_id', 'session_id', 'name', 'fetch_url', 'lat', 'lng', ], 
-// ['5586437', '7tvrVX2rMmXDwaP-FRW6XxUuTN1JbbN6', 'Boise ID', 'https://api.weather.gov/gridpoints/BOI/133,86/forecast', '43.6135', '-116.2035'])
-
 
 // // Delete a Location
 function deleteOne(table, location_id, session_id) {

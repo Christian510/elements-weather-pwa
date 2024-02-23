@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Carousel from '../../components/Carousel/Carousel';
 import {
   useParams,
@@ -20,8 +20,10 @@ import Axios from 'axios';
 export default function CurrentConditions() {
   const sessionId = document.cookie.split('=')[1];
   let { location } = useParams();
-  const { favorites } = useRouteLoaderData("root");
-  console.log('favorites at CurrentConditionsView: ', favorites);
+  // const { favorites } = useRouteLoaderData("root");
+  // maybe instead of using useRouteLoaderData, use a custom hook to get the favorites. Or just fetch the favorites 
+  // from the server each time to update the list and check for duplicates.
+  // console.log('favorites at CurrentConditionsView: ', favorites);
 
   const params = JSON.parse(location);
   // console.log('params: ', params);
@@ -30,7 +32,9 @@ export default function CurrentConditions() {
   const [loading, setLoading] = useState(true);
 
   useMemo(() => {
-    console.log('useMemo fired')
+    console.log('useEffect fired')
+    let isMounted = true;
+    if (!isMounted) return; // Check if component is still mounted before updating state
 
     getForecastByLatLon(params.coords.lat, params.coords.lng)
       .then(resp => {
@@ -39,23 +43,23 @@ export default function CurrentConditions() {
           setLoading(false)
         }
         if (resp) {
-          // Here I want to save the locations name, lat, lon, and the forecast url to the db.
           // console.log('resp: ', resp);
           params.url = resp.properties.forecast;
           // console.log('params: ', params);
-          const match = favorites.find( elm => parseInt(elm.id) == parseInt(params.id))
-          console.log('result: ', match);
-          if (match === undefined) {
-            console.log('no match');
+          // const match = favorites.find( elm => parseInt(elm.id) == parseInt(params.id))
+          // if (match === undefined) {
+            // console.log('no match', match);
+            // console.log('params: ', params);
             // Axios.post('/favorites/add-one', params)
             //   .then((response) => {
             //     console.log('axios post response: ', response);
             //   }).catch((error) => {
             //     console.log('error: ', error);
             //   });
-          } else {
-            console.log('match: ', match);
-          }
+          // } else {
+            // console.log('match: ', match);
+            // return;
+          // }
           return queryForecastData(resp.properties.forecast)
         }
       })
@@ -65,6 +69,11 @@ export default function CurrentConditions() {
           setLoading(false)
         }
       })
+
+      return () => {
+        // Cleanup function
+        isMounted = false; // Update flag to indicate component is unmounted
+      };
 
   }, [location]);
 

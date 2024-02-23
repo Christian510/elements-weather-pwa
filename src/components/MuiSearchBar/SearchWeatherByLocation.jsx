@@ -23,8 +23,10 @@ export default function SearchInput() {
         let results = response.geonames.map((item, index) => {
           return {
             'name': `${item.toponymName}, ${item.adminCode1}`,
+            'coords': {
             'lat': item.lat,
             'lng': item.lng,
+            },
             'id': item.geonameId,
           }
 
@@ -45,29 +47,8 @@ export default function SearchInput() {
       // console.log('length: ', inputValue.length)
       setOptions([])
     }
-    // if (value !== null) {
-    //   console.log('value set: ', value);
-    //   console.log('favorites: ', favorites);
-    //   for (let i = 0; i < favorites.length; i++) {
-    //     if (favorites[i].id !== value.id) {
-    //       console.log('no match');
-    //       Axios.post('/favorites/add-one', value)
-    //         .then((response) => {
-    //           console.log('axios post response: ', response);
-    //         }).catch((error) => {
-    //           console.log('error: ', error);
-    //         });
-    //       } else {            
-    //         console.log('match');
-    //         return;
-    //     }
-    //   }
-    // }
-    // return () => {
-    //   console.log('cleanup fired')
-    // }
 
-  }, [inputValue, options.length, value]); // add function and value to the dependency array.
+  }, [inputValue, options.length]); // add function and value to the dependency array.
 
 
   const {

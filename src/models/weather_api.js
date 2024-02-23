@@ -59,7 +59,7 @@ export const getForecastByLatLon = async (lat, lng) => {
 
 // Fetch the forecast data from url
 export async function queryForecastData(url) {
-    // console.log('ForecastData: ', url);
+    console.log('ForecastData: ', url);
     const options = {
         'method': 'GET',
         'mode': 'cors',
