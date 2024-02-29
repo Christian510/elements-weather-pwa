@@ -31,6 +31,7 @@ export default function CurrentConditions() {
 
   const [forecast, setForecast] = useState(null);
   const [loading, setLoading] = useState(true);
+  console.log('forecast: ', forecast);
 
   useEffect(() => {
     console.log('useEffect fired')
@@ -38,12 +39,13 @@ export default function CurrentConditions() {
 
     getForecastByLatLon(params.coords.lat, params.coords.lng)
       .then(resp => {
+        console.log('isMounted: ', isMounted)
         if (!isMounted) return; // Check if component is still mounted before updating state
         if (resp === null) {
           setLoading(false)
         }
         if (resp) {
-          // console.log('resp: ', resp);
+          console.log('resp: ', resp);
           params.url = resp.properties.forecast;
             Axios.post('/favorites/add-one', params)
               .then((response) => {

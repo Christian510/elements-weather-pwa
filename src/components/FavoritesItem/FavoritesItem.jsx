@@ -20,17 +20,17 @@ const ForwardRefLink = forwardRef(
 )
 );
 
-const deleteFavorite = (id) => {
-  console.log('delete location by id: ', id);
-  Axios.delete(`/favorites/delete-one/?id=${id}`)
-    .then((response) => {
-      console.log('axios delete response: ', response.data.result);
-    }).catch((error) => {
-      console.log('error: ', error);
-    });
-}
+// const deleteFavorite = (id, i) => {
+//   // console.log('delete location by id: ', i);
+//   Axios.delete(`/favorites/delete-one/?id=${i}`)
+//     .then((response) => {
+//       console.log('axios delete response: ', response.data.result);
+//     }).catch((error) => {
+//       console.log('error: ', error);
+//     });
+// }
 
-function FavoritesItem({ location }) {
+function FavoritesItem({ location, index, deleteFavorite }) {
   // console.log('location: ', location);
   const { url, fetching } = useFetchUrl(location);
   const { data, loading, error } = useFetchData(url);
@@ -86,7 +86,7 @@ function FavoritesItem({ location }) {
           <IconButton
             edge="end"
             aria-label="delete"
-            onClick={() => deleteFavorite(location.id)}>
+            onClick={() => deleteFavorite(location.id, index)}>
             <DeleteIcon />
           </IconButton>
         }

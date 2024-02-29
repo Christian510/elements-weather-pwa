@@ -58,7 +58,6 @@ export default function SearchInput() {
 
   }, [inputValue]);
 
-
   const {
     getRootProps,
     getInputProps,

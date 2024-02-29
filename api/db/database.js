@@ -85,57 +85,59 @@ function findAllById(table, col, id) {
 // findAllById('locations', 'session_id', '7tvrVX2rMmXDwaP-FRW6XxUuTN1JbbN6')
 
 // Insert one Location
-async function insertOne(table, col='', session = '', obj={}) {
-  console.log('obj: ', obj);
-  const query1 = `SELECT JSON_CONTAINS(JSON_EXTRACT(${col}, '$[*].id'), ?) AS id_exists
-                  FROM ${table}
-                  WHERE session_id = ?;`;
-  const id = JSON.stringify(obj.id);
-  // console.log('id: ', id);
-  const [value] = await pool.execute(query1, [id, session])
-  console.log('value: ', value[0]);
+async function insertOne(session_id='', location_id='') {
+  // Does the location exist in locations and session_favorite db?
+  const query1 = `SELECT s.*, sf.*, l.*
+                  FROM sessions s
+                  LEFT JOIN session_favorites sf ON s.session_id = sf.s_id
+                  LEFT JOIN locations l ON l.location_id = sf.l_id
+                  WHERE sf.l_id = ?
+                  AND sf.s_id = ?;`;
+  const [value] = await pool.execute(query1, [location_id, session_id])
+  console.log('value: ', value.length > 0);
 
-  if (value[0].id_exists === 0) {
+  if (value.length === 0) {
     console.log(`${value[0]}: location does not exist`)
-    const jsonStr = JSON.stringify(obj);
-  const query2 = `UPDATE ${table} 
-                  SET ${col} = JSON_ARRAY_APPEND(${col},'$',CAST(? AS JSON))
-                  WHERE session_id = ?;`;
+  // const query2 = `UPDATE ${table} 
+  //                 SET ${col} = JSON_ARRAY_APPEND(${col},'$',CAST(? AS JSON))
+  //                 WHERE session_id = ?;`;
 
-  return await pool.execute(query2, [jsonStr, session])
-    .then(result => {
-      console.log('result: ', result[0]);
-      return result[0];
-    })
-    .catch(err => {
-      console.log('error msg: ', err);
-      throw new Error('Unable to insert location: ', err);
-    });
-  } else if (value[0].id_exists === 1) {
+  // return await pool.execute(query2, [jsonStr, session])
+  //   .then(result => {
+  //     console.log('result: ', result[0]);
+  //     return result[0];
+  //   })
+  //   .catch(err => {
+  //     console.log('error msg: ', err);
+  //     throw new Error('Unable to insert location: ', err);
+  //   });
+  } else if (value.length === 1) {
     console.log(`${value[0].id_exists}: location already exists`)
-    return;
+    // return;
   }
 }
+insertOne('7tvrVX2rMmXDwaP-FRW6XxUuTN1JbbN6', '5666630')
 
 // // Delete a Location
-function deleteOne(table, location_id, session_id) {
-  console.log('location_id: ', typeof parseInt(location_id), location_id);
-  console.log('session_id: ', typeof session_id, session_id);
-  console.log('table: ', typeof table, table);
-  
-  const query = `DELETE FROM ${table} WHERE id = ? AND session_id = ?`;
-  return pool.execute(query, [1, session_id]) // key field appears to be required for delete to work.
+function deleteOne(table, col, session_id, index=null) {
+  // console.log('location_id: ', typeof parseInt(location_id), location_id);
+  // console.log('session_id: ', typeof session_id, session_id);
+  // console.log('table: ', typeof table, table);
+  const i = parseInt(index);
+  // console.log('index: ', typeof i, i);
+  const query = `UPDATE ${table} 
+  SET ${col} = JSON_REMOVE(${col},'$[0]')
+  WHERE session_id = ?;`;
+  return pool.execute(query, [index, session_id])
     .then(result => {
-      console.log('result: ', result[0]);
+      console.log('result: ', result);
       return result[0];
     })
     .catch(err => {
       console.log('error msg: ', err)
-      throw new Error('Unable to delete location: ', err);
+      throw new Error('Unable to delete favorite: ', err);
     })
 }
-
-// deleteOne('locations', '5586437', '7tvrVX2rMmXDwaP-FRW6XxUuTN1JbbN6');
 
 function deleteExpiredSession() {
   // this will need to delete expired session and all locations associated with that session.

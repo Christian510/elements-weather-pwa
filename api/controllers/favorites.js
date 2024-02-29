@@ -35,9 +35,13 @@ exports.addOneFavorite = async (req, res, next) => {
   // console.log('sessionID: ', req.sessionID)
   // console.log('body: ', req.body);
   try {
-    const sessionData = await findOneById('sessions', 'session_id', req.sessionID)
-    // console.log('sessionData: ', sessionData[0])
-    if (sessionData[0].session_id === req.sessionID) {
+    const [ session ] = await findOneById('sessions_favorites', req.location_id, req.sessionID)
+    // Check if location exits in session_favorite db.
+    // If it does just return a message to the client.
+    // Else add the location to the db.
+    // console.log('session: ', session)
+    if (session[0].session_id === req.sessionID) {
+
         const result = await insertOne('sessions', 'favorites', req.sessionID, req.body)
         // console.log('result: ', result);
         res.send({
@@ -62,15 +66,15 @@ exports.addOneFavorite = async (req, res, next) => {
 }
 
 exports.deleteOneFavorite = async (req, res, next) => {
-  console.log('sessionID: ', req.sessionID)
-  console.log('location_id: ', req.query.id);
+  // console.log('sessionID: ', req.sessionID)
+  console.log('index: ', req.query.id);
   try {
-    const result = await deleteOne('locations', 'location_id', req.sessionID, req.query.id)
+    const result = await deleteOne('sessions', 'favorites', req.sessionID, req.query.id)
     console.log('result: ', result[0]);
     if (result) {
-      console.log('result: ', result);
+      // console.log('result: ', result);
       res.send({
-        message: 'LOCATION DELETED FROM DB',
+        message: 'FAVORITE DELETED FROM DB',
         result: result[0],
       })
     } 
