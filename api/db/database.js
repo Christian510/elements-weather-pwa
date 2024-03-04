@@ -123,7 +123,7 @@ async function insertOne(params = '', session_id = '') {
   console.log('value: ', value);
 
   if (value.length === 0) {
-    console.log(`${value[0]}: location does not exist`)
+    console.log(`location does not exist`)
     const query2 = `
                     INSERT INTO locations (location_id, name, state, country_code, lat, lng)
                     VALUES (?, ?, ?, ?, ?, ?)`;

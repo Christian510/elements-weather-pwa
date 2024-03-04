@@ -37,7 +37,7 @@ export default function CurrentConditions() {
     console.log('useEffect fired')
     let isMounted = true;
 
-    getForecastByLatLon(params.coords.lat, params.coords.lng)
+    getForecastByLatLon(params.lat, params.lng)
       .then(resp => {
         console.log('isMounted: ', isMounted)
         if (!isMounted) return; // Check if component is still mounted before updating state
