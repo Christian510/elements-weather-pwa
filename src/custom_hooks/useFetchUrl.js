@@ -8,8 +8,8 @@ export function useFetchUrl(loc) {
 
     // Retrieve the forecast url from the API.
     const fetchForecastUrl = async (l) => {
-        // console.log('fetching URL: ', l);
-        const response = await getForecastByLatLon(l.coords.lat, l.coords.lng);
+
+        const response = await getForecastByLatLon(l.lat, l.lng);
         // console.log('response: ', response.properties.forecast)
         setState({ url: response.properties.forecast, fetching: false });
 

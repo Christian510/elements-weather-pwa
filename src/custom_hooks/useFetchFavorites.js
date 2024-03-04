@@ -8,6 +8,7 @@ function useFetchFavorites() {
     const fetchData = async () => {
       try {
         const response = await axios.get('/favorites/all');
+        // console.log('resp data: ', response.data);
         setFavorites({ favorites: response.data.locations, loading: false, error: {isError: false, message: ''} });
       } catch (error) {
         console.error('Error fetching data: ', error);
