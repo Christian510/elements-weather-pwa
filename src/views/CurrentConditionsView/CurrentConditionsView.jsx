@@ -17,12 +17,7 @@ import ElmList from '../../components/ElmList/ElmList';
 import { getForecastByLatLon, queryForecastData } from '../../models/weather_api';
 import Axios from 'axios';
 
-// const { favorites } = useRouteLoaderData("root");
-// maybe instead of using useRouteLoaderData, use a custom hook to get the favorites. Or just fetch the favorites 
-// from the server each time to update the list and check for duplicates.
-// console.log('favorites at CurrentConditionsView: ', favorites);
-
-export default function CurrentConditions() {
+export default function CurrentConditions() { // fetch the forecast data and display it.
   const sessionId = document.cookie.split('=')[1];
   let { location } = useParams();
 
@@ -40,7 +35,7 @@ export default function CurrentConditions() {
     getForecastByLatLon(params.lat, params.lng)
       .then(resp => {
         console.log('isMounted: ', isMounted)
-        if (!isMounted) return; // Check if component is still mounted before updating state
+        if (!isMounted) return; 
         if (resp === null) {
           setLoading(false)
         }
@@ -80,7 +75,6 @@ export default function CurrentConditions() {
   const shortForecast = forecast?.periods[0].shortForecast;
   const date = `Last updated: ${dateTime.dow}, ${dateTime.date}`
   // console.log('forecast: ', forecast)
-  // Add detailed extended forecast.
 
   const extendedForecast = forecast?.periods
 
@@ -104,7 +98,6 @@ export default function CurrentConditions() {
           <Card
             id='forecast-view-heading'
             sx={{
-              // flexGrow: 1,
               padding: (theme) => theme.spacing(1),
               margin: (theme) => theme.spacing(.5)
             }}>
