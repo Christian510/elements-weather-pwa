@@ -22,7 +22,7 @@ export default function CurrentConditions() { // fetch the forecast data and dis
   let { location } = useParams();
 
   const params = JSON.parse(location);
-  // console.log('params: ', params);
+  console.log('params: ', params);
 
   const [forecast, setForecast] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -41,7 +41,7 @@ export default function CurrentConditions() { // fetch the forecast data and dis
         }
         if (resp) {
           console.log('resp: ', resp);
-          params.url = resp.properties.forecast;
+          // params.url = resp.properties.forecast;
             Axios.post('/favorites/add-one', params)
               .then((response) => {
                 console.log('add one resp: ', response);

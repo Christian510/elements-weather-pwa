@@ -33,36 +33,36 @@ exports.fetchFavorites = (req, res, next) => {
 // add one favorite to locations table
 exports.addOneFavorite = async (req, res, next) => {
   // console.log('sessionID: ', req.sessionID)
-  console.log('body: ', req.body);
-  // try {
-  //   const [ session ] = await findOneById('session_favorites', 'location_id', req.id, req.sessionID)
-  //   // Check if location exits in session_favorite db.
-  //   // If it does just return a message to the client.
-  //   // Else add the location to the db.
-  //   // console.log('session: ', session)
-  //   if (session[0].session_id === req.sessionID) {
+  console.log('req.body: ', req.body);
+  try {
+    // const [ session ] = await findOneById(req.body, req.sessionID)
+    // Check if location exits in session_favorite db.
+    // If it does just return a message to the client.
+    // Else add the location to the db.
+    // console.log('session: ', session)
+    // if (session[0].session_id === req.sessionID) {
 
-  //       const result = await insertOne(req.body, req.sessionID)
-  //       // console.log('result: ', result);
-  //       res.send({
-  //         message: 'SUCCESS',
-  //         result: result[0],
-  //         session: req.sessionID,
-  //       })
-  //     }
-  //     if(sessionData[0].session_id !== req.sessionID) {
-  //       console.log('location already exists');
-  //       res.send({
-  //         message: 'LOCATION ALREADY EXISTS',
-  //         result: [],
-  //         session: req.sessionID,
-  //       })
-  //     }
-  // }
-  // catch (err) {
-  //   console.log('error msg: ', err)
-  //   throw new Error('Unable to add location: ', err);
-  // }
+        const result = await insertOne(req.body, req.sessionID)
+        console.log('result: ', result);
+        // res.send({
+        //   message: 'SUCCESS',
+        //   result: result[0],
+        //   session: req.sessionID,
+        // })
+      // }
+      // if(sessionData[0].session_id !== req.sessionID) {
+      //   console.log('location already exists');
+      //   res.send({
+      //     message: 'LOCATION ALREADY EXISTS',
+      //     result: [],
+      //     session: req.sessionID,
+      //   })
+      // }
+  }
+  catch (err) {
+    console.log('error msg: ', err)
+    throw new Error('Unable to add location: ', err);
+  }
 }
 
 exports.deleteOneFavorite = async (req, res, next) => {

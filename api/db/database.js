@@ -111,15 +111,14 @@ async function findAllById(table, col, session_id='') {
 
 // Insert one Location
 async function insertOne(params = '', session_id = '') {
-  // Does the location exist in locations and session_favorite db?
-  const name = params.split(',');
+  // Does the location exist in locations and session_favorite db?;
   const query1 = `SELECT s.*, sf.*, l.*
                   FROM sessions s
                   LEFT JOIN session_favorites sf ON s.session_id = sf.s_id
                   LEFT JOIN locations l ON l.location_id = sf.l_id
                   WHERE sf.l_id = ?
                   AND sf.s_id = ?;`;
-  const [ value ] = await executeQuery(query1, [params.id, session_id])
+  const [ value ] = await executeQuery(query1, [params.location_id, session_id])
   console.log('value: ', value);
 
   if (value.length === 0) {
@@ -127,25 +126,16 @@ async function insertOne(params = '', session_id = '') {
     const query2 = `
                     INSERT INTO locations (location_id, name, state, country_code, lat, lng)
                     VALUES (?, ?, ?, ?, ?, ?)`;
-    const [ loc ] = await executeQuery(query2, [params.id, name[0], name[1], "US", params.coords.lat, params.coords.lng]);
-    console.log('loc: ', loc);
+    // const [ loc ] = await executeQuery(query2, [params.location_id, params.name, params.state, params.country_code, params.lat, params.lng]);
+    // console.log('loc: ', loc);
 
-    const query3 = `INSERT INTO session_favorites (s_id, l_id)`;
-    const [ sf ] = executeQuery(query3, [session_id, params.id]);
-    console.log('sf: ', sf);
+    // const query3 = `INSERT INTO session_favorites (s_id, l_id)`;
+    // const [ sf ] = executeQuery(query3, [session_id, params.id]);
+    // console.log('sf: ', sf);
 
-    // return await pool.execute(query2, [jsonStr, session])
-    //   .then(result => {
-    //     console.log('result: ', result[0]);
-    //     return result[0];
-    //   })
-    //   .catch(err => {
-    //     console.log('error msg: ', err);
-    //     throw new Error('Unable to insert location: ', err);
-    //   });
   } else if (value.length === 1) {
-    console.log(`${value[0].id_exists}: location already exists`)
-    // return;
+    console.log(`location already exists`)
+    return null;
   }
 }
 // insertOne('7tvrVX2rMmXDwaP-FRW6XxUuTN1JbbN6', '5666630')

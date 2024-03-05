@@ -19,33 +19,12 @@ import AccountView from './views/AccountView/AccountView';
 import { create } from '@mui/material/styles/createTransitions';
 import DemoView from './views/DemoView/DemoView';
 
-// function getFavorites() {
-//   return Axios.get('/favorites/all')
-//     .then(response => {
-//       if (response.status === 200) {
-//         console.log('server resp: ', response.data)
-//         // console.log('session from db: ', JSON.parse(response.data.locations));
-//         document.cookie = 'sessionID=' + response.data.session;
-//         return response.data.locations;
-//       } else {
-//         throw new Error('Unable to get locations');
-//       }
-//     })
-//     .catch(err => console.error('Error msg: ', err));
-// }
-
 let router = createBrowserRouter([
   {
     path: '/',
     element: <Home />,
     id: "root",
     errorElement: <ErrorPage title="Home View" />,
-    // loader: async () => {
-    //   const favorites = await getFavorites();
-    //   return {
-    //     favorites,
-    //   };
-    // },
     children: [
       {
         element: <Favorites />,
@@ -56,11 +35,6 @@ let router = createBrowserRouter([
         element: <CurrentConditionsView />,
         path: 'forecast/:location',
         errorElement: <ErrorPage title="Current Conditions View" />,
-        // loader: async ({favorites}) => {
-        //   return {
-        //     favorites,
-        //   };
-        // },
       },
       {
         element: <ExtendedForecastView />,

@@ -23,12 +23,12 @@ export default function SearchInput() {
         } else {
           let results = response.geonames.map((item, index) => {
             return {
-              'name': `${item.toponymName}, ${item.adminCode1}`,
-              'coords': {
-              'lat': item.lat,
-              'lng': item.lng,
-              },
-              'id': item.geonameId,
+              "name": item.toponymName,
+              "state": item.adminCode1,
+              "country_code": item.countryCode,
+              "lat": item.lat,
+              "lng": item.lng,
+              "id": item.geonameId,
             }
   
           });
