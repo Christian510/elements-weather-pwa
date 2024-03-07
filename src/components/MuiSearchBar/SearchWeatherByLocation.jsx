@@ -22,15 +22,16 @@ export default function SearchInput() {
           return;
         } else {
           let results = response.geonames.map((item, index) => {
+            // console.log('item: ', item);
             return {
               "name": item.toponymName,
               "state": item.adminCode1,
               "country_code": item.countryCode,
               "lat": item.lat,
               "lng": item.lng,
-              "id": item.geonameId,
+              "location_id": item.geonameId,
             }
-  
+
           });
           setOptions(results);
         }
@@ -92,7 +93,7 @@ export default function SearchInput() {
             {groupedOptions.map((option, index) => (
               <Link to={`forecast/${JSON.stringify(option)}`} >
                 <StyledOption {...getOptionProps({ option, index })}>
-                  {option.name}
+                  {`${option.name}, ${option.state}`}
                 </StyledOption>
               </Link>
             ))}

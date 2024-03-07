@@ -33,12 +33,8 @@ exports.fetchFavorites = (req, res, next) => {
 // add one favorite to locations table
 exports.addOneFavorite = async (req, res, next) => {
   // console.log('sessionID: ', req.sessionID)
-  console.log('req.body: ', req.body);
+  // console.log('req.body: ', req.body);
   try {
-    // const [ session ] = await findOneById(req.body, req.sessionID)
-    // Check if location exits in session_favorite db.
-    // If it does just return a message to the client.
-    // Else add the location to the db.
     // console.log('session: ', session)
     // if (session[0].session_id === req.sessionID) {
 

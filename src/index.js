@@ -4,7 +4,6 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import ReactDOM from "react-dom/client";
-import Axios from 'axios';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { Home } from './App';
@@ -16,7 +15,6 @@ import ExtendedForecastView from './views/ExtendedForecastView/ExtendedForecastV
 import LoginView from './views/LoginView/LoginView';
 import CreateAccountView from './views/CreateAccountView/CreateAccountView';
 import AccountView from './views/AccountView/AccountView';
-import { create } from '@mui/material/styles/createTransitions';
 import DemoView from './views/DemoView/DemoView';
 
 let router = createBrowserRouter([

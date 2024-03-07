@@ -14,11 +14,11 @@ const pool = mysql.createPool({
 }).promise();
 
 function executeQuery(query, values) {
-  console.log('query: ', query);
-  console.log('values: ', [...values]);
+  // console.log('query: ', query);
+  // console.log('values: ', [...values]);
   return pool.execute(query, [...values])
     .then(result => {
-      // console.log('result: ', result);
+      console.log('result: ', result);
       return result;
     })
     .catch(err => {
@@ -110,7 +110,8 @@ async function findAllById(table, col, session_id='') {
 // findAllById('session_favorites', 'session_id', '7tvrVX2rMmXDwaP-FRW6XxUuTN1JbbN6')
 
 // Insert one Location
-async function insertOne(params = '', session_id = '') {
+async function insertOne(params = null, session_id = null) {
+  console.log('params: ', params);
   // Does the location exist in locations and session_favorite db?;
   const query1 = `SELECT s.*, sf.*, l.*
                   FROM sessions s
@@ -119,19 +120,19 @@ async function insertOne(params = '', session_id = '') {
                   WHERE sf.l_id = ?
                   AND sf.s_id = ?;`;
   const [ value ] = await executeQuery(query1, [params.location_id, session_id])
-  console.log('value: ', value);
+  // console.log('value: ', value);
 
   if (value.length === 0) {
     console.log(`location does not exist`)
+    const query3 = `INSERT INTO session_favorites (s_id, l_id)`;
+    const [ sf ] = await executeQuery(query3, [session_id, params.location_id]);
+    console.log('sf: ', sf);
+
     const query2 = `
                     INSERT INTO locations (location_id, name, state, country_code, lat, lng)
                     VALUES (?, ?, ?, ?, ?, ?)`;
-    // const [ loc ] = await executeQuery(query2, [params.location_id, params.name, params.state, params.country_code, params.lat, params.lng]);
-    // console.log('loc: ', loc);
-
-    // const query3 = `INSERT INTO session_favorites (s_id, l_id)`;
-    // const [ sf ] = executeQuery(query3, [session_id, params.id]);
-    // console.log('sf: ', sf);
+    const [ loc ] = await executeQuery(query2, [params.location_id, params.name, params.state, params.country_code, params.lat, params.lng]);
+    console.log('loc: ', loc);
 
   } else if (value.length === 1) {
     console.log(`location already exists`)

@@ -22,7 +22,7 @@ function Favorites() {
     const { favorites, error } = useFetchFavorites();
 
     console.log('favorites at Favorites.jsx: ', favorites);
-    console.log('error at Favorites.jsx: ', error);
+    // console.log('error at Favorites.jsx: ', error);
     const list = favorites?.map((elm, i) => <FavoritesItem key={i} location={elm} index={i} />);
 
     return (
