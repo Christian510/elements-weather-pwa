@@ -14,8 +14,8 @@ const pool = mysql.createPool({
 }).promise();
 
 function executeQuery(query, values) {
-  // console.log('query: ', query);
-  // console.log('values: ', [...values]);
+  console.log('query: ', query);
+  console.log('values: ', [...values]);
   return pool.execute(query, [...values])
     .then(result => {
       console.log('result: ', result);
@@ -124,7 +124,8 @@ async function insertOne(params = null, session_id = null) {
 
   if (value.length === 0) {
     console.log(`location does not exist`)
-    const query3 = `INSERT INTO session_favorites (s_id, l_id)`;
+    const query3 = `INSERT INTO session_favorites (s_id, l_id)
+                    VALUES (?, ?)`;
     const [ sf ] = await executeQuery(query3, [session_id, params.location_id]);
     console.log('sf: ', sf);
 

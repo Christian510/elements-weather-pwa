@@ -31,7 +31,7 @@ const ForwardRefLink = forwardRef(
 // }
 
 function FavoritesItem({ location, index, deleteFavorite }) {
-  console.log('location: ', location.name);
+  // console.log('location: ', location);
   const { url, fetching } = useFetchUrl(location);
   const { data, loading, error } = useFetchData(url);
   // console.log('url: ', url);

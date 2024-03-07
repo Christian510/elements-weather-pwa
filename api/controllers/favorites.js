@@ -5,8 +5,8 @@ const findOneById = require('../db/database').findOneById;
 const insertOne = require('../db/database').insertOne;
 const deleteOne = require('../db/database').deleteOne;
 
-exports.fetchFavorites = (req, res, next) => {
-  console.log('req.seesionID: ', typeof req.sessionID)
+exports.fetchFavorites = (req, res, next) => { // get all favorites for one session id from db
+  // console.log('req.seesionID: ', typeof req.sessionID)
 
   return findAllById('session_favorites', 's_id', req.sessionID)
     .then(data => {
@@ -28,32 +28,17 @@ exports.fetchFavorites = (req, res, next) => {
     });
 }
 
-// if session id exists in sessions table, 
-// if forecast id does not exist in forecast table,
-// add one favorite to locations table
-exports.addOneFavorite = async (req, res, next) => {
+exports.addOneFavorite = async (req, res, next) => { // add one favorte to db
   // console.log('sessionID: ', req.sessionID)
   // console.log('req.body: ', req.body);
   try {
-    // console.log('session: ', session)
-    // if (session[0].session_id === req.sessionID) {
-
-        const result = await insertOne(req.body, req.sessionID)
-        console.log('result: ', result);
-        // res.send({
-        //   message: 'SUCCESS',
-        //   result: result[0],
-        //   session: req.sessionID,
-        // })
-      // }
-      // if(sessionData[0].session_id !== req.sessionID) {
-      //   console.log('location already exists');
-      //   res.send({
-      //     message: 'LOCATION ALREADY EXISTS',
-      //     result: [],
-      //     session: req.sessionID,
-      //   })
-      // }
+    const result = await insertOne(req.body, req.sessionID)
+    console.log('result: ', result[0].affectedRows);
+    res.send({
+      message: 'SUCCESS',
+      result: result[0].affectedRows,
+      session: req.sessionID,
+    })
   }
   catch (err) {
     console.log('error msg: ', err)
@@ -61,7 +46,7 @@ exports.addOneFavorite = async (req, res, next) => {
   }
 }
 
-exports.deleteOneFavorite = async (req, res, next) => {
+exports.deleteOneFavorite = async (req, res, next) => { // delete one favorte from db
   // console.log('sessionID: ', req.sessionID)
   console.log('index: ', req.query.id);
   try {
@@ -73,7 +58,7 @@ exports.deleteOneFavorite = async (req, res, next) => {
         message: 'FAVORITE DELETED FROM DB',
         result: result[0],
       })
-    } 
+    }
   }
   catch (err) {
     console.log('error msg: ', err)
