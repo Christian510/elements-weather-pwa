@@ -33,10 +33,11 @@ exports.addOneFavorite = async (req, res, next) => { // add one favorte to db
   // console.log('req.body: ', req.body);
   try {
     const result = await insertOne(req.body, req.sessionID)
-    console.log('result: ', result[0].affectedRows);
+    // Maybe in the future I can use the resulting 0/1 value to trigger a message to the user.
+    console.log('result: ', result);
     res.send({
       message: 'SUCCESS',
-      result: result[0].affectedRows,
+      result: result,
       session: req.sessionID,
     })
   }
@@ -65,19 +66,3 @@ exports.deleteOneFavorite = async (req, res, next) => { // delete one favorte fr
     throw new Error('Unable to delete location: ', err);
   }
 }
-
-
-//   INSERT INTO `locations`
-// (`location_id`,
-// `session_id`,
-// `name`,
-// `fetch_url`,
-// `lat`,
-// `lng`)
-// VALUES
-// (<{location_id: }>,
-// <{session_id: }>,
-// <{name: }>,
-// <{fetch_url: }>,
-// <{lat: }>,
-// <{lng: }>);

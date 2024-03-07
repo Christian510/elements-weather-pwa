@@ -14,11 +14,11 @@ const pool = mysql.createPool({
 }).promise();
 
 function executeQuery(query, values) {
-  console.log('query: ', query);
-  console.log('values: ', [...values]);
+  // console.log('query: ', query);
+  // console.log('values: ', [...values]);
   return pool.execute(query, [...values])
     .then(result => {
-      console.log('result: ', result);
+      // console.log('result: ', result);
       return result;
     })
     .catch(err => {
@@ -123,7 +123,7 @@ async function insertOne(params = null, session_id = null) {
   // console.log('value: ', value);
 
   if (value.length === 0) {
-    console.log(`location does not exist`)
+    console.log(`location not in db, adding location and session_favorite`)
     const query3 = `INSERT INTO session_favorites (s_id, l_id)
                     VALUES (?, ?)`;
     const [ sf ] = await executeQuery(query3, [session_id, params.location_id]);
@@ -134,10 +134,12 @@ async function insertOne(params = null, session_id = null) {
                     VALUES (?, ?, ?, ?, ?, ?)`;
     const [ loc ] = await executeQuery(query2, [params.location_id, params.name, params.state, params.country_code, params.lat, params.lng]);
     console.log('loc: ', loc);
+    return 1;
 
   } else if (value.length === 1) {
     console.log(`location already exists`)
-    return null;
+    console.log('value: ', value);
+    return 0;
   }
 }
 // insertOne('7tvrVX2rMmXDwaP-FRW6XxUuTN1JbbN6', '5666630')
