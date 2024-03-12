@@ -35,6 +35,7 @@ If you have any interest in working on this with me let me know.
 [] Handle errors.
 [] Debug margin issue on body. inline style added as temp fix.
 [X] If No data is passed to the FavoritesItem component. How shall I handle the error?
+[] Favorites view does not scroll to end of list.
 
 *** IDEAS
 - Play around with using Bard to generate a list of mountains user can pick for a weather forecast.

@@ -34,10 +34,10 @@ exports.addOneFavorite = async (req, res, next) => { // add one favorte to db
   try {
     const result = await insertOne(req.body, req.sessionID)
     // Maybe in the future I can use the resulting 0/1 value to trigger a message to the user.
-    console.log('result: ', result);
+    // console.log('result: ', result);
     res.send({
       message: 'SUCCESS',
-      result: result,
+      result: result, // return 1 if successful or 0 if not
       session: req.sessionID,
     })
   }
@@ -53,11 +53,11 @@ exports.deleteOneFavorite = async (req, res, next) => { // delete one favorte fr
   try {
     const result = await deleteOne(req.query.session_id, req.query.location_id)
     if (result) {
-      console.log('result: ', result);
+      console.log('favorites.js result: ', result);
       // console.log('result: ', result);
       res.send({
         message: 'FAVORITE DELETED FROM DB',
-        result: result,
+        result: result.affectedRows, // return 1 if successful or 0 if not
       })
     }
   }

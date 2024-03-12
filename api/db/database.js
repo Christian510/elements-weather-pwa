@@ -166,7 +166,7 @@ async function deleteOne(s_id, l_id) {
                   AND l_id = ?
                   LIMIT 1;`;
   const [rows] = await executeQuery(query, [s_id, l_id])
-  // console.log('rows: ', rows);
+  console.log('deleted rows: ', rows);
   return rows;
 }
 
