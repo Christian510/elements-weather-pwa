@@ -18,7 +18,7 @@ import { getForecastByLatLon, queryForecastData } from '../../models/weather_api
 import Axios from 'axios';
 
 export default function CurrentConditions() { // fetch the forecast data and display it.
-  const sessionId = document.cookie.split('=')[1];
+  // const sessionId = document.cookie.split('=')[1];
   let { location } = useParams();
 
   const params = JSON.parse(location);

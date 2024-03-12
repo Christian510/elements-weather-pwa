@@ -1,4 +1,4 @@
-// const axios = require('axios');
+const axios = require('axios');
 // const getDb = require('../util/database').getDb;
 // const { listenerCount } = require('process');
 
@@ -86,3 +86,12 @@ export async function queryForecastData(url) {
 export const getExtendedForecast = async (lat = '', lon = '', countrycode = 'USA') => {
     // api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}
 }
+
+export const fetchFavorites = async () => {
+    try {
+      const response = await axios.get('/favorites/all');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    }
+  };

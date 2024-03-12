@@ -1,13 +1,14 @@
 import React, { useState, forwardRef } from 'react';
-import { 
-  ListItem, 
-  ListItemAvatar, 
-  Avatar, 
-  ListItemText, 
-  IconButton, 
-  Link, 
-  ListItemButton, 
-  Typography } from '@mui/material';
+import {
+  ListItem,
+  ListItemAvatar,
+  Avatar,
+  ListItemText,
+  IconButton,
+  Link,
+  ListItemButton,
+  Typography
+} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useFetchData } from "../../custom_hooks/useFetch";
 import { useFetchUrl } from "../../custom_hooks/useFetchUrl";
@@ -16,8 +17,8 @@ import Axios from 'axios';
 
 const ForwardRefLink = forwardRef(
   (linkProps, ref) => (
-  <Link ref={ref} to={linkProps.to} {...linkProps} />
-)
+    <Link ref={ref} to={linkProps.to} {...linkProps} />
+  )
 );
 
 // const deleteFavorite = (id, i) => {
@@ -30,13 +31,10 @@ const ForwardRefLink = forwardRef(
 //     });
 // }
 
-function FavoritesItem({ location, index, deleteFavorite }) {
+function FavoritesItem({ location, sessionID, deleteFavorite }) {
   // console.log('location: ', location);
   const { url, fetching } = useFetchUrl(location);
   const { data, loading, error } = useFetchData(url);
-  // console.log('url: ', url);
-  // console.log('data: ', data);
-
   const [secondary, setSecondary] = useState(false);
 
   const details = `
@@ -46,7 +44,7 @@ function FavoritesItem({ location, index, deleteFavorite }) {
   ${data?.properties.periods[0].shortForecast}`;
 
   const path = `forecast/${encodeURIComponent(JSON.stringify(location))}`;
-// console.log('path: ', path);
+  // console.log('path: ', path);
   if (loading) {
     return (
       <ListItem
@@ -61,7 +59,7 @@ function FavoritesItem({ location, index, deleteFavorite }) {
         <ElmSpinner size='sm' />
       </ListItem>
     );
-  } 
+  }
   if (loading === false && error.isError === true) {
     return (
       <ListItem
@@ -78,32 +76,33 @@ function FavoritesItem({ location, index, deleteFavorite }) {
         </Typography>
       </ListItem>
     );
-      } else {
+  } else {
     return (
       <ListItem
+        className='favorite'
         divider={true}
         secondaryAction={
           <IconButton
             edge="end"
             aria-label="delete"
-            onClick={() => deleteFavorite(location.id, index)}>
+            onClick={() => deleteFavorite(location.location_id, sessionID)}>
             <DeleteIcon />
           </IconButton>
         }
       >
-        <ListItemButton 
-          component={ForwardRefLink} 
+        <ListItemButton
+          component={ForwardRefLink}
           to={path}
-          >
-        <ListItemAvatar>
-          <Avatar>
-          <img src={data?.properties.periods[0].icon} />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText
-          primary={details}
-          secondary={secondary ? 'Location Missing' : null}
-        />
+        >
+          <ListItemAvatar>
+            <Avatar>
+              <img src={data?.properties.periods[0].icon} />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText
+            primary={details}
+            secondary={secondary ? 'Location Missing' : null}
+          />
         </ListItemButton>
       </ListItem>
     );

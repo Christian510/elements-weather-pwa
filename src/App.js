@@ -20,8 +20,6 @@ export function Home() {
   let fetcherInProgress = fetchers.some((f) =>
     ['loading', 'submitting'].includes(f.state)
   );
-  const favorites = useLoaderData();
-  // console.log('favorites at Home.jsx: ', favorites);
 
   return (
     <>

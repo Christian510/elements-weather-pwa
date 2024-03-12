@@ -87,19 +87,19 @@ function findOneById(table, col, id) {
 //         });
 // }
 
-// returns a stringifyed json object
-async function findAllById(table, col, session_id='') {
+// returns all locations for a session_id
+async function findAllById(table, col, session_id = '') {
   const query_ids = `SELECT * FROM ${table} WHERE ${col} = ?`;
   const query_data = `SELECT * FROM locations WHERE location_id = ?`;
   const favorites = [];
-  const [ rows ] = await executeQuery(query_ids, [session_id])
+  const [rows] = await executeQuery(query_ids, [session_id])
   // console.log('rows: ', rows);
   if (rows.length === 0) {
     return [];
   }
   if (rows.length > 0) {
     for (let i = 0; i < rows.length; i++) {
-      const [ data ] = await executeQuery(query_data, [rows[i].l_id])
+      const [data] = await executeQuery(query_data, [rows[i].l_id])
       favorites.push(data[0]);
     }
   }
@@ -108,61 +108,66 @@ async function findAllById(table, col, session_id='') {
 }
 
 // findAllById('session_favorites', 'session_id', '7tvrVX2rMmXDwaP-FRW6XxUuTN1JbbN6')
-
-// Insert one Location
+// 1. check if favorite is in session_favorites.
+// if YES return.
+// if NO step 2.
+// Add to session_favorites then...
+// Check if favortie is in locations db.
+// if YES do return
+// If No Insert one Location
 async function insertOne(params = null, session_id = null) {
-  console.log('params: ', params);
-  // Does the location exist in locations and session_favorite db?;
-  const query1 = `SELECT s.*, sf.*, l.*
-                  FROM sessions s
-                  LEFT JOIN session_favorites sf ON s.session_id = sf.s_id
-                  LEFT JOIN locations l ON l.location_id = sf.l_id
-                  WHERE sf.l_id = ?
-                  AND sf.s_id = ?;`;
-  const [ value ] = await executeQuery(query1, [params.location_id, session_id])
-  // console.log('value: ', value);
+  // console.log('params: ', params);
+  // console.log('session_id: ', session_id);
+  let result = null;
+  const sf_query = `SELECT * FROM session_favorites WHERE l_id = ? AND s_id = ?;`;
+  const [sf] = await executeQuery(sf_query, [params.location_id, session_id])
+  // console.log('sf query: ', sf)
 
-  if (value.length === 0) {
-    console.log(`location not in db, adding location and session_favorite`)
-    const query3 = `INSERT INTO session_favorites (s_id, l_id)
-                    VALUES (?, ?)`;
-    const [ sf ] = await executeQuery(query3, [session_id, params.location_id]);
-    console.log('sf: ', sf);
+  const l_query = `SELECT * FROM locations WHERE location_id = ?;`;
+  const [location] = await executeQuery(l_query, [params.location_id])
+  // console.log('location query: ', location)
 
-    const query2 = `
+  const sf_insert_query = `INSERT INTO session_favorites (s_id, l_id) VALUES (?, ?)`;
+
+  if (sf.length < 1 && location.length < 1) {
+    console.log('add location to session_favorites')
+    const [sf] = await executeQuery(sf_insert_query, [session_id, params.location_id]);
+    // console.log('sf: ', sf.affectedRows);
+    console.log('add location to location db');
+
+    const l_insert_query = `
                     INSERT INTO locations (location_id, name, state, country_code, lat, lng)
                     VALUES (?, ?, ?, ?, ?, ?)`;
-    const [ loc ] = await executeQuery(query2, [params.location_id, params.name, params.state, params.country_code, params.lat, params.lng]);
-    console.log('loc: ', loc);
-    return 1;
+    const [loc] = await executeQuery(l_insert_query, [params.location_id, params.name, params.state, params.country_code, params.lat, params.lng]);
+    if (sf.affectedRows === 0 || loc.affectedRows === 0) result = 0; // Message: 'db session_favorites not saved'
+    if (sf.affectedRows === 1 && loc.affectedRows === 1) result = 1;
+    // console.log('loc affected rows: ', loc.affectedRows);
 
-  } else if (value.length === 1) {
-    console.log(`location already exists`)
-    console.log('value: ', value);
-    return 0;
   }
+  if (sf.length < 1 && location.length > 0) {
+    console.log('add to session_favorites')
+    const [sf] = await executeQuery(sf_insert_query, [session_id, params.location_id]);
+    // console.log('sf affected rows: ', sf.affectedRows);
+    result = sf.affectedRows;
+  }
+  if (sf.length > 0) {
+    console.log('Already exists -- do nothing.');
+    result = 0
+  }
+  console.log(' final result: ', result);
+  return result;
 }
-// insertOne('7tvrVX2rMmXDwaP-FRW6XxUuTN1JbbN6', '5666630')
 
 // // Delete a Location
-function deleteOne(table, col, session_id, index = null) {
-  // console.log('location_id: ', typeof parseInt(location_id), location_id);
-  // console.log('session_id: ', typeof session_id, session_id);
-  // console.log('table: ', typeof table, table);
-  const i = parseInt(index);
-  // console.log('index: ', typeof i, i);
-  const query = `UPDATE ${table} 
-  SET ${col} = JSON_REMOVE(${col},'$[0]')
-  WHERE session_id = ?;`;
-  return pool.execute(query, [index, session_id])
-    .then(result => {
-      console.log('result: ', result);
-      return result[0];
-    })
-    .catch(err => {
-      console.log('error msg: ', err)
-      throw new Error('Unable to delete favorite: ', err);
-    })
+async function deleteOne(s_id, l_id) {
+  console.log(`delete location by id: ${l_id} & session: ${s_id}`)
+  const query = `DELETE FROM session_favorites
+                  WHERE s_id = ?
+                  AND l_id = ?
+                  LIMIT 1;`;
+  const [rows] = await executeQuery(query, [s_id, l_id])
+  // console.log('rows: ', rows);
+  return rows;
 }
 
 function deleteExpiredSession() {

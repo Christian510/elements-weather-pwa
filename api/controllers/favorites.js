@@ -48,16 +48,16 @@ exports.addOneFavorite = async (req, res, next) => { // add one favorte to db
 }
 
 exports.deleteOneFavorite = async (req, res, next) => { // delete one favorte from db
-  // console.log('sessionID: ', req.sessionID)
-  console.log('index: ', req.query.id);
+  
+  console.log('req.query: ', req.query);
   try {
-    const result = await deleteOne('sessions', 'favorites', req.sessionID, req.query.id)
-    console.log('result: ', result[0]);
+    const result = await deleteOne(req.query.session_id, req.query.location_id)
     if (result) {
+      console.log('result: ', result);
       // console.log('result: ', result);
       res.send({
         message: 'FAVORITE DELETED FROM DB',
-        result: result[0],
+        result: result,
       })
     }
   }
