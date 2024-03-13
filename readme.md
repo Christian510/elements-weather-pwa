@@ -13,6 +13,10 @@ Some Takeaways from working on this project.
 If you have any interest in working on this with me let me know.
 
 *** TODOS
+[]  Add geoLocation: Provide user option to display weather for current lat and lng. If yes, save to db.
+[]  Use geoLocation to display location on a map.
+[]  Build out user login page and wire it up to a db user table.
+[]  Favorite component swipe to delete ui.
 [X] Add sessions to server.
 [X] Create local test db for saved forecast locations.
 [X] Create Sessions db.
@@ -28,7 +32,7 @@ If you have any interest in working on this with me let me know.
 [X] NEED TO WORK ON A WAY TO FILTER OPTIONS LIST AS THE USER TYPES TO CONTINUE NARROWING THE OPTIONS
 [X] Save the city forecast data with the sessionID.
 [X] Users session will last for 6 months before it is deleted.
-[] If the user creates an account then the sessionID will be saved to the account and the users data will last indefinitely.
+[] If the user creates an account migrate session_favorites to user_favorites last indefinitely.
 
 ** Bug Fixes:
 [X] lag in data display.

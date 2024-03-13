@@ -65,3 +65,49 @@ export async function queryLocations(query, country = "US") {
 }
 
 
+function getLocation() {
+    console.log('navigator obj: ', navigator)
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  }
+  
+  function showPosition(position) {
+    console.log('position: ', position);
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    const accuracy = position.coords.accuracy;
+    const timestamp = position.timestamp;
+  
+    // You can now use the retrieved coordinates and other location data
+    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+    console.log(`Accuracy: ${accuracy} meters`);
+    console.log(`Timestamp: ${timestamp}`);
+  
+    // Example: Displaying the location on a map
+    // const mapLink = `https://www.google.com/maps/@${latitude},${longitude},15z`;
+    // const mapElement = document.getElementById("map");
+    // mapElement.innerHTML = `<a href="${mapLink}" target="_blank">View location on map</a>`;
+  }
+  
+  function showError(error) {
+    switch (error.code) {
+      case error.PERMISSION_DENIED:
+        console.error("User denied the request for Geolocation.");
+        break;
+      case error.POSITION_UNAVAILABLE:
+        console.error("Location information is unavailable.");
+        break;
+      case error.TIMEOUT:
+        console.error("The request to get user location timed out.");
+        break;
+      default:
+        console.error("An unknown error occurred.");
+    }
+  }
+  
+  // Call the function to get user location
+  getLocation();
+  

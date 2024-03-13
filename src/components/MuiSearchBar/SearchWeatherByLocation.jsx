@@ -1,10 +1,9 @@
 import { useMemo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-// import { usePrevious } from '../../custom_hooks/customHooks';
 import { useAutocomplete } from '@mui/base/useAutocomplete';
 import { styled } from '@mui/system';
 import { debounce } from '@mui/material/utils';
-import { queryLocations } from '../../models/city_api';
+import { queryLocations } from '../../models/geo_location_api';
 
 export default function SearchInput() {
   const [value, setValue] = useState(null);

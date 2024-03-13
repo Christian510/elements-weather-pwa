@@ -1,35 +1,22 @@
 import React, { useState, forwardRef } from 'react';
-import {
-  ListItem,
-  ListItemAvatar,
-  Avatar,
-  ListItemText,
-  IconButton,
-  Link,
-  ListItemButton,
-  Typography
-} from '@mui/material';
+import Typography from '@mui/material/Typography';
+import ListItemButton from '@mui/material/ListItemButton';
+import Link from '@mui/material/Link';
+import IconButton from '@mui/material/IconButton';
+import ListItemText from '@mui/material/ListItemText';
+import Avatar from '@mui/material/Avatar';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ListItem  from '@mui/material/ListItem';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useFetchData } from "../../custom_hooks/useFetch";
 import { useFetchUrl } from "../../custom_hooks/useFetchUrl";
 import ElmSpinner from '../ElmSpinner/ElmSpinner';
-import Axios from 'axios';
 
 const ForwardRefLink = forwardRef(
   (linkProps, ref) => (
     <Link ref={ref} to={linkProps.to} {...linkProps} />
   )
 );
-
-// const deleteFavorite = (id, i) => {
-//   // console.log('delete location by id: ', i);
-//   Axios.delete(`/favorites/delete-one/?id=${i}`)
-//     .then((response) => {
-//       console.log('axios delete response: ', response.data.result);
-//     }).catch((error) => {
-//       console.log('error: ', error);
-//     });
-// }
 
 function FavoritesItem({ location, sessionID, deleteFavorite }) {
   // console.log('location: ', location);
@@ -96,7 +83,7 @@ function FavoritesItem({ location, sessionID, deleteFavorite }) {
         >
           <ListItemAvatar>
             <Avatar>
-              <img src={data?.properties.periods[0].icon} />
+              <img src={data?.properties.periods[0].icon} alt={data?.properties.periods[0].shortForecast} />
             </Avatar>
           </ListItemAvatar>
           <ListItemText

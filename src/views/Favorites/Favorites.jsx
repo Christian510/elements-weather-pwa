@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { List } from '@mui/material';
+import List from '@mui/material/List';
 import FavoritesItem from "../../components/FavoritesItem/FavoritesItem";
 import axios from 'axios';
 
@@ -20,8 +20,7 @@ function Favorites() {
     const sessionID = document.cookie.split('=')[1];
     // console.log('sessionId: ', sessionID);
     const [favorites, setFavorites] = useState([]);
-
-    console.log('favorites: ', favorites);
+    // console.log('favorites: ', favorites);
     
     useEffect(() => {
         async function fetchData() {
@@ -35,10 +34,9 @@ function Favorites() {
         // console.log('l_id: ', l_id);
         try {
             const response = await axios.delete(`/favorites/delete-one/?location_id=${l_id}&session_id=${s_id}`)
-            console.log('axios delete response: ', response);
+            // console.log('axios delete response: ', response);
             if (response.data.result === 1) {
-                // console.log('delete location by id: ', l_id);
-                // console.log('result: ', result);
+                // console.log('response: ', response.data.result);
                 setFavorites(favorites.filter((elm) => elm.location_id !== l_id));
             }
             if (response.data.result === 0) { // Maybe return a message if there is an error deleting the location.
