@@ -125,6 +125,8 @@ const grey = {
   900: '#24292f',
 };
 
+const black = {};
+
 const StyledAutocomplete = styled('div')`
   position: relative;
   margin: 1.5rem 0;
@@ -242,12 +244,12 @@ const Layout = styled('div')`
   flex-flow: column nowrap;
 `;
 
-const Pre = styled('pre')(({ theme }) => ({
-  margin: '0.5rem 0',
-  '& code': {
-    backgroundColor: theme.palette.mode === 'light' ? '#ebebef' : '#25252d',
-    color: theme.palette.mode === 'light' ? '#000' : '#fff',
-    padding: '0.125rem 0.25rem',
-    borderRadius: 3,
-  },
-}));
+// const Pre = styled('pre')(({ theme }) => ({
+//   margin: '0.5rem 0',
+//   '& code': {
+//     backgroundColor: theme.palette.mode === 'light' ? '#ebebef' : '#25252d',
+//     color: theme.palette.mode === 'light' ? '#000' : '#fff',
+//     padding: '0.125rem 0.25rem',
+//     borderRadius: 3,
+//   },
+// }));

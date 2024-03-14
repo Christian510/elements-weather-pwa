@@ -13,6 +13,7 @@ Some Takeaways from working on this project.
 If you have any interest in working on this with me let me know.
 
 *** TODOS
+[]  Add weather alerts on current current conditions.
 []  Add geoLocation: Provide user option to display weather for current lat and lng. If yes, save to db.
 []  Use geoLocation to display location on a map.
 []  Build out user login page and wire it up to a db user table.
