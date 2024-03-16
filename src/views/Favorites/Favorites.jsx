@@ -53,7 +53,7 @@ function Favorites() {
     // console.log('error at Favorites.jsx: ', error);
     const list = favorites?.map((elm, i) => <FavoritesItem key={i} location={elm} sessionID={sessionID} deleteFavorite={deleteFavorite} />);
     return (
-        <List>
+        <List sx={{paddingTop: 0}}>
             {list}
         </List>
     );

@@ -1,4 +1,5 @@
 import React, { useState, forwardRef } from 'react';
+import { styled } from '@mui/system';
 import Typography from '@mui/material/Typography';
 import ListItemButton from '@mui/material/ListItemButton';
 import Link from '@mui/material/Link';
@@ -34,40 +35,29 @@ function FavoritesItem({ location, sessionID, deleteFavorite }) {
   // console.log('path: ', path);
   if (loading) {
     return (
-      <ListItem
-        divider={true}
-        sx={
-          {
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }
-        }>
+      <FavoritesListItem
+        divider={false}
+        sx={{sxStyle}}>
         <ElmSpinner size='sm' />
-      </ListItem>
+      </FavoritesListItem>
     );
   }
   if (loading === false && error.isError === true) {
     return (
-      <ListItem
-        divider={true}
-        sx={
-          {
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }
-        }>
+      <FavoritesListItem
+        divider={false}
+        sx={{sxStyle}}>
         <Typography variant='h6' color='error'>
           {error.message}
         </Typography>
-      </ListItem>
+      </FavoritesListItem>
     );
   } else {
     return (
-      <ListItem
+      <FavoritesListItem
         className='favorite'
-        divider={true}
+        sx={{backgroundColor: 'white'}}
+        divider={false}
         secondaryAction={
           <IconButton
             edge="end"
@@ -82,18 +72,45 @@ function FavoritesItem({ location, sessionID, deleteFavorite }) {
           to={path}
         >
           <ListItemAvatar>
-            <Avatar>
-              <img src={data?.properties.periods[0].icon} alt={data?.properties.periods[0].shortForecast} />
-            </Avatar>
+            <Avatar
+              variant='square'
+              src={data?.properties.periods[0].icon} alt={data?.properties.periods[0].shortForecast}
+              sx={{ width: 50, height: 50 }}
+            />
+              {/* <img src={data?.properties.periods[0].icon} alt={data?.properties.periods[0].shortForecast} /> */}
+            {/* </Avatar> */}
           </ListItemAvatar>
           <ListItemText
             primary={details}
             secondary={secondary ? 'Location Missing' : null}
           />
         </ListItemButton>
-      </ListItem>
+      </FavoritesListItem>
     );
   }
 }
+const sxStyle = {
+  backgroundColor: 'white',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+}
+const grey = {
+  100: '#f5f5f5',
+  200: '#eeeeee',
+  300: '#e0e0e0',
+  400: '#bdbdbd',
+  500: '#9e9e9e',
+  600: '#757575',
+  700: '#616161',
+  800: '#424242',
+}
+const FavoritesListItem = styled(ListItem)(
+  ({ theme }) => `
+    margin: 12px 0;
+    border-radius: 12px;
+    boarder: 4px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
+`,
+);
 
 export default FavoritesItem;

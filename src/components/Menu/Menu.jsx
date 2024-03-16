@@ -1,4 +1,5 @@
 import React from 'react';
+import { styled } from '@mui/system';
 import { IconButton, Box, Drawer, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -29,7 +30,7 @@ export default function Menu() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {[{label:'Home', route: '/'}, {label:'Create Account', route:'/create_account'}, {label:'Login', route: '/login'}, {label:'About', route: '/about'}, ].map((text, index) => (
+        {[{ label: 'Home', route: '/' }, { label: 'Create Account', route: '/create_account' }, { label: 'Login', route: '/login' }, { label: 'About', route: '/about' },].map((text, index) => (
           <ListItem key={text.label} disablePadding>
             <ListItemButton>
               <NavLink to={text.route}>{text.label}</NavLink>
@@ -41,10 +42,10 @@ export default function Menu() {
   );
 
   return (
-    <div className='navList'>
+    <NavBar id='navList'>
       {['right'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <IconButton onClick={toggleDrawer(anchor, true)} area-label='menu' sx={{ color: '#fff'}} size='100px'>
+          <IconButton onClick={toggleDrawer(anchor, true)} area-label='menu' sx={{ color: '#fff' }} size='100px'>
             <MenuIcon fontSize='inherit' />
           </IconButton>
           <Drawer
@@ -56,7 +57,14 @@ export default function Menu() {
           </Drawer>
         </React.Fragment>
       ))}
-    </div>
-    
+    </NavBar>
+
   );
 }
+
+const NavBar = styled('div')(`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+`);
