@@ -4,6 +4,7 @@ import { useAutocomplete } from '@mui/base/useAutocomplete';
 import { styled } from '@mui/system';
 import { debounce } from '@mui/material/utils';
 import { queryLocations } from '../../models/geo_location_api';
+import SearchIcon from '@mui/icons-material/Search';
 
 export default function SearchInput() {
   const [value, setValue] = useState(null);
@@ -66,6 +67,7 @@ export default function SearchInput() {
     groupedOptions,
     focused,
   } = useAutocomplete({
+    clearIcon: <SearchIcon fontSize='small' />,
     getOptionLabel: (option) => option.name,
     freeSolo: true,
     filterOptions: (x) => x,

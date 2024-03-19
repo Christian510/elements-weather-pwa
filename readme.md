@@ -51,9 +51,10 @@ If you have any interest in working on this with me let me know.
 - https://countrystatecity.in/docs/api/all-countries/
 - 
 
-*** DEBUG SERVER COMMANDS: (Run these in different terminals)
+*** DEBUG - COMMANDLINE -  SERVER COMMANDS: (Run these in different terminals)
 Debug Express: DEBUG=express:* node ./bin/www    
-Debug Session: DEBUG=express-mysql-session* node app.js     
+Debug Session: DEBUG=express-mysql-session* node app.js  
+Get ip address: ifconfig | grep inet   
 
 *** GEONAMES API
 Discovered a new open source api which I can access an incredible amount of data about cities and populated places all over the world via REST API.  

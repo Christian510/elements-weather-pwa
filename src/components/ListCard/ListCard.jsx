@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { styled } from '@mui/system';
-import { Card, Drawer, IconButton, CardActions, Button, Avatar } from "@mui/material";
+import { Card, Drawer, IconButton, CardActions, Button, Avatar, Box } from "@mui/material";
 import { DeleteIcon } from "@mui/icons-material";
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
@@ -15,10 +15,10 @@ export default function ListCard({ location }) {
   const [deleteIconVisible, setDeleteIconVisible] = useState(false);
   const [forecast, setForecast] = useState(null);
   useEffect(() => {
-    fetch('https://api.weather.gov/gridpoints/OTX/173,115/forecast')
+    fetch('https://api.weather.gov/gridpoints/BGM/74,100/forecast')
       .then(response => response.json())
       .then(data => {
-        console.log('data: ', data);
+        // console.log('data: ', data);
         setForecast(data.properties.periods[0]);
       });
   }, [])
@@ -64,54 +64,71 @@ export default function ListCard({ location }) {
   })
 
   return (
-    <Card
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      sx={{
-        cursor: isDragging ? "grabbing" : "pointer",
-        background: "White",
-        maxHeight: '100px',
-        margin: '20px 10px 20px 10px',
-        borderRadius: '15px',
-      }}
-    >
-      <Grid container spacing={2}>
-        <Grid xs >
-          <Avatar
-            variant='square'
-            src={forecast?.icon} alt={forecast?.shortForecast}
-            sx={{ height: 'fit-content', width: 100 }}
-          />
-        </Grid>
-        <Grid container spacing={8}>
-          <Grid xs display="flex" justifyContent="center" alignItems="center" >
-            <p>Boise</p>
-            <p>11:20AM</p>
-            <p>Sunny</p>
-          </Grid>
-          <Grid xs display="flex" justifyContent="center" alignItems="center" >
-            <h3>70&deg;</h3>
+      <Card
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        sx={{
+          cursor: isDragging ? "grabbing" : "pointer",
+          background: "White",
+          backgroundImage: `url(${forecast?.icon})`,
+          backgroundSize: 'cover',
+          maxHeight: '100px',
+          margin: '20px 10px 20px 10px',
+          borderRadius: '15px',
+          minHeight: '120px',
+          color: 'white',
+          textShadow: '1px 1px 5px gray',
+          overflowX: 'scroll',
+        }}
+      >
+        <Grid container 
+              justifyContent='space-between'
+              alignItems='center'
+              spacing={{ xs: 2, md: 3, height: '100px' }} >
+          <Grid item xs={4} sm={4} md={4}>
+            <Box
+              display="flex"
+              justifyContent='space-between'
+              flexDirection='column'
+              gap={4}
+              p={2}
+              sx={{ margin: 0 }} >
+              <div>
+                <h2>Boise</h2>
+                <p>11:20AM</p>
+
+              </div>
+              <p>Sunny</p>
+            </Box>
+            </Grid>
+          <Grid item xs={4} sm={4} md={4}>
+          <Box
+            display="flex"
+            justifyContent='space-between'
+            alignItems='center'
+            flexDirection='column'
+            gap={2}
+            p={2}
+            sx={{ margin: 0 }}  >
+            <p style={{fontSize: '3em'}}>70&deg;</p>
             <p>H:75&deg; L:50&deg;</p>
+          </Box>
           </Grid>
         </Grid>
-      </Grid>
-      {/* <p>{forecast.temperature}</p> */}
+        {deleteIconVisible && (
+          <CardActions>
+            <Button
+              sx={{width: '100px', height: '100px', borderRadius: '12px'}}
+              variant="contained"
+              color="error"
+              startIcon={<DeleteSweepIcon />}
+              onClick={() => {
+                console.log('delete')
+              }}
+            />
+          </CardActions>
+        )}
 
-
-      {deleteIconVisible && (
-        <CardActions>
-          <Button
-            variant="contained"
-            color="error"
-            startIcon={<DeleteSweepIcon />}
-            onClick={() => {
-              console.log('delete')
-            }}
-          >
-            Delete
-          </Button>
-        </CardActions>
-      )}
-    </Card>
+      </Card>
   );
 };
