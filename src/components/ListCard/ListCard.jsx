@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { styled } from '@mui/system';
-import { Card, CardActions, Button, IconButton, Box } from "@mui/material";
-import { DeleteIcon } from "@mui/icons-material";
+import { createTheme, styled } from '@mui/system';
+import { Card, CardActions, Button, Box } from "@mui/material";
+// import { DeleteIcon } from "@mui/icons-material";
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
@@ -12,7 +12,6 @@ import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 export default function ListCard({ location }) {
   // const [drawerOpen, setDrawerOpen] = useState('false');
   const [isDragging, setIsDragging] = useState('false');
-  const [deleteIconVisible, setDeleteIconVisible] = useState('false');
   const [forecast, setForecast] = useState(null);
 
   useEffect(() => {
@@ -25,75 +24,28 @@ export default function ListCard({ location }) {
   }, [])
   // console.log('forecast: ', forecast);
 
-  // 1. Create a style class to set the Card elemtn to absolute position and set itps position.
-  // 2. handleDragStart: set the isDragging state to true.
-
-  const handleDragStart = (event) => {
-    console.log('setIsDragging')
-    setIsDragging('true');
-    console.log('event: ', event)
-    const listCard = document.querySelector('.list-card');
-    console.log('listCard: ', listCard)
-
-  };
-
-  const handleDragEnd = (event) => {
-    // event.preventDefault();
-    console.log('event: ', event)
-    setIsDragging('false');
-
-    // If the card has been dragged far enough to the left, reveal the delete icon.
-    if (event.pageX < window.innerWidth / 4) {
-      setDeleteIconVisible('true');
-    } else {
-      setDeleteIconVisible('false');
-    }
-  };
-
-  // const handleDrawerOpen = () => {
-  //   console.log('handleDrawerOpen')
-  //   setDrawerOpen(true);
-  // };
-
-  // const handleDrawerClose = () => {
-  //   console.log('handleDrawerClose')
-  //   setDrawerOpen(false);
-  // };
-
-  // const onMouseDown = document.addEventListener('mousedown', (event) => {
-  //   console.log('startSlider', event.pageX)
-  // })
-
-  // const onMouseMove = document.addEventListener('mousemove', (event) => {
-  //   console.log('onMouseMove: ', event.pageX)
-  // })
-
-  // const onMouseUp = document.addEventListener('mouseup', (event) => {
-  //   console.log('onMouseUp: ', event.onMouseMove)
-  // })
-
   // Using scoll snap to create the drag and delete button.  I may need to divide the delete button into seperate 
   // sections to get the delete button to snap to a small button position and then to a larger button position?
   // Experiment with the scroll snap properties to get the desired effect.
   return (
     <div className="list-card_container" style={{
       margin: '20px 0',
-      
-      }}>
-      <div className="list-card" style={{ 
-        scrollSnapType: 'x proximity', 
-        scrollSnapAlign: 'center',
+
+    }}>
+      <div className="list-card_scroll-behavior" style={{
+        scrollSnapType: 'x mandatory',
+        scrollBehavior: 'smooth',
+        scrollSnapStop: 'always',
         display: 'flex',
         overflowX: 'scroll',
         scrollbarWidth: 'none',
         borderRadius: '15px',
-        
-        }} dir="ltr" >
+        height: '115px',
+
+      }} dir="ltr" >
         <Card
           draggable={isDragging}
           className="list-card"
-          onTouchMove={handleDragStart}
-          onTouchEnd={handleDragEnd}
           sx={{
             cursor: isDragging ? "grabbing" : "pointer",
             background: "White",
@@ -103,7 +55,9 @@ export default function ListCard({ location }) {
             color: 'white',
             textShadow: '1px 1px 5px gray',
             width: '100%',
+            marginRight: '8px',
             flex: 'none',
+            scrollSnapAlign: 'center',
           }}
         >
           <Grid container
@@ -121,7 +75,6 @@ export default function ListCard({ location }) {
                 <div>
                   <h2>Boise</h2>
                   <p>11:20AM</p>
-
                 </div>
                 <p>Sunny</p>
               </Box>
@@ -141,35 +94,43 @@ export default function ListCard({ location }) {
             </Grid>
           </Grid>
         </Card>
-        {deleteIconVisible && (
-          <CardActions sx={{
-            width: '100%',
+        <Button
+          className="delete-button_a"
+          size="large"
+          sx={{
+            width: '100px',
+            borderRadius: 'unset',
+            borderTopLeftRadius: '15px',
+            borderBottomLeftRadius: '15px',
+            padding: '8px 40px ',
+            scrollSnapAlign: 'end',
             flex: 'none',
-            padding: '0',
-            marginLeft: '12px',
-          }}>
-            <Button
-              size="large"
-              sx={{ 
-                width: '100%', 
-                height: '100%', 
-                borderRadius: '15px', 
-                padding: '8px 40px ',
-                display: 'flex',
-                justifyContent: 'flex-start',
-              }}
-              variant="contained"
-              color="error"
-              // startIcon={<DeleteSweepIcon fontSize="inherit" />}
-              onClick={() => {
-                console.log('delete')
-              }}
-            >
-              <DeleteSweepIcon fontSize="large" />
-              </Button>
-          </CardActions>
-        )}
+          }}
+          variant="contained"
+          color="error"
+          onClick={() => {
+            console.log('delete')
+          }}
+        >
+          <DeleteSweepIcon fontSize="large" />
+        </Button>
+        <Button
+          className="delete-button_b"
+          variant="contained"
+          color="error"
+          sx={{
+            width: '100%',
+            borderRadius: 'unset',
+            padding: '8px 40px ',
+            scrollSnapAlign: 'center',
+            scrollMarginLeft: '200px',
+            flex: 'none',
+            borderTopRightRadius: '15px',
+            borderBottomRightRadius: '15px',
+          }} />
       </div>
     </div>
   );
 };
+
+// Add scrollSnapAlign: 'center', to Button.  and resize it so it will display as a button on left of view.

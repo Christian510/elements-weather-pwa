@@ -16,11 +16,13 @@ import LoginView from './views/LoginView/LoginView';
 import CreateAccountView from './views/CreateAccountView/CreateAccountView';
 import AccountView from './views/AccountView/AccountView';
 import DemoView from './views/DemoView/DemoView';
+import ElmTheme from './ElmThemeStyles/ElmTheme';
+
 
 let router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: <Home theme={ElmTheme} />,
     id: "root",
     errorElement: <ErrorPage title="Home View" />,
     children: [
