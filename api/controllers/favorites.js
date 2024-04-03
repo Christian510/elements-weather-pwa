@@ -1,7 +1,7 @@
 
-const db = require('../db/database').pool;
+// const db = require('../db/database').pool;
 const findAllById = require('../db/database').findAllById;
-const findOneById = require('../db/database').findOneById;
+// const findOneById = require('../db/database').findOneById;
 const insertOne = require('../db/database').insertOne;
 const deleteOne = require('../db/database').deleteOne;
 
@@ -49,7 +49,8 @@ exports.addOneFavorite = async (req, res, next) => { // add one favorte to db
 
 exports.deleteOneFavorite = async (req, res, next) => { // delete one favorte from db
   
-  console.log('req.query: ', req.query);
+  console.log('req.query: ', req);
+
   try {
     const result = await deleteOne(req.query.session_id, req.query.location_id)
     if (result) {

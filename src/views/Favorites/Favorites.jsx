@@ -31,7 +31,8 @@ function Favorites() {
     }, []);
 
     async function deleteFavorite(l_id, s_id) {
-        // console.log('l_id: ', l_id);
+        console.log('l_id: ', l_id);
+        console.log('s_id: ', s_id);
         try {
             const response = await axios.delete(`/favorites/delete-one/?location_id=${l_id}&session_id=${s_id}`)
             // console.log('axios delete response: ', response);

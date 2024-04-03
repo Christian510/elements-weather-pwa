@@ -29,7 +29,7 @@ export default function ListCard({ location }) {
   // Experiment with the scroll snap properties to get the desired effect.
   return (
     <div className="list-card_container" style={{
-      margin: '20px 0',
+      margin: '1.25em auto',
 
     }}>
       <div className="list-card_scroll-behavior" style={{
@@ -40,7 +40,8 @@ export default function ListCard({ location }) {
         overflowX: 'scroll',
         scrollbarWidth: 'none',
         borderRadius: '15px',
-        height: '115px',
+        // height: '115px',
+        height: 'auto',
 
       }} dir="ltr" >
         <Card
@@ -55,7 +56,7 @@ export default function ListCard({ location }) {
             color: 'white',
             textShadow: '1px 1px 5px gray',
             width: '100%',
-            marginRight: '8px',
+            marginRight: '.5em',
             flex: 'none',
             scrollSnapAlign: 'center',
           }}
@@ -63,7 +64,11 @@ export default function ListCard({ location }) {
           <Grid container
             justifyContent='space-between'
             alignItems='center'
-            spacing={{ xs: 2, md: 3, height: '100px' }} >
+            spacing={{ 
+              xs: 2, 
+              md: 3, 
+              // height: '100px'
+              }} >
             <Grid xs={4} sm={4} md={4}>
               <Box
                 display="flex"
@@ -98,7 +103,7 @@ export default function ListCard({ location }) {
           className="delete-button_a"
           size="large"
           sx={{
-            width: '100px',
+            width: '6.25em',
             borderRadius: 'unset',
             borderTopLeftRadius: '15px',
             borderBottomLeftRadius: '15px',
@@ -123,7 +128,7 @@ export default function ListCard({ location }) {
             borderRadius: 'unset',
             padding: '8px 40px ',
             scrollSnapAlign: 'center',
-            scrollMarginLeft: '200px',
+            scrollMarginLeft: '12.5em',
             flex: 'none',
             borderTopRightRadius: '15px',
             borderBottomRightRadius: '15px',

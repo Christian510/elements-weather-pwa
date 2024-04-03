@@ -3,7 +3,7 @@
  - Pre defined db functions
 */
 
-const { json } = require('body-parser');
+// const { json } = require('body-parser');
 const mysql = require('mysql2');
 
 const pool = mysql.createPool({
@@ -89,6 +89,7 @@ function findOneById(table, col, id) {
 
 // returns all locations for a session_id
 async function findAllById(table, col, session_id = '') {
+  console.log('session_id: ', session_id);
   const query_ids = `SELECT * FROM ${table} WHERE ${col} = ?`;
   const query_data = `SELECT * FROM locations WHERE location_id = ?`;
   const favorites = [];
