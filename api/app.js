@@ -2,6 +2,7 @@ require('dotenv').config({ path: './.env' });
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+// const cookieParser = require('cookie-parser');
 const MySQLStore = require('express-mysql-session')(session);
 const mysql = require('mysql2');
 const logger = require('morgan');
@@ -56,17 +57,21 @@ app.use(session({
   cookie: {
     secure: false,
     // EQUALS 1 DAY ( 1 DAY * 24 HR/1 DAY * 60 MIN/1 HR)
-    maxAge: 1000 * 60 * 60 * 24 * 90
+    // maxAge: 1000 * 60 * 60 * 24 * 90,
+    maxAge: 30,
+    // sameSite: 'strict',
   }
 }
 ));
 
-app.use('/favorites', favoritesRouter);
+// app.get('/getSession', (req, res, next) => {
+//   console.log('sessionID @ server: ', req.sessionID);
 
-app.use((req, res, next) => {
-  console.log('sessionID: ', req.sessionID);
-  next();
-});
+//   res.send('Session set');
+//   next();
+// });
+
+app.use('/favorites', favoritesRouter);
 
 app.get('/', (req, res) => { 
   res.send('API is working'); 

@@ -14,8 +14,8 @@ const pool = mysql.createPool({
 }).promise();
 
 function executeQuery(query, values) {
-  // console.log('query: ', query);
-  // console.log('values: ', [...values]);
+  console.log('query: ', query);
+  console.log('values: ', [...values]);
   return pool.execute(query, [...values])
     .then(result => {
       // console.log('result: ', result);
@@ -107,18 +107,9 @@ async function findAllById(table, col, session_id = '') {
   // console.log('favorites: ', favorites);
   return favorites;
 }
-
-// findAllById('session_favorites', 'session_id', '7tvrVX2rMmXDwaP-FRW6XxUuTN1JbbN6')
-// 1. check if favorite is in session_favorites.
-// if YES return.
-// if NO step 2.
-// Add to session_favorites then...
-// Check if favortie is in locations db.
-// if YES do return
-// If No Insert one Location
 async function insertOne(params = null, session_id = null) {
-  // console.log('params: ', params);
-  // console.log('session_id: ', session_id);
+  console.log('params: ', params);
+  console.log('session_id: ', session_id);
   let result = null;
   const sf_query = `SELECT * FROM session_favorites WHERE l_id = ? AND s_id = ?;`;
   const [sf] = await executeQuery(sf_query, [params.location_id, session_id])
@@ -128,11 +119,13 @@ async function insertOne(params = null, session_id = null) {
   const [location] = await executeQuery(l_query, [params.location_id])
   // console.log('location query: ', location)
 
-  const sf_insert_query = `INSERT INTO session_favorites (s_id, l_id) VALUES (?, ?)`;
+  const sf_insert_query = `INSERT INTO session_favorites (s_id, l_id, l_name) VALUES (?, ?, ?)`;
 
   if (sf.length < 1 && location.length < 1) {
     console.log('add location to session_favorites')
-    const [sf] = await executeQuery(sf_insert_query, [session_id, params.location_id]);
+    // params.name = params.name || 'Unknown';
+    // console.log('params: ', params);
+    const [sf] = await executeQuery(sf_insert_query, [session_id, params.location_id, params.name]);
     // console.log('sf: ', sf.affectedRows);
     console.log('add location to location db');
 
@@ -147,7 +140,7 @@ async function insertOne(params = null, session_id = null) {
   }
   if (sf.length < 1 && location.length > 0) {
     console.log('add to session_favorites')
-    const [sf] = await executeQuery(sf_insert_query, [session_id, params.location_id]);
+    const [sf] = await executeQuery(sf_insert_query, [session_id, params.location_id, params.name]);
     // console.log('sf affected rows: ', sf.affectedRows);
     result = sf.affectedRows;
   }

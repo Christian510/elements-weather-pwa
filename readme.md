@@ -82,3 +82,8 @@ For example: https://api.weather.gov/alerts/active?area=KS
 ** Weather Data:
 - Snowpack: https://www.nrcs.usda.gov/resources/data-and-reports/snow-and-climate-monitoring-predefined-reports-and-maps
 - NOAA HISTORICAL WEATHER API: https://www.ncdc.noaa.gov/cdo-web/webservices/v2
+
+
+I am getting two different sessions in my code:
+Session recorded by mySQLStore: 7tvrVX2rMmXDwaP-FRW6XxUuTN1JbbN6
+Req.session: _vuWoKjfIW4zdIUTPCAdr2Ixhuj3tun5

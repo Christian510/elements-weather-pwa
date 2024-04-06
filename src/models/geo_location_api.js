@@ -75,16 +75,16 @@ function getLocation() {
   }
   
   function showPosition(position) {
-    console.log('position: ', position);
+    // console.log('position: ', position);
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
     const accuracy = position.coords.accuracy;
     const timestamp = position.timestamp;
   
     // You can now use the retrieved coordinates and other location data
-    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-    console.log(`Accuracy: ${accuracy} meters`);
-    console.log(`Timestamp: ${timestamp}`);
+    // console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+    // console.log(`Accuracy: ${accuracy} meters`);
+    // console.log(`Timestamp: ${timestamp}`);
   
     // Example: Displaying the location on a map
     // const mapLink = `https://www.google.com/maps/@${latitude},${longitude},15z`;

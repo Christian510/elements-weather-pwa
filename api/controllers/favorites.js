@@ -6,7 +6,8 @@ const insertOne = require('../db/database').insertOne;
 const deleteOne = require('../db/database').deleteOne;
 
 exports.fetchFavorites = (req, res, next) => { // get all favorites for one session id from db
-  // console.log('req.seesionID: ', typeof req.sessionID)
+  console.log('req.seesionID: ', req.sessionID)
+  // console.log('req at fetchFavorites: ', req)
 
   return findAllById('session_favorites', 's_id', req.sessionID)
     .then(data => {
@@ -29,11 +30,10 @@ exports.fetchFavorites = (req, res, next) => { // get all favorites for one sess
 }
 
 exports.addOneFavorite = async (req, res, next) => { // add one favorte to db
-  // console.log('sessionID: ', req.sessionID)
-  // console.log('req.body: ', req.body);
+  console.log('sessionID: ', req.sessionID)
+  console.log('req.body: ', req.body);
   try {
     const result = await insertOne(req.body, req.sessionID)
-    // Maybe in the future I can use the resulting 0/1 value to trigger a message to the user.
     // console.log('result: ', result);
     res.send({
       message: 'SUCCESS',

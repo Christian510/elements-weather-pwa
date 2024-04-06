@@ -65,8 +65,8 @@ export default function ListCard({ location }) {
             justifyContent='space-between'
             alignItems='center'
             spacing={{ 
-              xs: 2, 
-              md: 3, 
+              xs: 4, 
+              md: 8, 
               // height: '100px'
               }} >
             <Grid xs={4} sm={4} md={4}>

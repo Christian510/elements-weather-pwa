@@ -10,6 +10,8 @@ import axios from 'axios';
 const fetchFavorites = async () => {
     try {
       const response = await axios.get('/favorites/all');
+      console.log('response: ', response);
+      console.log('response.data: ', response.data);
       return response.data;
     } catch (error) {
       console.error('Error fetching data: ', error);
@@ -17,15 +19,17 @@ const fetchFavorites = async () => {
   };
 
 function Favorites() {
-    const sessionID = document.cookie.split('=')[1];
+    // const sessionID = document.cookie.split('=')[1];
     // console.log('sessionId: ', sessionID);
     const [favorites, setFavorites] = useState([]);
-    // console.log('favorites: ', favorites);
+    const [sessionId, setSessionId] = useState();
+    console.log('favorites: ', favorites);
     
     useEffect(() => {
         async function fetchData() {
             const data = await fetchFavorites();
             setFavorites(data.locations);
+            setSessionId(data.session);
         }
         fetchData();
     }, []);
@@ -52,7 +56,7 @@ function Favorites() {
     // console.log("update: ", update);
     // console.log('favorites at Favorites.jsx: ', favorites);
     // console.log('error at Favorites.jsx: ', error);
-    const list = favorites?.map((elm, i) => <FavoritesItem key={i} location={elm} sessionID={sessionID} deleteFavorite={deleteFavorite} />);
+    const list = favorites?.map((elm, i) => <FavoritesItem key={i} location={elm} sessionID={sessionId} deleteFavorite={deleteFavorite} />);
     return (
         <List sx={{paddingTop: 0}}>
             {list}

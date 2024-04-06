@@ -2,6 +2,8 @@ const db = require('../../db/database')
 
 exports.getUserByID = (req, res, next) => {};
 
+exports.getSessionID = (req, res, next) => {};
+
 exports.addUser = (req, res, next) => {};
 
 exports.updateUser = (req, res, next) => {};

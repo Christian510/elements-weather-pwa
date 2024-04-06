@@ -19,5 +19,8 @@ const ElmTheme = createTheme({
         mode: 'dark'
     },
     });
-    console.log('ElmTheme: ', ElmTheme);
+    console.log('ElmTheme: ', ElmTheme.palette.primary.dark);
+
+
+
     export default ElmTheme;

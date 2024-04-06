@@ -1,9 +1,6 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Carousel from '../../components/Carousel/Carousel';
-import {
-  useParams,
-  useRouteLoaderData,
-} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Unstable_Grid2';
 import Container from '@mui/material/Container';

@@ -6,12 +6,12 @@ import {
   useRevalidator,
 } from 'react-router-dom';
 import { Container } from '@mui/material';
-import './App.css';
+// import './App.css';
 import './index.css';
 import SearchInput from './components/MuiSearchBar/SearchWeatherByLocation';
 import Menu from './components/Menu/Menu';
 import Header from './components/NavBar/Header';
-import ElmTheme from './ElmThemeStyles/ElmTheme';
+// import ElmTheme from './ElmThemeStyles/ElmTheme';
 
 export function Home({theme}) {
   let navigation = useNavigation();
@@ -20,14 +20,13 @@ export function Home({theme}) {
   let fetcherInProgress = fetchers.some((f) =>
     ['loading', 'submitting'].includes(f.state)
   );
-  const sessionID = document.cookie.split('=')[1];
-  console.log('sessionID: ', sessionID);
-
-  console.log('ElmTheme: ', ElmTheme)
-
+  
+  // console.log('theme: ', theme.palette.background.default);
   return (
-    <Container>
-        <Header theme={ElmTheme} >
+    <Container sx={{
+      backgroundColor: theme.palette.background.default,
+    }}>
+        <Header theme={theme} >
           <Menu />
           <SearchInput />
         </Header>
