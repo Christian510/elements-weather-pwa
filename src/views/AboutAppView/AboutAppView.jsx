@@ -1,6 +1,6 @@
 import React from "react";
 import '../AboutAppView/aboutappview.css';
-import { createTheme, styled } from '@mui/material/styles';
+// import { createTheme, styled } from '@mui/material/styles';
 import ListCard from '../../components/ListCard/ListCard.jsx';
 // import { List } from "@mui/material";
 import ElmAutoCompleteB from '../../components/ElmAutoComplete/ElmAutoComplete_B.jsx';
@@ -10,7 +10,7 @@ import ElmAutocompete from '../../components/ElmAutoComplete/ElmAutoComplete.jsx
 // console.log('theme: ', theme);
 
 function AboutView(props) {
-
+    console.log('props: ', props);
     return (
         <>
             <div id="about-page" className="container">

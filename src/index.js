@@ -17,6 +17,7 @@ import CreateAccountView from './views/CreateAccountView/CreateAccountView';
 import AccountView from './views/AccountView/AccountView';
 import DemoView from './views/DemoView/DemoView';
 import ElmTheme from './ElmThemeStyles/ElmTheme';
+import { ThemeProvider } from '@emotion/react';
 
 
 let router = createBrowserRouter([
@@ -42,7 +43,7 @@ let router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        element: <AboutAppView />,
+        element:<AboutAppView /> ,
         path: 'about',
         errorElement: <ErrorPage />,
       },

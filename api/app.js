@@ -2,12 +2,11 @@ require('dotenv').config({ path: './.env' });
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-// const cookieParser = require('cookie-parser');
 const MySQLStore = require('express-mysql-session')(session);
 const mysql = require('mysql2');
 const logger = require('morgan');
 const cors = require('cors');
-const path = require('path');
+// const path = require('path');
 const sqlformat = require('./logger');
 
 // const indexRouter = require('./routes/index');
@@ -63,13 +62,6 @@ app.use(session({
   }
 }
 ));
-
-// app.get('/getSession', (req, res, next) => {
-//   console.log('sessionID @ server: ', req.sessionID);
-
-//   res.send('Session set');
-//   next();
-// });
 
 app.use('/favorites', favoritesRouter);
 

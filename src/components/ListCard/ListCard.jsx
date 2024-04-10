@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { createTheme, styled } from '@mui/system';
-import { Card, CardActions, Button, Box } from "@mui/material";
+import { createTheme, styled } from '@mui/material/styles';
+import { Card, Button, Box } from "@mui/material";
 // import { DeleteIcon } from "@mui/icons-material";
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
@@ -24,26 +24,9 @@ export default function ListCard({ location }) {
   }, [])
   // console.log('forecast: ', forecast);
 
-  // Using scoll snap to create the drag and delete button.  I may need to divide the delete button into seperate 
-  // sections to get the delete button to snap to a small button position and then to a larger button position?
-  // Experiment with the scroll snap properties to get the desired effect.
   return (
-    <div className="list-card_container" style={{
-      margin: '1.25em auto',
-
-    }}>
-      <div className="list-card_scroll-behavior" style={{
-        scrollSnapType: 'x mandatory',
-        scrollBehavior: 'smooth',
-        scrollSnapStop: 'always',
-        display: 'flex',
-        overflowX: 'scroll',
-        scrollbarWidth: 'none',
-        borderRadius: '15px',
-        // height: '115px',
-        height: 'auto',
-
-      }} dir="ltr" >
+    <StyledContainer className="list-card_container" >
+      <StyleScrollBehavior className="list-card_scroll-behavior"  dir="ltr" >
         <Card
           draggable={isDragging}
           className="list-card"
@@ -65,16 +48,15 @@ export default function ListCard({ location }) {
             justifyContent='space-between'
             alignItems='center'
             spacing={{ 
-              xs: 4, 
+              xs: 6, 
               md: 8, 
-              // height: '100px'
               }} >
-            <Grid xs={4} sm={4} md={4}>
+            <Grid xs={5} sm={5} md={5}>
               <Box
                 display="flex"
                 justifyContent='space-between'
                 flexDirection='column'
-                gap={4}
+                gap={2}
                 p={2}
                 sx={{ margin: 0, width: '100%', flex: 'none' }} >
                 <div>
@@ -84,7 +66,7 @@ export default function ListCard({ location }) {
                 <p>Sunny</p>
               </Box>
             </Grid>
-            <Grid xs={4} sm={4} md={4}>
+            <Grid xs={4.5} sm={4} md={2}>
               <Box
                 display="flex"
                 justifyContent='space-between'
@@ -93,7 +75,7 @@ export default function ListCard({ location }) {
                 gap={2}
                 p={2}
                 sx={{ margin: 0 }}  >
-                <p style={{ fontSize: '3em' }}>70&deg;</p>
+                <h1>70&deg;</h1>
                 <p>H:75&deg; L:50&deg;</p>
               </Box>
             </Grid>
@@ -103,7 +85,7 @@ export default function ListCard({ location }) {
           className="delete-button_a"
           size="large"
           sx={{
-            width: '6.25em',
+            width: '7em',
             borderRadius: 'unset',
             borderTopLeftRadius: '15px',
             borderBottomLeftRadius: '15px',
@@ -119,23 +101,23 @@ export default function ListCard({ location }) {
         >
           <DeleteSweepIcon fontSize="large" />
         </Button>
-        <Button
-          className="delete-button_b"
-          variant="contained"
-          color="error"
-          sx={{
-            width: '100%',
-            borderRadius: 'unset',
-            padding: '8px 40px ',
-            scrollSnapAlign: 'center',
-            scrollMarginLeft: '12.5em',
-            flex: 'none',
-            borderTopRightRadius: '15px',
-            borderBottomRightRadius: '15px',
-          }} />
-      </div>
-    </div>
+
+      </StyleScrollBehavior>
+    </StyledContainer>
   );
 };
 
-// Add scrollSnapAlign: 'center', to Button.  and resize it so it will display as a button on left of view.
+const StyledContainer = styled('div')`
+  margin: 1.25em auto;
+`;
+const StyleScrollBehavior = styled('div')`
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scroll-snap-stop: always;
+  display: flex;
+  align-items: stretch;
+  overflow-x: scroll;
+  scrollbar-width: none;
+  border-radius: 15px;
+  max-height: 7.5em;
+`;

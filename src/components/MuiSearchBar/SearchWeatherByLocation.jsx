@@ -1,7 +1,7 @@
 import { useMemo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAutocomplete } from '@mui/base/useAutocomplete';
-import { styled } from '@mui/system';
+import { styled } from '@mui/material/styles';
 import { debounce } from '@mui/material/utils';
 import { queryLocations } from '../../models/geo_location_api';
 import SearchIcon from '@mui/icons-material/Search';

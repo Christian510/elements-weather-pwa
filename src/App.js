@@ -11,7 +11,7 @@ import './index.css';
 import SearchInput from './components/MuiSearchBar/SearchWeatherByLocation';
 import Menu from './components/Menu/Menu';
 import Header from './components/NavBar/Header';
-// import ElmTheme from './ElmThemeStyles/ElmTheme';
+import ElmTheme from './ElmThemeStyles/ElmTheme';
 
 export function Home({theme}) {
   let navigation = useNavigation();
@@ -20,13 +20,13 @@ export function Home({theme}) {
   let fetcherInProgress = fetchers.some((f) =>
     ['loading', 'submitting'].includes(f.state)
   );
-  
-  // console.log('theme: ', theme.palette.background.default);
+
+  console.log('theme: ', theme.palette.background.default);
   return (
     <Container sx={{
-      backgroundColor: theme.palette.background.default,
+      backgroundColor: ElmTheme.palette.background.default,
     }}>
-        <Header theme={theme} >
+        <Header theme={ElmTheme} >
           <Menu />
           <SearchInput />
         </Header>

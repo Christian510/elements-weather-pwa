@@ -123,12 +123,9 @@ async function insertOne(params = null, session_id = null) {
 
   if (sf.length < 1 && location.length < 1) {
     console.log('add location to session_favorites')
-    // params.name = params.name || 'Unknown';
-    // console.log('params: ', params);
     const [sf] = await executeQuery(sf_insert_query, [session_id, params.location_id, params.name]);
     // console.log('sf: ', sf.affectedRows);
     console.log('add location to location db');
-
     const l_insert_query = `
                     INSERT INTO locations (location_id, name, state, country_code, lat, lng)
                     VALUES (?, ?, ?, ?, ?, ?)`;

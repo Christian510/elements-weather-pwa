@@ -13,6 +13,7 @@ import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
 import ElmList from '../../components/ElmList/ElmList';
 import { getForecastByLatLon, queryForecastData } from '../../models/weather_api';
 import Axios from 'axios';
+import ElmTheme from '../../ElmThemeStyles/ElmTheme';
 
 export default function CurrentConditions() { // fetch the forecast data and display it.
   // const sessionId = document.cookie.split('=')[1];
@@ -172,10 +173,10 @@ export default function CurrentConditions() { // fetch the forecast data and dis
 }
 
 const Content = Styled(Typography)`
-  padding-top: ${props => props.theme.spacing(2)}px;
-  padding-bottom: ${props => props.theme.spacing(2)}px;
+  padding-top: ${ElmTheme.spacing(2)}px;
+  padding-bottom: ${ElmTheme.spacing(2)}px;
 `;
 const ElmCard = Styled(Card)`
-  padding: ${props => props.theme.spacing(1)}px;
-  margin: ${props => props.theme.spacing(.5)}px;
+  padding: ${ElmTheme.spacing(1)}px;
+  margin: ${ElmTheme.spacing(.5)}px;
 `;
