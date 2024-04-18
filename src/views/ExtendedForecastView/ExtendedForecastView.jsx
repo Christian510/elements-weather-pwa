@@ -6,7 +6,7 @@ import ElmCard from '../../components/ElmCard/ElmCard';
 
 
 export default function ExtendedForecastView({ forecast }) {
-
+    console.log('forecast: ', forecast);
     const extendedForecast = forecast.periods.map((item, index) => {
 
         if (index > 0) {

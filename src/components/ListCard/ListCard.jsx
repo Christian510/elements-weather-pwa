@@ -9,7 +9,9 @@ import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
 
 // *** Created from Bard.  Needs testing and styling. *** //
-export default function ListCard({ location }) {
+export default function ListCard({ location, sessionId, deleteFavorite }) {
+  // console.log('location: ', location);
+  // console.log('sessionId: ', sessionId);
   // const [drawerOpen, setDrawerOpen] = useState('false');
   const [isDragging, setIsDragging] = useState('false');
   const [forecast, setForecast] = useState(null);

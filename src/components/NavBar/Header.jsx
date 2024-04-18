@@ -4,7 +4,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 
 export default function Header(props) {
-  console.log('props: ', props);
+  // console.log('props: ', props);
   // const { children } = props;
   return (
       <AppBar id="header" position="sticky" sx={headerStyles}>

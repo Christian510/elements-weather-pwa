@@ -1,27 +1,14 @@
-const axios = require('axios');
-// const getDb = require('../util/database').getDb;
-// const { listenerCount } = require('process');
+import axios from "axios";
 
-// export class Forecast {
-//     constructor(lat, lon, city, state, country='US', forecast, url) {
-//         this.city = city;
-//         this.state = state;
-//         this.country = country;
-//         this.forecast = forecast;
-//         this.url = url;
-//     }
+export const fetchFavorites = async () => {
+    try {
+      const response = await axios.get('/favorites/all');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    }
+  };
 
-//     save() {}
-
-//     static fetchCurrentForecast() {}
-//     static fetchExtendedForecast() {}
-//     static fetchSavedLocations() {}
-
-//     static saveLocation() {}
-//     static updateLocation() {}
-//     static deleteSavedLocation() {}
-
-// }
 // GET WEATHER URL BY LAT AND LONG
 export const getForecastByLatLon = async (lat, lng) => {
     // console.log('coords: ', lat + ':' + lng)
@@ -59,7 +46,7 @@ export const getForecastByLatLon = async (lat, lng) => {
 
 // Fetch the forecast data from url
 export async function queryForecastData(url) {
-    console.log('ForecastData: ', url);
+    // console.log('ForecastData: ', url);
     const options = {
         'method': 'GET',
         'mode': 'cors',
@@ -83,15 +70,38 @@ export async function queryForecastData(url) {
 
 
 // RETURNS AN EXTENDED FORECAST FROM 1 TO 16 DAYS
-export const getExtendedForecast = async (lat = '', lon = '', countrycode = 'USA') => {
+export const fetchExtendedForecast = async (lat = '', lon = '', countrycode = 'USA') => {
     // api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}
 }
 
-export const fetchFavorites = async () => {
+export const fetchWeatherAlerts = async (locations) => {
+    // https://api.weather.gov/alerts/active?area={state}
+};
+
+
+  export const fetchUrl = async (locations) => {};
+
+
+  export const addFavorite = async (params) => {
     try {
-      const response = await axios.get('/favorites/all');
-      return response.data;
+        const response = await axios.post('/favorites/add-one', params)
+        return response.data;
     } catch (error) {
-      console.error('Error fetching data: ', error);
+        console.error('Error adding favorite: ', error);
     }
-  };
+}
+
+export const deleteFavorite = async (l_id, s_id) => {
+    try {
+        const response = await axios.delete(`/favorites/delete-one/?location_id=${l_id}&session_id=${s_id}`)
+        if (response.data.result === 1) {
+            return true;
+        }
+        if (response.data.result === 0) { // Maybe return a message if there is an error deleting the location.
+            return false;
+        }
+    }
+    catch (err) {
+        console.log('error msg: ', err);
+    }
+}

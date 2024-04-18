@@ -2,32 +2,23 @@ import React, { useState, useEffect } from "react";
 import List from '@mui/material/List';
 import FavoritesItem from "../../components/FavoritesItem/FavoritesItem";
 import axios from 'axios';
+import ListCard from '../../components/ListCard/ListCard';
+import { fetchFavorites } from "../../models/weather_api";
 
 // Each list item is a card displays some basic weather about the locaiton.
 // When the card is selected it passed the location obj along to get detailed weather and display.
 // Or just display the error message in place of the list if no data is returned.
 
-const fetchFavorites = async () => {
-    try {
-      const response = await axios.get('/favorites/all');
-      console.log('response: ', response);
-      console.log('response.data: ', response.data);
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching data: ', error);
-    }
-  };
-
-function Favorites() {
+function Favorites() { 
     // const sessionID = document.cookie.split('=')[1];
     // console.log('sessionId: ', sessionID);
     const [favorites, setFavorites] = useState([]);
     const [sessionId, setSessionId] = useState();
-    console.log('favorites: ', favorites);
     
     useEffect(() => {
         async function fetchData() {
             const data = await fetchFavorites();
+            console.log('data: ', data);
             setFavorites(data.locations);
             setSessionId(data.session);
         }
@@ -53,10 +44,13 @@ function Favorites() {
             console.log('error msg: ', err);
         }
     }
+
     // console.log("update: ", update);
     // console.log('favorites at Favorites.jsx: ', favorites);
     // console.log('error at Favorites.jsx: ', error);
-    const list = favorites?.map((elm, i) => <FavoritesItem key={i} location={elm} sessionID={sessionId} deleteFavorite={deleteFavorite} />);
+
+    // <ListCard key={i} location={favorites} sessionId={sessionId} deleteFavorite={deleteFavorite} />
+    const list = favorites?.map((elm, i) => <ListCard key={i} location={elm} sessionId={sessionId} deleteFavorite={deleteFavorite} />);
     return (
         <List sx={{paddingTop: 0}}>
             {list}
