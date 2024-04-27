@@ -184,14 +184,14 @@ const StyledListbox = styled('ul')(
   font-weight: 400;
   box-sizing: border-box;
   text-wrap: nowrap;
-  padding: 0px 8px;
+  padding: 8px 8px;
   height: fit-content;
   overflow: auto;
   outline: 0px;
   min-height: 190vw;
   z-index: 1;
   position: absolute;
-  top: 120px;
+  top: 92px;
   left: 0;
   right: 0;
   background: ${theme.palette.mode === 'dark' ? grey[200] : grey[900]};

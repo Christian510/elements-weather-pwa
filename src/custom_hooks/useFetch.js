@@ -1,64 +1,35 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import { fetchFavorites, getForecastByLatLon, queryForecastData } from './models/weather_api';
 
-// fetches the current weather for a location with a url passed in.
-export function useFetchData(url) {
-    // console.log('url: ', url)
+export function useFetchData() {
+
     const [state, setState] = useState({ data: null, loading: true, isError: false, error: {isError: false, message: ''} });
-    const [urlState, setUrlState] = useState(url);
-    const prevUrlRef = useRef(url);
-
-    // console.log('prevUrlRef: ', prevUrlRef);
 
     useEffect(() => {
         // console.log('mounted!!!')
-        prevUrlRef.current = url;
-        setUrlState(url);
-        // console.log('previous: ', prevUrlRef.current);
-        // console.log('current: ', urlState);
+        async function fetchAllData() {
+          try {
+            let data = await fetchFavorites();
+            // console.log('data: ', data);
+            data.locations.map(async (location) => {
+              location.api = await getForecastByLatLon(location.lat, location.lng);
+              location.forecast = await queryForecastData(location.api.properties.forecast);
+            });
+            // console.log('allData: ', data);
+            setState({ data: data, loading: false });
 
-        setState(state => ({ data: state.data, loading: true, error: {isError: false, message: ''} }));
-        // console.log('state: ', state);
-        // if (url !== urlState) {
-        //     setUrlState(url);
-        //     console.log('urlState: ', urlState);
-        // }
-        if (url !== null) {
-            const options = {
-                'method': 'GET',
-                'mode': 'cors',
-                'headers' : {
-                // 'Access-Control-Allow-Origin': '*',
-                // 'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        };
-            fetch(url, options)
-                .then(resp => {
-                    // console.log('resp: ', resp);
-                    if (resp.ok !== true && resp.body == null) {
-                        console.log('status:', resp.status)
-                        console.log('body:', resp.body);
-                        setState({ data: null, loading: false, error: {isError: true, message: 'Server Error'} });
-                        // throw new Error('Unable to get forecast data');
-                    } if (resp.ok) {
-                        // console.log('resp.ok: ', resp.ok);
-                        // console.log('resp.json(): ', resp.json());
-                        return resp.json();
-
-                    }
-                })
-                .then(wd => {
-                    // console.log('wd: ', wd);
-                    setState({ data: wd, loading: false, error: {isError: false, message: ''} })})
-                .catch(error =>
-                    console.log('Error msg: ', error)
-                );
+          }
+          catch (err) {
+            console.log('error: ', err);
+            setState({ data: null, loading: false, isError: true, error: {isError: true, message: err} });
+          }
         }
+        fetchAllData();
         // return () => {
         //     // console.log('unmounted!!!')
         //     setState({ data: null, loading: true });
         // }
-    }, [url]);
+    }, []);
     // console.log('state: ', state);
     return state;
 };

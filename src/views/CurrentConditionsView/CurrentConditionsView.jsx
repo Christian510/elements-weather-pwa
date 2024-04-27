@@ -11,7 +11,7 @@ import Styled from '@mui/system/styled';
 import { DateTime } from '../../models/date';
 import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
 import ElmList from '../../components/ElmList/ElmList';
-import { getForecastByLatLon, queryForecastData } from '../../models/weather_api';
+import { getForecastUrl, queryForecastData } from '../../models/weather_api';
 import Axios from 'axios';
 import ElmTheme from '../../ElmThemeStyles/ElmTheme';
 
@@ -30,7 +30,7 @@ export default function CurrentConditions() { // fetch the forecast data and dis
     console.log('useEffect fired')
     let isMounted = true;
 
-    getForecastByLatLon(params.lat, params.lng)
+    getForecastUrl(params.lat, params.lng)
       .then(resp => {
         console.log('isMounted: ', isMounted)
         if (!isMounted) return; 

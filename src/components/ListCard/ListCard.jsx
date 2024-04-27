@@ -1,41 +1,36 @@
-import React, { useState, useEffect } from "react";
-import { createTheme, styled } from '@mui/material/styles';
+import React, { useState } from "react";
+import { styled } from '@mui/material/styles';
 import { Card, Button, Box } from "@mui/material";
-// import { DeleteIcon } from "@mui/icons-material";
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
+import { DateTime } from '../../models/date.js';
 
-// When card first mounts add eventListeners to the card.
+export default function ListCard({ data, sessionId, deleteFavorite }) {
+  console.log('data: ', data);
+  const icon = data.forecast.properties.periods[0].icon;
+  const name = data.name;
+  const temp = data.forecast.properties.periods[0].temperature;
+  const tempUnit = data.forecast.properties.periods[0].temperatureUnit;
+  const shortForecast = data.forecast.properties.periods[0].shortForecast;
+  let dateTime = DateTime.convertISO8601Format(data.forecast.properties.periods[0].startTime);
+  let time = dateTime.date.split(',');
+  
+  console.log('dateTime: ', dateTime);
 
-
-// *** Created from Bard.  Needs testing and styling. *** //
-export default function ListCard({ location, sessionId, deleteFavorite }) {
-  // console.log('location: ', location);
   // console.log('sessionId: ', sessionId);
   // const [drawerOpen, setDrawerOpen] = useState('false');
-  const [isDragging, setIsDragging] = useState('false');
-  const [forecast, setForecast] = useState(null);
-
-  useEffect(() => {
-    fetch('https://api.weather.gov/gridpoints/BGM/74,100/forecast')
-      .then(response => response.json())
-      .then(data => {
-        // console.log('data: ', data);
-        setForecast(data.properties.periods[0]);
-      });
-  }, [])
-  // console.log('forecast: ', forecast);
+  // const [isDragging, setIsDragging] = useState('false');
 
   return (
     <StyledContainer className="list-card_container" >
       <StyleScrollBehavior className="list-card_scroll-behavior"  dir="ltr" >
         <Card
-          draggable={isDragging}
+          // draggable={isDragging}
           className="list-card"
           sx={{
-            cursor: isDragging ? "grabbing" : "pointer",
+            // cursor: isDragging ? "grabbing" : "pointer",
             background: "White",
-            backgroundImage: `url(${forecast?.icon})`,
+            backgroundImage: `url(${icon})`,
             backgroundSize: 'cover',
             borderRadius: '15px',
             color: 'white',
@@ -62,10 +57,10 @@ export default function ListCard({ location, sessionId, deleteFavorite }) {
                 p={2}
                 sx={{ margin: 0, width: '100%', flex: 'none' }} >
                 <div>
-                  <h2>Boise</h2>
-                  <p>11:20AM</p>
+                  <h2>{name}</h2>
+                  <p>{time[1]}</p>
                 </div>
-                <p>Sunny</p>
+                <p>{shortForecast}</p>
               </Box>
             </Grid>
             <Grid xs={4.5} sm={4} md={2}>
@@ -77,8 +72,8 @@ export default function ListCard({ location, sessionId, deleteFavorite }) {
                 gap={2}
                 p={2}
                 sx={{ margin: 0 }}  >
-                <h1>70&deg;</h1>
-                <p>H:75&deg; L:50&deg;</p>
+                <h1>{temp}&deg; {tempUnit}</h1>
+                {/* <p>H:75&deg; L:50&deg;</p> */}
               </Box>
             </Grid>
           </Grid>

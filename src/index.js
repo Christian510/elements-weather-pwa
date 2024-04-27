@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -6,7 +6,7 @@ import {
 import ReactDOM from "react-dom/client";
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import { Home } from './App';
+import {Home, loader as rootLoader } from './App';
 import ErrorPage from './views/ErrorPage/ErrorPage';
 import CurrentConditionsView from './views/CurrentConditionsView/CurrentConditionsView';
 import Favorites from './views/Favorites/Favorites';
@@ -17,8 +17,7 @@ import CreateAccountView from './views/CreateAccountView/CreateAccountView';
 import AccountView from './views/AccountView/AccountView';
 import DemoView from './views/DemoView/DemoView';
 import ElmTheme from './ElmThemeStyles/ElmTheme';
-import { ThemeProvider } from '@emotion/react';
-
+// import { ThemeProvider } from '@emotion/react';
 
 let router = createBrowserRouter([
   {
@@ -31,6 +30,7 @@ let router = createBrowserRouter([
         element: <Favorites />,
         index: true,
         errorElement: <ErrorPage title="Favorites View" />,
+        loader: rootLoader,
       },
       {
         element: <CurrentConditionsView />,
@@ -41,12 +41,7 @@ let router = createBrowserRouter([
         element: <ExtendedForecastView />,
         path: 'forecast/:location/extended',
         errorElement: <ErrorPage />,
-      },
-      {
-        element:<AboutAppView /> ,
-        path: 'about',
-        errorElement: <ErrorPage />,
-      },
+      }
     ],
   },
   {
@@ -62,6 +57,11 @@ let router = createBrowserRouter([
   {
     element: <AccountView />,
     path: 'user_account',
+    errorElement: <ErrorPage />,
+  },
+  {
+    element:<AboutAppView /> ,
+    path: 'about',
     errorElement: <ErrorPage />,
   },
   {

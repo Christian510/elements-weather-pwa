@@ -1,7 +1,7 @@
 
 
 export class DateTime {
-  static convertUTC(dt, sunr='', suns='', offset, timezone='') {
+  static convertUTC(dt, offset, timezone='UTC', sunr='', suns='') {
       const date_time = {
           date: '',
           sunrise: '',
@@ -31,12 +31,29 @@ export class DateTime {
 
       let dateTime = {}
       const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat' ];
-      const displayDate = new Date(dt);
-      const num = displayDate.getDay();
+      const date = new Date(dt);
+      console.log("displayDate: ", date.getTimezoneOffset())
+      console.log('timestamp: ', date.getTime())
+      const num = date.getDay();
       const day = daysOfWeek.find((elm, i) => i === num)
-      const dtOptions = { month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric'};
-      dateTime.date = displayDate.toLocaleString('en-US', dtOptions);
+      const options = { 
+        weekDay: 'short',
+        month: 'short', 
+        day: 'numeric', 
+        hour: '2-digit', 
+        minute: '2-digit',
+        timeZon: 'UTC',
+        // timeZoneName: 'short'
+      };
+
+      // const formatter = new Intl.DateTimeFormat('en-US', options);
+      // const readableDate = formatter.format(date);
+      // console.log('readableDate: ', readableDate);
+      dateTime.date = date.toLocaleString('en-US', options);
       dateTime.dow = day;
+      dateTime.time = date.toLocaleTimeString('en-US', options);
+      dateTime.dow = day;
+
       return dateTime;
     }
   }
