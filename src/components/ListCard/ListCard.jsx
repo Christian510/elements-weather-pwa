@@ -3,20 +3,27 @@ import { styled } from '@mui/material/styles';
 import { Card, Button, Box } from "@mui/material";
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
-import { DateTime } from '../../models/date.js';
+import { formatDateTime } from '../../models/date.js';
 
 export default function ListCard({ data, sessionId, deleteFavorite }) {
-  console.log('data: ', data);
-  const icon = data.forecast.properties.periods[0].icon;
-  const name = data.name;
-  const temp = data.forecast.properties.periods[0].temperature;
-  const tempUnit = data.forecast.properties.periods[0].temperatureUnit;
-  const shortForecast = data.forecast.properties.periods[0].shortForecast;
-  let dateTime = DateTime.convertISO8601Format(data.forecast.properties.periods[0].startTime);
-  let time = dateTime.date.split(',');
+  console.log("data: ", data)
+  let icon = null, temp = null, tempUnit = null, shortForecast = "Oops can't retrieve the forecast!", date_time = null;
+  if (data.forecast) {
+    icon = data?.forecast.properties.periods[0].icon;
+    temp = data?.forecast.properties.periods[0].temperature;
+    tempUnit = data?.forecast.properties.periods[0].temperatureUnit;
+    shortForecast = data?.forecast.properties.periods[0].shortForecast;
+    date_time = formatDateTime(data?.forecast.properties.updateTime);
+    // console.log('updateTime: ', data?.forecast.properties.updateTime);
+  }
+  const name = data?.location.name;
+  // console.log(date_time)
+  // console.log(date_time.date)
+  // console.log(date_time.time)
+  // let time = dateTime.date.split(',');
   
-  console.log('dateTime: ', dateTime);
-
+  // console.log('dateTime: ', date_time);
+  // console.log('time: ', time);
   // console.log('sessionId: ', sessionId);
   // const [drawerOpen, setDrawerOpen] = useState('false');
   // const [isDragging, setIsDragging] = useState('false');
@@ -58,7 +65,7 @@ export default function ListCard({ data, sessionId, deleteFavorite }) {
                 sx={{ margin: 0, width: '100%', flex: 'none' }} >
                 <div>
                   <h2>{name}</h2>
-                  <p>{time[1]}</p>
+                  {/* <p>{time[1]}</p> */}
                 </div>
                 <p>{shortForecast}</p>
               </Box>

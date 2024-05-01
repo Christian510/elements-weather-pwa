@@ -7,19 +7,23 @@ import { deleteFavorite } from '../../models/weather_api';
 
 
 function Favorites() { 
-    console.log('useLoaderData: ', useLoaderData());
     const { forecasts, sessionId } = useLoaderData();
-    console.log('forecasts: ', forecasts[0].forecast.properties.periods[0].temperature);
-    console.log('sessionId: ', sessionId);
-    const [state, setState] = useState();
-
-    console.log('state: ', state);
-    const list = forecasts?.map((elm, i) => <ListCard key={i} data={elm} sessionId={sessionId} deleteFavorite={deleteFavorite} />);
-
-    return (
-        <List sx={{paddingTop: 0}}>
-            {list}
-        </List>
-    );
+    console.log('forecasts: ', forecasts);
+    // const [state, setState] = useState();
+    // console.log('sessionId: ', sessionId);
+    // console.log('state: ', state);
+    if ( forecasts.length === 0 ) {
+        return (
+            <div>Loading...</div>
+        )
+    } else {
+        const list = forecasts?.map((elm, i) => <ListCard key={i} data={elm} sessionId={sessionId} deleteFavorite={deleteFavorite} />);
+    
+        return (
+            <List sx={{paddingTop: 0}}>
+                {list}
+            </List>
+        );
+    }
 }
 export default Favorites;

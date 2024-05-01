@@ -17,7 +17,7 @@ export default function SearchInput() {
     else if (isMounted) {
       return debounce(async () => {
         const response = await queryLocations(inputValue);
-        // console.log('response: ', response.geonames);
+        // console.log('geonames: ', response.geonames);
         if (response?.geonames === undefined) {
           return;
         } else {
@@ -38,13 +38,14 @@ export default function SearchInput() {
   
       }, 100);
     }
-
+    
     return () => {
       // Cleanup function
       isMounted = false; // Update flag to indicate component is unmounted
     };
 
   }, [inputValue]);
+  // console.log("options: ", options);
 
   useEffect(() => {
     console.log('useEffect fired')
@@ -58,7 +59,6 @@ export default function SearchInput() {
     }
 
   }, [inputValue]);
-
   const {
     getRootProps,
     getInputProps,

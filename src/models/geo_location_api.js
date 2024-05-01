@@ -64,6 +64,18 @@ export async function queryLocations(query, country = "US") {
     }
 }
 
+// Fetch Timezone for a city or location
+export async function fetchTimezone(lat, lng, country="US") {
+
+  try {
+    let response = fetch(`http://api.geonames.org/timezoneJSON?formatted=true&lat=${lat}&lng=${lng}&username=christian510`, )
+  }
+  catch {
+
+  }
+}
+
+// fetchTimezone();
 
 function getLocation() {
     console.log('navigator obj: ', navigator)

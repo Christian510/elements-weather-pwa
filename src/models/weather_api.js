@@ -4,10 +4,12 @@ import axios from "axios";
 export function procesFetch(url, options) {
     return fetch(url, options)
         .then(response => {
+            // console.log("fetch response: ", response);
             if (response.ok) {
                 return response.json();
             } else {
                 throw new Error('Unable to fetch data');
+                return null;
             }
         })
         .catch(err => console.error('Error message: ', err));
@@ -37,7 +39,6 @@ export const getForecastUrl = (lat, lng) => {
             'Accept': 'application/json'
         }
     }
-
     return procesFetch(url, options);
 }
 
@@ -55,29 +56,34 @@ export function queryForecastData(url) {
 }
 
 export async function fetchAllData(l) {
+    const data = {}
     try {
-        const data = {}
+        data.location = l;
         const api = await getForecastUrl(l.lat, l.lng);
+        if (api === null) {
+            data.api = null;
+            data.forecast = null;
+            throw new Error('Unable to fetch api urls');
+        }
+
         const forecast = await queryForecastData(api.properties.forecast);
-        if (!forecast) { 
-            throw new Error('Unable to fetch data');
+        if (forecast === null) { 
+            data.forecast = null;
+            throw new Error('Unable to fetch forecast');
         }
         else {
-            // console.log('forecast: ', forecast);
             data.api = api;
             data.forecast = forecast;
-            data.location = l;
-            return data;
+            // console.log('data: ', data);
         }
     }
     catch (err) {
         console.log('Error message: ', err);
     }
-  }
+    return data;
+}
 //   fetchAllData({lat: 48.27659, lng: -116.55325});
-
-
-  
+ 
 // RETURNS AN EXTENDED FORECAST FROM 1 TO 16 DAYS
 export const fetchExtendedForecast = async (lat = '', lon = '', countrycode = 'USA') => {
     // api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}
