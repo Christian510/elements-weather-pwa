@@ -1,7 +1,7 @@
 import { DateRangeTwoTone } from "@mui/icons-material";
 import axios from "axios";
 
-export function procesFetch(url, options) {
+export function processFetch(url, options) {
     return fetch(url, options)
         .then(response => {
             // console.log("fetch response: ", response);
@@ -39,7 +39,7 @@ export const getForecastUrl = (lat, lng) => {
             'Accept': 'application/json'
         }
     }
-    return procesFetch(url, options);
+    return processFetch(url, options);
 }
 
 // Fetch the forecast data from url
@@ -52,10 +52,23 @@ export function queryForecastData(url) {
             'Accept': 'application/json'
         }
     };
-    return procesFetch(url, options);
+    return processFetch(url, options);
 }
 
+// Fetch Date and Time for a city or location
+export async function fetchDateTime(lat, lng, country="US") {
+    const options = {
+        'method': 'GET',
+        'mode': 'cors',
+        'headers': {
+            'Accept': 'application/json'
+        }
+    };
+    return processFetch(`http://api.geonames.org/timezoneJSON?formatted=true&lat=${lat}&lng=${lng}&username=christian510`, options);
+  }
+
 export async function fetchAllData(l) {
+    console.log('location: ', l)
     const data = {}
     try {
         data.location = l;
@@ -71,7 +84,15 @@ export async function fetchAllData(l) {
             data.forecast = null;
             throw new Error('Unable to fetch forecast');
         }
+
+        const dateTime = await fetchDateTime(l.lat, l.lng);
+        if (dateTime === null) {
+            console.log("NO DATE-TIME!!!!!")
+            data.dateTime = null;
+            throw new Error('Unable to fetch dateTime');
+        }
         else {
+            data.dateTime = dateTime;
             data.api = api;
             data.forecast = forecast;
             // console.log('data: ', data);

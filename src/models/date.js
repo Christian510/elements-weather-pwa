@@ -68,23 +68,24 @@ export class DateTime {
   }
 
   export function formatDateTime(dt) {
-    console.log('dt: ', dt)
-    const date = new Date(dt);
-    const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
-    const num = date.getDay();
-    const day = daysOfWeek.find((elm, i) => i === num)
-    const options = {
-      // weekDay: 'long',
+    // console.log("dt: ", dt)
+    let dateTime = {};
+    const newdate = new Date(dt);
+    const dateOptions = {
+      weekday: 'short',
+      year: 'numeric',
       month: 'short',
       day: 'numeric',
+      // timezone: '',
+    };
+    const timeOptions = {
       hour: '2-digit',
       minute: '2-digit',
-    };
+      // timezone: '',
+    }
     
-    const time = date.toTimeString('en-US', options);
-    return time;
+    dateTime.date = newdate.toLocaleDateString('en-US', dateOptions)
+    dateTime.time = newdate.toLocaleTimeString('en-US', timeOptions);
+    // console.log(dateTime.date + " : " + dateTime.time);
+    return dateTime;
   }
-  
-  // formatDateTime('2024-04-29T14:00:00-07:00'); // sandpoint
-  // formatDateTime('2024-04-29T15:00:00-06:00'); // boise
-  // formatDateTime('"2024-04-29T21:52:14+00:00"'); // updatedTime variable

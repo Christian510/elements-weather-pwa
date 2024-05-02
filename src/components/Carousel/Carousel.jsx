@@ -5,10 +5,8 @@ import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
 
 
 const Carousel = ({ forecast, loading }) => {
-    // console.log('carousel forecast: ', forecast)
-    // console.log('carousel loading: ', loading)
 
-    let cards = forecast.periods.map((item, index) => (
+    let cards = forecast.map((item, index) => (
         {
             key: index,
             title: item.name,
@@ -22,7 +20,7 @@ const Carousel = ({ forecast, loading }) => {
 
     return (
         <>
-            {loading ?
+            {!loading ?
                 (
                     <ElmSpinner size='md' />
                 ) : (

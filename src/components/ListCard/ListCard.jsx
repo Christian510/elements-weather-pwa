@@ -4,30 +4,32 @@ import { Card, Button, Box } from "@mui/material";
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { formatDateTime } from '../../models/date.js';
+import ElmTheme from '../../ElmThemeStyles/ElmTheme.js';
+
+function noForecastData() {
+  //  Possibly use this as a way to address missing forecast data
+  // if no date display noForecastData comp. in place of card in ListCard
+  
+}
 
 export default function ListCard({ data, sessionId, deleteFavorite }) {
-  console.log("data: ", data)
-  let icon = null, temp = null, tempUnit = null, shortForecast = "Oops can't retrieve the forecast!", date_time = null;
+  // console.log("data: ", data)
+  let icon = null, temp = null, tempUnit = null, shortForecast = "Oops can't retrieve the forecast!", time = null;
   if (data.forecast) {
     icon = data?.forecast.properties.periods[0].icon;
     temp = data?.forecast.properties.periods[0].temperature;
     tempUnit = data?.forecast.properties.periods[0].temperatureUnit;
     shortForecast = data?.forecast.properties.periods[0].shortForecast;
-    date_time = formatDateTime(data?.forecast.properties.updateTime);
-    // console.log('updateTime: ', data?.forecast.properties.updateTime);
+  }
+  if (data.dateTime) {
+    const dateTime = formatDateTime(data?.dateTime.time);
+    time = dateTime.time;
   }
   const name = data?.location.name;
-  // console.log(date_time)
-  // console.log(date_time.date)
-  // console.log(date_time.time)
-  // let time = dateTime.date.split(',');
   
-  // console.log('dateTime: ', date_time);
-  // console.log('time: ', time);
-  // console.log('sessionId: ', sessionId);
   // const [drawerOpen, setDrawerOpen] = useState('false');
   // const [isDragging, setIsDragging] = useState('false');
-
+  // console.log('theme: ', ElmTheme)
   return (
     <StyledContainer className="list-card_container" >
       <StyleScrollBehavior className="list-card_scroll-behavior"  dir="ltr" >
@@ -36,7 +38,7 @@ export default function ListCard({ data, sessionId, deleteFavorite }) {
           className="list-card"
           sx={{
             // cursor: isDragging ? "grabbing" : "pointer",
-            background: "White",
+            background: ElmTheme.palette.info.main,
             backgroundImage: `url(${icon})`,
             backgroundSize: 'cover',
             borderRadius: '15px',
@@ -65,7 +67,7 @@ export default function ListCard({ data, sessionId, deleteFavorite }) {
                 sx={{ margin: 0, width: '100%', flex: 'none' }} >
                 <div>
                   <h2>{name}</h2>
-                  {/* <p>{time[1]}</p> */}
+                  <p>{time}</p>
                 </div>
                 <p>{shortForecast}</p>
               </Box>

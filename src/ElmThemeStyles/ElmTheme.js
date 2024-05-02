@@ -19,7 +19,7 @@ const ElmTheme = createTheme({
         mode: 'dark'
     },
     });
-    console.log('ElmTheme: ', ElmTheme.palette.primary.dark);
+    console.log('ElmTheme: ', ElmTheme);
 
 
 

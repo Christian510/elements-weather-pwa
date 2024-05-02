@@ -8,9 +8,8 @@ import { deleteFavorite } from '../../models/weather_api';
 
 function Favorites() { 
     const { forecasts, sessionId } = useLoaderData();
-    console.log('forecasts: ', forecasts);
+    // console.log('forecasts: ', forecasts);
     // const [state, setState] = useState();
-    // console.log('sessionId: ', sessionId);
     // console.log('state: ', state);
     if ( forecasts.length === 0 ) {
         return (
@@ -18,7 +17,6 @@ function Favorites() {
         )
     } else {
         const list = forecasts?.map((elm, i) => <ListCard key={i} data={elm} sessionId={sessionId} deleteFavorite={deleteFavorite} />);
-    
         return (
             <List sx={{paddingTop: 0}}>
                 {list}
