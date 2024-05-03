@@ -100,7 +100,7 @@ export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) 
           }}
           variant="contained"
           color="error"
-          onClick={() => handleDeleteFavorite(location_id)} // accept location id
+          onClick={() => handleDeleteFavorite(location_id, sessionId)} // accept location id
         >
           <DeleteSweepIcon fontSize="large" />
         </Button>
