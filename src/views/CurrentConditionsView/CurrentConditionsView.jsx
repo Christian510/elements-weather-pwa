@@ -19,6 +19,7 @@ export default function CurrentConditions() {
   const params = JSON.parse(location);
   // console.log('params: ', params);
   const [forecast, setForecast] = useState(null);
+  const [isLoaded, setIsLoaded] = useState("false");
 
   useEffect(() => {
     console.log('useEffect fired')
@@ -28,17 +29,20 @@ export default function CurrentConditions() {
       // console.log("resp: ", result);
       if (!isMounted) {
         setForecast(result);
+        setIsLoaded("true");
       }
     });
 
     return () => {
+      console.log("UNMOUNTED")
       isMounted = false;
     };
 
-  }, []);
+  }, [isLoaded]);
 
   let dateTime = null, temp = null, tempUnit = null, detailedForecast = null, shortForecast = null, extendedForecast = null, icon = null;
   if (forecast) {
+    console.log("forecast: ", forecast)
     console.log('date time: ', forecast.dateTime);
     dateTime = formatDateTime(forecast.dateTime.time);
     temp = forecast.forecast?.properties.periods[0].temperature;
@@ -93,7 +97,7 @@ export default function CurrentConditions() {
               padding: 0,
             }}
           >
-            {forecast.forecast && <Carousel id='Carousel' forecast={forecast.forecast.properties.periods} loading="false" />}
+            {forecast.forecast && <Carousel id='Carousel' forecast={forecast.forecast.properties.periods} loading={isLoaded} />}
           </Container>
           <Card>
             <ElmList

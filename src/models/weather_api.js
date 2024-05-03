@@ -8,7 +8,7 @@ export function processFetch(url, options) {
             if (response.ok) {
                 return response.json();
             } else {
-                throw new Error('Unable to fetch data');
+                // throw new Error('Unable to fetch data');
                 return null;
             }
         })
@@ -68,7 +68,7 @@ export async function fetchDateTime(lat, lng, country="US") {
   }
 
 export async function fetchAllData(l) {
-    console.log('location: ', l)
+    // console.log('location: ', l)
     const data = {}
     try {
         data.location = l;
@@ -103,7 +103,6 @@ export async function fetchAllData(l) {
     }
     return data;
 }
-//   fetchAllData({lat: 48.27659, lng: -116.55325});
  
 // RETURNS AN EXTENDED FORECAST FROM 1 TO 16 DAYS
 export const fetchExtendedForecast = async (lat = '', lon = '', countrycode = 'USA') => {
@@ -131,9 +130,11 @@ export const deleteFavorite = async (l_id, s_id) => {
     try {
         const response = await axios.delete(`/favorites/delete-one/?location_id=${l_id}&session_id=${s_id}`)
         if (response.data.result === 1) {
+            // console.log('Delete Success!!', response)
             return true;
         }
         if (response.data.result === 0) { // Maybe return a message if there is an error deleting the location.
+            // console.error('Delete failed!!', response)
             return false;
         }
     }
