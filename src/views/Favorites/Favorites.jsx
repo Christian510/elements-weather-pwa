@@ -8,9 +8,9 @@ function Favorites() {
     const { forecasts, sessionId } = useLoaderData();
     const [favorites, setFavorites] = useState(forecasts)
 
-    function handleDeleteFavorite(id) {
+    function handleDeleteFavorite(id, s_id) {
         console.log("Delete: ", id);
-        deleteFavorite(id, sessionId);
+        deleteFavorite(id, s_id);
         setFavorites(preFavorites => preFavorites.filter((f) => f.location.location_id !== id));
     }
 
