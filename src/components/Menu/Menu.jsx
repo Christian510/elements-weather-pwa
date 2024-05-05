@@ -1,11 +1,11 @@
-import React from 'react';
+import { useState, Fragment } from 'react';
 import { styled } from '@mui/system';
-import { IconButton, Box, Drawer, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { IconButton, Box, Drawer, List, ListItem, ListItemButton } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 
 export default function Menu() {
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     top: false,
     left: false,
     bottom: false,
@@ -44,7 +44,7 @@ export default function Menu() {
   return (
     <NavBar id='navList'>
       {['right'].map((anchor) => (
-        <React.Fragment key={anchor}>
+        <Fragment key={anchor}>
           <IconButton onClick={toggleDrawer(anchor, true)} area-label='menu' sx={{ color: '#fff' }} size='100px'>
             <MenuIcon fontSize='inherit' />
           </IconButton>
@@ -55,7 +55,7 @@ export default function Menu() {
           >
             {list(anchor)}
           </Drawer>
-        </React.Fragment>
+        </Fragment>
       ))}
     </NavBar>
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React from 'react';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -16,13 +16,15 @@ import LoginView from './views/LoginView/LoginView';
 import CreateAccountView from './views/CreateAccountView/CreateAccountView';
 import AccountView from './views/AccountView/AccountView';
 import DemoView from './views/DemoView/DemoView';
-import ElmTheme from './ElmThemeStyles/ElmTheme';
-// import { ThemeProvider } from '@emotion/react';
+import { ElmTheme } from './ElmThemeStyles/ElmTheme';
+import { ThemeProvider } from '@mui/material/styles';
+import ElmSpinner from './components/ElmSpinner/ElmSpinner';
 
 let router = createBrowserRouter([
   {
     path: '/',
-    element: <Home theme={ElmTheme} />,
+    element: 
+      <Home />,
     id: "root",
     errorElement: <ErrorPage title="Home View" />,
     children: [
@@ -81,13 +83,17 @@ export function sleep(n = 500) {
 
 export function Fallback() {
   // TODO: Style this up and maybe add a spinner
-  return <p>Server maybe down Please try back later or try and refresh the page.</p>;
+  return (
+    <ElmSpinner />
+  );
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} fallbackElement={<Fallback />} />
+    <ThemeProvider theme={ElmTheme}>
+      <RouterProvider router={router} fallbackElement={<Fallback />} />
+    </ThemeProvider>
   </React.StrictMode>
 );
 

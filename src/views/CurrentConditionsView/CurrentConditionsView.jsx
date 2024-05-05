@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Carousel from '../../components/Carousel/Carousel';
 import { useParams } from 'react-router-dom';
 import Card from '@mui/material/Card';
@@ -10,7 +10,7 @@ import ElmImg from '../../components/ElmImage/ElmImage';
 import Styled from '@mui/system/styled';
 import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
 import ElmList from '../../components/ElmList/ElmList';
-import ElmTheme from '../../ElmThemeStyles/ElmTheme';
+import { ElmTheme } from '../../ElmThemeStyles/ElmTheme';
 import { formatDateTime } from '../../models/date';
 import { fetchAllData } from '../../models/weather_api';
 
@@ -42,8 +42,8 @@ export default function CurrentConditions() {
 
   let dateTime = null, temp = null, tempUnit = null, detailedForecast = null, shortForecast = null, extendedForecast = null, icon = null;
   if (forecast) {
-    console.log("forecast: ", forecast)
-    console.log('date time: ', forecast.dateTime);
+    // console.log("forecast: ", forecast)
+    // console.log('date time: ', forecast.dateTime);
     dateTime = formatDateTime(forecast.dateTime.time);
     temp = forecast.forecast?.properties.periods[0].temperature;
     icon = forecast.forecast?.properties.periods[0].icon;

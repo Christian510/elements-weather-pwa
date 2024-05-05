@@ -20,7 +20,11 @@ function Favorites() {
             {!favorites.length ? (
                 <div>Loading...</div>
             ) : (
-                <List sx={{ paddingTop: 0 }}>
+                <List sx={{ 
+                    height: '65vh',
+                    overflowY: 'auto',
+                    scrollbarWidth: 'none',
+                    }}>
                     {list}
                 </List>
             )}

@@ -6,7 +6,7 @@ import './index.css';
 import SearchInput from './components/MuiSearchBar/SearchWeatherByLocation';
 import Menu from './components/Menu/Menu';
 import Header from './components/NavBar/Header';
-import ElmTheme from './ElmThemeStyles/ElmTheme';
+import {ElmTheme} from './ElmThemeStyles/ElmTheme';
 import { fetchFavorites, fetchAllData } from './models/weather_api';
 
 export async function loader() {
@@ -21,7 +21,7 @@ export async function loader() {
   }
 }
 
-export function Home({ theme }) {
+export function Home() {
   let navigation = useNavigation();
   let revalidator = useRevalidator();
   let fetchers = useFetchers();

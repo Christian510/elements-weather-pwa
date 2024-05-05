@@ -1,15 +1,23 @@
-import React, { useState } from "react";
-import { styled } from '@mui/material/styles';
-import { Card, Button, Box } from "@mui/material";
+import React, { forwardRef } from "react";
+import { styled, useTheme } from '@mui/material/styles';
+import { Button, ButtonBase, Box, Link } from "@mui/material";
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { formatDateTime } from '../../models/date.js';
-import ElmTheme from '../../ElmThemeStyles/ElmTheme.js';
+// import { useTheme } from '@material-ui/core/styles';
+
 
 export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) {
+  // const theme = useTheme();
   // const [drawerOpen, setDrawerOpen] = useState('false');
   // const [isDragging, setIsDragging] = useState('false');
-  const [isDeleteOpen, setIsDeleteOpen] = useState("false");
+
+  const ForwardRefLink = forwardRef(
+    (linkProps, ref) => (
+      <Link ref={ref} to={linkProps.to} {...linkProps} />
+    )
+  );
+  const path = `forecast/${encodeURIComponent(JSON.stringify(data.location))}`;
   let icon = null, temp = null, tempUnit = null, shortForecast = "Oops can't retrieve the forecast!", time = null;
   const location_id = data.location.location_id
   const name = data?.location.name;
@@ -17,45 +25,47 @@ export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) 
     icon = data?.forecast.properties.periods[0].icon;
     temp = data?.forecast.properties.periods[0].temperature;
     tempUnit = data?.forecast.properties.periods[0].temperatureUnit;
-    shortForecast = data?.forecast.properties.periods[0].shortForecast; 
+    shortForecast = data?.forecast.properties.periods[0].shortForecast;
   }
   if (data.dateTime) {
     const dateTime = formatDateTime(data?.dateTime.time);
     time = dateTime.time;
   }
   
+  const StyledButton = styled('div')(({ theme }) => ({
+    background: theme.palette.info.main,
+    backgroundImage: `url(${icon})`,
+    backgroundSize: 'cover',
+    borderRadius: '15px',
+    color: 'white',
+    textShadow: '1px 1px 5px gray',
+    width: '100%',
+    marginRight: '.5em',
+    flex: 'none',
+    scrollSnapAlign: 'center',
+  }));
+
   return (
     <StyledContainer id={id} className="list-card_container"
-    // draggable={isDragging}
-    // cursor: isDragging ? "grabbing" : "pointer",
-    // onTouchStart={(e) => console.log('touch start: ', e)}
-    onTouchMove = {(e) => console.log('touch move: ', e.touches)}
+      // draggable={isDragging}
+      // cursor: isDragging ? "grabbing" : "pointer",
+      // onTouchStart={(e) => console.log('touch start: ', e)}
+      onTouchMove={(e) => console.log('touch move: ', e.touches)}
 
     >
-      <StyleScrollBehavior className="list-card_scroll-behavior"  dir="ltr" >
-        <Card
+      <StyleScrollBehavior className="list-card_scroll-behavior" dir="ltr" >
+        <StyledButton
           className="list-card"
-          sx={{
-            background: ElmTheme.palette.info.main,
-            backgroundImage: `url(${icon})`,
-            backgroundSize: 'cover',
-            borderRadius: '15px',
-            color: 'white',
-            textShadow: '1px 1px 5px gray',
-            width: '100%',
-            marginRight: '.5em',
-            flex: 'none',
-            scrollSnapAlign: 'center',
-          }}
-          // onClick={() => alert("clicked")} // trigger forecast view
+          component={ForwardRefLink}
+          href={path}
         >
           <Grid container
             justifyContent='space-between'
             alignItems='center'
-            spacing={{ 
-              xs: 6, 
-              md: 8, 
-              }} >
+            spacing={{
+              xs: 6,
+              md: 8,
+            }} >
             <Grid xs={5} sm={5} md={5}>
               <Box
                 display="flex"
@@ -85,7 +95,8 @@ export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) 
               </Box>
             </Grid>
           </Grid>
-        </Card>
+
+        </StyledButton>
         <Button
           className="delete-button_a"
           size="large"
@@ -100,11 +111,10 @@ export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) 
           }}
           variant="contained"
           color="error"
-          onClick={() => handleDeleteFavorite(location_id, sessionId)} // accept location id
+          onClick={() => handleDeleteFavorite(location_id, sessionId)}
         >
           <DeleteSweepIcon fontSize="large" />
         </Button>
-
       </StyleScrollBehavior>
     </StyledContainer>
   );
@@ -120,6 +130,7 @@ const StyleScrollBehavior = styled('div')`
   display: flex;
   align-items: stretch;
   overflow-x: scroll;
+  overflow-y: hidden;
   scrollbar-width: none;
   border-radius: 15px;
   max-height: 7.5em;
