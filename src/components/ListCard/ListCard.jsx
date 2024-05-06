@@ -4,8 +4,6 @@ import { Button, ButtonBase, Box, Link } from "@mui/material";
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { formatDateTime } from '../../models/date.js';
-// import { useTheme } from '@material-ui/core/styles';
-
 
 export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) {
   // const theme = useTheme();
@@ -31,8 +29,8 @@ export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) 
     const dateTime = formatDateTime(data?.dateTime.time);
     time = dateTime.time;
   }
-  
-  const StyledButton = styled('div')(({ theme }) => ({
+
+  const StyledButton = styled(ButtonBase)(({ theme }) => ({
     background: theme.palette.info.main,
     backgroundImage: `url(${icon})`,
     backgroundSize: 'cover',
