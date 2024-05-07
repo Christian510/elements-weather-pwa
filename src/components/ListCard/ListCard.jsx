@@ -1,8 +1,7 @@
 import React, { forwardRef } from "react";
 import { styled, useTheme } from '@mui/material/styles';
-import { Button, ButtonBase, Box, Link } from "@mui/material";
+import { Button, ButtonBase, Box, Link, Typography } from "@mui/material";
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
-import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { formatDateTime } from '../../models/date.js';
 
 export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) {
@@ -22,7 +21,7 @@ export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) 
   if (data.forecast) {
     icon = data?.forecast.properties.periods[0].icon;
     temp = data?.forecast.properties.periods[0].temperature;
-    tempUnit = data?.forecast.properties.periods[0].temperatureUnit;
+    // tempUnit = data?.forecast.properties.periods[0].temperatureUnit;
     shortForecast = data?.forecast.properties.periods[0].shortForecast;
   }
   if (data.dateTime) {
@@ -38,7 +37,6 @@ export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) 
     color: 'white',
     textShadow: '1px 1px 5px gray',
     width: '100%',
-    marginRight: '.5em',
     flex: 'none',
     scrollSnapAlign: 'center',
   }));
@@ -49,69 +47,93 @@ export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) 
       // cursor: isDragging ? "grabbing" : "pointer",
       // onTouchStart={(e) => console.log('touch start: ', e)}
       onTouchMove={(e) => console.log('touch move: ', e.touches)}
-
     >
-      <StyleScrollBehavior className="list-card_scroll-behavior" dir="ltr" >
+      <StyleScrollBehavior 
+      className="list-card_scroll-behavior" 
+      dir="ltr"
+      >
         <StyledButton
           className="list-card"
           component={ForwardRefLink}
           href={path}
+          sx={{
+          height: 'inherit',
+          marginRight: '.75em',
+        }}
         >
-          <Grid container
-            justifyContent='space-between'
-            alignItems='center'
-            spacing={{
-              xs: 6,
-              md: 8,
-            }} >
-            <Grid xs={5} sm={5} md={5}>
+          <Box
+            className='inner-box'
+            sx={{
+              padding: '0 0 0 .75em',
+              flexGrow: 1,
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              height: 'inherit',
+            }}
+            p={1}
+          >
+            <Box
+              className="content-left"
+              flexDirection='row'
+              justifyContent='flex-start'
+              sx={{
+                width: '80%',
+                height: 'inherit',
+              }}
+            >
               <Box
-                display="flex"
-                justifyContent='space-between'
+                display='flex'
                 flexDirection='column'
-                gap={2}
-                p={2}
-                sx={{ margin: 0, width: '100%', flex: 'none' }} >
-                <div>
-                  <h2>{name}</h2>
-                  <p>{time}</p>
-                </div>
-                <p>{shortForecast}</p>
+                justifyContent='space-around'
+                sx={{
+                  height: 'inherit',
+                }}
+              >
+                <Box id='title'>
+                  <Typography variant="h4" >
+                    {name}
+                  </Typography>
+                  <Typography variant="subtitle2" >
+                    {time}
+                  </Typography>
+                </Box>
+                <Typography variant="body2" >
+                  {shortForecast}
+                </Typography>
               </Box>
-            </Grid>
-            <Grid xs={4.5} sm={4} md={2}>
-              <Box
-                display="flex"
-                justifyContent='space-between'
-                alignItems='center'
-                flexDirection='column'
-                gap={2}
-                p={2}
-                sx={{ margin: 0 }}  >
-                <h1>{temp}&deg; {tempUnit}</h1>
-                {/* <p>H:75&deg; L:50&deg;</p> */}
-              </Box>
-            </Grid>
-          </Grid>
-
+            </Box>
+            <Box
+              id="temperature"
+              display='inherit'
+              flexDirection='row'
+              justifyContent='center'
+              alignItems='center'
+              sx={{ width: '25%' }}
+            >
+              <Typography variant="h3">
+                {temp}&deg;
+              </Typography>
+            </Box>
+          </Box>
         </StyledButton>
         <Button
-          className="delete-button_a"
-          size="large"
+          id={`delete-button_${location_id}`}
+          variant="contained"
+          color="error"
+          // size="large"
           sx={{
-            width: '7em',
+            width: '7.5em',
+            height: 'inherit',
             borderRadius: 'unset',
             borderTopLeftRadius: '15px',
             borderBottomLeftRadius: '15px',
-            padding: '8px 40px ',
             scrollSnapAlign: 'end',
             flex: 'none',
           }}
-          variant="contained"
-          color="error"
           onClick={() => handleDeleteFavorite(location_id, sessionId)}
         >
-          <DeleteSweepIcon fontSize="large" />
+          <DeleteSweepIcon fontSize="large" sx={{height: '100%'}} />
         </Button>
       </StyleScrollBehavior>
     </StyledContainer>
@@ -126,10 +148,13 @@ const StyleScrollBehavior = styled('div')`
   scroll-behavior: smooth;
   scroll-snap-stop: always;
   display: flex;
-  align-items: stretch;
+  align-items: flex-start;
   overflow-x: scroll;
   overflow-y: hidden;
   scrollbar-width: none;
   border-radius: 15px;
-  max-height: 7.5em;
+  width: 100%;
+  max-width: 31.25em;
+  height: 7.5em;
+  min-height: 7.5em;
 `;

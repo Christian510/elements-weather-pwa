@@ -55,6 +55,18 @@ export function queryForecastData(url) {
     return processFetch(url, options);
 }
 
+export function fetchHourlyForecast(url) {
+        // console.log('ForecastData: ', url);
+        const options = {
+            'method': 'GET',
+            'mode': 'cors',
+            'headers': {
+                'Accept': 'application/json'
+            }
+        };
+        return processFetch(url, options);
+}
+
 // Fetch Date and Time for a city or location
 export async function fetchDateTime(lat, lng, country="US") {
     const options = {
@@ -84,6 +96,11 @@ export async function fetchAllData(l) {
             data.forecast = null;
             throw new Error('Unable to fetch forecast');
         }
+        const hourlyForecast = await fetchHourlyForecast(api.properties.forecastHourly);
+        if (hourlyForecast === null) {
+            console.log('no hourly forecast');
+            data.hourlyForecast = null;
+        }
 
         const dateTime = await fetchDateTime(l.lat, l.lng);
         if (dateTime === null) {
@@ -95,6 +112,7 @@ export async function fetchAllData(l) {
             data.dateTime = dateTime;
             data.api = api;
             data.forecast = forecast;
+            data.hourlyForecast = hourlyForecast;
             // console.log('data: ', data);
         }
     }

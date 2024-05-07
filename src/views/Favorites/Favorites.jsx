@@ -21,7 +21,7 @@ function Favorites() {
                 <div>Loading...</div>
             ) : (
                 <List sx={{ 
-                    height: '65vh',
+                    height: '100vh',
                     overflowY: 'auto',
                     scrollbarWidth: 'none',
                     }}>
