@@ -9,8 +9,8 @@ const Label = styled('label')({
 
 const Input = styled('input')(({ theme }) => ({
   width: 200,
-  backgroundColor: theme.palette.mode === 'light' ? '#fff' : '#000',
-  color: theme.palette.mode === 'light' ? '#000' : '#fff',
+  backgroundColor: theme.palette.mode === 'dark' ? '#fff' : '#000',
+  color: theme.palette.mode === 'dark' ? '#000' : '#fff',
 }));
 
 const Listbox = styled('ul')(({ theme }) => ({
@@ -20,7 +20,7 @@ const Listbox = styled('ul')(({ theme }) => ({
   zIndex: 1,
   position: 'absolute',
   listStyle: 'none',
-  backgroundColor: theme.palette.mode === 'light' ? '#fff' : '#000',
+  backgroundColor: theme.palette.mode === 'dark' ? '#fff' : '#000',
   overflow: 'auto',
   maxHeight: 200,
   border: '1px solid rgba(0,0,0,.25)',
@@ -36,6 +36,8 @@ const Listbox = styled('ul')(({ theme }) => ({
 }));
 
 export default function UseAutocomplete() {
+
+
   const {
     getRootProps,
     getInputLabelProps,
@@ -52,8 +54,8 @@ export default function UseAutocomplete() {
   console.log('getInputLabelProps; ', getInputLabelProps());
   console.log('getInputProps: ', getInputProps());
   console.log('getListboxProps: ', getListboxProps());
-  console.log('getOptionProps: ', getOptionProps());
-  console.log('groupdOptionProps: ', groupedOptions());
+  // console.log('getOptionProps: ', getOptionProps());
+  // console.log('groupdOptionProps: ', groupedOptions());
   // 1. Add search icon with default text.
   // 2. When a user touches the search input field hide the tile show a cancel button and disable the background weather list.
   // 3. onBlurr revert 2.
