@@ -34,7 +34,7 @@ export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) 
     backgroundImage: `url(${icon})`,
     backgroundSize: 'cover',
     borderRadius: '15px',
-    color: 'white',
+    color: theme.palette.text.primary,
     textShadow: '1px 1px 5px gray',
     width: '100%',
     flex: 'none',

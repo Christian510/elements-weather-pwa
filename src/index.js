@@ -38,6 +38,7 @@ let router = createBrowserRouter([
         element: <CurrentConditionsView />,
         path: 'forecast/:location',
         errorElement: <ErrorPage title="Current Conditions View" />,
+        loader: rootLoader,
       },
       {
         element: <ExtendedForecastView />,
