@@ -2,19 +2,22 @@ import { useState, useEffect } from 'react';
 import Carousel from '../../components/Carousel/Carousel';
 import { useParams } from 'react-router-dom';
 import Card from '@mui/material/Card';
-import Grid from '@mui/material/Unstable_Grid2';
+import Box from '@mui/material/Box';
+// import Grid from '@mui/material/Unstable_Grid2';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import ListItem from '@mui/material/ListItem';
-import ElmImg from '../../components/ElmImage/ElmImage';
+// import ListItem from '@mui/material/ListItem';
+// import ElmImg from '../../components/ElmImage/ElmImage';
 import Styled from '@mui/system/styled';
 import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
-import ElmList from '../../components/ElmList/ElmList';
+// import ElmList from '../../components/ElmList/ElmList';
 import { ElmTheme } from '../../ElmThemeStyles/ElmTheme';
 import { formatDateTime } from '../../models/date';
 import { fetchAllData } from '../../models/weather_api';
+import { styled, useTheme } from '@mui/material/styles';
 
 export default function CurrentConditions() {
+  const theme = useTheme();
   let { location } = useParams();
   const params = JSON.parse(location);
   // console.log('params: ', params);
@@ -32,7 +35,7 @@ export default function CurrentConditions() {
         setIsLoaded("true");
       }
     });
-
+    console.log('forecast: ', forecast);
     return () => {
       console.log("UNMOUNTED")
       isMounted = false;
@@ -57,65 +60,53 @@ export default function CurrentConditions() {
       {!forecast ? (
         <ElmSpinner size='lg' />
       ) : (
-        <>
-          <Card
-            id='forecast-view-heading'
-            sx={{
-              padding: (theme) => theme.spacing(1),
-              margin: (theme) => theme.spacing(.5)
-            }}>
-            <Grid id="forecast" container spacing={2}>
-              <Grid container spacing={2}>
-                <Grid container spacing={.5} xs={12}>
-                  <Grid xs={12}>
-                    <Content variant='h5'>Forecast for {params.name}</Content>
-                  </Grid>
-                  <Grid xs={12}>
-                    <Content variant='subtitle2'>{dateTime.date} {dateTime.time}</Content>
-                  </Grid>
-                </Grid>
-                <Grid container spacing={2}>
-                  <Grid xs={4}>
-                    <img className="icon" src={icon} alt={shortForecast} />
-                  </Grid>
-                  <Grid xs={4}>
-                    <Typography variant='h4'>{temp}&deg;{tempUnit}</Typography>
-                  </Grid>
-                  <Grid xs={4}>
-                    <Typography variant='body1' >Content</Typography>
-                    <Typography variant='body1' >Content</Typography>
-                    <Typography variant='body1' >Content</Typography>
-                    <Typography variant='body1' >Content</Typography>
-                  </Grid>
-                </Grid>
-              </Grid>
+        <Container 
+          id="weather-forecast"
+          fixed
+          maxWidth="sm"
+          sx={{
+            height: '100vh',
+            backgroundColor: theme.palette.primary.light,
+            backgroundImage: `url(${icon})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
 
-            </Grid>
-          </Card>
-          <Container
-            sx={{
-              padding: 0,
-            }}
+          }}
+
+        >
+          <Box
+            id="scollable-view"
+            display='flex'
+            flexDirection='row'
+            justifyContent='center'
           >
-            {forecast.forecast && <Carousel id='Carousel' forecast={forecast.forecast.properties.periods} loading={isLoaded} />}
-          </Container>
-          <Card>
-            <ElmList
-              key={extendedForecast.id}
-              type="Detailed-Forecast"
-              items={extendedForecast}
-              renderItem={(forecast) =>
-                <ListItem
-                  key={forecast.number}
-                  divider={true}
-                >
-                  <ElmImg src={forecast.icon} alt={forecast.shortForecast} width='80px' height='80px' />
-                  <Typography variant='body1'>{forecast.detailedForecast}</Typography>
-                </ListItem>
-              }
-            />
-          </Card>
-        </>
+            <Box
+            display="flex"
+            flexDirection="column"
+            // justifyContent="center"
+            alignItems="center"
+            sx={{
+              padding: "4em 0 4em 0"
+            }}
+            >
+              <Typography 
+              className="location"
+              variant='h4'
+              >Heiley</Typography>
+              <Typography 
+              className="temp"
+              sx={{paddingLeft: '.3em'}}
+              variant='h1'
+              >{temp}&deg;</Typography>
+              <Typography 
+                className="observation"
+                variant='body1'
+                >{shortForecast}</Typography>
+              <Typography className="high_low"></Typography>
+            </Box>
+
+          </Box>
+        </Container>
       )}
     </>
   )

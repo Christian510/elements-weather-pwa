@@ -75,3 +75,67 @@ For example: https://api.weather.gov/alerts/active?area=KS
 ** Weather Data:
 - Snowpack: https://www.nrcs.usda.gov/resources/data-and-reports/snow-and-climate-monitoring-predefined-reports-and-maps
 - NOAA HISTORICAL WEATHER API: https://www.ncdc.noaa.gov/cdo-web/webservices/v2
+
+
+
+        <>
+          <Card
+            id='forecast-view-heading'
+            sx={{
+              padding: (theme) => theme.spacing(1),
+              margin: (theme) => theme.spacing(.5)
+            }}>
+            <Grid id="forecast" container spacing={2}>
+              <Grid container spacing={2}>
+                <Grid container spacing={.5} xs={12}>
+                  <Grid xs={12}>
+                    <Content variant='h5'>Forecast for {params.name}</Content>
+                  </Grid>
+                  <Grid xs={12}>
+                    <Content variant='subtitle2'>{dateTime.date} {dateTime.time}</Content>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid xs={4}>
+                    <img className="icon" src={icon} alt={shortForecast} />
+                  </Grid>
+                  <Grid xs={4}>
+                    <Typography variant='h4'>{temp}&deg;{tempUnit}</Typography>
+                  </Grid>
+                  <Grid xs={4}>
+                    <Typography variant='body1' >Content</Typography>
+                    <Typography variant='body1' >Content</Typography>
+                    <Typography variant='body1' >Content</Typography>
+                    <Typography variant='body1' >Content</Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+
+            </Grid>
+          </Card>
+          <Container
+            sx={{
+              padding: 0,
+            }}
+          >
+            {forecast.forecast && <Carousel id='Carousel' forecast={forecast.forecast.properties.periods} loading={isLoaded} />}
+          </Container>
+          <Card>
+            <ElmList
+              key={extendedForecast.id}
+              type="Detailed-Forecast"
+              items={extendedForecast}
+              renderItem={(forecast) =>
+                <ListItem
+                  key={forecast.number}
+                  divider={true}
+                >
+                  <ElmImg src={forecast.icon} alt={forecast.shortForecast} width='80px' height='80px' />
+                  <Typography variant='body1'>{forecast.detailedForecast}</Typography>
+                </ListItem>
+              }
+            />
+          </Card>
+        </>
+      )}
+    </>

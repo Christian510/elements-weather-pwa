@@ -82,14 +82,16 @@ export default function SearchInput() {
     inputValue,
     onInputChange: (event, newValue) => { setInputValue(newValue); },
   }, [options, inputValue, value]);
-  // console.log('getInputProps: ', getInputProps());
+  // console.log('get root props: ', {getRootProps});
+  // console.log('getInputProps: ', { ...getInputProps()});
+  // console.log('listbox props: ', {...getListboxProps()});
   return (
     <>
-    <div id="search-input" style={styles}>
+    <SearchInputWrapper id="search-input" >
         <StyledInputRoot {...getRootProps()} className={focused ? 'focused' : ''}>
           <StyledInput {...getInputProps()} />
         </StyledInputRoot>
-    </div>
+    </SearchInputWrapper>
         {groupedOptions.length > 0 && (
           <StyledListbox {...getListboxProps()}>
             {groupedOptions.map((option, index) => (
@@ -114,32 +116,18 @@ const blue = {
   900: '#003A75',
 };
 
-const grey = {
-  50: '#f7f7f7',
-  100: '#eeeeee',
-  200: '#e1e1e1',
-  300: '#cfcfcf',
-  400: '#aaaaaa',
-  500: '#898989',
-  600: '#626262',
-  700: '#4f4f4f',
-  800: '#313131',
-  900: '#111111',
-};
+const SearchInputWrapper = styled('div')(({ theme }) => ({
+  width: 'inherit',
+  minWidth: '300',
 
-const styles = {
-  width: '100%',
-  minWidth: '300px',
-  margin: '.5rem 0',
-}
-
+}))
 const StyledInputRoot = styled('div')(
   ({ theme }) => `
   border-radius: 8px;
-  color: ${theme.palette.mode === 'dark' ? grey[900] : grey[50]};
-  background: ${theme.palette.mode === 'dark' ? grey[900] : grey[500]};
-  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-  box-shadow: 0px 1px 1px ${theme.palette.mode === 'dark' ? grey[900] : grey[500]};
+  color: ${theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[50]};
+  background: ${theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[500]};
+  border: 1px solid ${theme.palette.mode === 'dark' ? theme.palette.grey[700] : theme.palette.grey[200]};
+  box-shadow: 0px 1px 1px ${theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[500]};
   display: flex;
   padding-right: 5px;
   overflow: hidden;
@@ -147,11 +135,11 @@ const StyledInputRoot = styled('div')(
 
   &.focused {
     border-color: ${blue[400]};
-    box-shadow: 0 0 0 1px ${theme.palette.mode === 'dark' ? grey[900] : grey[500]};
+    box-shadow: 0 0 0 1px ${theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[500]};
   }
 
   &:hover {
-    border-color: ${grey[400]};
+    border-color: ${theme.palette.grey[400]};
   }
 
   &:focus-visible {
@@ -167,7 +155,7 @@ const StyledInput = styled('input')(
   font-family: inherit;
   font-weight: 400;
   line-height: 1.5;
-  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[50]};
+  color: ${theme.palette.mode === 'dark' ? theme.palette.grey[300] : theme.palette.grey[50]};
   background: inherit;
   border: none;
   border-radius: inherit;
@@ -185,22 +173,23 @@ const StyledListbox = styled('ul')(
   box-sizing: border-box;
   text-wrap: nowrap;
   padding: 8px 8px;
-  height: fit-content;
-  overflow: auto;
+  overflow-y: auto;
+  scrollbar-width: none;
+  opacity: unset;
   outline: 0px;
-  min-height: 190vw;
+  min-height: 100vh;
   z-index: 1;
   position: absolute;
   top: 92px;
   left: 0;
   right: 0;
-  background: ${theme.palette.mode === 'dark' ? grey[200] : grey[900]};
+  background: ${theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.grey[200]};
   `,
 );
 
 const StyledOption = styled('li')(
   ({ theme }) => `
-  color: ${theme.palette.mode === 'dark' ? grey[900] : grey[200]};
+  color: ${theme.palette.mode === 'dark' ? theme.palette.text.primary : theme.palette.grey[900]};
   list-style: none;
   text-decoration: none;
   padding: 8px;
@@ -216,24 +205,24 @@ const StyledOption = styled('li')(
   }
 
   &[aria-selected=true] {
-    background-color: ${theme.palette.mode === 'dark' ? grey[900] : grey[100]};
-    color: ${theme.palette.mode === 'dark' ? grey[50] : grey[900]};
+    background-color: ${theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[100]};
+    color: ${theme.palette.mode === 'dark' ? theme.palette.grey[50] : theme.palette.grey[900]};
   }
 
   &.Mui-focused,
   &.Mui-focusVisible {
-    background-color: ${theme.palette.mode === 'dark' ? grey[800] : grey[100]};
-    color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+    background-color: ${theme.palette.mode === 'dark' ? theme.palette.grey[800] : theme.palette.grey[100]};
+    color: ${theme.palette.mode === 'dark' ? theme.palette.grey[300] : theme.palette.grey[900]};
   }
 
   &.Mui-focusVisible {
-    box-shadow: 0 0 0 3px ${theme.palette.mode === 'dark' ? grey[500] : grey[200]};
+    box-shadow: 0 0 0 3px ${theme.palette.mode === 'dark' ? theme.palette.grey[500] : theme.palette.grey[200]};
   }
 
   &[aria-selected=true].Mui-focused,
   &[aria-selected=true].Mui-focusVisible {
-    background-color: ${theme.palette.mode === 'dark' ? grey[900] : grey[50]};
-    color: ${theme.palette.mode === 'dark' ? grey[50] : grey[900]};
+    background-color: ${theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[50]};
+    color: ${theme.palette.mode === 'dark' ? theme.palette.grey[50] : theme.palette.grey[900]};
   }
   `,
 );

@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
 import { Outlet, useFetchers, useNavigation, useRevalidator } from 'react-router-dom';
 import { Container } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 // import './App.css';
 import './index.css';
 import SearchInput from './components/MuiSearchBar/SearchWeatherByLocation';
 import Menu from './components/Menu/Menu';
 import Header from './components/NavBar/Header';
-import {ElmTheme} from './ElmThemeStyles/ElmTheme';
 import { fetchFavorites, fetchAllData } from './models/weather_api';
 
 export async function loader() {
@@ -23,6 +23,7 @@ export async function loader() {
 }
 
 export function Home() {
+  const theme = useTheme();
   let navigation = useNavigation();
   let revalidator = useRevalidator();
   let fetchers = useFetchers();
@@ -31,10 +32,12 @@ export function Home() {
   );
 
   return (
-    <Container sx={{
-      backgroundColor: ElmTheme.palette.background.default,
+    <Container
+    id="app-container"
+    sx={{
+      backgroundColor: theme.palette.background.default,
     }}>
-      <Header theme={ElmTheme} >
+      <Header >
         <Menu />
         <SearchInput />
       </Header>
