@@ -10,6 +10,10 @@ export const ElmTheme = createTheme({
 });
 console.log('ElmTheme: ', ElmTheme);
 
+export const customStyles = {
+  textShadow: '1px 1px 5px gray',
+}
+
 // export const cardButtonTheme = createTheme({
 //   components: {
 //     MuiButtonBase: {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, useFetchers, useNavigation, useRevalidator } from 'react-router-dom';
 import { Container } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 // import './App.css';
 import './index.css';
 import SearchInput from './components/MuiSearchBar/SearchWeatherByLocation';
@@ -36,6 +36,11 @@ export function Home() {
     id="app-container"
     sx={{
       backgroundColor: theme.palette.background.default,
+      position: 'fixed',
+      top: '0',
+      left: '0',
+      width: '100%',
+      margin: 'auto',
     }}>
       <Header >
         <Menu />

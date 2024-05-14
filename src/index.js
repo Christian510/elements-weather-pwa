@@ -23,8 +23,7 @@ import ElmSpinner from './components/ElmSpinner/ElmSpinner';
 let router = createBrowserRouter([
   {
     path: '/',
-    element: 
-      <Home />,
+    element: <Home />,
     id: "root",
     errorElement: <ErrorPage title="Home View" />,
     children: [

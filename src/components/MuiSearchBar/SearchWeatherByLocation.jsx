@@ -13,7 +13,7 @@ export default function SearchInput() {
   
   const fetchLocations = useMemo(() => {
     let isMounted = true;
-    if (!isMounted) return; // Check if component is still mounted before updating state
+    if (!isMounted) return;
     else if (isMounted) {
       return debounce(async () => {
         const response = await queryLocations(inputValue);
@@ -95,7 +95,7 @@ export default function SearchInput() {
         {groupedOptions.length > 0 && (
           <StyledListbox {...getListboxProps()}>
             {groupedOptions.map((option, index) => (
-              <Link style={{textDecoration: 'none'}} to={`forecast/${JSON.stringify(option)}`} >
+              <Link id={`option_${option.location_id}`} key={option.location_id} style={{textDecoration: 'none'}} to={`forecast/${JSON.stringify(option)}`} >
                 <StyledOption {...getOptionProps({ option, index })}>
                   {`${option.name}, ${option.state}`}
                 </StyledOption>
