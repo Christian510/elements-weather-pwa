@@ -14,7 +14,7 @@ export async function loader() {
     const data =  await fetchFavorites();
     const fetchForecasts = data.locations.map(async (l) => await fetchAllData(l));
     const forecasts = await Promise.all(fetchForecasts);
-    console.log("forecasts: ", forecasts[0]);
+    // console.log("forecasts: ", forecasts[0]);
     return { forecasts: forecasts, sessionId: data.session };
   }
   catch (error) {

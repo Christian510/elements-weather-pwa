@@ -28,14 +28,11 @@ export default function CurrentConditions() {
   }
   // console.log('current forecast: ', locationRef);
   const forecast = locationRef.forecast;
-  console.log(forecast)
-  let dateTime = locationRef.dateTime;
-
-  let temp = null, tempUnit = null, detailedForecast = null, shortForecast = null, extendedForecast = null, icon = null;
+  // console.log(forecast)
+  let dateTime = null, temp = null, tempUnit = null, detailedForecast = null, shortForecast = null, extendedForecast = null, icon = null;
+    // dateTime = locationRef.dateTime;
   if (forecast) {
-    // console.log("forecast: ", forecast)
-    // console.log('date time: ', forecast.dateTime);
-    dateTime = formatDateTime(dateTime.time);
+    dateTime = formatDateTime(locationRef.dateTime.time);
     temp = forecast?.properties.periods[0].temperature;
     icon = forecast?.properties.periods[0].icon;
     // tempUnit = forecast?.properties.periods[0].temperatureUnit;
