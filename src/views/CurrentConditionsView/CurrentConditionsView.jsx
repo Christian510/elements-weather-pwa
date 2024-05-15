@@ -12,7 +12,7 @@ import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
 import { formatDateTime } from '../../models/date';
 import { styled, useTheme } from '@mui/material/styles';
 import { useLoaderData, Form } from "react-router-dom";
-import { fetchAllData } from '../../models/weather_api';
+import { fetchAllData, addFavorite } from '../../models/weather_api';
 import { Button } from '@mui/material';
 import { StyledButtonLink } from '../../components/StyledButtonLink';
 
@@ -22,12 +22,15 @@ export default function CurrentConditions() {
   const { forecasts, sessionId } = useLoaderData();
   // console.log('loaderdata: ', forecasts);
   let { location } = useParams();
-  const params = JSON.parse(location);
-  // console.log('params: ', params);
   const [locationData, setLocationData] = useState(null);
-
-  let match = forecasts.find((elm) => elm.location.location_id === params.location_id);
+  
   useEffect(() => {
+    console.info('useEffect fired');
+    let isLoaded = false;
+    const params = JSON.parse(location);
+    // console.log('params: ', params);
+
+    const match = forecasts.find((elm) => elm.location.location_id === params.location_id);
     if (match) {
       // console.log('match', match);
       setLocationData(match);
@@ -37,8 +40,17 @@ export default function CurrentConditions() {
       fetchAllData(params)
         .then((result) => setLocationData(result));
     }
+    if (locationData) {
+      isLoaded = true;
+    }
 
-  }, [params, match]);
+    return () => {
+      console.info('unmounting');
+      isLoaded = false;
+      setLocationData(null);
+    }
+
+  }, [location, forecasts, sessionId]);
 
   // console.log('loationData: ', locationData);
   let dateTime = null, temp = null, tempUnit = null, detailedForecast = null, shortForecast = null, extendedForecast = null, icon = null, name = null, id = null;
@@ -56,9 +68,9 @@ export default function CurrentConditions() {
   }
 
   function handleOnClick(id) {
-    let shouldRedirect = false;
     console.log('clicked: ', id)
-      return navigate('/');
+    addFavorite(id).then(result => console.log('result', result))
+    return navigate('/');
   }
 
   const StyledForm = styled(Form)(({ theme }) => ({
@@ -93,7 +105,7 @@ export default function CurrentConditions() {
             <StyledButtonLink
               component={Button}
               disableRipple
-              onClick={() => handleOnClick(id)}
+              onClick={() => handleOnClick(locationData.location)}
               type='submit'
             >Add</StyledButtonLink>
           </Box>
