@@ -21,7 +21,7 @@ const ForwardRefLink = forwardRef(
 
 function FavoritesItem({ location, sessionID, deleteFavorite }) {
   // console.log('location: ', location);
-  const { url, fetching } = useFetchUrl(location);
+  const { url } = useFetchUrl(location);
   const { data, loading, error } = useFetchData(url);
   const [secondary, setSecondary] = useState(false);
 

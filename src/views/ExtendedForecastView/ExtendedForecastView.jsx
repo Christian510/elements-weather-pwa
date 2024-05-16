@@ -1,6 +1,6 @@
-import React from 'react';
+
 import List from '@mui/material/List';
-import ElmCard from '../../components/ElmCard/ElmCard';
+import ListCard from '../../components/ListCard/ListCard';
 
 
 
@@ -8,18 +8,9 @@ import ElmCard from '../../components/ElmCard/ElmCard';
 export default function ExtendedForecastView({ forecast }) {
     console.log('forecast: ', forecast);
     const extendedForecast = forecast.periods.map((item, index) => {
-
-        if (index > 0) {
-            // console.log('item: ', item.name);
             return (
-                <ElmCard
-                    key={index}
-                    name={item.name}
-                    detailedForecast={item.detailedForecast}
-                    icon={item.icon}
-                    shortForecast={item.shortForecast} />
+                <ListCard />
             );
-        }
     } );
 
     return (

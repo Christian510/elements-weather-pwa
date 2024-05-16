@@ -54,7 +54,7 @@ export default function CurrentConditions() {
   }, [location, forecasts, sessionId]);
 
   // console.log('loationData: ', locationData);
-  let dateTime = null, temp = null, tempUnit = null, detailedForecast = null, shortForecast = null, extendedForecast = null, icon = null, name = null, id = null;
+  let dateTime = null, temp = null, tempUnit = null, detailedForecast = null, shortForecast = null, extendedForecast = null, icon = null, name = null;
   if (locationData) {
     // dateTime = formatDateTime(locationData.dateTime.time);
     temp = locationData?.forecast.properties.periods[0].temperature;
@@ -100,15 +100,18 @@ export default function CurrentConditions() {
           flexDirection='column'
         >
           <Box
+            id="top-nav"
             display='flex'
             justifyContent='space-between'
-            sx={{ minHeight: '2.5em' }}
+            sx={{
+              padding: '0.5em 0 0.5em 0',
+            }}
           >
             {!match && (
               <>
                 <StyledButtonLink
                   to={'/'}
-                  sx={{ minHeight: '3em' }}
+                  sx
                   disableRipple={true}
                   variant='text'
                   color='primary'
@@ -166,7 +169,7 @@ export default function CurrentConditions() {
             display='flex'
             justifyContent='space-between'
             sx={{
-              // position: 'sticky',
+              padding: '0.5em 0 0.5em 0',
             }}
           >
             {match && (

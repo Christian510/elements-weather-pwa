@@ -1,4 +1,4 @@
-import { DateRangeTwoTone } from "@mui/icons-material";
+// import { DateRangeTwoTone } from "@mui/icons-material";
 import axios from "axios";
 
 export function processFetch(url, options) {
@@ -76,50 +76,46 @@ export async function fetchDateTime(lat, lng, country="US") {
             'Accept': 'application/json'
         }
     };
-    return processFetch(`http://api.geonames.org/timezoneJSON?formatted=true&lat=${lat}&lng=${lng}&username=christian510`, options);
+    const url = `http://api.geonames.org/timezoneJSON?formatted=true&lat=${lat}&lng=${lng}&username=${process.env.REACT_APP_USER_NAME}`;
+    return processFetch(url, options);
   }
 
 export async function fetchAllData(l) {
-    // console.log('location: ', l)
-    const data = {}
     try {
-        data.location = l;
         const api = await getForecastUrl(l.lat, l.lng);
         if (api === null) {
-            data.api = null;
-            data.forecast = null;
             throw new Error('Unable to fetch api urls');
         }
 
         const forecast = await queryForecastData(api.properties.forecast);
         if (forecast === null) { 
-            data.forecast = null;
             throw new Error('Unable to fetch forecast');
         }
+
         const hourlyForecast = await fetchHourlyForecast(api.properties.forecastHourly);
         if (hourlyForecast === null) {
             console.log('no hourly forecast');
-            data.hourlyForecast = null;
+            throw new Error('Unable to fetch hourly forecast');
         }
 
         const dateTime = await fetchDateTime(l.lat, l.lng);
         if (dateTime === null) {
             console.log("NO DATE-TIME!!!!!")
-            data.dateTime = null;
             throw new Error('Unable to fetch dateTime');
         }
-        else {
-            data.dateTime = dateTime;
-            data.api = api;
-            data.forecast = forecast;
-            data.hourlyForecast = hourlyForecast;
-            // console.log('data: ', data);
-        }
+
+        return {
+            location: l,
+            api,
+            forecast,
+            hourlyForecast,
+            dateTime
+        };
     }
     catch (err) {
         console.log('Error message: ', err);
+        return null;
     }
-    return data;
 }
  
 // RETURNS AN EXTENDED FORECAST FROM 1 TO 16 DAYS

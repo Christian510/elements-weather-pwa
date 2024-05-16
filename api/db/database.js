@@ -3,7 +3,6 @@
  - Pre defined db functions
 */
 
-// const { json } = require('body-parser');
 const mysql = require('mysql2');
 
 const pool = mysql.createPool({
@@ -43,16 +42,16 @@ function executeQuery(query, values) {
 
 // Get Locations
 
-async function getSessions() {
-  try {
-    const result = await pool.query(`SELECT * FROM sessions`);
-    // console.log('sessions: ', result[0]);
-    return result;
-  } catch (error) {
-    console.error('Error fetching sessions:', error);
-    throw error; // Re-throw to handle it appropriately in calling code
-  }
-}
+// async function getSessions() {
+//   try {
+//     const result = await pool.query(`SELECT * FROM sessions`);
+//     // console.log('sessions: ', result[0]);
+//     return result;
+//   } catch (error) {
+//     console.error('Error fetching sessions:', error);
+//     throw error; // Re-throw to handle it appropriately in calling code
+//   }
+// }
 // getSessions();
 
 function findOneById(table, col, id) {
@@ -161,35 +160,35 @@ async function deleteOne(s_id, l_id) {
   return rows;
 }
 
-function deleteExpiredSession() {
-  // this will need to delete expired session and all locations associated with that session.
-  const query = `DELETE FROM sessions WHERE expires < NOW()`
-  return pool.execute(query)
-    .then(result => {
-      console.log('result: ', result[0]);
-      return result[0];
-    })
-    .catch(err => {
-      console.log('error msg: ', err)
-      throw new Error('Unable to delete location: ', err);
-    })
-}
+// function deleteExpiredSession() {
+//   // this will need to delete expired session and all locations associated with that session.
+//   const query = `DELETE FROM sessions WHERE expires < NOW()`
+//   return pool.execute(query)
+//     .then(result => {
+//       console.log('result: ', result[0]);
+//       return result[0];
+//     })
+//     .catch(err => {
+//       console.log('error msg: ', err)
+//       throw new Error('Unable to delete location: ', err);
+//     })
+// }
 // deleteExpiredSession();
 
-function CreateUserTable() {
-  const query = `CREATE TABLE IF NOT EXISTS users 
-  (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), 
-  password VARCHAR(255))`;
-  return pool.execute(query)
-    .then(result => {
-      console.log('result: ', result[0]);
-      return result[0];
-    })
-    .catch(err => {
-      console.log('error msg: ', err)
-      throw new Error('Unable to create users table: ', err);
-    })
-}
+// function CreateUserTable() {
+//   const query = `CREATE TABLE IF NOT EXISTS users 
+//   (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), 
+//   password VARCHAR(255))`;
+//   return pool.execute(query)
+//     .then(result => {
+//       console.log('result: ', result[0]);
+//       return result[0];
+//     })
+//     .catch(err => {
+//       console.log('error msg: ', err)
+//       throw new Error('Unable to create users table: ', err);
+//     })
+// }
 
 // Insert One User
 
