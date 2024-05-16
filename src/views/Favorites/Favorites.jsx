@@ -9,7 +9,7 @@ function Favorites() {
     const [favorites, setFavorites] = useState(forecasts)
 
     function handleDeleteFavorite(id, s_id) {
-        console.log("Delete: ", id);
+        // console.log("Delete: ", id);
         deleteFavorite(id, s_id);
         setFavorites(preFavorites => preFavorites.filter((f) => f.location.location_id !== id));
     }

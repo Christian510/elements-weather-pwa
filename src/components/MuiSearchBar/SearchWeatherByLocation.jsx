@@ -40,15 +40,16 @@ export default function SearchInput() {
     }
     
     return () => {
-      // Cleanup function
-      isMounted = false; // Update flag to indicate component is unmounted
+      isMounted = false;
+      setOptions([]);
+      setInputValue('');
+      setValue(null);
     };
 
   }, [inputValue]);
   // console.log("options: ", options);
 
   useEffect(() => {
-    console.log('useEffect fired')
     if (inputValue.length > 2) {
       fetchLocations();
 
@@ -58,7 +59,11 @@ export default function SearchInput() {
       setOptions([])
     }
 
-  }, [inputValue]);
+    return () => {
+      setOptions([]);
+    }
+
+  }, [inputValue, fetchLocations]);
   const {
     getRootProps,
     getInputProps,
@@ -226,17 +231,3 @@ const StyledOption = styled('li')(
   }
   `,
 );
-
-const Layout = styled('div')`
-
-`;
-
-// const Pre = styled('pre')(({ theme }) => ({
-//   margin: '0.5rem 0',
-//   '& code': {
-//     backgroundColor: theme.palette.mode === 'light' ? '#ebebef' : '#25252d',
-//     color: theme.palette.mode === 'light' ? '#000' : '#fff',
-//     padding: '0.125rem 0.25rem',
-//     borderRadius: 3,
-//   },
-// }));

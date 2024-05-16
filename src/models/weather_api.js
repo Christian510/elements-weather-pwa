@@ -135,7 +135,16 @@ export const fetchWeatherAlerts = async (locations) => {
   export const fetchUrl = async (locations) => {};
 
 
-  export const addFavorite = async (params) => {
+  export const addFavorite = async (data, session_id) => {
+    const params = {
+        location_id: data.location_id,
+        name: data.name,
+        state: data.state,
+        country_code: data.country_code,
+        lat: data.lat,
+        lng: data.lng,
+        session_id: session_id
+    } 
     try {
         const response = await axios.post('/favorites/add-one', params)
         return response.data;

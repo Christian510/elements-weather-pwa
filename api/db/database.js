@@ -107,12 +107,12 @@ async function findAllById(table, col, session_id = '') {
   // console.log('favorites: ', favorites);
   return favorites;
 }
-async function insertOne(params = null, session_id = null) {
-  console.log('params: ', params);
-  console.log('session_id: ', session_id);
+async function insertOne(params = null) {
+  // console.log('params: ', params);
+  // console.log('session_id: ', session_id);
   let result = null;
   const sf_query = `SELECT * FROM session_favorites WHERE l_id = ? AND s_id = ?;`;
-  const [sf] = await executeQuery(sf_query, [params.location_id, session_id])
+  const [sf] = await executeQuery(sf_query, [params.location_id, params.session_id])
   // console.log('sf query: ', sf)
 
   const l_query = `SELECT * FROM locations WHERE location_id = ?;`;
@@ -123,7 +123,7 @@ async function insertOne(params = null, session_id = null) {
 
   if (sf.length < 1 && location.length < 1) {
     console.log('add location to session_favorites')
-    const [sf] = await executeQuery(sf_insert_query, [session_id, params.location_id, params.name]);
+    const [sf] = await executeQuery(sf_insert_query, [params.session_id, params.location_id, params.name]);
     // console.log('sf: ', sf.affectedRows);
     console.log('add location to location db');
     const l_insert_query = `
@@ -137,7 +137,7 @@ async function insertOne(params = null, session_id = null) {
   }
   if (sf.length < 1 && location.length > 0) {
     console.log('add to session_favorites')
-    const [sf] = await executeQuery(sf_insert_query, [session_id, params.location_id, params.name]);
+    const [sf] = await executeQuery(sf_insert_query, [params.session_id, params.location_id, params.name]);
     // console.log('sf affected rows: ', sf.affectedRows);
     result = sf.affectedRows;
   }

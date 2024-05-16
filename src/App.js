@@ -40,15 +40,16 @@ export function Home() {
       top: '0',
       left: '0',
       width: '100%',
+      height: '100vh',
       margin: 'auto',
     }}>
       <Header >
         <Menu />
         <SearchInput />
       </Header>
-      <div id="outlet" >
+      <StyledOutlet id="outlet" >
         <Outlet />
-      </div>
+      </StyledOutlet>
       <div style={{ position: 'fixed', top: 40, right: 20 }}>
         {navigation.state !== 'idle' && <p>Navigation in progress...</p>}
         {revalidator.state !== 'idle' && <p>Revalidation in progress...</p>}
@@ -57,4 +58,9 @@ export function Home() {
     </Container>
   );
 }
+
+const StyledOutlet = styled('div')(({ theme }) => ({
+  height: '100%',
+  padding: '0 0 6em 0',
+}));
 

@@ -1,6 +1,6 @@
 
 import { createTheme } from '@mui/material/styles';
-import { palette } from '@mui/system';
+// import { palette } from '@mui/system';
 // console.log('palette: ', palette);
 
 export const ElmTheme = createTheme({
@@ -8,7 +8,7 @@ export const ElmTheme = createTheme({
     mode: 'dark',
   },
 });
-console.log('ElmTheme: ', ElmTheme);
+// console.log('ElmTheme: ', ElmTheme);
 
 export const customStyles = {
   textShadow: '1px 1px 5px gray',

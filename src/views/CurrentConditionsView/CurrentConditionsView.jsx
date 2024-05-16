@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
-import Carousel from '../../components/Carousel/Carousel';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import Card from '@mui/material/Card';
+// import Carousel from '../../components/Carousel/Carousel';
+import { useParams, useNavigate } from 'react-router-dom';
+// import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
+// import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 // import ListItem from '@mui/material/ListItem';
 // import ElmImg from '../../components/ElmImage/ElmImage';
 import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
 // import ElmList from '../../components/ElmList/ElmList';
-import { formatDateTime } from '../../models/date';
+// import { formatDateTime } from '../../models/date';
 import { styled, useTheme } from '@mui/material/styles';
-import { useLoaderData, Form } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { fetchAllData, addFavorite } from '../../models/weather_api';
 import { Button } from '@mui/material';
 import { StyledButtonLink } from '../../components/StyledButtonLink';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 
 export default function CurrentConditions() {
   const theme = useTheme();
@@ -23,10 +24,10 @@ export default function CurrentConditions() {
   // console.log('loaderdata: ', forecasts);
   let { location } = useParams();
   const [locationData, setLocationData] = useState(null);
-  
+  const [match, setMatch] = useState(false);
+
   useEffect(() => {
-    console.info('useEffect fired');
-    let isLoaded = false;
+    // console.info('useEffect fired');
     const params = JSON.parse(location);
     // console.log('params: ', params);
 
@@ -34,20 +35,20 @@ export default function CurrentConditions() {
     if (match) {
       // console.log('match', match);
       setLocationData(match);
+      setMatch(true);
     }
     if (match === undefined) {
       // console.log('no match: ', match);
-      fetchAllData(params)
-        .then((result) => setLocationData(result));
+      setMatch(false);
+      setTimeout(() => {
+        fetchAllData(params)
+          .then((result) => setLocationData(result));
+      }, 500);
     }
-    if (locationData) {
-      isLoaded = true;
-    }
-
     return () => {
-      console.info('unmounting');
-      isLoaded = false;
+      // console.info('unmounting');
       setLocationData(null);
+      setMatch(false);
     }
 
   }, [location, forecasts, sessionId]);
@@ -55,26 +56,33 @@ export default function CurrentConditions() {
   // console.log('loationData: ', locationData);
   let dateTime = null, temp = null, tempUnit = null, detailedForecast = null, shortForecast = null, extendedForecast = null, icon = null, name = null, id = null;
   if (locationData) {
-    dateTime = formatDateTime(locationData.dateTime.time);
+    // dateTime = formatDateTime(locationData.dateTime.time);
     temp = locationData?.forecast.properties.periods[0].temperature;
     icon = locationData?.forecast.properties.periods[0].icon;
     name = locationData?.location.name;
-    id = locationData?.location.location_id;
     // tempUnit = forecast?.properties.periods[0].temperatureUnit;
     // detailedForecast = forecast.forecast?.properties.periods[0].detailedForecast;
     shortForecast = locationData?.forecast.properties.periods[0].shortForecast;
-    extendedForecast = locationData?.forecast.properties.periods;
+    // extendedForecast = locationData?.forecast.properties.periods;
 
   }
 
-  function handleOnClick(id) {
-    console.log('clicked: ', id)
-    addFavorite(id).then(result => console.log('result', result))
-    return navigate('/');
+  function handleAddFavorite(location, sessionID) {
+    setTimeout(() => {
+      addFavorite(location, sessionID).then(resp => {
+        if (resp.result === 1) {
+          console.log('Favorite added');
+          return navigate('/');
+        }
+        if (resp.result === 0) {
+          alert('Location Not added to favorites. Please try again.')
+        }
+      })
+    }, 100);
   }
 
-  const StyledForm = styled(Form)(({ theme }) => ({
-    height: '100vh',
+  const StyledContainer = styled(Box)(({ theme }) => ({
+    height: '100%',
     backgroundColor: theme.palette.primary.light,
     backgroundImage: `url(${icon})`,
     backgroundRepeat: 'no-repeat',
@@ -86,36 +94,46 @@ export default function CurrentConditions() {
       {!locationData ? (
         <ElmSpinner size='lg' />
       ) : (
-        <StyledForm
+        <StyledContainer
           id="weather-forecast"
-          method='post'
+          display='flex'
+          flexDirection='column'
         >
           <Box
             display='flex'
             justifyContent='space-between'
+            sx={{ minHeight: '2.5em' }}
           >
-            <StyledButtonLink
-              to={'/'}
-              sx
-              disableRipple={true}
-              variant='text'
-              color='primary'
-            >Cancel</StyledButtonLink>
-            {/* <Button href='/' disableRipple > Cancel</Button> */}
-            <StyledButtonLink
-              component={Button}
-              disableRipple
-              onClick={() => handleOnClick(locationData.location)}
-              type='submit'
-            >Add</StyledButtonLink>
+            {!match && (
+              <>
+                <StyledButtonLink
+                  to={'/'}
+                  sx={{ minHeight: '3em' }}
+                  disableRipple={true}
+                  variant='text'
+                  color='primary'
+                >Cancel</StyledButtonLink>
+                <StyledButtonLink
+                  component={Button}
+                  disableRipple
+                  onClick={() => handleAddFavorite(locationData.location, sessionId)}
+                  type='submit'
+                >Add</StyledButtonLink>
+              </>
+            )}
           </Box>
           <Box
             id="scollable-view"
             display='flex'
-            flexDirection='row'
-            justifyContent='center'
+            flexDirection='column'
+            justifyContent='space-around'
+            sx={{
+              height: '100%',
+              overflowY: 'auto',
+            }}
           >
             <Box
+              id="forecast"
               display="flex"
               flexDirection="column"
               // justifyContent="center"
@@ -143,7 +161,37 @@ export default function CurrentConditions() {
               <Typography className="high_low"></Typography>
             </Box>
           </Box>
-        </StyledForm>
+          <Box
+            id="bottom-nav"
+            display='flex'
+            justifyContent='space-between'
+            sx={{
+              // position: 'sticky',
+            }}
+          >
+            {match && (
+              <>
+                <StyledButtonLink
+                  to={`#`}
+                  sx
+                  disableRipple={true}
+                  variant='text'
+                  color='primary'
+                >Map
+                </StyledButtonLink>
+                <StyledButtonLink
+                  to={'/'}
+                  sx
+                  disableRipple={true}
+                  variant='text'
+                  color='primary'
+                >
+                  <FormatListBulletedIcon fontSize='small' />
+                </StyledButtonLink>
+              </>
+            )}
+          </Box>
+        </StyledContainer>
       )}
     </>
   )

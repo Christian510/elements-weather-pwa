@@ -1,12 +1,10 @@
-
-// const db = require('../db/database').pool;
 const findAllById = require('../db/database').findAllById;
 // const findOneById = require('../db/database').findOneById;
 const insertOne = require('../db/database').insertOne;
 const deleteOne = require('../db/database').deleteOne;
 
-exports.fetchFavorites = (req, res, next) => { // get all favorites for one session id from db
-  console.log('req.seesionID: ', req.sessionID)
+exports.fetchFavorites = (req, res, next) => {
+  // console.log('req.seesionID: ', req.sessionID)
   // console.log('req at fetchFavorites: ', req)
 
   return findAllById('session_favorites', 's_id', req.sessionID)
@@ -22,14 +20,13 @@ exports.fetchFavorites = (req, res, next) => { // get all favorites for one sess
         console.log('error msg: ', res.error)
         throw new Error('Unable to get locations');
       }
-    }
-    )
+    })
     .catch(err => {
       console.log('error msg: ', err)
     });
 }
 
-exports.addOneFavorite = async (req, res, next) => { // add one favorte to db
+exports.addOneFavorite = async (req, res, next) => {
   console.log('sessionID: ', req.sessionID)
   console.log('req.body: ', req.body);
   try {
@@ -37,7 +34,7 @@ exports.addOneFavorite = async (req, res, next) => { // add one favorte to db
     // console.log('result: ', result);
     res.send({
       message: 'SUCCESS',
-      result: result, // return 1 if successful or 0 if not
+      result: result,
       session: req.sessionID,
     })
   }
@@ -47,10 +44,8 @@ exports.addOneFavorite = async (req, res, next) => { // add one favorte to db
   }
 }
 
-exports.deleteOneFavorite = async (req, res, next) => { // delete one favorte from db
-  
-  console.log('req.query: ', req);
-
+exports.deleteOneFavorite = async (req, res, next) => {
+  // console.log('req.query: ', req);
   try {
     const result = await deleteOne(req.query.session_id, req.query.location_id)
     if (result) {
@@ -58,7 +53,7 @@ exports.deleteOneFavorite = async (req, res, next) => { // delete one favorte fr
       // console.log('result: ', result);
       res.send({
         message: 'FAVORITE DELETED FROM DB',
-        result: result.affectedRows, // return 1 if successful or 0 if not
+        result: result.affectedRows,
       })
     }
   }
