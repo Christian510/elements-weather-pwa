@@ -4,13 +4,9 @@ import axios from "axios";
 export function processFetch(url, options) {
     return fetch(url, options)
         .then(response => {
-            console.log("fetch response: ", response);
+            // console.log("fetch response: ", response);
             if (response.ok) {
                 return response.json();
-            } 
-            if (response.status === 503) {
-                console.error('Service Unavailable: ', response);
-                return response;
             } else {
                 return null;
             }

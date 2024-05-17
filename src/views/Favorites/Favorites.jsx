@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import List from '@mui/material/List';
+import Box from '@mui/material/Box';
 import ListCard from '../../components/ListCard/ListCard';
-import { Box } from "@mui/material";
 import { deleteFavorite } from '../../models/weather_api';
-import ElmSpinner from "../../components/ElmSpinner/ElmSpinner";
+import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
 
 function Favorites() {
     const { forecasts, sessionId } = useLoaderData();
-    const [favorites, setFavorites] = useState(forecasts);
+    const [favorites, setFavorites] = useState(forecasts)
 
     function handleDeleteFavorite(id, s_id) {
         // console.log("Delete: ", id);
@@ -18,26 +18,29 @@ function Favorites() {
 
     const list = favorites?.map((elm) => <ListCard key={elm.location.location_id} id={`list-card_${elm.location.location_id}`} data={elm} sessionId={sessionId} handleDeleteFavorite={handleDeleteFavorite} />);
     return (
-        <List sx={{
-            height: '90vh',
-            overflowY: 'auto',
-            scrollbarWidth: 'none',
-        }}>
+        <>
             {!favorites ? (
                 <Box
                     display="flex"
                     justifyContent="center"
                     alignItems="flex-start"
+                    height="90vh"
                     sx={{
-                        marginTop: '18em',
+                        paddingTop: '18em',
                     }}
                 >
                     <ElmSpinner color="success" size={100} thickness={4} />
                 </Box>
             ) : (
-                { list }
+                <List sx={{
+                    height: '90vh',
+                    overflowY: 'auto',
+                    scrollbarWidth: 'none',
+                }}>
+                    {list}
+                </List>
             )}
-        </List>
+        </>
     )
 }
 export default Favorites;
