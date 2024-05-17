@@ -3,9 +3,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { styled } from '@mui/material/styles';
 
 export default function Header(props) {
-  // const theme = useTheme();
-  // console.log('props: ', props);
-  // const { children } = props;
+
   return (
       <StyledHeader id="header" position="sticky" >
         <Toolbar sx={toolBarStyles}>
