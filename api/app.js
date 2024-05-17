@@ -10,9 +10,11 @@ const cors = require('cors');
 const sqlformat = require('./logger');
 
 // const indexRouter = require('./routes/index');
-const userRouter = require('./routes/user');
+// const userRouter = require('./routes/user');
 // const router = require('./routes/index');
 const favoritesRouter = require('./routes/favorites');
+const createTablesRouter = require('./routes/create_tables');
+const { clear } = require('winston');
 
 const app = express();
 
@@ -37,6 +39,9 @@ const options = {
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
+  clearExpired: true,
+  checkExpirationInterval: 900000,
+  
   port: process.env.DB_PORT || 3306,
 };
 
@@ -44,7 +49,16 @@ const dbConnection = mysql.createConnection(options);
 
 const sessionStore = new MySQLStore({
   expiration: 3600000, // Session expiration time in milliseconds
-  createDatabaseTable: true // Automatically create session table if none exists
+  createDatabaseTable: false,
+  schema: {
+    tableName: 'sessions',
+    columnNames: {
+      session_id: 'session_id',
+      expires: 'expires',
+      data: 'data',
+      location_ids: 'location_ids',
+    }
+  }
 }, dbConnection);
 
 app.set('trust proxy', 1) // trust first proxy
@@ -56,12 +70,13 @@ app.use(session({
   cookie: {
     secure: false,
     // EQUALS 1 DAY ( 1 DAY * 24 HR/1 DAY * 60 MIN/1 HR)
-    // maxAge: 1000 * 60 * 60 * 24 * 90,
-    maxAge: 30,
+    maxAge: 1000 * 60 * 60 * 24 * 90,
     // sameSite: 'strict',
   }
 }
 ));
+
+app.use('/create_tables', createTablesRouter);
 
 app.use('/favorites', favoritesRouter);
 

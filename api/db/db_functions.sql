@@ -1,5 +1,12 @@
--- Refactor this to relect current database schema
-CREATE TABLE `elements_weather_app`.`locations`(
+CREATE TABLE IF NOT EXISTS `elements_weather_app`.`sessions`(
+    `session_id` VARCHAR(128) NOT NULL,
+    `expires` INT NOT NULL,
+    `data` MEDIUMTEXT,
+    `location_ids` VARCHAR(255) NULL,
+    PRIMARY KEY (`session_id`)
+);
+
+CREATE TABLE IF NOT EXISTS `elements_weather_app`.`locations`(
 `location_id` IN NOT NULL,
 `name` VARCHAR(45) NOT NULL ,
 `state` VARCHAR(45) NOT NULL ,
@@ -8,6 +15,13 @@ CREATE TABLE `elements_weather_app`.`locations`(
 `longitude` DECIMAL(8,5) NOT NULL ,
 `fetch_url` VARCHAR(255) NULL, 
 PRIMARY KEY (`location_id`));
+
+CREATE TABLE IF NOT EXISTS `elements_weather_app`.`session_favorites`(
+    `s_id` VARCHAR(128) NOT NULL,
+    `l_id` INT NOT NULL,
+    `l_name` VARCHAR(45) NULL,
+);
+
 
 INSERT INTO `elements_weather_app`.`locations` (
     `location_id`, 
