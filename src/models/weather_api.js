@@ -4,11 +4,14 @@ import axios from "axios";
 export function processFetch(url, options) {
     return fetch(url, options)
         .then(response => {
-            // console.log("fetch response: ", response);
+            console.log("fetch response: ", response);
             if (response.ok) {
                 return response.json();
+            } 
+            if (response.status === 503) {
+                console.error('Service Unavailable: ', response);
+                return response;
             } else {
-                // throw new Error('Unable to fetch data');
                 return null;
             }
         })
@@ -81,41 +84,24 @@ export async function fetchDateTime(lat, lng, country="US") {
   }
 
 export async function fetchAllData(l) {
+    // console.log('location: ', l)
+    const data = {}
     try {
+        data.location = l;
         const api = await getForecastUrl(l.lat, l.lng);
-        if (api === null) {
-            throw new Error('Unable to fetch api urls');
-        }
-
+        data.api = api;
         const forecast = await queryForecastData(api.properties.forecast);
-        if (forecast === null) { 
-            throw new Error('Unable to fetch forecast');
-        }
-
+        data.forecast = forecast;
         const hourlyForecast = await fetchHourlyForecast(api.properties.forecastHourly);
-        if (hourlyForecast === null) {
-            console.log('no hourly forecast');
-            throw new Error('Unable to fetch hourly forecast');
-        }
-
+        data.hourlyForecast = hourlyForecast;
         const dateTime = await fetchDateTime(l.lat, l.lng);
-        if (dateTime === null) {
-            console.log("NO DATE-TIME!!!!!")
-            throw new Error('Unable to fetch dateTime');
-        }
-
-        return {
-            location: l,
-            api,
-            forecast,
-            hourlyForecast,
-            dateTime
-        };
+            data.dateTime = dateTime;
+            // console.log('data: ', data);
     }
     catch (err) {
         console.log('Error message: ', err);
-        return null;
     }
+    return data;
 }
  
 // RETURNS AN EXTENDED FORECAST FROM 1 TO 16 DAYS
@@ -127,9 +113,7 @@ export const fetchWeatherAlerts = async (locations) => {
     // https://api.weather.gov/alerts/active?area={state}
 };
 
-
   export const fetchUrl = async (locations) => {};
-
 
   export const addFavorite = async (data, session_id) => {
     const params = {

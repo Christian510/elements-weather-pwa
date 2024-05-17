@@ -2,9 +2,9 @@ import React from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 
 
-export default function ElmSpinner({color = 'primary', size = 'md'}, position = 'center-row') {
+export default function ElmSpinner({color = 'primary', size = '40', thickness = 4}) {
 
     return (
-        <CircularProgress color={color} size={size} position={position} />
+        <CircularProgress color={color} size={size} thickness={thickness} />
     )
 }
