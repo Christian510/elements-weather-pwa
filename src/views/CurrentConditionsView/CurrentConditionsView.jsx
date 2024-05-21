@@ -87,6 +87,7 @@ export default function CurrentConditions() {
     backgroundImage: `url(${icon})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
+    backgroundPosition: 'center',
   }));
 
   return (
