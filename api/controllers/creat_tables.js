@@ -1,5 +1,4 @@
-const express = require('express');
-const router = express.Router();
+
 const mysql = require('mysql2/promise');
 
 const pool = mysql.createPool({
@@ -9,8 +8,7 @@ const pool = mysql.createPool({
   database: 'elements_weather_app'
 });
 
-
-router.get('/create-tables', async (req, res) => {
+exports.createTables = async (req, res) => {
     try {
         const connection = await pool.getConnection();
         await connection.query(`
@@ -46,6 +44,4 @@ router.get('/create-tables', async (req, res) => {
         console.error('Error creating tables:', error);
         res.status(500).send('Error creating tables.');
     }
-});
-
-module.exports = router;
+}

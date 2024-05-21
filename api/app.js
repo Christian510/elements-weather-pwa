@@ -13,7 +13,7 @@ const sqlformat = require('./logger');
 // const userRouter = require('./routes/user');
 // const router = require('./routes/index');
 const favoritesRouter = require('./routes/favorites');
-const createTablesRouter = require('./routes/create_tables');
+const createTablesRouter = require('./routes/create_tables_router');
 const { clear } = require('winston');
 
 const app = express();
