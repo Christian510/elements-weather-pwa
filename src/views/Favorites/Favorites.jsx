@@ -32,11 +32,11 @@ function Favorites() {
                     <ElmSpinner color="success" size={100} thickness={4} />
                 </Box>
             ) : (
-                <List sx={{
+                <List sx={{ 
                     height: '90vh',
                     overflowY: 'auto',
                     scrollbarWidth: 'none',
-                }}>
+                    }}>
                     {list}
                 </List>
             )}
