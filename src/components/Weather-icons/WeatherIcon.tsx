@@ -1,6 +1,6 @@
 import React from "react";
 import "./WeatherIcon.css";
-import { weatherIcons } from "../../models/icon_map"; "../../models/icon_map";
+import { weatherIcons } from "../../models/icon_map";
 
 export interface WeatherIconProps {
     isday: boolean;
