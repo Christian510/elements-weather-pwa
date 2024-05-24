@@ -8,8 +8,8 @@ export default function DemoView() {
             <h1>Demo View</h1>
             <ElmAutoComplete />
             <WeatherIcon isday={true} icon="skc" size="sm" color sx={{padding: '2em'}} />
-            <WeatherIcon isday={true} icon="skc" size="med" color sx/>
-            <WeatherIcon isday={true} icon="skc" size="lrg" color sx/>
+            <WeatherIcon isday={true} icon="few" size="med" color sx/>
+            <WeatherIcon isday={true} icon="snow" size="lrg" color sx/>
         </div>
     );  
 }

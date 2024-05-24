@@ -2,7 +2,7 @@ export const weatherIcons = [
     {
         icon: "skc",
         description: "Fair/clear",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-sunny",
             night: "wi-night-clear"
         }
@@ -10,7 +10,7 @@ export const weatherIcons = [
     {
         icon: "few",
         description: "A few clouds",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-sunny-overcast",
             night: "wi-night-alt-partly-cloudy"
         }
@@ -18,7 +18,7 @@ export const weatherIcons = [
     {
         icon: "sct",
         description: "Partly cloudy",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-sunny-overcast",
             night: "wi-night-alt-partly-cloudy"
         }
@@ -26,7 +26,7 @@ export const weatherIcons = [
     {
         icon: "bkn",
         description: "Mostly cloudy",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-cloudy",
             night: "wi-night-alt-cloudy"
         }
@@ -34,7 +34,7 @@ export const weatherIcons = [
     {
         icon: "ovc",
         description: "Overcast",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-cloudy",
             night: "wi-night-alt-cloudy"
         }
@@ -42,7 +42,7 @@ export const weatherIcons = [
     {
         icon: "wind_skc",
         description: "Fair/clear and windy",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-windy",
             night: "wi-windy"
         }
@@ -50,7 +50,7 @@ export const weatherIcons = [
     {
         icon: "wind_few",
         description: "A few clouds and windy",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-cloudy-windy",
             night: "wi-night-alt-cloudy-windy"
         }
@@ -58,7 +58,7 @@ export const weatherIcons = [
     {
         icon: "wind_sct",
         description: "Partly cloudy and windy",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-cloudy-windy",
             night: "wi-night-alt-cloudy-windy"
         }
@@ -66,7 +66,7 @@ export const weatherIcons = [
     {
         icon: "wind_bkn",
         description: "Mostly cloudy and windy",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-cloudy-windy",
             night: "wi-night-alt-cloudy-windy"
         }
@@ -74,7 +74,7 @@ export const weatherIcons = [
     {
         icon: "wind_ovc",
         description: "Overcast and windy",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-cloudy-windy",
             night: "wi-night-alt-cloudy-windy"
         }
@@ -82,7 +82,7 @@ export const weatherIcons = [
     {
         icon: "snow",
         description: "Snow",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-snow",
             night: "wi-snow"
         }
@@ -90,7 +90,7 @@ export const weatherIcons = [
     {
         icon: "rain_snow",
         description: "Rain/snow",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-rain-mix",
             night: "wi-night-alt-rain-mix"
         }
@@ -98,7 +98,7 @@ export const weatherIcons = [
     {
         icon: "rain_sleet",
         description: "Rain/sleet",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-rain-mix",
             night: "wi-night-alt-rain-mix"
         }
@@ -106,7 +106,7 @@ export const weatherIcons = [
     {
         icon: "snow_sleet",
         description: "Snow/sleet",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-sleet",
             night: "wi-night-alt-sleet"
         }
@@ -114,7 +114,7 @@ export const weatherIcons = [
     {
         icon: "fzra",
         description: "Freezing rain",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-sleet",
             night: "wi-night-alt-sleet"
         }
@@ -122,7 +122,7 @@ export const weatherIcons = [
     {
         icon: "rain_fzra",
         description: "Rain/freezing rain",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-sleet",
             night: "wi-night-alt-sleet"
         }
@@ -130,7 +130,7 @@ export const weatherIcons = [
     {
         icon: "snow_fzra",
         description: "Freezing rain/snow",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-sleet",
             night: "wi-night-alt-sleet"
         }
@@ -138,7 +138,7 @@ export const weatherIcons = [
     {
         icon: "sleet",
         description: "Sleet",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-sleet",
             night: "wi-night-alt-sleet"
         }
@@ -146,7 +146,7 @@ export const weatherIcons = [
     {
         icon: "rain",
         description: "Rain",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-rain",
             night: "wi-night-alt-rain"
         }
@@ -154,7 +154,7 @@ export const weatherIcons = [
     {
         icon: "rain_showers",
         description: "Rain showers (high cloud cover)",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-showers",
             night: "wi-night-alt-showers"
         }
@@ -162,7 +162,7 @@ export const weatherIcons = [
     {
         icon: "rain_showers_hi",
         description: "Rain showers (low cloud cover)",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-showers",
             night: "wi-night-alt-showers"
         }
@@ -170,7 +170,7 @@ export const weatherIcons = [
     {
         icon: "tsra",
         description: "Thunderstorm (high cloud cover)",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-thunderstorm",
             night: "wi-night-alt-thunderstorm"
         }
@@ -178,7 +178,7 @@ export const weatherIcons = [
     {
         icon: "tsra_sct",
         description: "Thunderstorm (medium cloud cover)",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-thunderstorm",
             night: "wi-night-alt-thunderstorm"
         }
@@ -186,7 +186,7 @@ export const weatherIcons = [
     {
         icon: "tsra_hi",
         description: "Thunderstorm (low cloud cover)",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-thunderstorm",
             night: "wi-night-alt-thunderstorm"
         }
@@ -194,7 +194,7 @@ export const weatherIcons = [
     {
         icon: "tornado",
         description: "Tornado",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-tornado",
             night: "wi-tornado"
         }
@@ -202,7 +202,7 @@ export const weatherIcons = [
     {
         icon: "hurricane",
         description: "Hurricane conditions",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-hurricane",
             night: "wi-hurricane"
         }
@@ -210,7 +210,7 @@ export const weatherIcons = [
     {
         icon: "tropical_storm",
         description: "Tropical storm conditions",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-storm-warning",
             night: "wi-storm-warning"
         }
@@ -218,7 +218,7 @@ export const weatherIcons = [
     {
         icon: "dust",
         description: "Dust",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-dust",
             night: "wi-dust"
         }
@@ -226,7 +226,7 @@ export const weatherIcons = [
     {
         icon: "smoke",
         description: "Smoke",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-smoke",
             night: "wi-smoke"
         }
@@ -234,7 +234,7 @@ export const weatherIcons = [
     {
         icon: "haze",
         description: "Haze",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-haze",
             night: "wi-night-fog"
         }
@@ -242,7 +242,7 @@ export const weatherIcons = [
     {
         icon: "hot",
         description: "Hot",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-hot",
             night: "wi-hot"
         }
@@ -250,7 +250,7 @@ export const weatherIcons = [
     {
         icon: "cold",
         description: "Cold",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-snowflake-cold",
             night: "wi-snowflake-cold"
         }
@@ -258,7 +258,7 @@ export const weatherIcons = [
     {
         icon: "blizzard",
         description: "Blizzard",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-snow-wind",
             night: "wi-snow-wind"
         }
@@ -266,7 +266,7 @@ export const weatherIcons = [
     {
         icon: "fog",
         description: "Fog/mist",
-        reactIcon: {
+        weatherIcon: {
             day: "wi-day-fog",
             night: "wi-night-fog"
         }

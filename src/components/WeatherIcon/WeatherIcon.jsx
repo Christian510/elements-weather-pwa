@@ -11,7 +11,7 @@ export default function WeatherIcon({ isday, icon, size, color, sx }){
     const iconSize = sizes.find((s) => s[size] );
     // if (typeof size === 'number') iconSize = `${size.toString()}em`;
     const iconMap = weatherIcons.find((w) => w.icon === icon);
-    const iconMatch = isday ? iconMap?.reactIcon.day : iconMap?.reactIcon.night;
+    const iconMatch = isday ? iconMap?.weatherIcon.day : iconMap?.weatherIcon.night;
     let styles = {
         fontSize: iconSize ? iconSize[size] : null,
         color: color
