@@ -4,23 +4,25 @@ import ForecastCard from '../ForecastCard/ForecastCard';
 import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
 
 
-const Carousel = ({ forecast, loading }) => {
+const Carousel = ({ forecast, loading=false }) => {
+    console.log('forecast: ', forecast);
 
-    let cards = forecast.map((item, index) => (
+    let cards = [1,2,3,4,5,6].map((item, index) => (
         {
             key: index,
-            title: item.name,
-            icon: item.icon,
-            forecast: item.shortForecast,
-            temp: item.temperature,
-            tempUnit: item.temperatureUnit,
+            title: "Boise",
+            icon: "icon",
+            forecast: "chance of showers",
+            temp: "70",
+            tempUnit: "F",
             isDaytime: item.isDaytime,
         }
     ));
+    // loading = forecast.length === 0 ? true : false;
 
     return (
         <>
-            {!loading ?
+            {loading ?
                 (
                     <ElmSpinner size='md' />
                 ) : (

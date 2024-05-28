@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-// import Carousel from '../../components/Carousel/Carousel';
+import Carousel from '../../components/Carousel/Carousel';
 import { useParams, useNavigate } from 'react-router-dom';
 // import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
@@ -89,7 +89,7 @@ export default function CurrentConditions() {
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   }));
-
+  console.log('locationData: ', locationData);
   return (
     <>
       {!locationData ? (
@@ -165,6 +165,7 @@ export default function CurrentConditions() {
               <Typography className="high_low"></Typography>
             </Box>
           </Box>
+          <Carousel forecast={locationData.hourlyForecast} location={locationData.location} />
           <Box
             id="bottom-nav"
             display='flex'
