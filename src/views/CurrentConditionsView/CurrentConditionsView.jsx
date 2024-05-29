@@ -130,7 +130,6 @@ export default function CurrentConditions() {
             id="scollable-view"
             display='flex'
             flexDirection='column'
-            justifyContent='space-around'
             sx={{
               height: '100%',
               overflowY: 'auto',
@@ -164,8 +163,8 @@ export default function CurrentConditions() {
               >{shortForecast}</Typography>
               <Typography className="high_low"></Typography>
             </Box>
+            <Carousel forecast={locationData} />
           </Box>
-          <Carousel forecast={locationData} />
           <Box
             id="bottom-nav"
             display='flex'

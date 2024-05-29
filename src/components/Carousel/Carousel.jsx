@@ -1,5 +1,6 @@
 import React from 'react';
 import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 import ForecastCard from '../ForecastCard/ForecastCard';
 import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
 import WeatherIcon from '../WeatherIcon/WeatherIcon';
@@ -33,7 +34,7 @@ const Carousel = ({ forecast, loading=false }) => {
             temp: item.temperature,
             tempUnit: item.temperatureUnit,
             isDaytime: item.isDaytime,
-            hour: item.number === 0 ? "Now" : hour, // Hour of the day
+            hour: item.number === 1 ? "Now" : hour, // Hour of the day
         }
     ));
 
@@ -57,14 +58,20 @@ const Carousel = ({ forecast, loading=false }) => {
                 (
                     <ElmSpinner size='md' />
                 ) : (
+                    // div here with extended forecast and line under it
                     <Stack
-                        direction='row'
-                        spacing={1}
                         className='carousel'
+                        direction='row'
+                        spacing={.15}
                         sx={{
+                            backgroundColor: theme => theme.palette.primary.dark,
                             alignItems: 'center',
-                            margin: (theme) => theme.spacing(-2, 0, 0, 0),
-                            height: 270,
+                            margin: '0 auto',
+                            height: '100%',
+                            maxHeight: '10em',
+                            width: '100%',
+                            borderRadius: '8px',
+                            maxWidth: '23em',
                             overflowX: 'scroll',
                             scrollBehavior: 'smooth',
                             scrollSnapType: 'x mandatory',
@@ -83,12 +90,12 @@ const Carousel = ({ forecast, loading=false }) => {
                                     content={{
                                         forecast: item.forecast,
                                         temp: { temp: item.temp, tempUnit: item.tempUnit },
-                                        isDaytime: item.isDaytime
+                                        isDaytime: item.isDaytime,
+                                        hour: item.hour
                                     }}
-                                    direction='col'
-                                    square={false}
+                                    // direction='col'
                                     shape={{ height: 230, width: 150 }}
-                                    Icon={() => <WeatherIcon isDay={item.isDaytime} icon={item.icon} color={} />}
+                                    Icon={() => <WeatherIcon isDay={item.isDaytime} icon={item.icon} size="med" />}
                                     />
                             }
                         }
