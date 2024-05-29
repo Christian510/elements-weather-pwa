@@ -1,9 +1,9 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
-import { CardContent, Typography, Paper } from '@mui/material';
+import { CardContent, Typography, Paper, Box, Card } from '@mui/material';
 
 
-const ForecastCard = ({ title, content, direction, square, shape, img }) => {
+const ForecastCard = ({ content, direction, square, shape, Icon }) => {
     // console.log('title: ', title);
     // console.log('content: ', content);
     // I need this to be a rectangle for the FavoritesView.
@@ -26,15 +26,17 @@ const ForecastCard = ({ title, content, direction, square, shape, img }) => {
 
     return (
         <Container
+            className='forecast-card'
             display='flex'
             flexdirection= {direction.col}
             elevation={5}
             square={square}>
             <Content>
-                <Typography variant="subTitle1">{title}</Typography>
-                <img src={img.src} alt={img.alt} />
-                <Typography variant="body2">{content.isDaytime ? 'High' : 'Low'} {content.temp.temp} {content.temp.tempUnit}</Typography>
-                <Typography variant="body2">{content.forecast}</Typography>
+                <Typography variant="subTitle1">{content.title}</Typography>
+                <Icon />
+                {/* <Typography variant="body2">{content.isDaytime ? 'High' : 'Low'} {content.temp.temp} {content.temp.tempUnit}</Typography> */}
+                {/* <Typography variant="body2">{content.forecast}</Typography> */}
+                <Typography variant="h5">{content.temp.temp}&deg;</Typography>
             </Content>
         </Container>
     );

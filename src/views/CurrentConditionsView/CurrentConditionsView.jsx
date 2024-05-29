@@ -89,7 +89,7 @@ export default function CurrentConditions() {
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   }));
-  console.log('locationData: ', locationData);
+  // console.log('locationData: ', locationData);
   return (
     <>
       {!locationData ? (
@@ -165,7 +165,7 @@ export default function CurrentConditions() {
               <Typography className="high_low"></Typography>
             </Box>
           </Box>
-          <Carousel forecast={locationData.hourlyForecast} location={locationData.location} />
+          <Carousel forecast={locationData} />
           <Box
             id="bottom-nav"
             display='flex'
