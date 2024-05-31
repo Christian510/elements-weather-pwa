@@ -53,7 +53,7 @@ export default function CurrentConditions() {
 
   }, [location, forecasts, sessionId]);
 
-  // console.log('loationData: ', locationData);
+  console.log('loationData: ', locationData);
   let dateTime = null, temp = null, tempUnit = null, detailedForecast = null, shortForecast = null, extendedForecast = null, icon = null, name = null;
   if (locationData) {
     // dateTime = formatDateTime(locationData.dateTime.time);

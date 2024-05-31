@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import ForecastCard from '../ForecastCard/ForecastCard';
 import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
 import WeatherIcon from '../WeatherIcon/WeatherIcon';
+import { formatDateTime } from '../../models/date';
 
 function parseUrl(url) {
     const nUrl = new URL(url);
@@ -23,6 +24,8 @@ const Carousel = ({ forecast, loading=false }) => {
     const hourly = forecast.hourlyForecast.properties.periods;
     const daily = forecast.forecast.properties.periods;
     console.log('hourly: ', hourly[0]);
+    const date = formatDateTime(hourly[0].startTime);
+    console.log('date: ', date);
     // console.log('daily: ', daily);
 
     let hourlyCards = hourly.map((item, index) => (
