@@ -9,25 +9,26 @@ import { formatDateTime } from '../../models/date';
 function parseUrl(url) {
     const nUrl = new URL(url);
     const path = nUrl.pathname.split('/');
-    // console.log('path: ', path);
-    // const parts = path.split('/');
-    // console.log('parts: ', parts);
     const iconClass = path[path.length - 1].split(',')[0];
     // console.log('icon: ', iconClass);
     return iconClass;
 }
 
+function convertDateStr(date) {
+    const split = date.split('T');
+    const d = split[0];
+    const t = split[1].split('-');
+    const dateStr = `${d} ${t[0]}`;
+    console.log('dateStr: ', dateStr);
+    const dateTime = formatDateTime(dateStr);
+    console.log('dateTime: ', dateTime);
+    return dateTime.time
+}
+
 const Carousel = ({ forecast, loading=false }) => {
     console.log('forecast: ', forecast);
-    let currentHour = new Date();
-    const hour = currentHour.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true })
     const hourly = forecast.hourlyForecast.properties.periods;
     const daily = forecast.forecast.properties.periods;
-    console.log('hourly: ', hourly[0]);
-    const date = formatDateTime(hourly[0].startTime);
-    console.log('date: ', date);
-    // console.log('daily: ', daily);
-
     let hourlyCards = hourly.map((item, index) => (
         {
             key: item.number,
@@ -37,7 +38,7 @@ const Carousel = ({ forecast, loading=false }) => {
             temp: item.temperature,
             tempUnit: item.temperatureUnit,
             isDaytime: item.isDaytime,
-            hour: item.number === 1 ? "Now" : hour, // Hour of the day
+            hour: index === 0 ? "Now" : convertDateStr(item.startTime),
         }
     ));
 
@@ -69,7 +70,7 @@ const Carousel = ({ forecast, loading=false }) => {
                         sx={{
                             backgroundColor: theme => theme.palette.primary.dark,
                             alignItems: 'center',
-                            margin: '0 auto',
+                            margin: '.5em auto',
                             height: '100%',
                             maxHeight: '10em',
                             width: '100%',
@@ -87,7 +88,7 @@ const Carousel = ({ forecast, loading=false }) => {
                             },
                         }}>
                         {hourlyCards.map((item, index) => {
-                            if (index > 0) {
+                            if ( index <= 24) {
                                 return <ForecastCard
                                     key={index}
                                     content={{
