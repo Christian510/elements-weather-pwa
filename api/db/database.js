@@ -14,7 +14,7 @@ const pool = mysql.createPool({
 
 function executeQuery(query, values) {
   console.log('query: ', query);
-  console.log('values: ', [...values]);
+  // console.log('values: ', [...values]);
   return pool.execute(query, [...values])
     .then(result => {
       // console.log('result: ', result);
@@ -107,7 +107,7 @@ async function findAllById(table, col, session_id = '') {
   return favorites;
 }
 async function insertOne(params = null) {
-  // console.log('params: ', params);
+  console.log('insertOne params: ', params);
   // console.log('session_id: ', session_id);
   let result = null;
   const sf_query = `SELECT * FROM session_favorites WHERE l_id = ? AND s_id = ?;`;

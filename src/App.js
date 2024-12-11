@@ -12,6 +12,7 @@ import { fetchFavorites, fetchAllData } from './models/weather_api';
 export async function loader() {
   try {
     const data =  await fetchFavorites();
+    console.log("data: ", data); // ***** DEBUG ***** //
     const fetchForecasts = data.locations.map(async (l) => await fetchAllData(l));
     const forecasts = await Promise.all(fetchForecasts);
     // console.log("forecasts: ", forecasts[0]);
