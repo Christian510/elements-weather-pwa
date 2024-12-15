@@ -32,7 +32,6 @@ const UserSessionModal = ({ open, handleClose }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     // Handle submission, e.g., send sessionName to a function or API
-    console.log('Session Name:', sessionName);
     handleClose(); // Close modal after submission
   };
 

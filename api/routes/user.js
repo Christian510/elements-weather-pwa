@@ -9,7 +9,6 @@ router.get('/user', function (req, res) {
 
 // POST saved location for a user
 router.post('/add', function (req, res) {
-  // console.log('request: ', req);
   res.send({ message: 'POST USER TO DB' });
 });
 

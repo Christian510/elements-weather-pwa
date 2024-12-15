@@ -1,7 +1,6 @@
 import '../AboutAppView/aboutappview.css';
 
 function AboutView(props) {
-    // console.log('props: ', props);
     return (
         <>
             <div id="about-page" >

@@ -28,14 +28,9 @@ export class DateTime {
     }
 
     static convertISO8601Format(dt, timezone='UTC') {
-      // console.log('dt: ', dt)
       let dateTime = {}
       const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat' ];
       const date = new Date(dt);
-      // console.log('date: ', date);
-      // console.log("displayDate: ", date.getTimezoneOffset());
-      // console.log('timestamp: ', date.getTime());
-      // console.log('parse: ', Date.parse(dt));
       const num = date.getDay();
       const day = daysOfWeek.find((elm, i) => i === num)
       const options = { 
@@ -68,7 +63,6 @@ export class DateTime {
   }
 
   export function formatDateTime(dt) {
-    // console.log("dt: ", dt)
     let dateTime = {};
     const newdate = new Date(dt);
     const dateOptions = {
@@ -86,6 +80,5 @@ export class DateTime {
     
     dateTime.date = newdate.toLocaleDateString('en-US', dateOptions)
     dateTime.time = newdate.toLocaleTimeString('en-US', timeOptions);
-    // console.log(dateTime.date + " : " + dateTime.time);
     return dateTime;
   }

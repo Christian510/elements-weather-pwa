@@ -3,11 +3,9 @@ import { queryForecastData } from '../models/weather_api';
 
 // fetches the current weather for a location with a url passed in.
 export default function useFetchAllForecasts(urls) {
-    // console.log('url: ', url)
     const [state, setState] = useState({ data: null, loading: true, isError: false, error: {isError: false, message: ''} });
 
     useEffect(() => {
-        console.log('mounted!!!')
         function fetchAllData(urls) {
             let data = {
                 urls: []
@@ -23,6 +21,5 @@ export default function useFetchAllForecasts(urls) {
             fetchAllData(urls);
         }
     }, [urls]);
-    console.log('state: ', state);
     return state;
 };

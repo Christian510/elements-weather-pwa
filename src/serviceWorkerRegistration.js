@@ -21,7 +21,6 @@ const isLocalhost = Boolean(
 );
 
 export function register(config) {
-  // console.log('service worker function fired');
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     console.log('URL constructor is available in all browsers that support SW');
     // The URL constructor is available in all browsers that support SW.
@@ -36,7 +35,6 @@ export function register(config) {
 
     window.addEventListener('load', () => {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
-      console.log('loaded: ', swUrl);
       if (isLocalhost) {
         console.log('served on localhost')
         // This is running on localhost. Let's check if a service worker still exists or not.
@@ -62,7 +60,6 @@ function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
     .then((registration) => {
-      console.log("registerValidSW resp: ", registration);
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         if (installingWorker == null) {
@@ -111,7 +108,6 @@ function checkValidServiceWorker(swUrl, config) {
   })
     .then((response) => {
       console.log('ensure service worker exists');
-      console.log('resp: ', response);
       // Ensure service worker exists, and that we really are getting a JS file.
       const contentType = response.headers.get('content-type');
       if (

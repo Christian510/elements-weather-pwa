@@ -20,7 +20,6 @@ export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) 
   const name = data?.location.name;
   if (data.forecast) {
     icon = data?.forecast.properties.periods[0].icon;
-    console.log('icon: ', icon.split('/'));
     temp = data?.forecast.properties.periods[0].temperature;
     // tempUnit = data?.forecast.properties.periods[0].temperatureUnit;
     shortForecast = data?.forecast.properties.periods[0].shortForecast;
@@ -47,7 +46,7 @@ export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) 
       // draggable={isDragging}
       // cursor: isDragging ? "grabbing" : "pointer",
       // onTouchStart={(e) => console.log('touch start: ', e)}
-      onTouchMove={(e) => console.log('touch move: ', e.touches)}
+      // onTouchMove={(e) => console.log('touch move: ', e.touches)}
     >
       <StyleScrollBehavior 
       className="list-card_scroll-behavior" 

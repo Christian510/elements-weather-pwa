@@ -17,12 +17,10 @@ export default function SearchInput() {
     else if (isMounted) {
       return debounce(async () => {
         const response = await queryLocations(inputValue);
-        // console.log('geonames: ', response.geonames);
         if (response?.geonames === undefined) {
           return;
         } else {
           let results = response.geonames.map((item, index) => {
-            // console.log('item: ', item);
             return {
               "name": item.toponymName,
               "state": item.adminCode1,
@@ -47,7 +45,6 @@ export default function SearchInput() {
     };
 
   }, [inputValue]);
-  // console.log("options: ", options);
 
   useEffect(() => {
     if (inputValue.length > 2) {
@@ -55,7 +52,6 @@ export default function SearchInput() {
 
     }
     if (inputValue.length < 1) {
-      // console.log('length: ', inputValue.length)
       setOptions([])
     }
 
@@ -87,9 +83,6 @@ export default function SearchInput() {
     inputValue,
     onInputChange: (event, newValue) => { setInputValue(newValue); },
   }, [options, inputValue, value]);
-  // console.log('get root props: ', {getRootProps});
-  // console.log('getInputProps: ', { ...getInputProps()});
-  // console.log('listbox props: ', {...getListboxProps()});
   return (
     <>
     <SearchInputWrapper id="search-input" >

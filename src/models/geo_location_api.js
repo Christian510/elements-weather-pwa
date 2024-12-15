@@ -39,7 +39,6 @@ import { getForecastByLatLon } from "./weather_api";
 
 // Fetch a list of cities and locations.
 export async function queryLocations(query, country = "US") {
-    // console.log("query: ", query);
     const options = {
         method: 'GET',
         // headers: {
@@ -65,7 +64,6 @@ export async function queryLocations(query, country = "US") {
 }
 
 function getLocation() {
-    // console.log('navigator obj: ', navigator)
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition, showError);
     } else {
@@ -74,7 +72,6 @@ function getLocation() {
   }
   
   function showPosition(position) {
-    // console.log('position: ', position);
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
     const accuracy = position.coords.accuracy;

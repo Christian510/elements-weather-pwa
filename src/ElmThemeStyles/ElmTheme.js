@@ -8,7 +8,6 @@ export const ElmTheme = createTheme({
     mode: 'dark',
   },
 });
-// console.log('ElmTheme: ', ElmTheme);
 
 export const customStyles = {
   textShadow: '1px 1px 5px gray',
@@ -33,5 +32,4 @@ export const customStyles = {
 //     },
 //   },
 // });
-// console.log('cardButtonTheme: ', cardButtonTheme);
 
