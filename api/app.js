@@ -1,4 +1,4 @@
-require('dotenv').config({ path: './.env' });
+require('dotenv').config({ path: 'api/.env' });
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -48,6 +48,7 @@ const sessionStore = new MySQLStore({
 }, dbConnection);
 
 app.set('trust proxy', 1) // trust first proxy
+
 app.use(session({
   secret: process.env.SESSION_SECRET,
   store: sessionStore,
@@ -56,8 +57,8 @@ app.use(session({
   cookie: {
     secure: false,
     // EQUALS 1 DAY ( 1 DAY * 24 HR/1 DAY * 60 MIN/1 HR)
-    // maxAge: 1000 * 60 * 60 * 24 * 90,
-    maxAge: 30,
+    maxAge: 1000 * 60 * 60 * 24 * 90,
+    // maxAge: 30,
     // sameSite: 'strict',
   }
 }
@@ -76,8 +77,8 @@ app.get('/', (req, res) => {
 // app.get('/500', errorController.get500);
 // app.use(errorController.get404);
 app.use((error, req, res, next) => {
-  res.status(error.httpStatusCode).send(error.message);
-  //   res.redirect('/500');
+  res.status(error.httpStatusCode || 500).send(error.message);
+    // res.redirect('/500');
 });
 
 // // error handler

@@ -4,8 +4,6 @@ import { CardContent, Typography, Paper } from '@mui/material';
 
 
 const ForecastCard = ({ title, content, direction, square, shape, img }) => {
-    // console.log('title: ', title);
-    // console.log('content: ', content);
     // I need this to be a rectangle for the FavoritesView.
     // And a square for the extended forecast view.
 

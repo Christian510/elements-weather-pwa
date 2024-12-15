@@ -21,25 +21,19 @@ export default function CurrentConditions() {
   const theme = useTheme();
   const navigate = useNavigate();
   const { forecasts, sessionId } = useLoaderData();
-  console.log('loaderdata: ', forecasts);
   let { location } = useParams();
   const [locationData, setLocationData] = useState(null);
   const [match, setMatch] = useState(false);
 
   useEffect(() => {
-    // console.info('useEffect fired');
     const params = JSON.parse(location);
-    // console.log('params: ', params);
-    // console.log('forecasts: ', forecasts);
 
     const match = forecasts.find((elm) => elm.location.location_id === params.location_id);
     if (match) {
-      console.log('match', match);
       setLocationData(match);
       setMatch(true);
     }
     if (match === undefined) {
-      console.log('no match: ', match);
       setMatch(false);
       setTimeout(() => {
         fetchAllData(params)
@@ -47,14 +41,12 @@ export default function CurrentConditions() {
       }, 500);
     }
     return () => {
-      // console.info('unmounting');
       setLocationData(null);
       setMatch(false);
     }
 
   }, [location, forecasts, sessionId]);
 
-  // console.log('loationData: ', locationData);
   let dateTime = null, temp = null, tempUnit = null, detailedForecast = null, shortForecast = null, extendedForecast = null, icon = null, name = null;
   if (locationData) {
     // dateTime = formatDateTime(locationData.dateTime.time);
@@ -72,7 +64,6 @@ export default function CurrentConditions() {
     setTimeout(() => {
       addFavorite(location, sessionID).then(resp => {
         if (resp.result === 1) {
-          console.log('Favorite added');
           return navigate('/');
         }
         if (resp.result === 0) {

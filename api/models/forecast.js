@@ -28,13 +28,11 @@ export class Forecast {
 }
 // GET THE WEATHER URL WITH LAT AND LONG
 export const fetchForecastUrls = async (lat, lng) => {
-    // console.log('coords: ', lat + ':' + lng)
     // const units = ['imperial', 'metric', 'standard'];
     const url = `https://api.weather.gov/points/${lat},${lng}`;
     return await fetch(url)
     .then(response => {
         if (response.ok !== true) {
-                // console.log('api resp: ', response)
                 console.log('status:', response.status)
                 console.log('error msg: ', response.statusText)
             }
@@ -46,13 +44,12 @@ export const fetchForecastUrls = async (lat, lng) => {
         .then(data => data) // parse this out into the forecast url and the hourly forecast url.
         .catch(function (error) {
             console.log("API Error message: ");
-            console.log(error);
+            throw new Error('Unable to fetch forecast data: ', error);
         });
 }
 
 // Fetch the forecast data from url
 export async function fetchForecast(url) {
-    // console.log('ForecastData: ', url);
     const options = {
         method: 'GET',
     };
