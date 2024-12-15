@@ -122,6 +122,7 @@ export const fetchWeatherAlerts = async (locations) => {
     } 
     try {
         const response = await axios.post('/favorites/add-one', params)
+        console.log('response: ', response) // ***** DEBUGGING ***** 
         return response.data;
     } catch (error) {
         console.error('Error adding favorite: ', error);

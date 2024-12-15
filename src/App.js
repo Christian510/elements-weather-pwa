@@ -18,8 +18,8 @@ export async function loader() {
   try {
     const data = await fetchFavorites();
     console.log("data: ", data);
-    if (!data) {
-      return { forecasts: [], sessionId: null };
+    if (typeof data === "undefined") {
+      return { forecasts: [], sessionId: null }; // Not sure this is the best way to handle this
     }
     if (data) {
       const fetchForecasts = data.locations.map(
