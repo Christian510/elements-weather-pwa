@@ -4,7 +4,6 @@ import axios from "axios";
 export function processFetch(url, options) {
     return fetch(url, options)
         .then(response => {
-            // console.log("fetch response: ", response);
             if (response.ok) {
                 return response.json();
             } else {

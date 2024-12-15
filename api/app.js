@@ -1,4 +1,4 @@
-require('dotenv').config({ path: './.env' });
+require('dotenv').config({ path: 'api/.env' });
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -48,6 +48,7 @@ const sessionStore = new MySQLStore({
 }, dbConnection);
 
 app.set('trust proxy', 1) // trust first proxy
+
 app.use(session({
   secret: process.env.SESSION_SECRET,
   store: sessionStore,
@@ -76,8 +77,8 @@ app.get('/', (req, res) => {
 // app.get('/500', errorController.get500);
 // app.use(errorController.get404);
 app.use((error, req, res, next) => {
-  res.status(error.httpStatusCode).send(error.message);
-  //   res.redirect('/500');
+  res.status(error.httpStatusCode || 500).send(error.message);
+    // res.redirect('/500');
 });
 
 // // error handler

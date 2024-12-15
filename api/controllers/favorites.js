@@ -4,12 +4,10 @@ const insertOne = require('../db/database').insertOne;
 const deleteOne = require('../db/database').deleteOne;
 
 exports.fetchFavorites = (req, res, next) => {
-  // console.log('req.seesionID: ', req.sessionID)
-  // console.log('req at fetchFavorites: ', req)
 
   return findAllById('session_favorites', 's_id', req.sessionID)
     .then(data => {
-      // console.log('result b: ', data);
+      console.log('result b: ', data);
       if (res.statusCode === 200) {
         res.send({
           message: 'GET FAVORITES FROM DB',
