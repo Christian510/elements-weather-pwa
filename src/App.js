@@ -17,7 +17,6 @@ import { fetchFavorites, fetchAllData } from "./models/weather_api";
 export async function loader() {
   try {
     const data = await fetchFavorites();
-    console.log("data: ", data);
     if (typeof data === "undefined") {
       return { forecasts: [], sessionId: null }; // Not sure this is the best way to handle this
     }
@@ -26,7 +25,6 @@ export async function loader() {
         async (l) => await fetchAllData(l)
       );
       const forecasts = await Promise.all(fetchForecasts);
-      // console.log("forecasts: ", forecasts[0]);
       return { forecasts: forecasts, sessionId: data.session };
     }
   } catch (error) {

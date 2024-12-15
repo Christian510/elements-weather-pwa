@@ -13,11 +13,8 @@ const pool = mysql.createPool({
 }).promise();
 
 function executeQuery(query, values) {
-  console.log('query: ', query);
-  console.log('values: ', [...values]);
   return pool.execute(query, [...values])
     .then(result => {
-      // console.log('result: ', result);
       return result;
     })
     .catch(err => {
@@ -55,9 +52,6 @@ function executeQuery(query, values) {
 // getSessions();
 
 function findOneById(table, col, id) {
-  console.log('table: ', table);
-  console.log('col: ', col);
-  console.log('id: ', id);
   // return pool.execute('SELECT * FROM ' + table + ' WHERE ' + col + ' = ? LIMIT 1', [id])
   //   .then(result => {
   //     // console.log('result: ', result[0]);
@@ -88,12 +82,10 @@ function findOneById(table, col, id) {
 
 // returns all locations for a session_id
 async function findAllById(table, col, session_id = '') {
-  console.log('session_id: ', session_id);
   const query_ids = `SELECT * FROM ${table} WHERE ${col} = ?`;
   const query_data = `SELECT * FROM locations WHERE location_id = ?`;
   const favorites = [];
   const [rows] = await executeQuery(query_ids, [session_id])
-  // console.log('rows: ', rows);
   if (rows.length === 0) {
     return [];
   }
@@ -103,60 +95,43 @@ async function findAllById(table, col, session_id = '') {
       favorites.push(data[0]);
     }
   }
-  // console.log('favorites: ', favorites);
   return favorites;
 }
 async function insertOne(params = null) {
-  // console.log('params: ', params);
-  // console.log('session_id: ', session_id);
   let result = null;
   const sf_query = `SELECT * FROM session_favorites WHERE l_id = ? AND s_id = ?;`;
   const [sf] = await executeQuery(sf_query, [params.location_id, params.session_id])
-  // console.log('sf query: ', sf)
-
   const l_query = `SELECT * FROM locations WHERE location_id = ?;`;
   const [location] = await executeQuery(l_query, [params.location_id])
-  // console.log('location query: ', location)
 
   const sf_insert_query = `INSERT INTO session_favorites (s_id, l_id, l_name) VALUES (?, ?, ?)`;
 
   if (sf.length < 1 && location.length < 1) {
-    console.log('add location to session_favorites')
     const [sf] = await executeQuery(sf_insert_query, [params.session_id, params.location_id, params.name]);
-    // console.log('sf: ', sf.affectedRows);
-    console.log('add location to location db');
     const l_insert_query = `
                     INSERT INTO locations (location_id, name, state, country_code, lat, lng)
                     VALUES (?, ?, ?, ?, ?, ?)`;
     const [loc] = await executeQuery(l_insert_query, [params.location_id, params.name, params.state, params.country_code, params.lat, params.lng]);
     if (sf.affectedRows === 0 || loc.affectedRows === 0) result = 0; // Message: 'db session_favorites not saved'
     if (sf.affectedRows === 1 && loc.affectedRows === 1) result = 1;
-    // console.log('loc affected rows: ', loc.affectedRows);
-
   }
   if (sf.length < 1 && location.length > 0) {
-    console.log('add to session_favorites')
     const [sf] = await executeQuery(sf_insert_query, [params.session_id, params.location_id, params.name]);
-    // console.log('sf affected rows: ', sf.affectedRows);
     result = sf.affectedRows;
   }
   if (sf.length > 0) {
-    console.log('Already exists -- do nothing.');
     result = 0
   }
-  console.log(' final result: ', result);
   return result;
 }
 
 // // Delete a Location
 async function deleteOne(s_id, l_id) {
-  console.log(`delete location by id: ${l_id} & session: ${s_id}`)
   const query = `DELETE FROM session_favorites
                   WHERE s_id = ?
                   AND l_id = ?
                   LIMIT 1;`;
   const [rows] = await executeQuery(query, [s_id, l_id])
-  console.log('deleted rows: ', rows);
   return rows;
 }
 
