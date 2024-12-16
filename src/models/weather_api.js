@@ -14,8 +14,13 @@ export function processFetch(url, options) {
 }
 
 export const fetchFavorites = async () => {
-    return axios.get('/favorites/all')
+    const baseUrl = process.env.NODE_ENV === 'development' 
+    ? 'http://localhost:3000'
+    : 'http://localhost:8080';
+    console.log('baseUrl: ', baseUrl);
+    return axios.get(`${baseUrl}/favorites/all`)
     .then(response => {
+        console.log('response: ', response);
         return response.data;
     })
     .catch(error => {

@@ -15,10 +15,12 @@ import Header from "./components/NavBar/Header";
 import { fetchFavorites, fetchAllData } from "./models/weather_api";
 
 export async function loader() {
+  console.log(window.location.href); // ***** DEBUG ***** //
   try {
     const data = await fetchFavorites();
-    if (typeof data === "undefined") {
-      return { forecasts: [], sessionId: null }; // Not sure this is the best way to handle this
+    console.log("data: ", data);
+    if (typeof data === "undefined" || typeof data === 'string') {
+      return { forecasts: null, sessionId: null }; // Not sure this is the best way to handle this
     }
     if (data) {
       const fetchForecasts = data.locations.map(
@@ -29,10 +31,12 @@ export async function loader() {
     }
   } catch (error) {
     console.error("Error fetching favorites: ", error);
+    throw error;
   }
 }
 
 export function Home() {
+
   const theme = useTheme();
   let navigation = useNavigation();
   let revalidator = useRevalidator();

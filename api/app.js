@@ -10,7 +10,7 @@ const cors = require('cors');
 const sqlformat = require('./logger');
 
 // const indexRouter = require('./routes/index');
-const userRouter = require('./routes/user');
+// const userRouter = require('./routes/user');
 // const router = require('./routes/index');
 const favoritesRouter = require('./routes/favorites');
 
@@ -65,11 +65,6 @@ app.use(session({
 ));
 
 app.use('/favorites', favoritesRouter);
-
-app.get('/', (req, res) => { 
-  res.send('API is working'); 
-
-});
 
 // app.use('/user', userRouter);
 

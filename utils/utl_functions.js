@@ -19,7 +19,6 @@ const checkPrecip = (rain, snow) => {
   return precip;
 }
 
-
 // RETURNS AN ADDRESS OBJECT USED RETRIEVE WEATHER DATA
 const addr = {
   city: '',
