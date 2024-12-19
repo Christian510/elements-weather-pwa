@@ -15,10 +15,8 @@ import Header from "./components/NavBar/Header";
 import { fetchFavorites, fetchAllData } from "./models/weather_api";
 
 export async function loader() {
-  console.log(window.location.href); // ***** DEBUG ***** //
   try {
     const data = await fetchFavorites();
-    console.log("data: ", data);
     if (typeof data === "undefined" || typeof data === 'string') {
       return { forecasts: null, sessionId: null }; // Not sure this is the best way to handle this
     }
