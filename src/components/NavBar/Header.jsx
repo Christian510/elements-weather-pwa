@@ -16,7 +16,7 @@ export default function Header(props) {
 const StyledHeader = styled(AppBar)(({ theme }) => ({
   width: 'inherit',
   minHeight: '10vh',
-  backgroundColor: theme.palette.background.default,
+  backgroundColor: 'inherit',
   backgroundImage: 'unset',
   opacity: 0.9,
   display: 'flex',
@@ -24,6 +24,7 @@ const StyledHeader = styled(AppBar)(({ theme }) => ({
   justifyContent: 'center',
   paddingRight: '0px',
   paddingLeft: '0px',
+  boxShadow: 'none',
 }))
 
 const toolBarStyles = {
