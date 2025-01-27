@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import { Button, ButtonBase, Box, Link, Typography } from "@mui/material";
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import { formatDateTime } from '../../models/date.js';
@@ -15,7 +15,11 @@ export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) 
     )
   );
   const path = `forecast/${encodeURIComponent(JSON.stringify(data.location))}`;
-  let icon = null, temp = null, tempUnit = null, shortForecast = "Oops can't retrieve the forecast!", time = null;
+  let icon = null;
+  let temp = null;
+  // let tempUnit = null;
+  let shortForecast = "Oops can't retrieve the forecast!";
+  let time = null;
   const location_id = data.location.location_id
   const name = data?.location.name;
   if (data.forecast) {

@@ -47,7 +47,14 @@ export default function CurrentConditions() {
 
   }, [location, forecasts, sessionId]);
 
-  let dateTime = null, temp = null, tempUnit = null, detailedForecast = null, shortForecast = null, extendedForecast = null, icon = null, name = null;
+  // let dateTime = null;
+  let temp = null;
+  // let tempUnit = null;
+  // let detailedForecast = null;
+  let shortForecast = null;
+  // let extendedForecast = null;
+  let icon = null;
+  let name = null;
   if (locationData) {
     // dateTime = formatDateTime(locationData.dateTime.time);
     temp = locationData?.forecast.properties.periods[0].temperature;
