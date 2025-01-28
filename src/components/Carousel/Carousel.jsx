@@ -19,14 +19,14 @@ function convertDateStr(date) {
     const d = split[0];
     const t = split[1].split('-');
     const dateStr = `${d} ${t[0]}`;
-    console.log('dateStr: ', dateStr);
+    // console.log('dateStr: ', dateStr);
     const dateTime = formatDateTime(dateStr);
-    console.log('dateTime: ', dateTime);
+    // console.log('dateTime: ', dateTime);
     return dateTime.time
 }
 
 const Carousel = ({ forecast, loading=false }) => {
-    console.log('forecast: ', forecast);
+    // console.log('forecast: ', forecast);
     const hourly = forecast.hourlyForecast.properties.periods;
     const daily = forecast.forecast.properties.periods;
     let hourlyCards = hourly.map((item, index) => (

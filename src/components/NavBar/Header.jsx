@@ -25,6 +25,7 @@ const StyledHeader = styled(AppBar)(({ theme }) => ({
   paddingRight: '0px',
   paddingLeft: '0px',
   boxShadow: 'none',
+  zIndex: theme.zIndex.appBar
 }))
 
 const toolBarStyles = {

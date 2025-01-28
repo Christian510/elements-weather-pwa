@@ -2,7 +2,7 @@ import { forwardRef, useMemo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useAutocomplete } from '@mui/base/useAutocomplete';
-import { Button } from '@mui/base/Button';
+import Button from '@mui/material/Button';
 import { styled } from '@mui/system';
 import { unstable_useForkRef as useForkRef } from '@mui/utils';
 // import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -57,6 +57,8 @@ const ElmSearch = forwardRef(function ElmAutocomplete(props, ref) {
     }
     return () => {
       setOptions([]);
+      setInputValue('');
+      setValue(null);
     }
   }, [inputValue, fetchLocations]);
 
@@ -98,36 +100,48 @@ const ElmSearch = forwardRef(function ElmAutocomplete(props, ref) {
 
   return (
     <>
-      <StyledAutocompleteRoot
-        id='elm-autocomplete-root'
-        {...getRootProps(other)}
-        ref={rootRef}
-        className={focused ? 'focused' : undefined}
-      >
-        <ElmSearchIcon 
-          fontSize='small'/>
-        <StyledInput
-          id={id}
+      <StyledFlexWrapper>
+        <StyledAutocompleteRoot
+          id='elm-autocomplete-root'
+          {...getRootProps(other)}
           ref={rootRef}
-          disabled={disabled}
-          readOnly={readOnly}
-          {...getInputProps()}
-        />
-        {inputValue.length > 1 && hasClearIcon && (
-          <StyledClearIndicator {...getClearProps()}>
-            <ClearIcon fontSize="small" />
-          </StyledClearIndicator>
-        )}
-          {/* {inputValue.length < 2 && !hasClearIcon && (
-        <StyledPopupIndicator
-          {...getPopupIndicatorProps()}
-          className={popupOpen ? 'popupOpen' : undefined}
-          >
-          <ArrowDropDownIcon />
-        </StyledPopupIndicator>
-          )} */}
-        </StyledAutocompleteRoot>
-      {anchorEl ? (
+          className={focused ? 'focused' : undefined}
+        >
+          <ElmSearchIcon 
+            fontSize='small'/>
+          <StyledInput
+            id={id}
+            ref={rootRef}
+            disabled={disabled}
+            readOnly={readOnly}
+            {...getInputProps()}
+          />
+          {inputValue.length > 0 && hasClearIcon && (
+            <StyledClearIndicator
+            variant='text'
+            {...getClearProps()}>
+              <ClearIcon fontSize="small" />
+            </StyledClearIndicator>
+          )}
+            {/* {inputValue.length < 2 && !hasClearIcon && (
+          <StyledPopupIndicator
+            {...getPopupIndicatorProps()}
+            className={popupOpen ? 'popupOpen' : undefined}
+            >
+            <ArrowDropDownIcon />
+          </StyledPopupIndicator>
+            )} */}
+          </StyledAutocompleteRoot>
+          {focused === true && (
+            <StyledButton
+              disableRipple
+              variant="text"
+              type="button"
+              onClick={() => console.log('clear')}
+              >cancel</StyledButton>
+          )}
+        </StyledFlexWrapper>
+      {focused === true && anchorEl ? (
           <StyledListbox {...getListboxProps()}>
             {groupedOptions.map((option, index) => (
               <StyledLink id={`option_${option.location_id}`} key={option.location_id} to={`forecast/${JSON.stringify(option)}`} >
@@ -174,6 +188,15 @@ const blue = {
   700: '#0059B2',
   900: '#003A75',
 };
+
+const StyledFlexWrapper = styled('div')(({ theme }) => 
+  `
+  width: inherit;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  `);
 
 const StyledLink = styled(Link)(({ theme }) => 
   `
@@ -227,21 +250,35 @@ const StyledInput = styled('input')(
 `,
 );
 
+const StyledButton = styled(Button)(
+  ({ theme }) => `
+    color: ${theme.palette.mode === 'dark' ? theme.palette.grey[300] : theme.palette.grey[500]};
+
+  `,
+);
+
 const StyledListbox = styled('ul')(
   ({ theme }) => `
-  font-size: 0.875rem;
+  font-size: 1.175rem;
+  font-weight: 400;
   box-sizing: border-box;
-  padding: 2px;
-  margin: 6px 0;
+  padding: 8px 8px;
   min-width: 100%;
   border-radius: 12px;
   overflow: auto;
   outline: 0;
-  max-height: 300px;
-  z-index: 1000;
+  min-height: 100vh;
+  z-index: 1;
   background: ${theme.palette.mode === 'dark' ? theme.palette.background.default : '#fff'};
   color: ${theme.palette.mode === 'dark' ? theme.palette.text.primary : theme.palette.grey[900]};
   scrollbar-width: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   `,
 );
 
@@ -309,6 +346,7 @@ const StyledClearIndicator = styled(Button)(
     background-color: transparent;
     align-self: center;
     padding: 0 2px;
+    min-width: 0;
     color: ${theme.palette.mode === 'dark' ? theme.palette.grey[300] : theme.palette.grey[800]};
     &:hover {
       background-color: ${theme.palette.mode === 'dark' ? theme.palette.grey[700] : theme.palette.grey[100]};

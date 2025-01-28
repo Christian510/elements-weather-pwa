@@ -88,6 +88,11 @@ export default function CurrentConditions() {
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+    width: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: theme.zIndex.outlet = theme.zIndex.modal,
   }));
   // console.log('locationData: ', locationData);
   return (

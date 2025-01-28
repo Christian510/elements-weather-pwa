@@ -4,10 +4,10 @@ import { Container } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 // import './App.css';
 import './index.css';
-import SearchInput from './components/MuiSearchBar/SearchWeatherByLocation';
 import Menu from './components/Menu/Menu';
 import Header from './components/NavBar/Header';
 import { fetchFavorites, fetchAllData } from './models/weather_api';
+import ElmSearch from './components/ElmSearch/ElmSearch';
 
 export async function loader() {
   try {
@@ -45,7 +45,7 @@ export function Home() {
     }}>
       <Header >
         <Menu />
-        <SearchInput />
+        <ElmSearch />
       </Header>
       <StyledOutlet id="outlet" >
         <Outlet />
