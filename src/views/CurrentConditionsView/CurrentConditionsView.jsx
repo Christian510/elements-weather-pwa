@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-// import Carousel from '../../components/Carousel/Carousel';
+import Carousel from '../../components/Carousel/Carousel';
 import { useParams, useNavigate } from 'react-router-dom';
 // import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
@@ -87,8 +87,13 @@ export default function CurrentConditions() {
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+    width: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: theme.zIndex.outlet = theme.zIndex.modal,
   }));
-
+  // console.log('locationData: ', locationData);
   return (
     <>
       {!locationData ? (
@@ -129,7 +134,6 @@ export default function CurrentConditions() {
             id="scollable-view"
             display='flex'
             flexDirection='column'
-            justifyContent='space-around'
             sx={{
               height: '100%',
               overflowY: 'auto',
@@ -163,6 +167,7 @@ export default function CurrentConditions() {
               >{shortForecast}</Typography>
               <Typography className="high_low"></Typography>
             </Box>
+            <Carousel forecast={locationData} />
           </Box>
           <Box
             id="bottom-nav"
