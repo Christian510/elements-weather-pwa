@@ -10,12 +10,14 @@ import ClearIcon from '@mui/icons-material/Clear';
 import SearchIcon from '@mui/icons-material/Search';
 import { queryLocations } from '../../models/geo_location_api';
 import { debounce } from '@mui/material/utils';
+import { useLocation } from 'react-router-dom';
 
 const ElmSearch = forwardRef(function ElmAutocomplete(props, ref) {
 
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState([]);
+  const location = useLocation();
   
   const fetchLocations = useMemo(() => {
     let isMounted = true;
@@ -57,10 +59,16 @@ const ElmSearch = forwardRef(function ElmAutocomplete(props, ref) {
     }
     return () => {
       setOptions([]);
-      setInputValue('');
-      setValue(null);
     }
   }, [inputValue, fetchLocations]);
+
+  useEffect(() => {
+    return () => {
+      setOptions([]);
+      setInputValue('');
+      setValue(null);
+    };
+  }, [location]);
 
   const {
     disableClearable = false,
