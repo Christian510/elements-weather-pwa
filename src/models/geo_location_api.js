@@ -72,8 +72,8 @@ function getLocation() {
   }
   
   function showPosition(position) {
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
+    // const latitude = position.coords.latitude;
+    // const longitude = position.coords.longitude;
     // const accuracy = position.coords.accuracy;
     // const timestamp = position.timestamp;
   
@@ -83,9 +83,9 @@ function getLocation() {
     // console.log(`Timestamp: ${timestamp}`);
   
     // Example: Displaying the location on a map
-    const mapLink = `https://www.google.com/maps/@${latitude},${longitude},15z`;
-    const mapElement = document.getElementById("map");
-    mapElement.innerHTML = `<a href="${mapLink}" target="_blank">View location on map</a>`;
+    // const mapLink = `https://www.google.com/maps/@${latitude},${longitude},15z`;
+    // const mapElement = document.getElementById("map");
+    // mapElement.innerHTML = `<a href="${mapLink}" target="_blank">View location on map</a>`;
   }
   
   function showError(error) {
