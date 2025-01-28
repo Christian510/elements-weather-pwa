@@ -1,6 +1,5 @@
 import React from 'react';
 import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
 import ForecastCard from '../ForecastCard/ForecastCard';
 import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
 import WeatherIcon from '../WeatherIcon/WeatherIcon';
@@ -28,7 +27,7 @@ function convertDateStr(date) {
 const Carousel = ({ forecast, loading=false }) => {
     // console.log('forecast: ', forecast);
     const hourly = forecast.hourlyForecast.properties.periods;
-    const daily = forecast.forecast.properties.periods;
+    // const daily = forecast.forecast.properties.periods;
     let hourlyCards = hourly.map((item, index) => (
         {
             key: item.number,
@@ -42,18 +41,18 @@ const Carousel = ({ forecast, loading=false }) => {
         }
     ));
 
-    let dailyCards = daily.map((item, index) => (
-        {
-            key: item.number,
-            title: forecast.location.name,
-            dow: forecast.forecast.name, // Day of the week
-            icon: item.icon,
-            forecast: item.shortForecast,
-            temp: item.temperature,
-            tempUnit: item.temperatureUnit,
-            isDaytime: item.isDaytime,
-        }
-    ));
+    // let dailyCards = daily.map((item, index) => (
+    //     {
+    //         key: item.number,
+    //         title: forecast.location.name,
+    //         dow: forecast.forecast.name, // Day of the week
+    //         icon: item.icon,
+    //         forecast: item.shortForecast,
+    //         temp: item.temperature,
+    //         tempUnit: item.temperatureUnit,
+    //         isDaytime: item.isDaytime,
+    //     }
+    // ));
     // loading = forecast.length === 0 ? true : false;
 
     return (

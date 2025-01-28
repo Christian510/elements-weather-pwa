@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
-import { CardContent, Typography, Box } from '@mui/material';
+import { CardContent, Typography } from '@mui/material';
 
 
 const ForecastCard = ({ content, styles, Icon }) => {
