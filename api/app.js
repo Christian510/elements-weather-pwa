@@ -6,13 +6,14 @@ const MySQLStore = require('express-mysql-session')(session);
 const mysql = require('mysql2');
 const logger = require('morgan');
 const cors = require('cors');
-// const path = require('path');
+const path = require('path');
 const sqlformat = require('./logger');
+const favoritesRouter = require('./routes/favorites');
 
 // const indexRouter = require('./routes/index');
-const userRouter = require('./routes/user');
+// const userRouter = require('./routes/user');
 // const router = require('./routes/index');
-const favoritesRouter = require('./routes/favorites');
+// const { http } = require('winston');
 
 const app = express();
 
@@ -25,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 const corsOptions = {
-  origin: '*',
+  origin: process.env.BASE_URL,
   credentials: true,
   optionSuccessStatus: 200
 };
@@ -53,25 +54,55 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   store: sessionStore,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: process.env.SESSION_SAVE_UNINITIALIZED === 'false' ? false : true,
   cookie: {
-    secure: false,
-    // EQUALS 1 DAY ( 1 DAY * 24 HR/1 DAY * 60 MIN/1 HR)
-    maxAge: 1000 * 60 * 60 * 24 * 90,
-    // maxAge: 30,
-    // sameSite: 'strict',
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 1000 * 60 * 60 * 24 * 90, // EQUALS 1 DAY ( 1 DAY * 24 HR/1 DAY * 60 MIN/1 HR)
+    httpOnly: true, // Mitigate XSS attacks
+    sameSite: 'lax',  // CSRF protection
   }
-}
-));
+}));
 
-app.use('/favorites', favoritesRouter);
+// ***** Session Debugging ***** //
 
-app.get('/', (req, res) => { 
-  res.send('API is working'); 
-
+app.use((req, res, next) => {
+  if (!req.session.views) {
+    console.log('New session created:', req.sessionID);
+    req.session.views = 1;
+  } else {
+    console.log('Existing session:', req.sessionID);
+    req.session.views++;
+  }
+  next();
 });
 
+app.use((req, res, next) => {
+  console.log(`Session ID: ${req.sessionID}, Path: ${req.path}`);
+  next();
+});
+
+app.get('/test-session', (req, res) => {
+  console.log("session: ", req.session); // **** DEBUGGING **** //
+  if (!req.session.counter) {
+    req.session.counter = 0;
+  }
+  req.session.counter++;
+  res.send(`Counter: ${req.session.counter}`);
+});
+
+// ***** End Session Debugging ***** //
+
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.use('/favorites', favoritesRouter);
 // app.use('/user', userRouter);
+
+app.get('/*', function (req, res, next) {
+   console.log("path: ", path)
+   console.log('_dirname: ', __dirname)
+   res.sendFile(path.join(__dirname, 'build', 'index.html'));
+   next();
+ });
 
 // ERROR HANDLING
 // app.get('/500', errorController.get500);

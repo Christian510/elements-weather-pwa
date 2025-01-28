@@ -1,5 +1,5 @@
-// import { DateRangeTwoTone } from "@mui/icons-material";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 export function processFetch(url, options) {
     return fetch(url, options)
@@ -14,8 +14,10 @@ export function processFetch(url, options) {
 }
 
 export const fetchFavorites = async () => {
-    return axios.get('/favorites/all')
+    const baseUrl = process.env.REACT_APP_API_BASE_URL;
+    return axios.get(`${baseUrl}/favorites/all`)
     .then(response => {
+        console.log('response: ', response);
         return response.data;
     })
     .catch(error => {
@@ -103,9 +105,10 @@ export const fetchWeatherAlerts = async (locations) => {
     // https://api.weather.gov/alerts/active?area={state}
 };
 
-  export const fetchUrl = async (locations) => {};
+//   export const fetchUrl = async (locations) => {};
 
   export const addFavorite = async (data, session_id) => {
+    const baseUrl = process.env.REACT_APP_API_BASE_URL;
     const params = {
         location_id: data.location_id,
         name: data.name,
@@ -115,8 +118,9 @@ export const fetchWeatherAlerts = async (locations) => {
         lng: data.lng,
         session_id: session_id
     } 
+    console.log(`${baseUrl}/favorites/add-one`); // ***** DEBUG ***** //
     try {
-        const response = await axios.post('/favorites/add-one', params)
+        const response = await axios.post(`${baseUrl}/favorites/add-one`, params)
         return response.data;
     } catch (error) {
         console.error('Error adding favorite: ', error);
@@ -124,8 +128,10 @@ export const fetchWeatherAlerts = async (locations) => {
 }
 
 export const deleteFavorite = async (l_id, s_id) => {
+    const baseUrl = process.env.REACT_APP_API_BASE_URL;
+    console.log(`${baseUrl}/favorites/delete-one/?location_id=${l_id}&session_id=${s_id}`); // ***** DEBUG ***** //
     try {
-        const response = await axios.delete(`/favorites/delete-one/?location_id=${l_id}&session_id=${s_id}`)
+        const response = await axios.delete(`${baseUrl}/favorites/delete-one/?location_id=${l_id}&session_id=${s_id}`)
         if (response.data.result === 1) {
             return true;
         }

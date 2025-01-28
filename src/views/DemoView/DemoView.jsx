@@ -1,4 +1,3 @@
-import React from 'react';
 import ElmAutoComplete from '../../components/ElmAutoComplete/ElmAutoComplete';
 import WeatherIcon from '../../components/WeatherIcon/WeatherIcon';
 

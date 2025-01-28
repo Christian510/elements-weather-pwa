@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { getForecastByLatLon } from '../models/weather_api';
 
 // fetches a url from Weather.gov api for weather data.
