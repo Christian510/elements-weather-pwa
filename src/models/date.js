@@ -58,14 +58,14 @@ export class DateTime {
 
   DateTime.convertISO8601Format('2022-01-01T00:00:00-08:00');
 
-  function timeZone(date, type='milliseconds') {
-    const tzOffset = date.getTimezoneOffset();
+  // function timeZone(date, type='milliseconds') {
+  //   const tzOffset = date.getTimezoneOffset();
 
-    if (type === 'milliseconds') tzOffset = tzOffset * 60000;
+  //   if (type === 'milliseconds') tzOffset = tzOffset * 60000;
 
 
 
-  }
+  // }
 
   export function formatDateTime(dt) {
     // console.log("dt: ", dt)

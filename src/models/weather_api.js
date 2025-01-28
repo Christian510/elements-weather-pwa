@@ -1,10 +1,9 @@
-// import { DateRangeTwoTone } from "@mui/icons-material";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 export function processFetch(url, options) {
     return fetch(url, options)
         .then(response => {
-            // console.log("fetch response: ", response);
             if (response.ok) {
                 return response.json();
             } else {
@@ -15,8 +14,10 @@ export function processFetch(url, options) {
 }
 
 export const fetchFavorites = async () => {
-    return axios.get('/favorites/all')
+    const baseUrl = process.env.REACT_APP_API_BASE_URL;
+    return axios.get(`${baseUrl}/favorites/all`)
     .then(response => {
+        console.log('response: ', response);
         return response.data;
     })
     .catch(error => {
@@ -26,7 +27,6 @@ export const fetchFavorites = async () => {
 
 // GET WEATHER URL BY LAT AND LONG
 export const getForecastUrl = (lat, lng) => {
-    // console.log('coords: ', lat + ':' + lng)
     // const units = ['imperial', 'metric', 'standard'];
     const url = `https://api.weather.gov/points/${lat},${lng}`;
     const options = {
@@ -43,7 +43,6 @@ export const getForecastUrl = (lat, lng) => {
 
 // Fetch the forecast data from url
 export function queryForecastData(url) {
-    // console.log('ForecastData: ', url);
     const options = {
         'method': 'GET',
         'mode': 'cors',
@@ -55,7 +54,6 @@ export function queryForecastData(url) {
 }
 
 export function fetchHourlyForecast(url) {
-        // console.log('ForecastData: ', url);
         const options = {
             'method': 'GET',
             'mode': 'cors',
@@ -80,7 +78,6 @@ export async function fetchDateTime(lat, lng, country="US") {
   }
 
 export async function fetchAllData(l) {
-    // console.log('location: ', l)
     const data = {}
     try {
         data.location = l;
@@ -92,7 +89,6 @@ export async function fetchAllData(l) {
         data.hourlyForecast = hourlyForecast;
         const dateTime = await fetchDateTime(l.lat, l.lng);
             data.dateTime = dateTime;
-            // console.log('data: ', data);
     }
     catch (err) {
         console.log('Error message: ', err);
@@ -109,9 +105,10 @@ export const fetchWeatherAlerts = async (locations) => {
     // https://api.weather.gov/alerts/active?area={state}
 };
 
-  export const fetchUrl = async (locations) => {};
+//   export const fetchUrl = async (locations) => {};
 
   export const addFavorite = async (data, session_id) => {
+    const baseUrl = process.env.REACT_APP_API_BASE_URL;
     const params = {
         location_id: data.location_id,
         name: data.name,
@@ -121,8 +118,9 @@ export const fetchWeatherAlerts = async (locations) => {
         lng: data.lng,
         session_id: session_id
     } 
+    console.log(`${baseUrl}/favorites/add-one`); // ***** DEBUG ***** //
     try {
-        const response = await axios.post('/favorites/add-one', params)
+        const response = await axios.post(`${baseUrl}/favorites/add-one`, params)
         return response.data;
     } catch (error) {
         console.error('Error adding favorite: ', error);
@@ -130,14 +128,14 @@ export const fetchWeatherAlerts = async (locations) => {
 }
 
 export const deleteFavorite = async (l_id, s_id) => {
+    const baseUrl = process.env.REACT_APP_API_BASE_URL;
+    console.log(`${baseUrl}/favorites/delete-one/?location_id=${l_id}&session_id=${s_id}`); // ***** DEBUG ***** //
     try {
-        const response = await axios.delete(`/favorites/delete-one/?location_id=${l_id}&session_id=${s_id}`)
+        const response = await axios.delete(`${baseUrl}/favorites/delete-one/?location_id=${l_id}&session_id=${s_id}`)
         if (response.data.result === 1) {
-            // console.log('Delete Success!!', response)
             return true;
         }
         if (response.data.result === 0) { // Maybe return a message if there is an error deleting the location.
-            // console.error('Delete failed!!', response)
             return false;
         }
     }

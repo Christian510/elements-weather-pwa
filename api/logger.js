@@ -2,7 +2,6 @@
 exports.sqlFormat = (tokens, req, res) => {
     // Extract the SQL query from the response object
     const sql = res.locals.sql; // Assuming you've stored the query in res.locals.sql
-    console.log('sql: ', sql);
     return [
       tokens.method(req, res),
       tokens.url(req, res),

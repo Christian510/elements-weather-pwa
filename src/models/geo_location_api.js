@@ -1,5 +1,5 @@
 // const  getForecastByLatLon = require('../models/weather_api') ;
-import { getForecastByLatLon } from "./weather_api";
+// import { getForecastByLatLon } from "./weather_api";
 
 // GET A LIST OF CITIES BASED ON A QUERY STRING
 
@@ -75,10 +75,10 @@ function getLocation() {
   
   function showPosition(position) {
     // console.log('position: ', position);
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
-    const accuracy = position.coords.accuracy;
-    const timestamp = position.timestamp;
+    // const latitude = position.coords.latitude;
+    // const longitude = position.coords.longitude;
+    // const accuracy = position.coords.accuracy;
+    // const timestamp = position.timestamp;
   
     // You can now use the retrieved coordinates and other location data
     // console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);

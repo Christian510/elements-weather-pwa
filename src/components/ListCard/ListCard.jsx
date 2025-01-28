@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import { Button, ButtonBase, Box, Link, Typography } from "@mui/material";
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import { formatDateTime } from '../../models/date.js';
@@ -15,12 +15,15 @@ export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) 
     )
   );
   const path = `forecast/${encodeURIComponent(JSON.stringify(data.location))}`;
-  let icon = null, temp = null, tempUnit = null, shortForecast = "Oops can't retrieve the forecast!", time = null;
+  let icon = null, 
+    temp = null, 
+    // tempUnit = null, 
+    shortForecast = "Oops can't retrieve the forecast!", 
+    time = null;
   const location_id = data.location.location_id
   const name = data?.location.name;
   if (data.forecast) {
     icon = data?.forecast.properties.periods[0].icon;
-    console.log('icon: ', icon.split('/'));
     temp = data?.forecast.properties.periods[0].temperature;
     // tempUnit = data?.forecast.properties.periods[0].temperatureUnit;
     shortForecast = data?.forecast.properties.periods[0].shortForecast;
@@ -47,7 +50,6 @@ export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) 
       // draggable={isDragging}
       // cursor: isDragging ? "grabbing" : "pointer",
       // onTouchStart={(e) => console.log('touch start: ', e)}
-      onTouchMove={(e) => console.log('touch move: ', e.touches)}
     >
       <StyleScrollBehavior 
       className="list-card_scroll-behavior" 
