@@ -261,6 +261,7 @@ const StyledInput = styled('input')(
 const StyledButton = styled(Button)(
   ({ theme }) => `
     color: ${theme.palette.mode === 'dark' ? theme.palette.grey[300] : theme.palette.grey[500]};
+    justify-content: space-between;
 
   `,
 );
