@@ -38,6 +38,16 @@ async function initDB() {
     `);
     console.log('session_favorites table created');
 
+    await connection.execute(`
+    CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255),
+    password VARCHAR(255),
+    favorites VARCHAR(255)
+    )
+    `);
+    console.log('users table created');
+
     connection.end();
     
 }
