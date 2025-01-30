@@ -1,5 +1,5 @@
 
-exports.sqlFormat = (tokens, req, res) => {
+const sqlFormat = (tokens, req, res) => {
     // Extract the SQL query from the response object
     const sql = res.locals.sql; // Assuming you've stored the query in res.locals.sql
     return [
@@ -14,3 +14,5 @@ exports.sqlFormat = (tokens, req, res) => {
       sql, // Add the SQL query to the logged output
     ].join(' ');
   };
+
+  export default sqlFormat;

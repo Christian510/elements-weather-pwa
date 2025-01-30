@@ -1,4 +1,4 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 // const db = require('../../db/database')
 
@@ -15,3 +15,5 @@ router.post('/login', function (req, res) {
   router.post('/create_account', function (req, res) {
     res.send({ message: 'CREATE ACCOUNT' });
   });
+
+export default router;
