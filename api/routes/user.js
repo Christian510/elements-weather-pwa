@@ -1,4 +1,4 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 // const db = require('../db/database')
 
@@ -35,4 +35,4 @@ router.post('/create_account', function (req, res) {
   res.send({ message: 'CREATE ACCOUNT' });
 });
 
-module.exports = router;
+export default router;

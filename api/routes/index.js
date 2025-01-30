@@ -1,7 +1,6 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 // const db = require('../../db/database')
 
 
-
-module.exports = router;
+export default router

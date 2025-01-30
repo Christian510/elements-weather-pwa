@@ -1,9 +1,8 @@
-const findAllById = require('../db/database').findAllById;
-// const findOneById = require('../db/database').findOneById;
-const insertOne = require('../db/database').insertOne;
-const deleteOne = require('../db/database').deleteOne;
+import { findAllById } from '../db/database.js';
+import { insertOne } from '../db/database.js';
+import { deleteOne } from '../db/database.js';
 
-exports.fetchFavorites = (req, res, next) => {
+export const fetchFavorites = (req, res, next) => {
 
   return findAllById('session_favorites', 's_id', req.sessionID)
     .then(data => {
@@ -22,7 +21,7 @@ exports.fetchFavorites = (req, res, next) => {
     });
 }
 
-exports.addOneFavorite = async (req, res, next) => {
+export const addOneFavorite = async (req, res, next) => {
   try {
     const result = await insertOne(req.body, req.sessionID)
     res.send({
@@ -37,7 +36,7 @@ exports.addOneFavorite = async (req, res, next) => {
   }
 }
 
-exports.deleteOneFavorite = async (req, res, next) => {
+export const deleteOneFavorite = async (req, res, next) => {
   try {
     const result = await deleteOne(req.query.session_id, req.query.location_id)
     if (result) {

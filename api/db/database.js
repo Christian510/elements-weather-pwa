@@ -2,15 +2,16 @@
  - DB connect
  - Pre defined db functions
 */
-
-const mysql = require('mysql2');
+import dotenv from 'dotenv';
+import mysql from 'mysql2/promise.js';
+dotenv.config({ path: './.env' });
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
-}).promise();
+});
 
 function executeQuery(query, values) {
   return pool.execute(query, [...values])
@@ -173,8 +174,7 @@ async function deleteOne(s_id, l_id) {
 
 // Delete User
 
-module.exports = {
-  pool,
+export {
   findAllById,
   findOneById,
   insertOne,

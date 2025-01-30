@@ -1,19 +1,15 @@
-require('dotenv').config({ path: 'api/.env' });
-const express = require('express');
-const session = require('express-session');
-const bodyParser = require('body-parser');
-const MySQLStore = require('express-mysql-session')(session);
-const mysql = require('mysql2');
-const logger = require('morgan');
-const cors = require('cors');
-const path = require('path');
-const sqlformat = require('./logger');
-const favoritesRouter = require('./routes/favorites');
-
-// const indexRouter = require('./routes/index');
-// const userRouter = require('./routes/user');
-// const router = require('./routes/index');
-// const { http } = require('winston');
+import dotenv from 'dotenv';
+import express from 'express';
+import session from 'express-session';
+import bodyParser from 'body-parser';
+import logger from 'morgan';
+import cors from 'cors';
+// import path from 'path';
+import sqlformat from './logger.js';
+// import userRouter from './routes/user';
+import favoritesRouter from './routes/favorites.js';
+import redisStore from './redisStore.js';
+dotenv.config({ path: './.env' });
 
 const app = express();
 
@@ -26,90 +22,44 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 const corsOptions = {
-  origin: process.env.BASE_URL,
+  origin: '*',
   credentials: true,
   optionSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
 
-const options = {
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT || 3306,
-};
-
-const dbConnection = mysql.createConnection(options);
-
-const sessionStore = new MySQLStore({
-  expiration: 3600000, // Session expiration time in milliseconds
-  createDatabaseTable: true // Automatically create session table if none exists
-}, dbConnection);
-
 app.set('trust proxy', 1) // trust first proxy
-
 app.use(session({
   secret: process.env.SESSION_SECRET,
-  store: sessionStore,
+  store: redisStore,
   resave: false,
-  saveUninitialized: process.env.SESSION_SAVE_UNINITIALIZED === 'false' ? false : true,
+  saveUninitialized: true,
   cookie: {
-    secure: process.env.NODE_ENV === 'production',
-    maxAge: 1000 * 60 * 60 * 24 * 90, // EQUALS 1 DAY ( 1 DAY * 24 HR/1 DAY * 60 MIN/1 HR)
-    httpOnly: true, // Mitigate XSS attacks
-    sameSite: 'lax',  // CSRF protection
+    secure: false,
+    // EQUALS 1 DAY ( 1 DAY * 24 HR/1 DAY * 60 MIN/1 HR)
+    maxAge: 1000 * 60 * 60 * 24 * 90,
+    // maxAge: 30,
+    // sameSite: 'strict',
   }
-}));
-
-// ***** Session Debugging ***** //
-
-app.use((req, res, next) => {
-  if (!req.session.views) {
-    console.log('New session created:', req.sessionID);
-    req.session.views = 1;
-  } else {
-    console.log('Existing session:', req.sessionID);
-    req.session.views++;
-  }
-  next();
-});
-
-app.use((req, res, next) => {
-  console.log(`Session ID: ${req.sessionID}, Path: ${req.path}`);
-  next();
-});
-
-app.get('/test-session', (req, res) => {
-  console.log("session: ", req.session); // **** DEBUGGING **** //
-  if (!req.session.counter) {
-    req.session.counter = 0;
-  }
-  req.session.counter++;
-  res.send(`Counter: ${req.session.counter}`);
-});
-
-// ***** End Session Debugging ***** //
-
-app.use(express.static(path.join(__dirname, 'build')));
+}
+));
 
 app.use('/favorites', favoritesRouter);
-// app.use('/user', userRouter);
 
-app.get('/*', function (req, res, next) {
-   console.log("path: ", path)
-   console.log('_dirname: ', __dirname)
-   res.sendFile(path.join(__dirname, 'build', 'index.html'));
-   next();
- });
+app.get('/', (req, res) => { 
+  res.send('API is working'); 
+  console.log('session id: ', req.sessionID);
+
+});
+// app.use('/user', userRouter);
 
 // ERROR HANDLING
 // app.get('/500', errorController.get500);
 // app.use(errorController.get404);
 app.use((error, req, res, next) => {
-  res.status(error.httpStatusCode || 500).send(error.message);
-    // res.redirect('/500');
+  res.status(error.httpStatusCode).send(error.message);
+  //   res.redirect('/500');
 });
 
 // // error handler
@@ -124,4 +74,4 @@ app.use((error, req, res, next) => {
 //   res.render('error');
 // });
 
-module.exports = app;
+export default app;
