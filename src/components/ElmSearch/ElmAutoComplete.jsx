@@ -50,10 +50,10 @@ export default function UseAutocomplete() {
     options: top100Films,
     getOptionLabel: (option) => option.title,
   });
-  console.log('getRootProps: ', getRootProps());
-  console.log('getInputLabelProps; ', getInputLabelProps());
-  console.log('getInputProps: ', getInputProps());
-  console.log('getListboxProps: ', getListboxProps());
+  // console.log('getRootProps: ', getRootProps());
+  // console.log('getInputLabelProps; ', getInputLabelProps());
+  // console.log('getInputProps: ', getInputProps());
+  // console.log('getListboxProps: ', getListboxProps());
   // console.log('getOptionProps: ', getOptionProps());
   // console.log('groupdOptionProps: ', groupedOptions());
   // 1. Add search icon with default text.

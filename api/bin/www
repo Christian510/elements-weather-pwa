@@ -78,7 +78,7 @@ function onError(error) {
 
 function onListening() {
   var addr = server.address();
-  console.log('Server is running on port: ' + addr); // ***** DEBUGGING ***** //
+  // console.log('Server is running on port: ' + addr); // ***** DEBUGGING ***** //
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;

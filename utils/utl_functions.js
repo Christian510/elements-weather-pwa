@@ -34,7 +34,7 @@ const validateAdr = str => {
   }).join(' ');
   if (splitStr.length < 2) {
     // message sent to user to include a state or country
-    console.log("state, provice, or country required!");
+    // console.log("state, provice, or country required!");
     return null;
   }
   if (splitStr.length === 2) {
