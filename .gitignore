@@ -21,6 +21,7 @@ node_modules
 .env.production.local
 ./api/.env
 /readme.md
+dump.rdb
 
 npm-debug.log*
 yarn-debug.log*
