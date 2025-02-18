@@ -27,7 +27,7 @@ async function initDB() {
     `);
     console.log('Locations table created');
 
-    // if no session_favorites table exits create one.
+    // if no session_favorites table exits create one. RENAME FAVORITES
     await connection.execute(`
     CREATE TABLE IF NOT EXISTS session_favorites (
     s_id VARCHAR(128),

@@ -38,42 +38,42 @@
 // }
 
 // Fetch a list of cities and locations.
-export async function queryLocations(query, country = "US") {
-    // console.log("query: ", query);
-    const options = {
-        method: 'GET',
-        // headers: {
-        //     'X-RapidAPI-Key': process.env.REACT_APP_GEODB_KEY,
-        //     'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com',
-        // }
-    };
-    if (query.length === 0) {
-        return [];
-    } else {
+// export async function queryLocations(query, country = "US") {
+//     // console.log("query: ", query);
+//     const options = {
+//         method: 'GET',
+//         // headers: {
+//         //     'X-RapidAPI-Key': process.env.REACT_APP_GEODB_KEY,
+//         //     'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com',
+//         // }
+//     };
+//     if (query.length === 0) {
+//         return [];
+//     } else {
 
-        return await fetch(`http://api.geonames.org/searchJSON?name_startsWith=${query}&country=${country}&maxRows=10&username=christian510`, options)
-            .then((response) => {
-                if (response.ok) {
-                    return response.json()
-                } else {
-                    throw new Error("Oops, response failed!")
-                }
-            })
-            .then(data => data)
-            .catch(err => console.error('Error msg: ', err));
-    }
-}
+//         return await fetch(`http://api.geonames.org/searchJSON?name_startsWith=${query}&country=${country}&maxRows=10&username=christian510`, options)
+//             .then((response) => {
+//                 if (response.ok) {
+//                     return response.json()
+//                 } else {
+//                     throw new Error("Oops, response failed!")
+//                 }
+//             })
+//             .then(data => data)
+//             .catch(err => console.error('Error msg: ', err));
+//     }
+// }
 
-function getLocation() {
-    // console.log('navigator obj: ', navigator)
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition, showError);
-    } else {
-      alert("Geolocation is not supported by this browser.");
-    }
-  }
+// function getLocation() {
+//     // console.log('navigator obj: ', navigator)
+//     if (navigator.geolocation) {
+//       navigator.geolocation.getCurrentPosition(showPosition, showError);
+//     } else {
+//       alert("Geolocation is not supported by this browser.");
+//     }
+//   }
   
-  function showPosition(position) {
+  // function showPosition(position) {
     // console.log('position: ', position);
     // const latitude = position.coords.latitude;
     // const longitude = position.coords.longitude;
@@ -89,24 +89,24 @@ function getLocation() {
     // const mapLink = `https://www.google.com/maps/@${latitude},${longitude},15z`;
     // const mapElement = document.getElementById("map");
     // mapElement.innerHTML = `<a href="${mapLink}" target="_blank">View location on map</a>`;
-  }
+  // }
   
-  function showError(error) {
-    switch (error.code) {
-      case error.PERMISSION_DENIED:
-        console.error("User denied the request for Geolocation.");
-        break;
-      case error.POSITION_UNAVAILABLE:
-        console.error("Location information is unavailable.");
-        break;
-      case error.TIMEOUT:
-        console.error("The request to get user location timed out.");
-        break;
-      default:
-        console.error("An unknown error occurred.");
-    }
-  }
+  // function showError(error) {
+  //   switch (error.code) {
+  //     case error.PERMISSION_DENIED:
+  //       console.error("User denied the request for Geolocation.");
+  //       break;
+  //     case error.POSITION_UNAVAILABLE:
+  //       console.error("Location information is unavailable.");
+  //       break;
+  //     case error.TIMEOUT:
+  //       console.error("The request to get user location timed out.");
+  //       break;
+  //     default:
+  //       console.error("An unknown error occurred.");
+  //   }
+  // }
   
   // Call the function to get user location
-  getLocation();
+  // getLocation();
   
