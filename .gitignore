@@ -20,7 +20,7 @@ node_modules
 .env.test.local
 .env.production.local
 ./api/.env
-/readme.md
+readme.md
 dump.rdb
 
 npm-debug.log*
