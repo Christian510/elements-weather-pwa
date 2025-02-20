@@ -4,7 +4,7 @@ import session from 'express-session';
 import bodyParser from 'body-parser';
 import logger from 'morgan';
 import cors from 'cors';
-// import path from 'path';
+import path from 'path';
 import sqlformat from './logger.js';
 // import userRouter from './routes/user';
 import favoritesRouter from './routes/favorites.js';
@@ -13,10 +13,18 @@ dotenv.config({ path: './.env' });
 
 const app = express();
 
+// Serve static files from React's build folder in production/staging
+if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging") {
+  app.use(express.static(path.join(__dirname, "client/build")));
+
+  app.get("*", (req, res) => {
+      res.sendFile(path.join(__dirname, "client/build", "index.html"));
+  });
+}
+
 app.use(logger('combined'));
 const morganMiddleware = logger(sqlformat);
 app.use(morganMiddleware);
-// app.use(logger(format));
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
