@@ -86,7 +86,7 @@ const Carousel = ({ forecast, loading=false }) => {
                                 scrollSnapAlign: 'start',
                             },
                         }}>
-                        {hourlyCards.map((item, index) => {
+                        {hourlyCards?.map((item, index) => {
                             if ( index <= 24) {
                                 return <ForecastCard
                                     key={index}
