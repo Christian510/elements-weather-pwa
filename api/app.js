@@ -30,8 +30,9 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.set('trust proxy', 1) // trust first proxy
+const sessionSecret = process.env.SESSION_SECRET;
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: sessionSecret,
   store: redisStore,
   resave: false,
   saveUninitialized: true,
@@ -49,7 +50,7 @@ app.use('/favorites', favoritesRouter);
 
 app.get('/', (req, res) => { 
   res.send('API is working'); 
-  console.log('session id: ', req.sessionID);
+  // console.log('session id: ', req.sessionID);
 
 });
 // app.use('/user', userRouter);

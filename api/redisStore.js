@@ -1,10 +1,15 @@
+
+import dotenv from 'dotenv';
 import { RedisStore } from 'connect-redis';
 import { createClient } from 'redis';
+dotenv.config({ path: './.env' });
+const redisHost = process.env.REDIS_HOST;
+const redisPort = process.env.REDIS_PORT;
 
 // Initialize client.
 let redisClient = createClient({
-    host: 'localhost',
-    port: 6379
+    host: redisHost,
+    port: redisPort,
 })
 redisClient.connect().catch(console.error)
 

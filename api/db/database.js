@@ -5,12 +5,16 @@
 import dotenv from 'dotenv';
 import mysql from 'mysql2/promise.js';
 dotenv.config({ path: './.env' });
+const host = process.env.DB_HOST;
+const user = process.env.DB_USER;
+const password = process.env.DB_PASS;
+const database = process.env.DB_NAME;
 
 const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
+  host: host,
+  user: user,
+  password: password,
+  database: database,
 });
 
 function executeQuery(query, values) {
