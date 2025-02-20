@@ -13,7 +13,6 @@ import Menu from './components/Menu/Menu';
 import Header from './components/NavBar/Header';
 import { fetchFavorites, fetchAllData } from './models/weather_api';
 import ElmSearch from './components/ElmSearch/ElmSearch';
-import "./index.css";
 
 export async function loader() {
   try {
