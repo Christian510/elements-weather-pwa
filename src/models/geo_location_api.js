@@ -39,6 +39,8 @@
 
 // Fetch a list of cities and locations.
 export async function queryLocations(query, country = "US") {
+    const geonamesUrl = process.env.REACT_APP_GEONAMES_URL;
+    const username = process.env.REACT_APP_USER_NAME;
     const options = {
         method: 'GET',
         // headers: {
@@ -50,7 +52,7 @@ export async function queryLocations(query, country = "US") {
         return [];
     } else {
 
-        return await fetch(`http://api.geonames.org/searchJSON?name_startsWith=${query}&country=${country}&maxRows=10&username=christian510`, options)
+        return await fetch(`${geonamesUrl}/searchJSON?name_startsWith=${query}&country=${country}&maxRows=10&username=${username}`, options)
             .then((response) => {
                 if (response.ok) {
                     return response.json()

@@ -17,8 +17,9 @@ import ElmSearch from './components/ElmSearch/ElmSearch';
 export async function loader() {
   try {
     const data = await fetchFavorites();
+    console.log('fetchFavorites: ', data); // ***** DEBUGGING *****
     if (typeof data === "undefined" || typeof data === 'string') {
-      return { forecasts: null, sessionId: null }; // Not sure this is the best way to handle this
+      return { forecasts: [], sessionId: "" }; // Not sure this is the best way to handle this
     }
     if (data) {
       const fetchForecasts = data.locations.map(

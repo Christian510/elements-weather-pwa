@@ -38,7 +38,7 @@ export default function CurrentConditions() {
       setTimeout(() => {
         fetchAllData(params)
           .then((result) => setLocationData(result));
-      }, 500);
+      }, 50);
     }
     return () => {
       setLocationData(null);

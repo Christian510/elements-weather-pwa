@@ -5,20 +5,22 @@ import bodyParser from 'body-parser';
 import logger from 'morgan';
 import cors from 'cors';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import sqlformat from './logger.js';
 // import userRouter from './routes/user';
 import favoritesRouter from './routes/favorites.js';
 import redisStore from './redisStore.js';
 dotenv.config({ path: './.env' });
-
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
 
 // Serve static files from React's build folder in production/staging
 if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging") {
-  app.use(express.static(path.join(__dirname, "../build")));
+  app.use(express.static(path.join(__dirname, "build")));
 
-  app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname, "../build", "index.html"));
+  app.get("/*", (req, res) => {
+      res.sendFile(path.join(__dirname, "build", "index.html"));
   });
 }
 
@@ -68,7 +70,7 @@ app.get('/', (req, res) => {
 // app.use(errorController.get404);
 app.use((error, req, res, next) => {
   res.status(error.httpStatusCode).send(error.message);
-  //   res.redirect('/500');
+    res.redirect('/500');
 });
 
 // // error handler
