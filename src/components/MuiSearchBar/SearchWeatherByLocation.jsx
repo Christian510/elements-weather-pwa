@@ -42,6 +42,7 @@ export default function SearchInput() {
       setOptions([]);
       setInputValue('');
       setValue(null);
+      fetchLocations.cancel();
     };
 
   }, [inputValue]);
@@ -57,6 +58,7 @@ export default function SearchInput() {
 
     return () => {
       setOptions([]);
+      fetchLocations.cancel();
     }
 
   }, [inputValue, fetchLocations]);

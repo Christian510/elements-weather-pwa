@@ -77,7 +77,7 @@ if (import.meta.hot) {
   import.meta.hot.dispose(() => router.dispose());
 }
 
-export function sleep(n = 500) {
+export function sleep(n = 100) {
   return new Promise((r) => setTimeout(r, n));
 }
 
