@@ -59,6 +59,17 @@ export function parseUrl(url) {
   return iconClass;
 }
 
+export function convertDateStr(date) {
+    const split = date.split('T');
+    const d = split[0];
+    const t = split[1].split('-');
+    const dateStr = `${d} ${t[0]}`;
+    // console.log('dateStr: ', dateStr);
+    const dateTime = formatDateTime(dateStr);
+    // console.log('dateTime: ', dateTime);
+    return dateTime.time
+}
+
 export function formatDateStr(date) {
   let dateStr='';
   let operator = '';

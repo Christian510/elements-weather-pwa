@@ -1,29 +1,10 @@
-import React from 'react';
 import Stack from '@mui/material/Stack';
 import ForecastCard from '../ForecastCard/ForecastCard';
 import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
 import WeatherIcon from '../WeatherIcon/WeatherIcon';
-import { formatDateTime } from '../../models/date';
-
-function parseUrl(url) {
-    const nUrl = new URL(url);
-    const path = nUrl.pathname.split('/');
-    const iconClass = path[path.length - 1].split(',')[0];
-    // console.log('icon: ', iconClass);
-    return iconClass;
-}
-
-function convertDateStr(date) {
-    const split = date.split('T');
-    const d = split[0];
-    const t = split[1].split('-');
-    const dateStr = `${d} ${t[0]}`;
-    // console.log('dateStr: ', dateStr);
-    const dateTime = formatDateTime(dateStr);
-    // console.log('dateTime: ', dateTime);
-    return dateTime.time
-}
-
+// import { formatDateTime } from '../../models/date';
+import { parseUrl, convertDateStr } from '../../utils/utl_functions';
+ 
 const Carousel = ({ forecast, loading=false }) => {
     // console.log('forecast: ', forecast);
     const hourly = forecast.hourlyForecast.properties.periods;
