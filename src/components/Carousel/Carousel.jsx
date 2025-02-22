@@ -82,6 +82,7 @@ const Carousel = ({ forecast, loading=false }) => {
                                     Icon={() => <WeatherIcon isDay={item.isDaytime} icon={item.icon} size="med" />}
                                     />
                             }
+                            return null;
                         }
                         )}
                     </Stack>
