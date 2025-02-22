@@ -112,11 +112,15 @@ async function insertOne(params = null) {
   const sf_insert_query = `INSERT INTO session_favorites (s_id, l_id, l_name) VALUES (?, ?, ?)`;
 
   if (sf.length < 1 && location.length < 1) {
-    const [sf] = await executeQuery(sf_insert_query, [params.session_id, params.location_id, params.name]);
+    const [sf] = await executeQuery(
+      sf_insert_query, 
+      [params.session_id, params.location_id, params.name]);
     const l_insert_query = `
                     INSERT INTO locations (location_id, name, state, country_code, lat, lng)
                     VALUES (?, ?, ?, ?, ?, ?)`;
-    const [loc] = await executeQuery(l_insert_query, [params.location_id, params.name, params.state, params.country_code, params.lat, params.lng]);
+    const [loc] = await executeQuery(
+      l_insert_query, 
+      [params.location_id, params.name, params.state, params.country_code, params.lat, params.lng]);
     if (sf.affectedRows === 0 || loc.affectedRows === 0) result = 0; // Message: 'db session_favorites not saved'
     if (sf.affectedRows === 1 && loc.affectedRows === 1) result = 1;
   }

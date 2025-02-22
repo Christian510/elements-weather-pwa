@@ -14,8 +14,10 @@ export function processFetch(url, options) {
 }
 
 export const fetchFavorites = async () => {
-    return axios.get(`${process.env.REACT_APP_API_BASE_URL}/favorites/all`)
+    const baseUrl = process.env.REACT_APP_API_BASE_URL;
+    return axios.get(`${baseUrl}/favorites/all`)
     .then(response => {
+        // console.log('response: ', response);
         return response.data;
     })
     .catch(error => {
@@ -116,6 +118,7 @@ export const fetchWeatherAlerts = async (locations) => {
         lng: data.lng,
         session_id: session_id
     } 
+    // console.log(`${baseUrl}/favorites/add-one`); // ***** DEBUG ***** //
     try {
         const response = await axios.post(`${baseUrl}/favorites/add-one`, params)
         return response.data;
@@ -126,6 +129,7 @@ export const fetchWeatherAlerts = async (locations) => {
 
 export const deleteFavorite = async (l_id, s_id) => {
     const baseUrl = process.env.REACT_APP_API_BASE_URL;
+    // console.log(`${baseUrl}/favorites/delete-one/?location_id=${l_id}&session_id=${s_id}`); // ***** DEBUG ***** //
     try {
         const response = await axios.delete(`${baseUrl}/favorites/delete-one/?location_id=${l_id}&session_id=${s_id}`)
         if (response.data.result === 1) {
