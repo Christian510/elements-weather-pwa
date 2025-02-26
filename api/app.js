@@ -15,14 +15,21 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 
-// Serve static files from React's build folder in production/staging
-if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging") {
-  app.use(express.static(path.join(__dirname, "build")));
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN,
+  methods: process.env.CORS_METHODS,
+  allowedHeaders: process.env.CORS_ALLOWED_HEADERS,
+  // exposedHeaders: ['Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials'], // required for cookies
+  credentials: true,
+  optionSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
-  app.get("/*", (req, res) => {
-      res.sendFile(path.join(__dirname, "build", "index.html"));
-  });
-}
+// LOG REQUESTS
+app.use((req, res, next) => {
+  console.log(`Received request: ${req.method} ${req.url}`);
+  next();
+});
 
 app.use(logger('combined'));
 const morganMiddleware = logger(sqlformat);
@@ -30,14 +37,6 @@ app.use(morganMiddleware);
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-
-const corsOptions = {
-  origin: '*',
-  credentials: true,
-  optionSuccessStatus: 200
-};
-
-app.use(cors(corsOptions));
 
 app.set('trust proxy', 1) // trust first proxy
 const sessionSecret = process.env.SESSION_SECRET;
@@ -56,33 +55,45 @@ app.use(session({
 }
 ));
 
-app.use('/favorites', favoritesRouter);
+app.get('/test', (req, res) => {
+  console.log('session id: ', req.sessionID);
+  res.json({ message: 'Test route works' });
+});
 
 app.get('/', (req, res) => { 
   res.send('API is working'); 
   // console.log('session id: ', req.sessionID);
 
 });
+
+app.use('/favorites', favoritesRouter);
+
 // app.use('/user', userRouter);
 
-// ERROR HANDLING
-// app.get('/500', errorController.get500);
-// app.use(errorController.get404);
-app.use((error, req, res, next) => {
-  res.status(error.httpStatusCode).send(error.message);
-    res.redirect('/500');
+// Serve static files from React's build folder in production/staging
+if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging") {
+  app.use(express.static(path.join(__dirname, "build")));
+
+  app.get("/*", (req, res) => {
+      res.sendFile(path.join(__dirname, "build", "index.html"));
+  });
+}
+
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+  res.status(404).send('Not Found');
 });
 
-// // error handler
-// app.use(function (err, req, res, next) {
-//   // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   // console.log("error handler: ", res.locals.message);
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
+// error handler
+app.use(function (err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  // console.log("error handler: ", res.locals.message);
+  res.locals.error = req.app.get('env') === process.env.NODE_ENV ? err : {};
 
-//   // render the error page
-//   res.status(err.status || 500);
-//   res.render('error');
-// });
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
 
 export default app;
