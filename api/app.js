@@ -14,7 +14,7 @@ dotenv.config({ path: './.env' });
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
-
+console.log('process.env.CORS_ORIGIN: ', process.env.CORS_ORIGIN);
 const corsOptions = {
   origin: process.env.CORS_ORIGIN,
   methods: process.env.CORS_METHODS,
@@ -24,12 +24,17 @@ const corsOptions = {
   optionSuccessStatus: 200
 };
 app.use(cors(corsOptions));
-
+const env = process.env.NODE_ENV;
+console.log('ENV: ', env);
+if (process.env.NODE_ENV === "production") {
+  console.log('local');
 // LOG REQUESTS
 app.use((req, res, next) => {
   console.log(`Received request: ${req.method} ${req.url}`);
   next();
 });
+
+}
 
 app.use(logger('combined'));
 const morganMiddleware = logger(sqlformat);
@@ -55,10 +60,6 @@ app.use(session({
 }
 ));
 
-app.get('/test', (req, res) => {
-  console.log('session id: ', req.sessionID);
-  res.json({ message: 'Test route works' });
-});
 
 app.get('/', (req, res) => { 
   res.send('API is working'); 
