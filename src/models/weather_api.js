@@ -17,10 +17,8 @@ export function processFetch(url, options) {
 }
 
 export const fetchFavorites = async () => {
-    console.log('fetching favorites'); // ***** DEBUGGING *****
     return axios.get(`/favorites/all`)
     .then(response => {
-        console.log('response: ', response); // ***** DEBUGGING *****
         if (typeof response.data === 'string') {
             console.log('response is a string');
         }
