@@ -1,6 +1,6 @@
 import axios from "axios";
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL;
+axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
@@ -20,7 +20,7 @@ export const fetchFavorites = async () => {
     return axios.get(`/favorites/all`)
     .then(response => {
         if (typeof response.data === 'string') {
-            console.log('response is a string');
+            return [];
         }
         return response.data;
     })
@@ -76,7 +76,9 @@ export async function fetchDateTime(lat, lng, country="US") {
             'Accept': 'application/json'
         }
     };
-    const url = `http://api.geonames.org/timezoneJSON?formatted=true&lat=${lat}&lng=${lng}&username=${process.env.REACT_APP_USER_NAME}`;
+    const geonamesUrl = process.env.REACT_APP_GEONAMES_URL;
+    const username = process.env.REACT_APP_GEONAMES_USER_NAME;
+    const url = `${geonamesUrl}/timezoneJSON?formatted=true&lat=${lat}&lng=${lng}&username=${username}`;
     return processFetch(url, options);
   }
 
@@ -94,7 +96,7 @@ export async function fetchAllData(l) {
             data.dateTime = dateTime;
     }
     catch (err) {
-        console.log('Error message: ', err);
+        console.error('Error message: ', err);
     }
     return data;
 }
@@ -111,7 +113,6 @@ export const fetchWeatherAlerts = async (locations) => {
 //   export const fetchUrl = async (locations) => {};
 
   export const addFavorite = async (data, session_id) => {
-    // const baseUrl = process.env.REACT_APP_API_BASE_URL;
     const params = {
         location_id: data.location_id,
         name: data.name,
@@ -121,7 +122,6 @@ export const fetchWeatherAlerts = async (locations) => {
         lng: data.lng,
         session_id: session_id
     } 
-    // console.log(`${baseUrl}/favorites/add-one`); // ***** DEBUG ***** //
     try {
         const response = await axios.post(`/favorites/add-one`, params)
         return response.data;
@@ -131,8 +131,6 @@ export const fetchWeatherAlerts = async (locations) => {
 }
 
 export const deleteFavorite = async (l_id, s_id) => {
-    // const baseUrl = process.env.REACT_APP_API_BASE_URL;
-    // console.log(`${baseUrl}/favorites/delete-one/?location_id=${l_id}&session_id=${s_id}`); // ***** DEBUG ***** //
     try {
         const response = await axios.delete(`/favorites/delete-one/?location_id=${l_id}&session_id=${s_id}`)
         if (response.data.result === 1) {
@@ -143,6 +141,6 @@ export const deleteFavorite = async (l_id, s_id) => {
         }
     }
     catch (err) {
-        console.log('error msg: ', err);
+        console.error('error msg: ', err);
     }
 }

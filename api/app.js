@@ -11,23 +11,25 @@ import sqlformat from './logger.js';
 import favoritesRouter from './routes/favorites.js';
 import redisStore from './redisStore.js';
 dotenv.config({ path: './.env' });
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
+
 console.log('process.env.CORS_ORIGIN: ', process.env.CORS_ORIGIN);
 const corsOptions = {
   origin: process.env.CORS_ORIGIN,
   methods: process.env.CORS_METHODS,
   allowedHeaders: process.env.CORS_ALLOWED_HEADERS,
-  // exposedHeaders: ['Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials'], // required for cookies
+  exposedHeaders: ['Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials'],
   credentials: true,
   optionSuccessStatus: 200
 };
+
 app.use(cors(corsOptions));
-const env = process.env.NODE_ENV;
-console.log('ENV: ', env);
+
 if (process.env.NODE_ENV === "production") {
-  console.log('local');
+  console.log('production mode');
 // LOG REQUESTS
 app.use((req, res, next) => {
   console.log(`Received request: ${req.method} ${req.url}`);
@@ -60,25 +62,21 @@ app.use(session({
 }
 ));
 
+app.use('/favorites', favoritesRouter);
 
 app.get('/', (req, res) => { 
   res.send('API is working'); 
-  // console.log('session id: ', req.sessionID);
 
 });
 
-app.use('/favorites', favoritesRouter);
 
 // app.use('/user', userRouter);
 
 // Serve static files from React's build folder in production/staging
-if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging") {
   app.use(express.static(path.join(__dirname, "build")));
-
   app.get("/*", (req, res) => {
       res.sendFile(path.join(__dirname, "build", "index.html"));
   });
-}
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -93,8 +91,11 @@ app.use(function (err, req, res, next) {
   res.locals.error = req.app.get('env') === process.env.NODE_ENV ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  res.status(err.status || 500).json({
+    message: err.message,
+    error: res.locals.error
+  });
+  
 });
 
 export default app;

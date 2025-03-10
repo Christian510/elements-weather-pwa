@@ -40,7 +40,7 @@
 // Fetch a list of cities and locations.
 export async function queryLocations(query, country = "US") {
     const geonamesUrl = process.env.REACT_APP_GEONAMES_URL;
-    const username = process.env.REACT_APP_USER_NAME;
+    const username = process.env.REACT_APP_GEONAMES_USER_NAME;
     const options = {
         method: 'GET',
         // headers: {

@@ -70,6 +70,11 @@ export default function CurrentConditions() {
   function handleAddFavorite(location, sessionID) {
     setTimeout(() => {
       addFavorite(location, sessionID).then(resp => {
+        // if undefined, then something is wrong
+        if (resp === undefined) {
+          alert('Location Not added to favorites. Please try again.')
+          return;
+        }
         if (resp.result === 1) {
           return navigate('/');
         }
