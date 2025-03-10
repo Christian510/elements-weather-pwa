@@ -16,7 +16,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 
-console.log('process.env.CORS_ORIGIN: ', process.env.CORS_ORIGIN);
 const corsOptions = {
   origin: process.env.CORS_ORIGIN,
   methods: process.env.CORS_METHODS,
