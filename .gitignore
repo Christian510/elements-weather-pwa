@@ -10,7 +10,9 @@ node_modules
 /coverage
 /api/db/test_data.json
 restart.sh
-/api/dump.rdb
+**/dump.rdb
+/api/redis.log
+/api/server.log
 
 # production
 build
