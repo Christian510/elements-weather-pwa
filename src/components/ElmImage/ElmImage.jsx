@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-// import Styled from '@mui/system/styled';
 
 export default function ElmImg({ src, alt, width, height, onError, ...otherProps }) {
     const [loaded, setLoaded] = useState(false);
