@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import { useLoaderData } from "react-router-dom";
 import List from '@mui/material/List';
 import Box from '@mui/material/Box';
