@@ -8,7 +8,7 @@ import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
 
 function Favorites() {
     const { forecasts, sessionId } = useLoaderData();
-    const [favorites, setFavorites] = useState(forecasts)
+    const [favorites, setFavorites] = useState(forecasts || []);
 
     function handleDeleteFavorite(id, s_id) {
         deleteFavorite(id, s_id);

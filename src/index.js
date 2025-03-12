@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -19,7 +18,7 @@ import DemoView from './views/DemoView/DemoView';
 import { ElmTheme } from './ElmThemeStyles/ElmTheme';
 import { ThemeProvider } from '@mui/material/styles';
 import ElmSpinner from './components/ElmSpinner/ElmSpinner';
-// console.log('ElmTheme: ', ElmTheme);
+
 let router = createBrowserRouter([
   {
     path: '/',

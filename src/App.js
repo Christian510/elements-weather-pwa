@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Outlet,
   useFetchers,
@@ -32,44 +31,46 @@ export async function loader() {
   }
 }
 
-
-
 export function Home() {
 
   const theme = useTheme();
   let navigation = useNavigation();
+  console.log("navigation: ", navigation); // ****** DEBUG ****** //
   let revalidator = useRevalidator();
   let fetchers = useFetchers();
   let fetcherInProgress = fetchers.some((f) =>
     ["loading", "submitting"].includes(f.state)
   );
 
+  // Add the loading spinner here to show when a fetcher is in progress
   return (
-    <Container
-      id="app-container"
-      sx={{
-        backgroundColor: theme.palette.background.default,
-        position: "fixed",
-        top: "0",
-        left: "0",
-        width: "100%",
-        height: "100vh",
-        margin: "auto",
-      }}
-    >
-      <Header>
-        <Menu />
-        <ElmSearch />
-      </Header>
-      <StyledOutlet id="outlet">
-        <Outlet />
-      </StyledOutlet>
-      <div style={{ position: "fixed", top: 40, right: 20 }}>
-        {navigation.state !== "idle" && <p>Navigation in progress...</p>}
-        {revalidator.state !== "idle" && <p>Revalidation in progress...</p>}
-        {fetcherInProgress && <p>Fetcher in progress...</p>}
-      </div>
-    </Container>
+    <>
+      <Container
+        id="app-container"
+        sx={{
+          backgroundColor: theme.palette.background.default,
+          position: "fixed",
+          top: "0",
+          left: "0",
+          width: "100%",
+          height: "100vh",
+          margin: "auto",
+        }}
+      >
+        <Header>
+          <Menu />
+          <ElmSearch />
+        </Header>
+        <StyledOutlet id="outlet">
+          <Outlet />
+        </StyledOutlet>
+        <div style={{ position: "fixed", top: 40, right: 20 }}>
+          {navigation.state !== "idle" && <p>Navigation in progress...</p>}
+          {revalidator.state !== "idle" && <p>Revalidation in progress...</p>}
+          {fetcherInProgress && <p>Fetcher in progress...</p>}
+        </div>
+      </Container>
+    </>
   );
 }
 

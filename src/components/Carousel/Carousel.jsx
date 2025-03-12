@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import Stack from '@mui/material/Stack';
 import ForecastCard from '../ForecastCard/ForecastCard';
 import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
@@ -7,10 +7,8 @@ import WeatherIcon from '../WeatherIcon/WeatherIcon';
 import { parseUrl, convertDateStr } from '../../utils/utl_functions';
  
 const Carousel = memo(({ forecast, loading=false }) => {
-    // console.log('forecast: ', forecast);
     const hourly = forecast.hourlyForecast.properties.periods;
     // const daily = forecast.forecast.properties.periods;
-    console.log('hourly: ', hourly);
     let hourlyCards = hourly.map((item, index) => (
         {
             key: item.key,
