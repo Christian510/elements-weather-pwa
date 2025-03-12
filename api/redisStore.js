@@ -7,7 +7,7 @@ const redisHost = process.env.REDIS_HOST;
 const redisPort = process.env.REDIS_PORT;
 
 // Initialize client.
-let redisClient = createClient({
+const redisClient = createClient({
     host: redisHost,
     port: redisPort,
 })

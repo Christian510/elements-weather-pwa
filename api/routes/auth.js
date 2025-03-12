@@ -1,6 +1,5 @@
 import express from 'express';
 const router = express.Router();
-// const db = require('../../db/database')
 
 router.post('/login', function (req, res) {
 

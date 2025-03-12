@@ -1,4 +1,3 @@
-import React from "react";
 import ForecastCard from "../components/ForecastCard/ForecastCard";
 import WeatherIcon from "./WeatherIcon/WeatherIcon";
 import { parseUrl, formatDateTime } from '../utils/utl_functions';
@@ -15,9 +14,6 @@ function dateTime(dt, type) {
     return date;
 }
 const CreateList = ({data, type, direction='row', count}) => {
-    // console.log('data: ', data.forecast[0]);
-    // console.log('type: ', type);
-    // console.log('count: ', count);
     let current;
     if (type === 'hourly') {
       current = "Now"

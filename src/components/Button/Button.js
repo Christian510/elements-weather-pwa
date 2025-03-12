@@ -1,6 +1,4 @@
-import React from 'react';
 import { Link } from "react-router-dom";
-import '../Button/button.css';
 
 function Button(props) {
 

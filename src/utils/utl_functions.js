@@ -1,10 +1,10 @@
 // import { formatDateTime } from "../models/date";
 // CHECKS FOR RAIN OR SNOW
-const precip = {
-  precipitation: '',
-  type: '',
-}
-const checkPrecip = (rain, snow) => {
+export function checkPrecip (rain, snow) {
+  const precip = {
+    precipitation: '',
+    type: '',
+  }
   // let precipitation;
   if (rain !== undefined) {
     precip.precipitation = rain['1h'];
@@ -22,14 +22,15 @@ const checkPrecip = (rain, snow) => {
 
 
 // RETURNS AN ADDRESS OBJECT USED RETRIEVE WEATHER DATA
-const addr = {
-  city: '',
-  state: '',
-  country: '',
-  abbr: ''
-};
+export function validateAdr (str) {
+  
+  const addr = {
+    city: '',
+    state: '',
+    country: '',
+    abbr: ''
+  };
 
-const validateAdr = str => {
   let splitStr = str.trim().split(", ").filter(elm => elm !== '');
   addr.city = splitStr[0].split(' ').map(elm => {
     return elm.charAt(0).toUpperCase() + elm.slice(1);

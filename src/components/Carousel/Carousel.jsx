@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import Stack from '@mui/material/Stack';
 import ForecastCard from '../ForecastCard/ForecastCard';
 import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';

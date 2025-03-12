@@ -7,7 +7,6 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import sqlformat from './logger.js';
-// import userRouter from './routes/user';
 import favoritesRouter from './routes/favorites.js';
 import redisStore from './redisStore.js';
 dotenv.config({ path: './.env' });

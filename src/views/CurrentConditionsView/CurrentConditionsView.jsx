@@ -1,11 +1,8 @@
 import { useState, useEffect } from 'react';
 import Carousel from '../../components/Carousel/Carousel';
 import { useParams, useNavigate } from 'react-router-dom';
-// import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
-// import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-// import ListItem from '@mui/material/ListItem';
 // import ElmImg from '../../components/ElmImage/ElmImage';
 import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
 // import ElmList from '../../components/ElmList/ElmList';
