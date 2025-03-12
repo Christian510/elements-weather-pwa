@@ -1,10 +1,6 @@
-import { forwardRef } from "react";
+import React, { forwardRef } from "react";
 import { styled } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import ButtonBase from '@mui/material/ButtonBase';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Typography from '@mui/material/Typography';
+import { Button, ButtonBase, Box, Link, Typography } from "@mui/material";
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import { formatDateTime } from '../../models/date.js';
 
@@ -50,10 +46,14 @@ export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) 
   }));
 
   return (
-    <StyledContainer id={id} className="list-card_container">
+    <StyledContainer id={id} className="list-card_container"
+      // draggable={isDragging}
+      // cursor: isDragging ? "grabbing" : "pointer",
+      // onTouchStart={(e) => console.log('touch start: ', e)}
+    >
       <StyleScrollBehavior 
-        className="list-card_scroll-behavior" 
-        dir="ltr"
+      className="list-card_scroll-behavior" 
+      dir="ltr"
       >
         <StyledButton
           className="list-card"

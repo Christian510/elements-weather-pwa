@@ -1,5 +1,4 @@
-
-import { db } from '../db/database.js';
+const db = require('../db/database');
 
 export class Forecast {
     constructor(lat, lon, city, state, country, forecast, url) {

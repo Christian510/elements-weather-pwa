@@ -4,16 +4,19 @@
   "private": true,
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@mui/base": "^5.0.0-beta.69",
     "@mui/icons-material": "^5.14.18",
+    "@mui/joy": "^5.0.0-beta.16",
     "@mui/material": "^5.14.18",
     "@mui/system": "^5.14.18",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "autosuggest-highlight": "^3.3.4",
     "axios": "^1.6.2",
     "date-and-time": "^3.1.1",
     "dotenv": "^16.3.1",
@@ -42,7 +45,6 @@
     "eject": "react-scripts eject",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build"
   },
-  "sideEffects": false,
   "eslintConfig": {
     "extends": [
       "react-app",
