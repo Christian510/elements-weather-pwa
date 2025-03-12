@@ -3,14 +3,11 @@ import Carousel from '../../components/Carousel/Carousel';
 import { useParams, useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-// import ElmImg from '../../components/ElmImage/ElmImage';
 import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
-// import ElmList from '../../components/ElmList/ElmList';
-// import { formatDateTime } from '../../models/date';
 import { styled, useTheme } from '@mui/material/styles';
 import { useLoaderData } from "react-router-dom";
 import { fetchAllData, addFavorite } from '../../models/weather_api';
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button';
 import { StyledButtonLink } from '../../components/StyledButtonLink';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 

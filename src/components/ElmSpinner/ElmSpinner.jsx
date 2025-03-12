@@ -1,4 +1,4 @@
-import { CircularProgress } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 export default function ElmSpinner({color = 'primary', size = '40', thickness = 4}) {
