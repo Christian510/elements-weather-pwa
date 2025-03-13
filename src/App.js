@@ -4,7 +4,7 @@ import {
   useNavigation,
   useRevalidator,
 } from "react-router-dom";
-import { Container } from "@mui/material";
+import Container from "@mui/material/Container";
 import { styled, useTheme } from "@mui/material/styles";
 import './index.css';
 import Menu from './components/Menu/Menu';
@@ -15,16 +15,13 @@ import ElmSearch from './components/ElmSearch/ElmSearch';
 export async function loader() {
   try {
     const data = await fetchFavorites();
-    if (typeof data === "undefined" || typeof data === 'string') {
-      return { forecasts: []}; // Not sure this is the best way to handle this
+    if (!data || typeof data === 'string') {
+      return { forecasts: [] };
     }
-    if (data) {
-      const fetchForecasts = data.locations.map(
-        async (l) => await fetchAllData(l)
-      );
-      const forecasts = await Promise.all(fetchForecasts);
-      return { forecasts: forecasts, sessionId: data.session };
-    }
+    const forecasts = await Promise.all(
+      data.locations.map(fetchAllData)
+    );
+    return { forecasts, sessionId: data.session };
   } catch (error) {
     console.error("Error fetching favorites: ", error);
     throw error;
