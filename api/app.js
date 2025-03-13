@@ -7,7 +7,6 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import sqlformat from './logger.js';
-// import userRouter from './routes/user';
 import favoritesRouter from './routes/favorites.js';
 import redisStore from './redisStore.js';
 dotenv.config({ path: './.env' });
@@ -27,15 +26,15 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-if (process.env.NODE_ENV === "production") {
-  console.log('production mode');
-// LOG REQUESTS
-app.use((req, res, next) => {
-  console.log(`Received request: ${req.method} ${req.url}`);
-  next();
-});
+// if (process.env.NODE_ENV === "production") {
+//   console.log('production mode');
+// // LOG REQUESTS
+// app.use((req, res, next) => {
+//   console.log(`Received request: ${req.method} ${req.url}`);
+//   next();
+// });
 
-}
+// }
 
 app.use(logger('combined'));
 const morganMiddleware = logger(sqlformat);
@@ -67,7 +66,6 @@ app.get('/', (req, res) => {
   res.send('API is working'); 
 
 });
-
 
 // app.use('/user', userRouter);
 
