@@ -50,6 +50,9 @@ app.use(session({
   store: redisStore,
   resave: false,
   saveUninitialized: true,
+  // genid: function (req) { // REMOVE AFTER TESTING // 
+  //   return '_vuWoKjfIW4zdIUTPCAdr2Ixhuj3tun5'
+  // },
   cookie: {
     secure: false,
     // EQUALS 1 DAY ( 1 DAY * 24 HR/1 DAY * 60 MIN/1 HR)
@@ -64,7 +67,6 @@ app.use('/favorites', favoritesRouter);
 
 app.get('/', (req, res) => { 
   res.send('API is working'); 
-
 });
 
 // app.use('/user', userRouter);
@@ -92,7 +94,6 @@ app.use(function (err, req, res, next) {
     message: err.message,
     error: res.locals.error
   });
-  
 });
 
 export default app;

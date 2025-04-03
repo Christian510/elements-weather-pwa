@@ -5,42 +5,97 @@
 import dotenv from 'dotenv';
 import mysql from 'mysql2/promise.js';
 dotenv.config({ path: './.env' });
-const host = process.env.DB_HOST;
-const user = process.env.DB_USER;
-const password = process.env.DB_PASS;
-const database = process.env.DB_NAME;
 
+// const host = process.env.DB_HOST;
+// const user = process.env.DB_USER;
+// const password = process.env.DB_PASS;
+// const database = process.env.DB_NAME;
+
+const uri = process.env.JAWSDB_URL;
 const pool = mysql.createPool({
-  host: host,
-  user: user,
-  password: password,
-  database: database,
-});
+  uri,
+  connectionLimit: 10,
+  waitForConnections: true,
+  queueLimit: 0,});
 
-function executeQuery(query, values) {
-  return pool.execute(query, [...values])
-    .then(result => {
-      return result;
-    })
-    .catch(err => {
-      console.log('error msg: ', err)
-    });
+async function executeQuery(query, values=[]) {
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    console.log('conn: ', conn);
+    await conn.beginTransaction();
+    const [result] = await conn.execute(query, values);
+    await conn.commit();
+
+    return result;
+
+  } catch (err) {
+    if (conn) await conn.rollback();
+    console.error(err);
+    throw err; // Propagate the error for further handling
+  } finally {
+    if (conn) conn.release();
+  }
 }
 
+// Table Verioning
+async function ensureTablesExist() {
+  const versionQuery = `
+    CREATE TABLE IF NOT EXISTS schema_version (
+      version INT PRIMARY KEY
+    )`;
+  await executeQuery(versionQuery);
+
+  const [rows] = await executeQuery('SELECT version FROM schema_version');
+  if (rows.length === 0) {
+    await createLocationsTable();
+    // Add other table creation functions here
+    await executeQuery('INSERT INTO schema_version (version) VALUES (1)');
+  }
+}
+ensureTablesExist();
+
 // if no Locations table exits create one.
-// async function createLocationsTable() {
-//     try {
-//         const result = await pool.query(`
-//         CREATE TABLE IF NOT EXISTS locations 
-//         (location_id VARCHAR(255) PRIMARY KEY, session_id VARCHAR(255))`);
-//         console.log('result: ', result[0]);
-//         pool.end();
-//         return result[0];
-//       } catch (error) {
-//         console.error('Error creating locations table:', error);
-//         throw error; // Re-throw to handle it appropriately in calling code
-//       }
-// }
+async function createLocationsTable() {
+    try {
+        const query = `
+        CREATE TABLE IF NOT EXISTS locations (
+        location_id int NOT NULL,
+        name varchar(45) NOT NULL,
+        state varchar(45) NOT NULL,
+        country_code varchar(45) NOT NULL,
+        lat decimal(8,5) NOT NULL,
+        lng decimal(8,5) NOT NULL,
+        PRIMARY KEY (location_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;`;
+        await executeQuery(query);
+        console.log('Locations table created or already exists.');
+      } catch (error) {
+        console.error('Error creating locations table:', error);
+        throw error; // Re-throw to handle it appropriately in calling code
+      }
+}
+createLocationsTable();
+
+async function createSessionFavoritesTable() {
+  try {
+    const query = `
+      CREATE TABLE IF NOT EXISTS session_favorites (
+      s_id varchar(128) NOT NULL,
+      l_id int NOT NULL COMMENT 'This table joins locations and sessions so that I can have a many to many relationship between these two.  
+      Since I will be storing many location data that will need to be shared with potentially hundreds or thousands of unique sessions. 
+      If I want to delete a location from a session then all I have to do is remove the relationship between the two.',
+      l_name varchar(45) DEFAULT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;`;
+    await executeQuery(query);
+    console.log('session_favorites table created or already exists.');
+  } catch (error) {
+    console.error('Error creating session_favorites table:', error);
+    throw error; // Re-throw to handle it appropriately in calling code
+  }
+}
+createSessionFavoritesTable();
+
 
 // Get Locations
 
@@ -188,3 +243,141 @@ export {
   insertOne,
   deleteOne,
 }
+
+// class Database {
+//   constructor() {
+//     const uri = process.env.JAWSDB_URL;
+
+//     // Create a connection pool
+//     this.pool = mysql.createPool({
+//       uri,
+//       connectionLimit: 10, // Adjust based on your needs
+//       waitForConnections: true,
+//       queueLimit: 0,
+//     });
+//   }
+
+//   /**
+//    * Executes a query using the connection pool.
+//    * @param {string} query - The SQL query string.
+//    * @param {Array} values - The values to bind to the query.
+//    * @returns {Promise<any>} - The result of the query.
+//    */
+//   async executeQuery(query, values = []) {
+//     let conn;
+//     try {
+//       conn = await this.pool.getConnection();
+//       const [result] = await conn.execute(query, values);
+//       return result;
+//     } catch (err) {
+//       console.error('Database error:', err);
+//       throw err; // Propagate error for handling
+//     } finally {
+//       if (conn) conn.release();
+//     }
+//   }
+
+  // /**
+  //  * Finds all rows by session_id in a specific table and column.
+  //  * @param {string} table - The table name.
+  //  * @param {string} col - The column name.
+  //  * @param {string} session_id - The session ID to filter by.
+  //  * @returns {Promise<any[]>} - The resulting rows.
+  //  */
+//   async findAllById(table, col, session_id = '') {
+//     const query_ids = `SELECT * FROM ${table} WHERE ${col} = ?`;
+//     const query_data = `SELECT * FROM locations WHERE location_id = ?`;
+//     const favorites = [];
+
+//     const rows = await this.executeQuery(query_ids, [session_id]);
+//     if (rows.length === 0) return [];
+
+//     for (const row of rows) {
+//       const data = await this.executeQuery(query_data, [row.l_id]);
+//       favorites.push(data[0]);
+//     }
+
+//     return favorites;
+//   }
+
+//   /**
+//    * Inserts a new record into the database.
+//    * @param {Object} params - Parameters for the insert operation.
+//    * @returns {Promise<number>} - Result of the insert operation (1 for success, 0 for failure).
+//    */
+//   async insertOne(params) {
+//     let conn;
+//     try {
+//       conn = await this.pool.getConnection();
+//       await conn.beginTransaction();
+
+//       const sf_query = `SELECT * FROM session_favorites WHERE l_id = ? AND s_id = ?;`;
+//       const [sf] = await conn.execute(sf_query, [params.location_id, params.session_id]);
+
+//       const l_query = `SELECT * FROM locations WHERE location_id = ?;`;
+//       const [location] = await conn.execute(l_query, [params.location_id]);
+
+//       if (sf.length < 1 && location.length < 1) {
+//         const sf_insert_query = `INSERT INTO session_favorites (s_id, l_id, l_name) VALUES (?, ?, ?)`;
+//         const [sfResult] = await conn.execute(sf_insert_query, [
+//           params.session_id,
+//           params.location_id,
+//           params.name,
+//         ]);
+
+//         const l_insert_query = `
+//           INSERT INTO locations (location_id, name, state, country_code, lat, lng)
+//           VALUES (?, ?, ?, ?, ?, ?)`;
+//         const [locResult] = await conn.execute(l_insert_query, [
+//           params.location_id,
+//           params.name,
+//           params.state,
+//           params.country_code,
+//           params.lat,
+//           params.lng,
+//         ]);
+
+//         if (sfResult.affectedRows === 0 || locResult.affectedRows === 0) {
+//           throw new Error('Insert failed');
+//         }
+//         await conn.commit();
+//         return 1;
+//       }
+
+//       if (sf.length < 1 && location.length > 0) {
+//         const sf_insert_query = `INSERT INTO session_favorites (s_id, l_id, l_name) VALUES (?, ?, ?)`;
+//         const [sfResult] = await conn.execute(sf_insert_query, [
+//           params.session_id,
+//           params.location_id,
+//           params.name,
+//         ]);
+//         await conn.commit();
+//         return sfResult.affectedRows;
+//       }
+
+//       if (sf.length > 0) {
+//         return 0; // Already exists
+//       }
+//     } catch (err) {
+//       if (conn) await conn.rollback();
+//       console.error('Insert error:', err);
+//       throw err;
+//     } finally {
+//       if (conn) conn.release();
+//     }
+//   }
+
+//   /**
+//    * Deletes a record from the database.
+//    * @param {string} s_id - Session ID.
+//    * @param {string} l_id - Location ID.
+//    * @returns {Promise<any>} - Result of the delete operation.
+//    */
+//   async deleteOne(s_id, l_id) {
+//     const query = `DELETE FROM session_favorites WHERE s_id = ? AND l_id = ? LIMIT 1;`;
+//     return this.executeQuery(query, [s_id, l_id]);
+//   }
+// }
+
+// export default Database;
+

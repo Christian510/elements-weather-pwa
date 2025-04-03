@@ -4,7 +4,7 @@ import {
   useNavigation,
   useRevalidator,
 } from "react-router-dom";
-import Container from "@mui/material/Container";
+import Box from '@mui/material/Box';
 import { styled, useTheme } from "@mui/material/styles";
 import './index.css';
 import Menu from './components/Menu/Menu';
@@ -42,7 +42,7 @@ export function Home() {
   // Add the loading spinner here to show when a fetcher is in progress
   return (
     <>
-      <Container
+      <Box
         id="app-container"
         sx={{
           backgroundColor: theme.palette.background.default,
@@ -52,6 +52,8 @@ export function Home() {
           width: "100%",
           height: "100vh",
           margin: "auto",
+          paddingRight: "1em",
+          paddingLeft: "1em",
         }}
       >
         <Header>
@@ -66,7 +68,7 @@ export function Home() {
           {revalidator.state !== "idle" && <p>Revalidation in progress...</p>}
           {fetcherInProgress && <p>Fetcher in progress...</p>}
         </div>
-      </Container>
+      </Box>
     </>
   );
 }

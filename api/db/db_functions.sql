@@ -25,3 +25,12 @@ INSERT INTO `elements_weather_app`.`locations` (
         'https://api.weather.gov/gridpoints/BOI/133,86/forecast');
 
 -- Create Foreign key to link the location_id to session_id
+CREATE TABLE `locations` (
+  `location_id` int NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `state` varchar(45) NOT NULL,
+  `country_code` varchar(45) NOT NULL,
+  `lat` decimal(8,5) NOT NULL,
+  `lng` decimal(8,5) NOT NULL,
+  PRIMARY KEY (`location_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
