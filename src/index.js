@@ -6,7 +6,7 @@ import {
 import ReactDOM from "react-dom/client";
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import {Home, loader as rootLoader } from './App';
+import { Home } from './App';
 import ErrorPage from './views/ErrorPage/ErrorPage';
 import CurrentConditionsView from './views/CurrentConditionsView/CurrentConditionsView';
 import Favorites from './views/Favorites/Favorites';
@@ -19,6 +19,7 @@ import DemoView from './views/DemoView/DemoView';
 import { ElmTheme } from './ElmThemeStyles/ElmTheme';
 import { ThemeProvider } from '@mui/material/styles';
 import ElmSpinner from './components/ElmSpinner/ElmSpinner';
+import { loader as rootLoader } from './models/loader';
 
 let router = createBrowserRouter([
   {
