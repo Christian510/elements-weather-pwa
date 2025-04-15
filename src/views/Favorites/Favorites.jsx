@@ -5,7 +5,6 @@ import List from '@mui/material/List';
 import ListCard from '../../components/ListCard/ListCard';
 import { deleteFavorite } from '../../models/weather_api';
 // import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
-import { Skeleton } from "@mui/material";
 
 function Favorites() {
     const { forecasts, sessionId } = useLoaderData();
@@ -16,30 +15,15 @@ function Favorites() {
         setFavorites(preFavorites => preFavorites.filter((f) => f.location.location_id !== id));
     }
 
-    const list = favorites?.map((elm) => <ListCard 
-                                            key={elm.location.location_id} 
-                                            id={`list-card_${elm.location.location_id}`} 
-                                            data={elm} sessionId={sessionId} 
-                                            handleDeleteFavorite={handleDeleteFavorite} />);
-
+    const list = favorites?.map((elm) => <ListCard key={elm.location.location_id} id={`list-card_${elm.location.location_id}`} data={elm} sessionId={sessionId} handleDeleteFavorite={handleDeleteFavorite} />);
     return (
         <>
                 <List sx={{ 
                     height: '90vh',
                     overflowY: 'auto',
                     scrollbarWidth: 'none',
-                }}>
-                    {list.length === 0 ? (
-                        <>
-                            <Skeleton variant="rectangular" width="100%" height={120} sx={{ marginBottom: '1em', borderRadius: 3 }} />
-                            <Skeleton variant="rectangular" width="100%" height={120} sx={{ marginBottom: '1em', borderRadius: 3 }} />
-                            <Skeleton variant="rectangular" width="100%" height={120} sx={{ marginBottom: '1em', borderRadius: 3 }} />
-                            <Skeleton variant="rectangular" width="100%" height={120} sx={{ marginBottom: '1em', borderRadius: 3 }} />
-                            <Skeleton variant="rectangular" width="100%" height={120} sx={{ marginBottom: '1em', borderRadius: 3 }} />
-                        </>
-                    ) : (
-                        list
-                    )}
+                    }}>
+                    {list}
                 </List>
         </>
     )
