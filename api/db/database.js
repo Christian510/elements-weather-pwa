@@ -6,11 +6,6 @@ import dotenv from 'dotenv';
 import mysql from 'mysql2/promise.js';
 dotenv.config({ path: './.env' });
 
-// const host = process.env.DB_HOST;
-// const user = process.env.DB_USER;
-// const password = process.env.DB_PASS;
-// const database = process.env.DB_NAME;
-
 const uri = process.env.JAWSDB_URL;
 const pool = mysql.createPool({
   uri,
@@ -22,7 +17,6 @@ async function executeQuery(query, values=[]) {
   let conn;
   try {
     conn = await pool.getConnection();
-    console.log('conn: ', conn);
     await conn.beginTransaction();
     const [result] = await conn.execute(query, values);
     await conn.commit();
@@ -37,6 +31,11 @@ async function executeQuery(query, values=[]) {
     if (conn) conn.release();
   }
 }
+
+// Test DB Connection //
+executeQuery('SELECT 1')
+  .then(result => console.log('Test query result:', result))
+  .catch(err => console.error('Test query error:', err));
 
 // Table Verioning
 async function ensureTablesExist() {
