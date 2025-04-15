@@ -4,7 +4,7 @@
 */
 import dotenv from 'dotenv';
 import mysql from 'mysql2/promise.js';
-dotenv.config({ path: './.env' });
+dotenv.config({ path: './.env.production' });
 
 const uri = process.env.JAWSDB_URL;
 const pool = mysql.createPool({
