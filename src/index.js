@@ -20,7 +20,7 @@ import { ElmTheme } from './ElmThemeStyles/ElmTheme';
 import { ThemeProvider } from '@mui/material/styles';
 import ElmSpinner from './components/ElmSpinner/ElmSpinner';
 import { loader as rootLoader } from './models/loader';
-
+import './index.css';
 let router = createBrowserRouter([
   {
     path: '/',
@@ -97,6 +97,11 @@ root.render(
     </ThemeProvider>
   </StrictMode>
 );
+
+const preloader = document.getElementById('preloader');
+if (preloader) {
+  preloader.remove();
+}
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
