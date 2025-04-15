@@ -65,15 +65,15 @@ export async function queryLocations(query, country = "US") {
     }
 }
 
-function getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition, showError);
-    } else {
-      alert("Geolocation is not supported by this browser.");
-    }
-  }
+// function getLocation() {
+//     if (navigator.geolocation) {
+//       navigator.geolocation.getCurrentPosition(showPosition, showError);
+//     } else {
+//       alert("Geolocation is not supported by this browser.");
+//     }
+//   }
   
-  function showPosition(position) {
+  // function showPosition(position) {
     // const latitude = position.coords.latitude;
     // const longitude = position.coords.longitude;
     // const accuracy = position.coords.accuracy;
@@ -88,24 +88,24 @@ function getLocation() {
     // const mapLink = `https://www.google.com/maps/@${latitude},${longitude},15z`;
     // const mapElement = document.getElementById("map");
     // mapElement.innerHTML = `<a href="${mapLink}" target="_blank">View location on map</a>`;
-  }
+  // }
   
-  function showError(error) {
-    switch (error.code) {
-      case error.PERMISSION_DENIED:
-        console.error("User denied the request for Geolocation.");
-        break;
-      case error.POSITION_UNAVAILABLE:
-        console.error("Location information is unavailable.");
-        break;
-      case error.TIMEOUT:
-        console.error("The request to get user location timed out.");
-        break;
-      default:
-        console.error("An unknown error occurred.");
-    }
-  }
+  // function showError(error) {
+  //   switch (error.code) {
+  //     case error.PERMISSION_DENIED:
+  //       console.error("User denied the request for Geolocation.");
+  //       break;
+  //     case error.POSITION_UNAVAILABLE:
+  //       console.error("Location information is unavailable.");
+  //       break;
+  //     case error.TIMEOUT:
+  //       console.error("The request to get user location timed out.");
+  //       break;
+  //     default:
+  //       console.error("An unknown error occurred.");
+  //   }
+  // }
   
   // Call the function to get user location
-  getLocation();
+  // getLocation();
   
