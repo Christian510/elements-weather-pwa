@@ -10,6 +10,10 @@ export default function ElmImg({ src, alt, width, height, onError, ...otherProps
       img.onload = () => setLoaded(true);
       img.onerror = (err) => setError(err);
       img.src = src;
+      return () => {
+        setLoaded(false);
+        setError(null);
+      };
     }, [src]);
     console.log('error: ', error);
     
