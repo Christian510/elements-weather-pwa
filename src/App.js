@@ -16,7 +16,7 @@ export function Home() {
 
   const theme = useTheme();
   let navigation = useNavigation();
-  console.log("navigation: ", navigation); // ****** DEBUG ****** //
+// console.log("navigation: ", navigation); // ****** DEBUG ****** //
   let revalidator = useRevalidator();
   let fetchers = useFetchers();
   let fetcherInProgress = fetchers.some((f) =>
