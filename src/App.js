@@ -36,8 +36,8 @@ export function Home() {
           width: "100%",
           height: "100vh",
           margin: "auto",
-          paddingRight: "1em",
-          paddingLeft: "1em",
+          // paddingRight: "1em",
+          // paddingLeft: "1em",
         }}
       >
         <Header>

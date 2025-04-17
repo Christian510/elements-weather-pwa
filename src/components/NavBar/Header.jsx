@@ -22,8 +22,8 @@ const StyledHeader = styled(AppBar)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'center',
-  paddingRight: '0px',
-  paddingLeft: '0px',
+  // paddingRight: '.5em',
+  // paddingLeft: '.5em',
   boxShadow: 'none',
   zIndex: theme.zIndex.appBar
 }))
