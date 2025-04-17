@@ -17,10 +17,14 @@ function Favorites() {
     const list = favorites?.map((elm) => <ListCard key={elm.location.location_id} id={`list-card_${elm.location.location_id}`} data={elm} sessionId={sessionId} handleDeleteFavorite={handleDeleteFavorite} />);
     return (
         <>
-            <List sx={{ 
-                height: '90vh',
-                overflowY: 'auto',
-                scrollbarWidth: 'none',
+            <List 
+                id="favorites-list"
+                sx={{ 
+                    height: '90vh',
+                    overflowY: 'auto',
+                    scrollbarWidth: 'none',
+                    paddingRight: '1em',
+                    paddingLeft: '1em',
                 }}>
                 {list}
             </List>

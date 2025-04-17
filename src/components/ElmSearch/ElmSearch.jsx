@@ -108,7 +108,7 @@ const ElmSearch = forwardRef(function ElmAutocomplete(props, ref) {
 
   return (
     <>
-      <StyledFlexWrapper>
+      <StyledFlexWrapper id='elm-autocomplete-wrapper'>
         <StyledAutocompleteRoot
           id='elm-autocomplete-root'
           {...getRootProps(other)}
@@ -204,6 +204,7 @@ const StyledFlexWrapper = styled('div')(({ theme }) =>
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  padding: 0 .5em
   `);
 
 const StyledLink = styled(Link)(({ theme }) => 
