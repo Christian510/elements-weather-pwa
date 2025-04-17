@@ -145,6 +145,8 @@ export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) 
 
 const StyledContainer = styled('div')`
   margin: 1.25em auto;
+  display: flex;
+  justify-content: center;
 `;
 const StyleScrollBehavior = styled('div')`
   scroll-snap-type: x mandatory;
