@@ -21,6 +21,7 @@ build
 *.env*
 ./api/*.env*
 readme.md
+notes.md
 
 # Ignore log files
 *.log
