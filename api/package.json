@@ -6,7 +6,9 @@
   "scripts": {
     "start": "NODE_ENV=production node ./bin/www",
     "start:redis": "redis-server",
-    "debug": "DEBUG=express:router node ./bin/www"
+    "debug": "DEBUG=express:router node ./bin/www",
+    "seed": "node ./db/seed.js"
+
 
   },
   "dependencies": {

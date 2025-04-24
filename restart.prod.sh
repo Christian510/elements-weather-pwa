@@ -35,4 +35,4 @@ echo "✅ Backend started (log: server.log)"
 # Move back to root
 cd ..
 
-echo "🚀 Development environment is up and running!"
+echo "🚀 $NODE_ENV environment is up and running!"
