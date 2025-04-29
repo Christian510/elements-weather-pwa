@@ -5,8 +5,10 @@ import { styled } from '@mui/material/styles';
 export default function Header(props) {
 
   return (
-      <StyledHeader id="header" position="sticky" >
-        <Toolbar sx={toolBarStyles}>
+      <StyledHeader id="elm-header" position="sticky" >
+        <Toolbar 
+          id='toolbar'
+          sx={toolBarStyles}>
           { props.children }
         </Toolbar>
       </StyledHeader>
@@ -32,7 +34,7 @@ const toolBarStyles = {
   width: 'inherit',
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'center',
+  justifyContent: 'flex-start',
   paddingLeft: '.5em',
   paddingRight: '.5em',
 }
