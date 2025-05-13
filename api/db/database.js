@@ -4,7 +4,8 @@
 */
 import dotenv from 'dotenv';
 import mysql from 'mysql2/promise.js';
-dotenv.config({ path: './.env.production' });
+const path = process.env.NODE_ENV === 'production' ? './.env.production' : './.env.development';
+dotenv.config({ path: path });
 
 class Database {
   constructor() {
@@ -24,6 +25,12 @@ class Database {
     this.executeQuery = this.executeQuery.bind(this);
     this.createLocationsTable = this.createLocationsTable.bind(this);
     this.createSessionFavoritesTable = this.createSessionFavoritesTable.bind(this);
+    this.createWeatherIconsTable = this.createWeatherIconsTable.bind(this);
+    this.createTablesIfNonExist = this.createTablesIfNonExist.bind(this);
+    this.findAllById = this.findAllById.bind(this);
+    this.insertOne = this.insertOne.bind(this);
+    this.deleteOne = this.deleteOne.bind(this);
+    this.addIconsToDB = this.addIconsToDB.bind(this);
   }
 
   /**
@@ -67,11 +74,12 @@ await this.executeQuery(versionQuery);
 const [rows] = await this.executeQuery('SELECT version FROM schema_version');
 let result = {};
 if (Array.isArray(rows) && rows.length === 0) {
-  result.location = await this.createLocationsTable();
-  result.session_favorites = await this.createSessionFavoritesTable();
-  // Add other table creation functions here
-  result.version = await this.executeQuery('INSERT INTO schema_version (version) VALUES (1)');
-  console.log('Tables created.');
+  // result.location = await this.createLocationsTable();
+  // result.session_favorites = await this.createSessionFavoritesTable();
+  // // Add other table creation functions here
+  // result.version = await this.executeQuery('INSERT INTO schema_version (version) VALUES (1)');
+  result.weather_icons = await this.createWeatherIconsTable();
+  console.log('Tables created: ', result);
   return result;
 }
 }
@@ -113,6 +121,23 @@ try {
   console.error('Error creating session_favorites table:', error);
   throw error; // Re-throw to handle it appropriately in calling code
 }
+}
+
+async createWeatherIconsTable() {
+  try {
+    const query = `
+      CREATE TABLE IF NOT EXISTS weather_icons (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        icon VARCHAR(16) NOT NULL,
+        description VARCHAR(64) NOT NULL,
+        weather_icon_day VARCHAR(64) NOT NULL,
+        weather_icon_night VARCHAR(64) NOT NULL;`;
+    await this.executeQuery(query);
+    console.log('weather_icons table created or already exists.');
+  } catch (error) {
+    console.error('Error creating weather_icons table:', error);
+    throw error; // Re-throw to handle it appropriately in calling code
+  }
 }
 
   /**
@@ -213,6 +238,13 @@ try {
   async deleteOne(s_id, l_id) {
     const query = `DELETE FROM session_favorites WHERE s_id = ? AND l_id = ? LIMIT 1;`;
     return this.executeQuery(query, [s_id, l_id]);
+  }
+
+  async addIconsToDB(icon) {
+      const query = `
+      INSERT INTO weather_icons(icon, description, weather_icon_day, weather_icon_night) 
+      VALUES (?, ?, ?, ?)`;
+      return this.executeQuery(query, [icon.icon, icon.description, icon.weatherIcon.day, icon.weatherIcon.night]);
   }
 }
 

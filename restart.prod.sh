@@ -1,11 +1,9 @@
 # Do NOT include a shebang if you want to source this script
-# Purpose: Restart frontend + backend in production mode
+# Purpose: Restart frontend + backend
 # Usage: source ./restart.prod.sh
 
-export NODE_ENV="production"
-
 # Kill existing processes (adjust the grep patterns as needed)
-pkill -f "node ./bin/www"
+pkill -f "NODE_ENV=production node ./bin/www"
 pkill -f "react-scripts build"
 pkill -f "serve -s build"
 pkill -f "redis-server"
