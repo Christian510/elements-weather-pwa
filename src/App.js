@@ -41,7 +41,7 @@ export function Home() {
         }}
       >
         <Header>
-          <ElmMenu />
+          <ElmMenu isLogedIn={ false } />
           <ElmSearch />
         </Header>
         <StyledOutlet id="outlet">
