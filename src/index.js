@@ -15,12 +15,15 @@ import ExtendedForecastView from './views/ExtendedForecastView/ExtendedForecastV
 import LoginView from './views/LoginView/LoginView';
 import CreateAccountView from './views/CreateAccountView/CreateAccountView';
 import AccountView from './views/AccountView/AccountView';
-import DemoView from './views/DemoView/DemoView';
+import Settings from './views/Settings';
 import { ElmTheme } from './ElmThemeStyles/ElmTheme';
 import { ThemeProvider } from '@mui/material/styles';
 import ElmSpinner from './components/ElmSpinner/ElmSpinner';
+import ForgotPassword from './components/ForgotPassword';
+import ForgotUsername from './components/ForgotUsername';
 import { loader as rootLoader } from './models/loader';
 import './index.css';
+
 let router = createBrowserRouter([
   {
     path: '/',
@@ -53,6 +56,16 @@ let router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
+    element: <ForgotPassword />,
+    path: 'forgot_password',
+    ErrorPage: <ErrorPage />
+  },
+  {
+    element: <ForgotUsername />,
+    path: 'forgot_username',
+    ErrorPage: <ErrorPage />
+  },
+  {
     element: <CreateAccountView />,
     path: 'create_account',
     errorElement: <ErrorPage />,
@@ -68,8 +81,8 @@ let router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    element: <DemoView />,
-    path: 'demo',
+    element: <Settings />,
+    path: 'settings',
     errorElement: <ErrorPage />,
   }
 ]);

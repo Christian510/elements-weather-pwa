@@ -15,7 +15,8 @@ import { useLoaderData } from "react-router-dom";
 import { fetchAllData, addFavorite } from '../../models/weather_api';
 import { Button } from '@mui/material';
 import { StyledButtonLink } from '../../components/StyledButtonLink';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+// import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import ElmFooter from '../../components/ElmFooter/ElmFooter';
 
 export default function CurrentConditions() {
   const theme = useTheme();
@@ -98,7 +99,7 @@ export default function CurrentConditions() {
     left: 0,
     zIndex: theme.zIndex.outlet = theme.zIndex.modal,
   }));
-  // console.log('locationData: ', locationData);
+
   return (
     <>
       {!locationData ? (
@@ -174,17 +175,18 @@ export default function CurrentConditions() {
             </Box>
             <Carousel forecast={locationData} />
           </Box>
-          <Box
+          {/* <Box
             id="bottom-nav"
             display='flex'
             justifyContent='space-between'
             sx={{
               padding: '0.5em 0 0.5em 0',
             }}
-          >
+          > */}
             {match && (
               <>
-                <StyledButtonLink
+                <ElmFooter />
+                {/* <StyledButtonLink
                   to={`#`}
                   sx
                   disableRipple={true}
@@ -200,10 +202,10 @@ export default function CurrentConditions() {
                   color='primary'
                 >
                   <FormatListBulletedIcon fontSize='small' />
-                </StyledButtonLink>
+                </StyledButtonLink> */}
               </>
             )}
-          </Box>
+          {/* </Box> */}
         </StyledContainer>
       )}
     </>

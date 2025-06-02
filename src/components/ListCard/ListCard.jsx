@@ -1,13 +1,11 @@
-import React, { forwardRef } from "react";
+import { forwardRef, memo } from "react";
 import { styled } from '@mui/material/styles';
 import { Button, ButtonBase, Box, Link, Typography } from "@mui/material";
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import { formatDateTime } from '../../models/date.js';
 
-export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) {
+const ListCard = memo(({ id, data, sessionId, handleDeleteFavorite }) => {
   // const theme = useTheme();
-  // const [drawerOpen, setDrawerOpen] = useState('false');
-  // const [isDragging, setIsDragging] = useState('false');
 
   const ForwardRefLink = forwardRef(
     (linkProps, ref) => (
@@ -18,7 +16,7 @@ export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) 
   let icon = null;
   let temp = null;
   // let tempUnit = null;
-  let shortForecast = "Oops can't retrieve the forecast!";
+  let shortForecast = "Forecast unavailable.";
   let time = null;
   const location_id = data.location.location_id
   const name = data?.location.name;
@@ -46,11 +44,7 @@ export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) 
   }));
 
   return (
-    <StyledContainer id={id} className="list-card_container"
-      // draggable={isDragging}
-      // cursor: isDragging ? "grabbing" : "pointer",
-      // onTouchStart={(e) => console.log('touch start: ', e)}
-    >
+    <StyledContainer id={id} className="list-card_container">
       <StyleScrollBehavior 
       className="list-card_scroll-behavior" 
       dir="ltr"
@@ -141,10 +135,10 @@ export default function ListCard({ id, data, sessionId, handleDeleteFavorite }) 
       </StyleScrollBehavior>
     </StyledContainer>
   );
-};
+}, []);
 
 const StyledContainer = styled('div')`
-  margin: 1.25em auto;
+  margin: 1.25em .6em;
   display: flex;
   justify-content: center;
 `;
@@ -163,3 +157,5 @@ const StyleScrollBehavior = styled('div')`
   height: 7.5em;
   min-height: 7.5em;
 `;
+
+export default ListCard;

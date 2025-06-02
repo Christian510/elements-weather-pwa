@@ -1,9 +1,9 @@
-import React from 'react';
+import { memo} from 'react';
 import { styled } from '@mui/material/styles';
 import { CardContent, Typography } from '@mui/material';
 
 
-const ForecastCard = ({ content, styles, Icon }) => {
+const ForecastCard = memo(({ content, styles, Icon }) => {
     // console.log('title: ', title);
     // console.log('content: ', content);
 
@@ -27,6 +27,6 @@ const ForecastCard = ({ content, styles, Icon }) => {
                 <Typography variant="h6">{content.temp.temp}&deg;</Typography>
             </Content>
     );
-};
+}, []);
 
 export default ForecastCard;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
   Button,
@@ -7,11 +7,12 @@ import {
   Typography,
   Paper,
 } from '@mui/material';
+import { Link } from 'react-router-dom';
 
-const CreateAccountView = () => {
+
+const LoginView = () => {
   const [form, setForm] = useState({
-    name: '',
-    email: '',
+    username: '',
     password: '',
   });
 
@@ -21,15 +22,19 @@ const CreateAccountView = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle account creation logic here
-    alert('Account Created!!!')
+    // Handle Login logic here
+    /**
+     * 1. Fetch login creds from db.
+     * 2. If user does not successfully login display login failure message.
+     */
+    alert('Logged In!!')
   };
 
   return (
     <Container maxWidth="xs" sx={{ mt: 4 }}>
       <Paper elevation={3} sx={{ p: 3 }}>
         <Typography variant="h5" align="center" gutterBottom>
-          Create Account
+          Login
         </Typography>
         <Box
           component="form"
@@ -50,16 +55,6 @@ const CreateAccountView = () => {
             autoComplete="name"
           />
           <TextField
-            label="Email"
-            name="email"
-            type="email"
-            value={form.email}
-            onChange={handleChange}
-            fullWidth
-            required
-            autoComplete="email"
-          />
-          <TextField
             label="Password"
             name="password"
             type="password"
@@ -76,12 +71,30 @@ const CreateAccountView = () => {
             sx={{ mt: 2 }}
             fullWidth
           >
-            Sign Up
+            Login
           </Button>
+        </Box>
+        <Box
+            sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            padding: '.5em',
+            gap: 2,
+            }} >
+            <Link id="forgot-password" to="/forgot_password">
+              <Typography >Forgot Password</Typography>
+            </Link>
+            <Typography > | </Typography>
+            <Link id="forgot-username" to="/forgot_username">
+              <Typography >Forgot Username</Typography>
+            </Link>
         </Box>
       </Paper>
     </Container>
   );
 };
 
-export default CreateAccountView;
+
+
+export default LoginView;
