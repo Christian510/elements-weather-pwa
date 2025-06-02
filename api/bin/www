@@ -7,7 +7,9 @@ import dotenv from 'dotenv';
 import app from '../app.js';
 import debug from 'debug';
 import http from 'http';
-dotenv.config({ path: '../.env.production' });
+const path = process.env.NODE_ENV === 'production' ? './.env.production' : './.env.development';
+console.log("server path: ", path);
+dotenv.config({ path: path });
 
 /**
  * Get port from environment and store in Express.

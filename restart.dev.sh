@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Do NOT include a shebang if you want to source this script
 # Purpose: Restart frontend + backend
 # Usage: source ./restart.dev.sh
@@ -8,13 +10,15 @@
 
 # Kill running backend/frontend/redis processes
 echo "Shutting down existing processes..."
-pkill -f "NODE_ENV=development node ./bin/www"
+pkill -f "./bin/www"
 pkill -f "start:dev"
 pkill -f "redis-server"
 sleep 2
 echo "Processes shut down."
 
 # Start frontend (React)
+# export NODE_ENV="development"
+# sleep 2
 echo "Starting frontend..."
 npm start > frontend.log 2>&1 &
 if [ $? -ne 0 ]; then
@@ -27,6 +31,8 @@ echo "✅ Frontend started (log: frontend.log)"
 echo "Starting backend..."
 cd ./api || { echo "❌ Failed to cd into ./api"; return 1; }
 
+# Set NODE_ENV
+# export NODE_ENV="development"
 # Start Redis
 npm run start:redis > redis.log 2>&1 &
 sleep 2
@@ -39,4 +45,4 @@ echo "✅ Backend started (log: server.log)"
 # Move back to root
 cd ..
 
-echo "🚀 Development environment is up and running!"
+echo "🚀 $NODE_ENV environment is up and running!"

@@ -3,7 +3,7 @@
 # Usage: source ./restart.prod.sh
 
 # Kill existing processes (adjust the grep patterns as needed)
-pkill -f "NODE_ENV=production node ./bin/www"
+pkill -f "./bin/www"
 pkill -f "react-scripts build"
 pkill -f "serve -s build"
 pkill -f "redis-server"

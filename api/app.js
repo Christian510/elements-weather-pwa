@@ -9,7 +9,9 @@ import { fileURLToPath } from 'url';
 import sqlformat from './logger.js';
 import favoritesRouter from './routes/favorites.js';
 import redisStore from './redisStore.js';
-dotenv.config({ path: './.env' });
+const env_path = process.env.NODE_ENV === 'production' ? './.env.production' : './.env.development';
+console.log("app.js path: ", env_path);
+dotenv.config({ path: env_path });
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -62,9 +64,9 @@ app.use(session({
 
 app.use('/favorites', favoritesRouter);
 
-// app.get('/', (req, res) => { 
-//   res.send('API is working');
-// });
+app.get('/', (req, res) => { 
+  res.send('API is working: ' + req.sessionID);
+});
 
 // app.use('/user', userRouter);
 
