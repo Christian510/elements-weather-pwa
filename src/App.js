@@ -14,7 +14,7 @@ import ElmSearch from './components/ElmSearch/ElmSearch';
 export function Home() {
 
   const theme = useTheme();
-  console.log("theme: ", theme)
+  // console.log("theme: ", theme)
   let navigation = useNavigation();
 // console.log("navigation: ", navigation); // ****** DEBUG ****** //
   let revalidator = useRevalidator();

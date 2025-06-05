@@ -74,12 +74,12 @@ await this.executeQuery(versionQuery);
 const [rows] = await this.executeQuery('SELECT version FROM schema_version');
 let result = {};
 if (Array.isArray(rows) && rows.length === 0) {
-  // result.location = await this.createLocationsTable();
-  // result.session_favorites = await this.createSessionFavoritesTable();
-  // // Add other table creation functions here
-  // result.version = await this.executeQuery('INSERT INTO schema_version (version) VALUES (1)');
+  result.location = await this.createLocationsTable();
+  result.session_favorites = await this.createSessionFavoritesTable();
+  // Add other table creation functions here
+  result.version = await this.executeQuery('INSERT INTO schema_version (version) VALUES (1)');
   result.weather_icons = await this.createWeatherIconsTable();
-  console.log('Tables created: ', result);
+  // console.log('Tables created: ', result);
   return result;
 }
 }
