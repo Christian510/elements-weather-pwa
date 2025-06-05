@@ -75,6 +75,7 @@ export default function CurrentConditions() {
     setTimeout(() => {
       addFavorite(location, sessionID).then(resp => {
         // if undefined, then something is wrong
+        console.log("addFavorite resp: ", resp);
         if (resp === undefined) {
           alert('Location Not added to favorites. Please try again.')
           return;
@@ -86,7 +87,7 @@ export default function CurrentConditions() {
           alert('Location Not added to favorites. Please try again.')
         }
       })
-    }, 100);
+    }, 50);
   }
 
   const StyledContainer = styled(Box)(({ theme }) => ({
