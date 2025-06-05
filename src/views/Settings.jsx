@@ -1,11 +1,9 @@
-import { useState } from "react";
-import { Box, Container, Typography, Paper } from "@mui/material";
+import { Container, Typography, Paper } from "@mui/material";
 import { NavLink } from "react-router-dom";
 
 const Settings = () => {
   //   const [form, setForm] = useState({
-  //     username: '',
-  //     password: '',
+  //     units: 'Farenheit',
   //   });
 
   //   const handleChange = (e) => {

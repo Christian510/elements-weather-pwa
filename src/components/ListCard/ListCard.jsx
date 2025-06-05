@@ -1,4 +1,4 @@
-import { forwardRef, memo } from "react";
+import { forwardRef } from "react";
 import { styled } from '@mui/material/styles';
 import { Button, ButtonBase, Box, Link, Typography } from "@mui/material";
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';

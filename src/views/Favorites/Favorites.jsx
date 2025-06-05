@@ -18,7 +18,8 @@ function Favorites() {
         <ListCard 
             key={elm.location.location_id} 
             id={`list-card_${elm.location.location_id}`} 
-            data={elm} sessionId={sessionId} 
+            data={elm} 
+            sessionId={sessionId} 
             handleDeleteFavorite={handleDeleteFavorite} 
             />);
     return (
