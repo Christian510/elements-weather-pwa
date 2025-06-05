@@ -5,8 +5,7 @@ import Container from "@mui/material/Container";
 
 export default function ElmFooter() {
   return (
-    <Container
-        maxWidth="100%">
+    <Container maxWidth="100%">
       <Box
         id="bottom-nav"
         display="flex"
@@ -15,24 +14,24 @@ export default function ElmFooter() {
           padding: "0.5em 0 0.5em 0",
         }}
       >
-      <StyledButtonLink
-        to={`#`}
-        sx
-        disableRipple={true}
-        variant="text"
-        color="primary"
-      >
-        Map
-      </StyledButtonLink>
-      <StyledButtonLink
-        to={"/"}
-        sx
-        disableRipple={true}
-        variant="text"
-        color="primary"
-      >
-        <FormatListBulletedIcon fontSize="small" />
-      </StyledButtonLink>
+        <StyledButtonLink
+          to={`#`}
+          sx
+          disableRipple={true}
+          variant="text"
+          color="primary"
+        >
+          Map
+        </StyledButtonLink>
+        <StyledButtonLink
+          to={"/"}
+          sx
+          disableRipple={true}
+          variant="text"
+          color="primary"
+        >
+          <FormatListBulletedIcon fontSize="small" />
+        </StyledButtonLink>
       </Box>
     </Container>
   );

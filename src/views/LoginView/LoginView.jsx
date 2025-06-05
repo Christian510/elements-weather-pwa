@@ -2,13 +2,14 @@ import { useState } from 'react';
 import {
   Box,
   Button,
-  Container,
+  // Container,
   TextField,
   Typography,
   Paper,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
-
+import ElmLink from '../../components/ElmLink/ElmLink';
+import ElmContainer from '../../components/ElmContainer';
+import ElmFooter from '../../components/ElmFooter/ElmFooter';
 
 const LoginView = () => {
   const [form, setForm] = useState({
@@ -31,7 +32,7 @@ const LoginView = () => {
   };
 
   return (
-    <Container maxWidth="xs" sx={{ mt: 4 }}>
+    <ElmContainer maxWidth="md">
       <Paper elevation={3} sx={{ p: 3 }}>
         <Typography variant="h5" align="center" gutterBottom>
           Login
@@ -82,19 +83,18 @@ const LoginView = () => {
             padding: '.5em',
             gap: 2,
             }} >
-            <Link id="forgot-password" to="/forgot_password">
+            <ElmLink id="forgot-password" to="/forgot_password">
               <Typography >Forgot Password</Typography>
-            </Link>
+            </ElmLink>
             <Typography > | </Typography>
-            <Link id="forgot-username" to="/forgot_username">
+            <ElmLink id="forgot-username" to="/forgot_username">
               <Typography >Forgot Username</Typography>
-            </Link>
+            </ElmLink>
         </Box>
       </Paper>
-    </Container>
+      <ElmFooter />
+    </ElmContainer>
   );
 };
-
-
 
 export default LoginView;

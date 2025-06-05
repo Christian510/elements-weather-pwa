@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
   Button,
@@ -7,7 +7,8 @@ import {
   Typography,
   Paper,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
+import ElmLink from './ElmLink/ElmLink';
+import ElmFooter from './ElmFooter/ElmFooter';
 
 const ForgotPassword = () => {
   const [form, setForm] = useState({
@@ -25,7 +26,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <Container maxWidth="xs" sx={{ mt: 4 }}>
+    <Container maxWidth="xs">
       <Paper elevation={3} sx={{ p: 3 }}>
         <Typography variant="h5" align="center" gutterBottom>
           Forgot you Password?
@@ -58,8 +59,9 @@ const ForgotPassword = () => {
             Reset Password
           </Button>
         </Box>
-        <Link >Return to Sign In</Link>
+        <ElmLink to="/login" >Return to Sign In</ElmLink>
       </Paper>
+      <ElmFooter />
     </Container>
   );
 };

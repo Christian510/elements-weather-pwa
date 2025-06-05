@@ -4,7 +4,7 @@ import { Button, ButtonBase, Box, Link, Typography } from "@mui/material";
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import { formatDateTime } from '../../models/date.js';
 
-const ListCard = memo(({ id, data, sessionId, handleDeleteFavorite }) => {
+function ListCard({ id, data, sessionId, handleDeleteFavorite }){
   // const theme = useTheme();
 
   const ForwardRefLink = forwardRef(
@@ -135,7 +135,7 @@ const ListCard = memo(({ id, data, sessionId, handleDeleteFavorite }) => {
       </StyleScrollBehavior>
     </StyledContainer>
   );
-}, []);
+};
 
 const StyledContainer = styled('div')`
   margin: 1.25em .6em;

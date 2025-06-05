@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
   Button,
@@ -7,6 +7,7 @@ import {
   Typography,
   Paper,
 } from '@mui/material';
+import ElmLink from './ElmLink/ElmLink';
 
 const ForgotUsername = () => {
   const [form, setForm] = useState({
@@ -24,10 +25,10 @@ const ForgotUsername = () => {
   };
 
   return (
-    <Container maxWidth="xs" sx={{ mt: 4 }}>
+    <Container maxWidth="xs">
       <Paper elevation={3} sx={{ p: 3 }}>
         <Typography variant="h5" align="center" gutterBottom>
-          Provide your email address and we will send you an email with you username.
+          Provide your email address and we will send an email with your username.
         </Typography>
         <Box
           component="form"
@@ -59,6 +60,7 @@ const ForgotUsername = () => {
           </Button>
         </Box>
       </Paper>
+      <ElmLink to="/login" >Return to Sign In</ElmLink>
     </Container>
   );
 };

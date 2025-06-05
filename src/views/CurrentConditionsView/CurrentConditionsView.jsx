@@ -25,9 +25,12 @@ export default function CurrentConditions() {
   let { location } = useParams();
   const [locationData, setLocationData] = useState(null);
   const [match, setMatch] = useState(false);
+  // const [hourly, setHourly] = useState();
 
   useEffect(() => {
     const params = JSON.parse(location);
+
+    // pull locationData from Carousel and set to state here. 
 
     const match = forecasts.find((elm) => elm.location.location_id === params.location_id);
     if (match) {
