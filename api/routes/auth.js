@@ -1,19 +1,19 @@
-import express from 'express';
-const router = express.Router();
-// const db = require('../../db/database')
+// import express from 'express';
+// const router = express.Router();
+// // const db = require('../../db/database')
 
-router.post('/login', function (req, res) {
+// router.post('/login', function (req, res) {
 
-    res.send({ message: 'LOGIN USER' });
-  });
+//     res.send({ message: 'LOGIN USER' });
+//   });
   
-  router.put('/login', function (req, res) {
+//   router.put('/login', function (req, res) {
   
-    res.send({ message: 'LOGOUT USER' });
-  });
+//     res.send({ message: 'LOGOUT USER' });
+//   });
   
-  router.post('/create_account', function (req, res) {
-    res.send({ message: 'CREATE ACCOUNT' });
-  });
+//   router.post('/create_account', function (req, res) {
+//     res.send({ message: 'CREATE ACCOUNT' });
+//   });
 
-export default router;
+// export default router;
