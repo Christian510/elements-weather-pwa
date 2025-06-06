@@ -34,7 +34,7 @@
 },
 "proxy": {
   "/test": {
-    "target": "https://elements-weather-pwa-156691502abd.herokuapp.com/0"
+    "target": "https://elements-weather-pwa-156691502abd.herokuapp.com"
   }
 }
 }
