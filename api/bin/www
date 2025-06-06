@@ -8,14 +8,12 @@ import app from '../app.js';
 import debug from 'debug';
 import http from 'http';
 const path = process.env.NODE_ENV === 'production' ? './.env.production' : './.env.development';
-console.log("server path: ", path);
 dotenv.config({ path: path });
 
 /**
  * Get port from environment and store in Express.
  */
 var port = normalizePort(process.env.PORT || '5001');
-console.log("port: ", port);
 app.set('port', port);
 
 /**
@@ -83,5 +81,6 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
+    console.log('Listening on ' + bind);
   debug('Listening on ' + bind);
 }

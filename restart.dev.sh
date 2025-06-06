@@ -39,7 +39,7 @@ sleep 2
 echo "Redis started (log: redis.log)"
 
 # Start backend server
-npm run start:dev > server.log 2>&1 &
+npm start > server.log 2>&1 &
 echo "✅ Backend started (log: server.log)"
 
 # Move back to root
