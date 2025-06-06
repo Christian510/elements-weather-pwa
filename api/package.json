@@ -31,5 +31,10 @@
   "engines": {
     "node": "22.4.1",
     "npm": "10.8.1"
+},
+"proxy": {
+  "/test": {
+    "target": "https://elements-weather-pwa-156691502abd.herokuapp.com/0"
+  }
 }
 }
