@@ -1,1 +1,1 @@
-web: node ./api/bin/www
+web: npm start
