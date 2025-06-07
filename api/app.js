@@ -66,16 +66,21 @@ app.use('/favorites', favoritesRouter);
 
 app.get('/test', (req, res) => { 
   // res.send('API is working: ' + req.sessionID);
-  res.send("path: ", path.join(__dirname, "build", "index.html"));
+  res.send("path: ", path.join(process.cwd(), 'build', 'index.html'));
 });
 
 // app.use('/user', userRouter);
 
 // Serve static files from React's build folder in production/staging
-  app.use(express.static(path.join(__dirname, "build")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "build", "index.html"));
+  app.use(express.static(path.join(process.cwd(), 'build')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(process.cwd(), 'build', 'index.html'));
   });
+
+  // app.use(express.static(path.join(__dirname, "build")));
+  // app.get("*", (req, res) => {
+  //   res.sendFile(path.join(__dirname, "build", "index.html"));
+  // });
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
