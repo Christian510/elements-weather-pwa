@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import logger from 'morgan';
 import cors from 'cors';
 import path from 'path';
-import { fileURLToPath } from 'url';
+// import { fileURLToPath } from 'url';
 import sqlformat from './logger.js';
 import favoritesRouter from './routes/favorites.js';
 import redisStore from './redisStore.js';
@@ -13,12 +13,13 @@ const env_path = process.env.NODE_ENV === 'production' ? './.env.production' : '
 // console.log("app.js path: ", env_path);
 dotenv.config({ path: env_path });
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 const app = express();
 
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN,
+  // origin: process.env.CORS_ORIGIN,
+  origin: [process.env.CORS_ORIGIN, 'https://www.elementsweather.com/'],
   methods: process.env.CORS_METHODS,
   allowedHeaders: process.env.CORS_ALLOWED_HEADERS,
   exposedHeaders: ['Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials'],
@@ -35,7 +36,6 @@ app.use(cors(corsOptions));
 //   console.log(`Received request: ${req.method} ${req.url}`);
 //   next();
 // });
-
 // }
 
 app.use(logger('combined'));
@@ -64,23 +64,13 @@ app.use(session({
 
 app.use('/favorites', favoritesRouter);
 
-app.get('/test', (req, res) => { 
-  // res.send('API is working: ' + req.sessionID);
-  res.send("path: ", path.join(process.cwd(), 'build', 'index.html'));
-});
-
 // app.use('/user', userRouter);
 
 // Serve static files from React's build folder in production/staging
-  app.use(express.static(path.join(process.cwd(), 'build')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(process.cwd(), 'build', 'index.html'));
-  });
-
-  // app.use(express.static(path.join(__dirname, "build")));
-  // app.get("*", (req, res) => {
-  //   res.sendFile(path.join(__dirname, "build", "index.html"));
-  // });
+app.use(express.static(path.join(process.cwd(), 'build')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(process.cwd(), 'build', 'index.html'));
+});
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
