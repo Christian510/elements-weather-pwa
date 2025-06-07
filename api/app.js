@@ -18,8 +18,7 @@ dotenv.config({ path: env_path });
 const app = express();
 
 const corsOptions = {
-  // origin: process.env.CORS_ORIGIN,
-  origin: [process.env.CORS_ORIGIN, 'https://www.elementsweather.com/'],
+  origin: process.env.CORS_ORIGIN,
   methods: process.env.CORS_METHODS,
   allowedHeaders: process.env.CORS_ALLOWED_HEADERS,
   exposedHeaders: ['Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials'],
