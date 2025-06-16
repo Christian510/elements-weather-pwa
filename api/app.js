@@ -1,20 +1,19 @@
-import dotenv from 'dotenv';
-import express from 'express';
-import session from 'express-session';
-import bodyParser from 'body-parser';
-import logger from 'morgan';
-import cors from 'cors';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import sqlformat from './logger.js';
-import favoritesRouter from './routes/favorites.js';
-import redisStore from './redisStore.js';
 const env_path = process.env.NODE_ENV === 'production' ? './.env.production' : './.env.development';
-// console.log("app.js path: ", env_path);
-dotenv.config({ path: env_path });
+console.log('NODE_ENV: ', process.env.NODE_ENV);
+console.log('env_path: ', env_path);
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+require('dotenv').config({path: 'api/.env.production' })
+const express = require('express');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const logger = require('morgan');
+const cors = require('cors');
+const path = require('path');
+// const { fileURLToPath } = require('url');
+const sqlformat = require('./logger.js');
+const favoritesRouter = require('./routes/favorites.js');
+const redisStore = require('./redisStore.js');
+
 const app = express();
 
 const corsOptions = {
@@ -37,7 +36,7 @@ app.use(cors(corsOptions));
 // });
 
 // }
-
+console.log('cors: ', process.env.REACT_APP_BASE_URL)
 app.use(logger('combined'));
 const morganMiddleware = logger(sqlformat);
 app.use(morganMiddleware);
@@ -66,7 +65,7 @@ app.use('/favorites', favoritesRouter);
 
 app.get('/test', (req, res) => { 
   // res.send('API is working: ' + req.sessionID);
-  res.send('Path: ', path.join(__dirname, "build", "index.html"))
+  // res.send('Path: ', path.join(__dirname, "build", "index.html"))
 });
 
 // app.use('/user', userRouter);
@@ -97,4 +96,5 @@ app.use(function (err, req, res, next) {
   });
 });
 
-export default app;
+// export default app;
+module.exports = app;

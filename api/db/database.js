@@ -2,8 +2,10 @@
  - DB connect
  - Pre defined db functions
 */
-import dotenv from 'dotenv';
-import mysql from 'mysql2/promise.js';
+// import dotenv from 'dotenv';
+// import mysql from 'mysql2/promise.js';
+const dotenv = require('dotenv');
+const mysql = require('mysql2/promise');
 const path = process.env.NODE_ENV === 'production' ? './.env.production' : './.env.development';
 dotenv.config({ path: path });
 
@@ -248,7 +250,8 @@ async createWeatherIconsTable() {
   }
 }
 
-export default Database;
+// export default Database;
+module.exports = Database;
 
 
 /**

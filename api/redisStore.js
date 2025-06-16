@@ -1,7 +1,10 @@
 
-import dotenv from 'dotenv';
-import { RedisStore } from 'connect-redis';
-import { createClient } from 'redis';
+// import dotenv from 'dotenv';
+// import { RedisStore } from 'connect-redis';
+// import { createClient } from 'redis';
+const dotenv = require('dotenv');
+const { RedisStore } = require('connect-redis');
+const { createClient } = require('redis');
 dotenv.config({ path: './.env.production' });
 
 const redisClient = createClient({
@@ -15,7 +18,7 @@ const redisClient = createClient({
 
 redisClient.on('error', err => console.log('Redis Client Error', err));
 
-await redisClient.connect();
+redisClient.connect();
 
 
 const redisStore = new RedisStore({
@@ -24,4 +27,5 @@ const redisStore = new RedisStore({
     // ttl: 30 * 24 * 60 * 60 // 30 days
     });
 
-export default redisStore;
+// export default redisStore;
+module.exports = redisStore;
