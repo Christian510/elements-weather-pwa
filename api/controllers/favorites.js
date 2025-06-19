@@ -1,7 +1,8 @@
-import Database from '../db/database.js';
+// import Database from '../db/database.js';
+const Database = require('../db/database.js');
 const db = new Database();
 
-export const fetchFavorites = (req, res, next) => {
+exports.fetchFavorites = (req, res, next) => {
   return db.findAllById('session_favorites', 's_id', req.sessionID)
     .then(data => {
       if (res.statusCode === 200) {
@@ -21,7 +22,7 @@ export const fetchFavorites = (req, res, next) => {
     });
 }
 
-export const addOneFavorite = async (req, res, next) => {
+exports.addOneFavorite = async (req, res, next) => {
   try {
     const result = await db.insertOne(req.body, req.sessionID)
     res.status(200).json({
@@ -39,7 +40,7 @@ export const addOneFavorite = async (req, res, next) => {
   }
 }
 
-export const deleteOneFavorite = async (req, res, next) => {
+exports.deleteOneFavorite = async (req, res, next) => {
   try {
     const result = await db.deleteOne(req.query.session_id, req.query.location_id)
     if (result) {

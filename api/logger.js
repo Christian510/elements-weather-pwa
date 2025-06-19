@@ -15,4 +15,5 @@ const sqlFormat = (tokens, req, res) => {
     ].join(' ');
   };
 
-  export default sqlFormat;
+  // export default sqlFormat;
+  module.exports = sqlFormat

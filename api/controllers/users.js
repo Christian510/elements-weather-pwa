@@ -1,15 +1,15 @@
 // import db from '../../db/database'
 
-export const getUserByID = (req, res, next) => {};
+exports.getUserByID = (req, res, next) => {};
 
-export const getSessionID = (req, res, next) => {};
+exports.getSessionID = (req, res, next) => {};
 
-export const addUser = (req, res, next) => {};
+exports.addUser = (req, res, next) => {};
 
-export const updateUser = (req, res, next) => {};
+exports.updateUser = (req, res, next) => {};
 
-export const deleteUser = (req, res, next) => {};
+exports.deleteUser = (req, res, next) => {};
 
-export const loginUser = (req, res, next) => {};
+exports.loginUser = (req, res, next) => {};
 
-export const logoutUser = (req, res, next) => {};
+exports.logoutUser = (req, res, next) => {};

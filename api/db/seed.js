@@ -3,7 +3,8 @@
  * @description This file is used to seed the database with initial data.
  * To run this file use the command: npm run seed
  */
-import Database from './database.js';
+// import Database from './database.js';
+const Database = require('./database.js');
 // import icon_map from './icon_map.js';
 const db = new Database();
 
