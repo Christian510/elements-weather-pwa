@@ -63,7 +63,7 @@ app.use(session({
 app.use('/favorites', favoritesRouter);
 
 app.get('/test', (req, res) => { 
-  // res.send('API is working: ' + req.sessionID);
+  res.send('API is working: ' + req.sessionID);
   // res.send('Path: ', path.join(__dirname, "build", "index.html"))
 });
 
