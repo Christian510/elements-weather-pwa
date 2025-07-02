@@ -70,7 +70,7 @@ app.get('/test', (req, res) => {
 // app.use('/user', userRouter);
 
 // Serve static files from React's build folder in production/staging
-  app.use(express.static(path.join(__dirname, "build")));
+  app.use(express.static(path.join(__dirname, "../build")));
   app.get("*", (req, res) => {
       console.log("path: ", path.join(__dirname, "build", "index.html"));
       res.sendFile(path.join(__dirname, "build", "index.html"));
