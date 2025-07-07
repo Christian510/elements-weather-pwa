@@ -1,7 +1,3 @@
-const env_path = process.env.NODE_ENV === 'production' ? './.env.production' : './.env.development';
-console.log('NODE_ENV: ', process.env.NODE_ENV);
-console.log('env_path: ', env_path);
-
 require('dotenv').config({path: 'api/.env.production' })
 const express = require('express');
 const session = require('express-session');
@@ -35,7 +31,6 @@ app.use(cors(corsOptions));
 //   next();
 // });
 // }
-console.log('cors: ', process.env.REACT_APP_BASE_URL)
 app.use(logger('combined'));
 const morganMiddleware = logger(sqlformat);
 app.use(morganMiddleware);
@@ -49,7 +44,7 @@ app.use(session({
   secret: sessionSecret,
   store: redisStore,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
     secure: false,
     // EQUALS 1 DAY ( 1 DAY * 24 HR/1 DAY * 60 MIN/1 HR)
