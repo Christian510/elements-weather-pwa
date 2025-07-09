@@ -1,7 +1,3 @@
-
-// import dotenv from 'dotenv';
-// import { RedisStore } from 'connect-redis';
-// import { createClient } from 'redis';
 const dotenv = require('dotenv');
 const { RedisStore } = require('connect-redis');
 const { createClient } = require('redis');
@@ -19,7 +15,6 @@ const redisClient = createClient({
 redisClient.on('error', err => console.log('Redis Client Error', err));
 
 redisClient.connect();
-
 
 const redisStore = new RedisStore({
     client: redisClient,

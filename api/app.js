@@ -31,6 +31,7 @@ app.use(cors(corsOptions));
 //   next();
 // });
 // }
+console.log('cors: ', process.env.REACT_APP_BASE_URL)
 app.use(logger('combined'));
 const morganMiddleware = logger(sqlformat);
 app.use(morganMiddleware);
@@ -44,7 +45,7 @@ app.use(session({
   secret: sessionSecret,
   store: redisStore,
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   cookie: {
     secure: false,
     // EQUALS 1 DAY ( 1 DAY * 24 HR/1 DAY * 60 MIN/1 HR)
@@ -59,7 +60,7 @@ app.use('/favorites', favoritesRouter);
 
 app.get('/test', (req, res) => { 
   res.send('API is working: ' + req.sessionID);
-  // res.send('Path: ', path.join(__dirname, "build", "index.html"))
+  
 });
 
 // app.use('/user', userRouter);

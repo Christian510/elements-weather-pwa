@@ -14,9 +14,9 @@ sleep 2 # give time for processes to end
 echo "Starting backend..."
 
 # Start Redis
-npm run start:redis > redis.log 2>&1 &
-sleep 2
-echo "Redis started (log: redis.log)"
+# npm run start:redis > redis.log 2>&1 &
+# sleep 2
+# echo "Redis started (log: redis.log)"
 
 # Start backend server
 npm run start:server > server.log 2>&1 &
