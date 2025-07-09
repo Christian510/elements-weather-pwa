@@ -18,7 +18,7 @@ redisClient.connect();
 
 const redisStore = new RedisStore({
     client: redisClient,
-    prefix: 'elm:',
+    // prefix: '',
     // ttl: 30 * 24 * 60 * 60 // 30 days
     });
 
