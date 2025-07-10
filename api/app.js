@@ -48,6 +48,7 @@ app.use(session({
   saveUninitialized: true,
   cookie: {
     secure: false,
+    domain: '.elementsweather.com',
     // EQUALS 1 DAY ( 1 DAY * 24 HR/1 DAY * 60 MIN/1 HR)
     maxAge: 1000 * 60 * 60 * 24 * 90,
     // maxAge: 30,
