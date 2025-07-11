@@ -45,7 +45,7 @@ app.use(session({
   secret: sessionSecret,
   store: redisStore,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
     secure: false,
     domain: '.elementsweather.com',
