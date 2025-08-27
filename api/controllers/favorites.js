@@ -3,6 +3,9 @@ const Database = require('../db/database.js');
 const db = new Database();
 
 exports.fetchFavorites = (req, res, next) => {
+  if (!req.session.sess) {
+    req.session.sess = req.sessionID
+  }
   return db.findAllById('session_favorites', 's_id', req.sessionID)
     .then(data => {
       if (res.statusCode === 200) {

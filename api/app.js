@@ -15,12 +15,13 @@ const app = express();
 const corsOptions = {
   origin: process.env.CORS_ORIGIN,
   methods: process.env.CORS_METHODS,
-  allowedHeaders: process.env.CORS_ALLOWED_HEADERS,
-  exposedHeaders: ['Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials'],
+  // allowedHeaders: process.env.CORS_ALLOWED_HEADERS,
+  // exposedHeaders: ['Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials'],
   credentials: true,
   optionSuccessStatus: 200
 };
 
+// console.log('corsOptions: ', corsOptions); // RAT
 app.use(cors(corsOptions));
 
 // if (process.env.NODE_ENV === "production") {
@@ -31,7 +32,6 @@ app.use(cors(corsOptions));
 //   next();
 // });
 // }
-console.log('cors: ', process.env.REACT_APP_BASE_URL)
 app.use(logger('combined'));
 const morganMiddleware = logger(sqlformat);
 app.use(morganMiddleware);
@@ -47,22 +47,22 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false,
+    secure: false, // true if using https
     domain: '.elementsweather.com',
-    // EQUALS 1 DAY ( 1 DAY * 24 HR/1 DAY * 60 MIN/1 HR)
-    maxAge: 1000 * 60 * 60 * 24 * 90,
-    // maxAge: 30,
-    // sameSite: 'strict',
+    // domain: '.localhost',
+    // maxAge: 1000 * 60 * 60 * 24 * 90, // 90 days
+    maxAge: 1000 * 60 * 60 * 24 * 1, // 1 day
+    sameSite: 'lax', // none, lax, strict
   }
 }
 ));
 
 app.use('/favorites', favoritesRouter);
 
-app.get('/test', (req, res) => { 
-  res.send('API is working: ' + req.sessionID);
+// app.get('/test', (req, res) => { 
+//   res.send('API is working: ' + req.sessionID);
   
-});
+// });
 
 // app.use('/user', userRouter);
 
@@ -92,5 +92,4 @@ app.use(function (err, req, res, next) {
   });
 });
 
-// export default app;
 module.exports = app;

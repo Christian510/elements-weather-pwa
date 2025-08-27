@@ -3,6 +3,9 @@ axios.defaults.withCredentials = process.env.REACT_APP_WITH_CREDENTIALS === "tru
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
+// axios.defaults.headers.common['mode'] = 'cors';
+axios.defaults.headers.common['credentials'] = 'include';
+// axios.defaults.headers.common['access-control-allow-origin'] = '*'; // test: if this works keep it.
 
 export function processFetch(url, options) {
     return fetch(url, options)

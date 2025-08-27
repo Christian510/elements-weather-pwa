@@ -22,5 +22,4 @@ const redisStore = new RedisStore({
     // ttl: 30 * 24 * 60 * 60 // 30 days
     });
 
-// export default redisStore;
 module.exports = redisStore;

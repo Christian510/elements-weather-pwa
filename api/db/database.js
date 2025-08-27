@@ -48,7 +48,7 @@ class Database {
       await conn.beginTransaction();
       const [result] = await conn.execute(query, values);
       await conn.commit();
-  
+      
       return result;
   
     } catch (err) {
@@ -150,6 +150,7 @@ async createWeatherIconsTable() {
    * @returns {Promise<any[]>} - The resulting rows.
    */
   async findAllById(table, col, session_id = '') {
+    console.log('table: ', table, 'col: ', col, 'session_id: ', session_id)
     const query_ids = `SELECT * FROM ${table} WHERE ${col} = ?`;
     // const query_data = `SELECT * FROM locations WHERE location_id = ?`;
     // const favorites = [];
