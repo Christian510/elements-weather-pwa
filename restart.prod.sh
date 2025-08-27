@@ -6,7 +6,7 @@
 pkill -f "./api/bin/www"
 pkill -f "react-scripts build"
 pkill -f "serve -s build"
-pkill -f "redis-server"
+# pkill -f "redis-server"
 echo "Front and backend shut down"
 sleep 2 # give time for processes to end
 

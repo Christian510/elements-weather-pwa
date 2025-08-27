@@ -63,9 +63,9 @@ app.use('/favorites', favoritesRouter);
 
 // Serve static files from React's build folder in production/staging
 app.use(express.static(path.join("..", "build")));
-console.log("path: ", path.join("..", "build", "index.html"));
+// console.log("path: ", path.join("..", "build", "index.html"));
 app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "build", "index.html"));
+    res.sendFile(path.join("..", "build", "index.html"));
 });
 
 // catch 404 and forward to error handler
