@@ -48,8 +48,8 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     secure: false, // true if using https
-    domain: '.elementsweather.com',
-    // domain: '.localhost',
+    // domain: '.elementsweather.com',
+    domain: '.localhost',
     // maxAge: 1000 * 60 * 60 * 24 * 90, // 90 days
     maxAge: 1000 * 60 * 60 * 24 * 1, // 1 day
     sameSite: 'lax', // none, lax, strict
@@ -67,7 +67,7 @@ app.use('/favorites', favoritesRouter);
 // app.use('/user', userRouter);
 
 // Serve static files from React's build folder in production/staging
-  app.use(express.static(path.join(__dirname, "../build")));
+  app.use(express.static(path.join(__dirname, "build")));
   app.get("*", (req, res) => {
       console.log("path: ", path.join(__dirname, "build", "index.html"));
       res.sendFile(path.join(__dirname, "build", "index.html"));
