@@ -57,7 +57,7 @@
     "start:server": "node ./api/bin/www",
     "start:redis": "redis-server",
     "build": "react-scripts build",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=true npm install && npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "debug": "DEBUG=express:router node ./bin/www",
