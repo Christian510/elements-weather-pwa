@@ -48,8 +48,7 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     secure: false, // true if using https
-    domain: '.elementsweather.com',
-    // domain: '.localhost',
+    domain: '.localhost',
     // maxAge: 1000 * 60 * 60 * 24 * 90, // 90 days
     maxAge: 1000 * 60 * 60 * 24 * 1, // 1 day
     sameSite: 'lax', // none, lax, strict
