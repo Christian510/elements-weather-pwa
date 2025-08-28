@@ -20,7 +20,6 @@ const corsOptions = {
   optionSuccessStatus: 200
 };
 
-// console.log('corsOptions: ', corsOptions); // RAT
 app.use(cors(corsOptions));
 
 // if (process.env.NODE_ENV === "production") {
@@ -61,7 +60,6 @@ app.use('/favorites', favoritesRouter);
 
 // Serve static files from React's build folder in production/staging
 app.use(express.static(path.join(__dirname, "..", "build")));
-// console.log("path: ", path.join("..", "build", "index.html"));
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "..", "build", "index.html"));
 });
