@@ -61,7 +61,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "debug": "DEBUG=express:router node ./bin/www",
-    "seed": "node ./db/seed.js"
+    "seed": "NODE_ENV=production node ./api/db/seed.js"
   },
   "eslintConfig": {
     "extends": [

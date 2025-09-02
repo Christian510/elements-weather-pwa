@@ -2,27 +2,35 @@
  - DB connect
  - Pre defined db functions
 */
-// import dotenv from 'dotenv';
-// import mysql from 'mysql2/promise.js';
 const dotenv = require('dotenv');
 const mysql = require('mysql2/promise');
-const path = process.env.NODE_ENV === 'production' ? './.env.production' : './.env.development';
+const path = process.env.NODE_ENV === 'production' ? './api/.env.production' : './api/.env.development';
 dotenv.config({ path: path });
+const icon_map = require('./icon_map.js');
 
 class Database {
-  constructor() {
 
-    // Create a connection pool
+  // Add conditional statement to check if in production or development mode
+  // and set the pool variable accordingly
+  constructor() {
     this.pool = mysql.createPool({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: process.env.DB_NAME,
-      port: process.env.DB_PORT,
-      connectionLimit: 10, // Adjust based on your needs
+      uri: process.env.JAWSDB_URL,
+      connectionLimit: 10,
       waitForConnections: true,
       queueLimit: 0,
-    });
+      });
+
+    // Create a connection pool
+    // this.pool = mysql.createPool({
+    //   host: process.env.DB_HOST,
+    //   user: process.env.DB_USER,
+    //   password: process.env.DB_PASS,
+    //   database: process.env.DB_NAME,
+    //   port: process.env.DB_PORT,
+    //   connectionLimit: 10, // Adjust based on your needs
+    //   waitForConnections: true,
+    //   queueLimit: 0,
+    // });
 
     this.executeQuery = this.executeQuery.bind(this);
     this.createLocationsTable = this.createLocationsTable.bind(this);
@@ -60,30 +68,14 @@ class Database {
     }
   }
 
-  // Test DB Connection // this needs to be moved to a test file.
-// executeQuery('SELECT 1')
-// .then(result => console.log('Test query result:', result))
-// .catch(err => console.error('Test query error:', err));
-
-// Table Verioning
+// Table Versioning
 async createTablesIfNonExist() {
-const versionQuery = `
-  CREATE TABLE IF NOT EXISTS schema_version (
-    version INT PRIMARY KEY
-  )`;
-await this.executeQuery(versionQuery);
-
-const [rows] = await this.executeQuery('SELECT version FROM schema_version');
-let result = {};
-if (Array.isArray(rows) && rows.length === 0) {
+  let result = {};
   result.location = await this.createLocationsTable();
   result.session_favorites = await this.createSessionFavoritesTable();
-  // Add other table creation functions here
-  result.version = await this.executeQuery('INSERT INTO schema_version (version) VALUES (1)');
   result.weather_icons = await this.createWeatherIconsTable();
-  // console.log('Tables created: ', result);
+  console.log('result: ', result);
   return result;
-}
 }
 
 // if no Locations table exits create one.
@@ -126,6 +118,7 @@ try {
 }
 
 async createWeatherIconsTable() {
+  console.log('Creating weather_icons table...');
   try {
     const query = `
       CREATE TABLE IF NOT EXISTS weather_icons (
@@ -133,11 +126,29 @@ async createWeatherIconsTable() {
         icon VARCHAR(16) NOT NULL,
         description VARCHAR(64) NOT NULL,
         weather_icon_day VARCHAR(64) NOT NULL,
-        weather_icon_night VARCHAR(64) NOT NULL;`;
+        weather_icon_night VARCHAR(64) NOT NULL
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;`;
+
     await this.executeQuery(query);
     console.log('weather_icons table created or already exists.');
+    const isEmpty = `SELECT COUNT(*) FROM weather_icons;`;
+    const result = await this.executeQuery(isEmpty);
+
+    if (result[0]['COUNT(*)'] === 0) {
+      console.log('Inserting weather icons...');
+      try {
+        for (const icon of icon_map) {
+          await this.addIconsToDB(icon);
+      }
+        console.log('Icon map seeded.');
+        process.exit(0);
+      } catch (err) {
+        console.error('Icon map seeding failed:', err);
+        process.exit(1);
+      }
+    }
+
   } catch (error) {
-    console.error('Error creating weather_icons table:', error);
     throw error; // Re-throw to handle it appropriately in calling code
   }
 }
@@ -244,6 +255,7 @@ async createWeatherIconsTable() {
   }
 
   async addIconsToDB(icon) {
+      console.log('one icon added: ', icon);
       const query = `
       INSERT INTO weather_icons(icon, description, weather_icon_day, weather_icon_night) 
       VALUES (?, ?, ?, ?)`;

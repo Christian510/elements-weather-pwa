@@ -279,4 +279,4 @@ const weatherIcons = [
     }
 ];
 
-export default weatherIcons;
+module.exports = weatherIcons;
