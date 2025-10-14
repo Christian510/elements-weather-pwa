@@ -2,6 +2,10 @@
 # Purpose: Restart frontend + backend
 # Usage: source ./restart.prod.sh
 
+# Set the NODE_ENV for this shell session
+export NODE_ENV="production"
+echo "NODE_ENV set to $NODE_ENV"
+
 # Kill existing processes (adjust the grep patterns as needed)
 pkill -f "./api/bin/www"
 pkill -f "react-scripts build"
