@@ -1,29 +1,26 @@
-import dotenv from 'dotenv';
-import express from 'express';
-import session from 'express-session';
-import bodyParser from 'body-parser';
-import logger from 'morgan';
-import cors from 'cors';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import sqlformat from './logger.js';
-import favoritesRouter from './routes/favorites.js';
-import redisStore from './redisStore.js';
-dotenv.config({ path: './.env' });
+require('dotenv').config({path: 'api/.env.production' })
+const express = require('express');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const logger = require('morgan');
+const cors = require('cors');
+const path = require('path');
+const sqlformat = require('./logger.js');
+const favoritesRouter = require('./routes/favorites.js');
+const redisStore = require('./redisStore.js');
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 const app = express();
 
 const corsOptions = {
   origin: process.env.CORS_ORIGIN,
   methods: process.env.CORS_METHODS,
-  allowedHeaders: process.env.CORS_ALLOWED_HEADERS,
-  exposedHeaders: ['Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials'],
+  // allowedHeaders: process.env.CORS_ALLOWED_HEADERS,
+  // exposedHeaders: ['Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials'],
   credentials: true,
   optionSuccessStatus: 200
 };
 
+// console.log('corsOptions: ', corsOptions); // RAT
 app.use(cors(corsOptions));
 
 // if (process.env.NODE_ENV === "production") {
@@ -33,9 +30,7 @@ app.use(cors(corsOptions));
 //   console.log(`Received request: ${req.method} ${req.url}`);
 //   next();
 // });
-
 // }
-
 app.use(logger('combined'));
 const morganMiddleware = logger(sqlformat);
 app.use(morganMiddleware);
@@ -49,25 +44,18 @@ app.use(session({
   secret: sessionSecret,
   store: redisStore,
   resave: false,
-  saveUninitialized: true,
-  // genid: function (req) { // REMOVE AFTER TESTING // 
-  //   return '_vuWoKjfIW4zdIUTPCAdr2Ixhuj3tun5'
-  // },
+  saveUninitialized: false,
   cookie: {
-    secure: false,
-    // EQUALS 1 DAY ( 1 DAY * 24 HR/1 DAY * 60 MIN/1 HR)
-    maxAge: 1000 * 60 * 60 * 24 * 90,
-    // maxAge: 30,
-    // sameSite: 'strict',
+    secure: false, // true if using https
+    domain: '.elementsweather.com',
+    // maxAge: 1000 * 60 * 60 * 24 * 90, // 90 days
+    maxAge: 1000 * 60 * 60 * 24 * 1, // 1 day
+    sameSite: 'lax', // none, lax, strict
   }
 }
 ));
 
 app.use('/favorites', favoritesRouter);
-
-app.get('/', (req, res) => { 
-  res.send('API is working'); 
-});
 
 // app.use('/user', userRouter);
 
@@ -97,4 +85,4 @@ app.use(function (err, req, res, next) {
   });
 });
 
-export default app;
+module.exports = app;

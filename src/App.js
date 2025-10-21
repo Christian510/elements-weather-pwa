@@ -7,23 +7,23 @@ import {
 import Box from '@mui/material/Box';
 import { styled, useTheme } from "@mui/material/styles";
 import './index.css';
-import Menu from './components/Menu/Menu';
+import ElmMenu from './components/Menu/Menu';
 import Header from './components/NavBar/Header';
-// import { fetchFavorites, fetchAllData } from './models/weather_api';
 import ElmSearch from './components/ElmSearch/ElmSearch';
 
 export function Home() {
 
   const theme = useTheme();
+  // console.log("theme: ", theme)
   let navigation = useNavigation();
-  console.log("navigation: ", navigation); // ****** DEBUG ****** //
+// console.log("navigation: ", navigation); // ****** DEBUG ****** //
   let revalidator = useRevalidator();
   let fetchers = useFetchers();
   let fetcherInProgress = fetchers.some((f) =>
     ["loading", "submitting"].includes(f.state)
   );
 
-  // Add the loading spinner here to show when a fetcher is in progress
+  // Add the loading spinner/skeleton placeholder here to show when a fetcher is in progress
   return (
     <>
       <Box
@@ -41,7 +41,7 @@ export function Home() {
         }}
       >
         <Header>
-          <Menu />
+          <ElmMenu isLogedIn={ false } />
           <ElmSearch />
         </Header>
         <StyledOutlet id="outlet">

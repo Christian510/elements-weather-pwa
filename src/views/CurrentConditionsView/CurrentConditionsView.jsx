@@ -15,7 +15,8 @@ import { useLoaderData } from "react-router-dom";
 import { fetchAllData, addFavorite } from '../../models/weather_api';
 import { Button } from '@mui/material';
 import { StyledButtonLink } from '../../components/StyledButtonLink';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+// import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import ElmFooter from '../../components/ElmFooter/ElmFooter';
 
 export default function CurrentConditions() {
   const theme = useTheme();
@@ -24,9 +25,12 @@ export default function CurrentConditions() {
   let { location } = useParams();
   const [locationData, setLocationData] = useState(null);
   const [match, setMatch] = useState(false);
+  // const [hourly, setHourly] = useState();
 
   useEffect(() => {
     const params = JSON.parse(location);
+
+    // pull locationData from Carousel and set to state here. 
 
     const match = forecasts.find((elm) => elm.location.location_id === params.location_id);
     if (match) {
@@ -71,6 +75,7 @@ export default function CurrentConditions() {
     setTimeout(() => {
       addFavorite(location, sessionID).then(resp => {
         // if undefined, then something is wrong
+        console.log("addFavorite resp: ", resp);
         if (resp === undefined) {
           alert('Location Not added to favorites. Please try again.')
           return;
@@ -82,7 +87,7 @@ export default function CurrentConditions() {
           alert('Location Not added to favorites. Please try again.')
         }
       })
-    }, 100);
+    }, 50);
   }
 
   const StyledContainer = styled(Box)(({ theme }) => ({
@@ -98,7 +103,7 @@ export default function CurrentConditions() {
     left: 0,
     zIndex: theme.zIndex.outlet = theme.zIndex.modal,
   }));
-  // console.log('locationData: ', locationData);
+
   return (
     <>
       {!locationData ? (
@@ -174,17 +179,18 @@ export default function CurrentConditions() {
             </Box>
             <Carousel forecast={locationData} />
           </Box>
-          <Box
+          {/* <Box
             id="bottom-nav"
             display='flex'
             justifyContent='space-between'
             sx={{
               padding: '0.5em 0 0.5em 0',
             }}
-          >
+          > */}
             {match && (
               <>
-                <StyledButtonLink
+                <ElmFooter />
+                {/* <StyledButtonLink
                   to={`#`}
                   sx
                   disableRipple={true}
@@ -200,10 +206,10 @@ export default function CurrentConditions() {
                   color='primary'
                 >
                   <FormatListBulletedIcon fontSize='small' />
-                </StyledButtonLink>
+                </StyledButtonLink> */}
               </>
             )}
-          </Box>
+          {/* </Box> */}
         </StyledContainer>
       )}
     </>

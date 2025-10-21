@@ -1,9 +1,8 @@
-import React from 'react';
 import { styled } from '@mui/material/styles';
 import { CardContent, Typography } from '@mui/material';
 
 
-const ForecastCard = ({ content, styles, Icon }) => {
+function ForecastCard({ content, styles, Icon }){
     // console.log('title: ', title);
     // console.log('content: ', content);
 

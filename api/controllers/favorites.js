@@ -1,9 +1,12 @@
-import { findAllById } from '../db/database.js';
-import { insertOne } from '../db/database.js';
-import { deleteOne } from '../db/database.js';
+// import Database from '../db/database.js';
+const Database = require('../db/database.js');
+const db = new Database();
 
-export const fetchFavorites = (req, res, next) => {
-  return findAllById('session_favorites', 's_id', req.sessionID)
+exports.fetchFavorites = (req, res, next) => {
+  if (!req.session.sess) {
+    req.session.sess = req.sessionID
+  }
+  return db.findAllById('session_favorites', 's_id', req.sessionID)
     .then(data => {
       if (res.statusCode === 200) {
         res.status(200).json({
@@ -22,9 +25,9 @@ export const fetchFavorites = (req, res, next) => {
     });
 }
 
-export const addOneFavorite = async (req, res, next) => {
+exports.addOneFavorite = async (req, res, next) => {
   try {
-    const result = await insertOne(req.body, req.sessionID)
+    const result = await db.insertOne(req.body, req.sessionID)
     res.status(200).json({
       message: 'ONE FAVORITE ADDED',
       result: result,
@@ -40,9 +43,9 @@ export const addOneFavorite = async (req, res, next) => {
   }
 }
 
-export const deleteOneFavorite = async (req, res, next) => {
+exports.deleteOneFavorite = async (req, res, next) => {
   try {
-    const result = await deleteOne(req.query.session_id, req.query.location_id)
+    const result = await db.deleteOne(req.query.session_id, req.query.location_id)
     if (result) {
       res.status(200).json({
         message: 'ONE FAVORITE DELETED',

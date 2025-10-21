@@ -15,11 +15,14 @@ import ExtendedForecastView from './views/ExtendedForecastView/ExtendedForecastV
 import LoginView from './views/LoginView/LoginView';
 import CreateAccountView from './views/CreateAccountView/CreateAccountView';
 import AccountView from './views/AccountView/AccountView';
-import DemoView from './views/DemoView/DemoView';
+import Settings from './views/Settings';
 import { ElmTheme } from './ElmThemeStyles/ElmTheme';
 import { ThemeProvider } from '@mui/material/styles';
 import ElmSpinner from './components/ElmSpinner/ElmSpinner';
+import ForgotPassword from './components/ForgotPassword';
+import ForgotUsername from './components/ForgotUsername';
 import { loader as rootLoader } from './models/loader';
+import './index.css';
 
 let router = createBrowserRouter([
   {
@@ -53,6 +56,16 @@ let router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
+    element: <ForgotPassword />,
+    path: 'forgot_password',
+    ErrorPage: <ErrorPage />
+  },
+  {
+    element: <ForgotUsername />,
+    path: 'forgot_username',
+    ErrorPage: <ErrorPage />
+  },
+  {
     element: <CreateAccountView />,
     path: 'create_account',
     errorElement: <ErrorPage />,
@@ -68,8 +81,8 @@ let router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    element: <DemoView />,
-    path: 'demo',
+    element: <Settings />,
+    path: 'settings',
     errorElement: <ErrorPage />,
   }
 ]);
@@ -98,6 +111,11 @@ root.render(
   </StrictMode>
 );
 
+const preloader = document.getElementById('preloader');
+if (preloader) {
+  preloader.remove();
+}
+
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
@@ -107,3 +125,10 @@ serviceWorkerRegistration.register();
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+// Check if the app is running in standalone mode
+// Comment this out once the app is in production
+const isInStandaloneMode = () =>
+  ('standalone' in window.navigator) && (window.navigator.standalone);
+
+console.log('Is PWA standalone:', isInStandaloneMode());

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
   Button,
@@ -7,12 +7,11 @@ import {
   Typography,
   Paper,
 } from '@mui/material';
+import ElmLink from './ElmLink/ElmLink';
 
-const CreateAccountView = () => {
+const ForgotUsername = () => {
   const [form, setForm] = useState({
-    name: '',
     email: '',
-    password: '',
   });
 
   const handleChange = (e) => {
@@ -22,14 +21,14 @@ const CreateAccountView = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle account creation logic here
-    alert('Account Created!!!')
+    alert('Check your email!!')
   };
 
   return (
-    <Container maxWidth="xs" sx={{ mt: 4 }}>
+    <Container maxWidth="xs">
       <Paper elevation={3} sx={{ p: 3 }}>
         <Typography variant="h5" align="center" gutterBottom>
-          Create Account
+          Provide your email address and we will send an email with your username.
         </Typography>
         <Box
           component="form"
@@ -41,16 +40,7 @@ const CreateAccountView = () => {
           }}
         >
           <TextField
-            label="Name"
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            fullWidth
-            required
-            autoComplete="name"
-          />
-          <TextField
-            label="Email"
+            label="Email Address"
             name="email"
             type="email"
             value={form.email}
@@ -59,16 +49,6 @@ const CreateAccountView = () => {
             required
             autoComplete="email"
           />
-          <TextField
-            label="Password"
-            name="password"
-            type="password"
-            value={form.password}
-            onChange={handleChange}
-            fullWidth
-            required
-            autoComplete="new-password"
-          />
           <Button
             type="submit"
             variant="contained"
@@ -76,12 +56,13 @@ const CreateAccountView = () => {
             sx={{ mt: 2 }}
             fullWidth
           >
-            Sign Up
+            Email Username
           </Button>
         </Box>
       </Paper>
+      <ElmLink to="/login" >Return to Sign In</ElmLink>
     </Container>
   );
 };
 
-export default CreateAccountView;
+export default ForgotUsername;

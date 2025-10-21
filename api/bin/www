@@ -3,11 +3,16 @@
 /**
  * Module dependencies.
  */
-import dotenv from 'dotenv';
-import app from '../app.js';
-import debug from 'debug';
-import http from 'http';
-dotenv.config({ path: '../.env' });
+// import dotenv from 'dotenv';
+// import app from '../app.mjs';
+// import debug from 'debug';
+// import http from 'http';
+const http = require('http');
+const app = require('../app.js');
+const debug = require('debug')('api:server');
+const dotenv = require('dotenv');
+const path = process.env.NODE_ENV === 'production' ? './.env.production' : './.env.development';
+dotenv.config({ path: path });
 
 /**
  * Get port from environment and store in Express.
@@ -80,5 +85,6 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
+    console.log('Listening on ' + bind);
   debug('Listening on ' + bind);
 }

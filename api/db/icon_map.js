@@ -1,4 +1,10 @@
-export const weatherIcons = [
+/**
+ * @fileoverview Weather icons mapping for different weather conditions.
+ * @description This file contains an array of weather icons with their corresponding
+ * Keep for reference.
+ */
+
+const weatherIcons = [
     {
         icon: "skc",
         description: "Fair/clear",
@@ -272,3 +278,5 @@ export const weatherIcons = [
         }
     }
 ];
+
+module.exports = weatherIcons;

@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1" /> -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
 
   <meta name="theme-color" content="#121212" />
   <meta name="description" content="This is a React weather app. A personal project." />
@@ -30,9 +30,14 @@
   <title>Elements Weather</title>
 </head>
 
-<body >
+<body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="root"></div>
+  <div id="preloader">
+    <div class="spinner"></div>
+  </div>
+  
+  <div id="root">
+  </div>
   <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

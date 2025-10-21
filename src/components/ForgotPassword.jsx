@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
   Button,
@@ -7,12 +7,12 @@ import {
   Typography,
   Paper,
 } from '@mui/material';
+import ElmLink from './ElmLink/ElmLink';
+import ElmFooter from './ElmFooter/ElmFooter';
 
-const CreateAccountView = () => {
+const ForgotPassword = () => {
   const [form, setForm] = useState({
-    name: '',
     email: '',
-    password: '',
   });
 
   const handleChange = (e) => {
@@ -21,15 +21,15 @@ const CreateAccountView = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle account creation logic here
-    alert('Account Created!!!')
+    // Handle reset password logic here
+    alert('Prompt a password reset view')
   };
 
   return (
-    <Container maxWidth="xs" sx={{ mt: 4 }}>
+    <Container maxWidth="xs">
       <Paper elevation={3} sx={{ p: 3 }}>
         <Typography variant="h5" align="center" gutterBottom>
-          Create Account
+          Forgot you Password?
         </Typography>
         <Box
           component="form"
@@ -41,33 +41,13 @@ const CreateAccountView = () => {
           }}
         >
           <TextField
-            label="Name"
+            label="Username"
             name="name"
             value={form.name}
             onChange={handleChange}
             fullWidth
             required
             autoComplete="name"
-          />
-          <TextField
-            label="Email"
-            name="email"
-            type="email"
-            value={form.email}
-            onChange={handleChange}
-            fullWidth
-            required
-            autoComplete="email"
-          />
-          <TextField
-            label="Password"
-            name="password"
-            type="password"
-            value={form.password}
-            onChange={handleChange}
-            fullWidth
-            required
-            autoComplete="new-password"
           />
           <Button
             type="submit"
@@ -76,12 +56,14 @@ const CreateAccountView = () => {
             sx={{ mt: 2 }}
             fullWidth
           >
-            Sign Up
+            Reset Password
           </Button>
         </Box>
+        <ElmLink to="/login" >Return to Sign In</ElmLink>
       </Paper>
+      <ElmFooter />
     </Container>
   );
 };
 
-export default CreateAccountView;
+export default ForgotPassword;

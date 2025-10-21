@@ -14,17 +14,20 @@ function Favorites() {
         setFavorites(preFavorites => preFavorites.filter((f) => f.location.location_id !== id));
     }
 
-    const list = favorites?.map((elm) => <ListCard key={elm.location.location_id} id={`list-card_${elm.location.location_id}`} data={elm} sessionId={sessionId} handleDeleteFavorite={handleDeleteFavorite} />);
+    const list = favorites?.map((elm) => 
+        <ListCard 
+            key={elm.location.location_id} 
+            id={`list-card_${elm.location.location_id}`} 
+            data={elm} 
+            sessionId={sessionId} 
+            handleDeleteFavorite={handleDeleteFavorite} 
+            />);
     return (
         <>
-            <List 
-                id="favorites-list"
-                sx={{ 
-                    height: '90vh',
-                    overflowY: 'auto',
-                    scrollbarWidth: 'none',
-                    paddingRight: '1em',
-                    paddingLeft: '1em',
+            <List sx={{ 
+                height: '90vh',
+                overflowY: 'auto',
+                scrollbarWidth: 'none',
                 }}>
                 {list}
             </List>
