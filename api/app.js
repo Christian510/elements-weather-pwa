@@ -1,3 +1,8 @@
+/**
+ * @file app.js
+ * @description This is the main entry point for the API.
+ * This is the production version of the API. DO NOT CHANGE THE PATH!!
+ */
 require('dotenv').config({path: 'api/.env.production' })
 const express = require('express');
 const session = require('express-session');
