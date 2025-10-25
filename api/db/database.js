@@ -5,6 +5,9 @@
 const dotenv = require('dotenv');
 const mysql = require('mysql2/promise');
 const path = process.env.NODE_ENV === 'production' ? './api/.env.production' : './api/.env.development';
+console.log('path: ', path); // RAT
+console.log('process.env.NODE_ENV: ', process.env.NODE_ENV);
+
 dotenv.config({ path: path });
 const icon_map = require('./icon_map.js');
 

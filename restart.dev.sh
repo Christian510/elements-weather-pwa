@@ -5,16 +5,21 @@
 # Usage: source ./restart.dev.sh
 
 # Set the NODE_ENV for this shell session
-# export NODE_ENV="development"
-# echo "NODE_ENV set to $NODE_ENV"
+export NODE_ENV="development"
+echo "NODE_ENV set to $NODE_ENV"
 
 # Kill running backend/frontend/redis processes
 echo "Shutting down existing processes..."
 pkill -f "./bin/www"
-pkill -f "start:dev"
+pkill -f "react-scripts start"
 pkill -f "redis-server"
 sleep 2
 echo "Processes shut down."
+
+# Start backend server
+npm run start:server > server.log 2>&1 &
+sleep 2
+echo "✅ Backend started (log: server.log)"
 
 # Start frontend (React)
 # export NODE_ENV="development"
@@ -28,21 +33,21 @@ fi
 echo "✅ Frontend started (log: frontend.log)"
 
 # Start backend
-echo "Starting backend..."
-cd ./api || { echo "❌ Failed to cd into ./api"; return 1; }
+# echo "Starting backend..."
+# cd ./api || { echo "❌ Failed to cd into ./api"; return 1; }
 
 # Set NODE_ENV
 # export NODE_ENV="development"
 # Start Redis
-npm run start:redis > redis.log 2>&1 &
-sleep 2
-echo "Redis started (log: redis.log)"
+# npm run start:redis > redis.log 2>&1 &
+# sleep 2
+# echo "Redis started (log: redis.log)"
 
 # Start backend server
-npm start > server.log 2>&1 &
-echo "✅ Backend started (log: server.log)"
+# npm start > server.log 2>&1 &
+# echo "✅ Backend started (log: server.log)"
 
 # Move back to root
-cd ..
+# cd ..
 
 echo "🚀 $NODE_ENV environment is up and running!"

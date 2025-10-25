@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 const { RedisStore } = require('connect-redis');
 const { createClient } = require('redis');
-dotenv.config({ path: './.env.production' });
+dotenv.config({ path: './.env.development' });
 
 const redisClient = createClient({
     url: process.env.REDIS_URL,

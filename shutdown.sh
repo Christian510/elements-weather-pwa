@@ -30,6 +30,7 @@ log "Stopping known application processes..."
 pkill -f "node.*api/bin/www" 2>/dev/null
 pkill -f "react-scripts start" 2>/dev/null
 pkill -f "serve -s build" 2>/dev/null
+pkill -f "redis-server" 2>/dev/null
 
 sleep 2
 log "✅ All services terminated successfully."
