@@ -1,5 +1,10 @@
-// import express from 'express';
-// import { fetchFavorites, addOneFavorite, deleteOneFavorite } from '../controllers/favorites.js';
+/*
+ * favorites.js
+ *
+ * @description: Favorites routes
+ *
+ * @description: This file contains the routes for the favorites.
+ */
 
 const express = require('express');
 const { fetchFavorites, addOneFavorite, deleteOneFavorite } = require('../controllers/favorites.js');
@@ -12,5 +17,4 @@ router.post('/add-one', addOneFavorite);
 
 router.delete('/delete-one/', deleteOneFavorite);
 
-// export default router;
 module.exports = router;

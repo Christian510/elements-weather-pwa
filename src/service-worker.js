@@ -73,7 +73,7 @@ self.addEventListener('message', (event) => {
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      console.log('cachedResponse: ', cachedResponse); // ****** DEBUG ****** //
+      // console.log('cachedResponse: ', cachedResponse); // ****** DEBUG ****** //
       return (
         cachedResponse ||
         fetch(event.request).catch(() => {

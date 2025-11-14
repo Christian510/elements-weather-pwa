@@ -194,7 +194,9 @@ async createWeatherIconsTable() {
       const [location] = await conn.execute(l_query, [params.location_id]);
 
       if (sf.length < 1 && location.length < 1) {
-        const sf_insert_query = `INSERT INTO session_favorites (s_id, l_id, l_name) VALUES (?, ?, ?)`;
+        const sf_insert_query = `
+          INSERT INTO session_favorites (s_id, l_id, l_name) 
+          VALUES (?, ?, ?)`;
         const [sfResult] = await conn.execute(sf_insert_query, [
           params.session_id,
           params.location_id,
@@ -221,7 +223,10 @@ async createWeatherIconsTable() {
       }
 
       if (sf.length < 1 && location.length > 0) {
-        const sf_insert_query = `INSERT INTO session_favorites (s_id, l_id, l_name) VALUES (?, ?, ?)`;
+        const sf_insert_query = `
+        INSERT INTO session_favorites (s_id, l_id, l_name) 
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE l_name = VALUES(l_name);`;
         const [sfResult] = await conn.execute(sf_insert_query, [
           params.session_id,
           params.location_id,
