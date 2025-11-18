@@ -10,13 +10,15 @@ import './index.css';
 import ElmMenu from './components/Menu/Menu';
 import Header from './components/NavBar/Header';
 import ElmSearch from './components/ElmSearch/ElmSearch';
+// import OfflineLoader from './components/OfflineLoader/OfflineLoader';
+// import ElmSkeleton from "./components/ElmSkeleton/ElmSkeleton";
 
 export function Home() {
 
   const theme = useTheme();
   // console.log("theme: ", theme)
   let navigation = useNavigation();
-// console.log("navigation: ", navigation); // ****** DEBUG ****** //
+  console.log("navigation: ", navigation); // ****** DEBUG ****** //
   let revalidator = useRevalidator();
   let fetchers = useFetchers();
   let fetcherInProgress = fetchers.some((f) =>
@@ -45,6 +47,7 @@ export function Home() {
           <ElmSearch />
         </Header>
         <StyledOutlet id="outlet">
+          {/* <OfflineLoader skeletonLoader={<ElmSkeleton height={150} width={400}/>} time={3000} /> */}
           <Outlet />
         </StyledOutlet>
         <div style={{ position: "fixed", top: 40, right: 20 }}>
