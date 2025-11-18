@@ -53,8 +53,8 @@ app.use('/favorites', session({
   cookie: {
     secure: false, // true if using https
     domain: process.env.COOKIE_DOMAIN,
-    // maxAge: 1000 * 60 * 60 * 24 * 90, // 90 days
-    maxAge: 1000 * 60 * 60 * 24 * 1, // 1 day
+    maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
+    // maxAge: 1000 * 60 * 60 * 24 * 1, // 1 day
     sameSite: 'lax', // none, lax, strict
   }
 }
