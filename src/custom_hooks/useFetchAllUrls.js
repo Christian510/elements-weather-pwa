@@ -24,6 +24,6 @@ export default function useFetchAllUrls(locations) {
         return () => {
             setState({ url: null, fetching: true });
         }
-    }, []);
+    }, [locations]);
     return state;
 };
