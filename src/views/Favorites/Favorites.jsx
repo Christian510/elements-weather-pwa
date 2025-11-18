@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import List from '@mui/material/List';
-// import Box from '@mui/material/Box';
 import ListCard from '../../components/ListCard/ListCard';
 import { deleteFavorite } from '../../models/weather_api';
 
@@ -23,7 +22,7 @@ function Favorites() {
             handleDeleteFavorite={handleDeleteFavorite} 
             />);
     return (
-        <>
+        <> 
             <List sx={{ 
                 height: '90vh',
                 overflowY: 'auto',
