@@ -75,7 +75,7 @@ export default function CurrentConditions() {
     name = locationData?.location.name;
     state = locationData?.location.state;
     elevation = `${Math.round(
-      locationData?.forecast.properties.elevation.value
+      3.28084 * locationData?.forecast.properties.elevation.value
     )}`;
     // tempUnit = forecast?.properties.periods[0].temperatureUnit;
     detailedForecast =
