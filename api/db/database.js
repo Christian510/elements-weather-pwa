@@ -16,24 +16,24 @@ class Database {
   // Add conditional statement to check if in production or development mode
   // and set the pool variable accordingly
   constructor() {
-    this.pool = mysql.createPool({
-      uri: process.env.JAWSDB_URL,
-      connectionLimit: 10,
-      waitForConnections: true,
-      queueLimit: 0,
-      });
-
-    // Create a connection pool
     // this.pool = mysql.createPool({
-    //   host: process.env.DB_HOST,
-    //   user: process.env.DB_USER,
-    //   password: process.env.DB_PASS,
-    //   database: process.env.DB_NAME,
-    //   port: process.env.DB_PORT,
-    //   connectionLimit: 10, // Adjust based on your needs
+    //   uri: process.env.JAWSDB_URL,
+    //   connectionLimit: 10,
     //   waitForConnections: true,
     //   queueLimit: 0,
-    // });
+    //   });
+
+    // Create a connection pool
+    this.pool = mysql.createPool({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASS,
+      database: process.env.DB_NAME,
+      port: process.env.DB_PORT,
+      connectionLimit: 10, // Adjust based on your needs
+      waitForConnections: true,
+      queueLimit: 0,
+    });
 
     this.executeQuery = this.executeQuery.bind(this);
     this.createLocationsTable = this.createLocationsTable.bind(this);
