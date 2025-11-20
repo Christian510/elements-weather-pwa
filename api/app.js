@@ -45,7 +45,7 @@ app.use(bodyParser.json())
 
 app.set('trust proxy', 1) // trust first proxy
 const sessionSecret = process.env.SESSION_SECRET;
-app.use(session({
+app.use('/favorites', session({
   secret: sessionSecret,
   store: redisStore,
   resave: false,
@@ -53,8 +53,8 @@ app.use(session({
   cookie: {
     secure: false, // true if using https
     domain: process.env.COOKIE_DOMAIN,
-    // maxAge: 1000 * 60 * 60 * 24 * 90, // 90 days
-    maxAge: 1000 * 60 * 60 * 24 * 1, // 1 day
+    maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
+    // maxAge: 1000 * 60 * 60 * 24 * 1, // 1 day
     sameSite: 'lax', // none, lax, strict
   }
 }
