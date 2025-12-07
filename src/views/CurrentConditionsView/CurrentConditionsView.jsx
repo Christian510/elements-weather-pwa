@@ -253,7 +253,7 @@ export default function CurrentConditions() {
                     sx={lateralMargins}
                     color="inherit"
                   >
-                    {`${values.ng}\u00B0`},
+                    {`${values.lng}\u00B0`},
                   </StyledTypography>
                   <TerrainOutlinedIcon fontSize="small" />
                   <StyledTypography
