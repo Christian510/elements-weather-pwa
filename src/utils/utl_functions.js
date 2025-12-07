@@ -52,6 +52,7 @@ const validateAdr = str => {
 }
 
 export function parseUrl(url) {
+  if (!url) return null;
   const nUrl = new URL(url);
   const path = nUrl.pathname.split('/');
   const iconClass = path[path.length - 1].split(',')[0];

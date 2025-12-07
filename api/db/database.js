@@ -42,8 +42,10 @@ class Database {
     this.createTablesIfNonExist = this.createTablesIfNonExist.bind(this);
     this.findAllById = this.findAllById.bind(this);
     this.insertOne = this.insertOne.bind(this);
+    this.fetchOneIcon = this.fetchOneIcon.bind(this);
     this.deleteOne = this.deleteOne.bind(this);
     this.addIconsToDB = this.addIconsToDB.bind(this);
+    this.fetchAllIcons = this.fetchAllIcons.bind(this);
   }
 
   /**
@@ -244,6 +246,17 @@ async createWeatherIconsTable() {
     } finally {
       if (conn) conn.release();
     }
+  }
+
+  // Fetches an icon from the database
+  async fetchOneIcon(icon) {
+    const query = `SELECT * FROM weather_icons WHERE icon = ?`;
+    return this.executeQuery(query, [icon]);
+  }
+
+  async fetchAllIcons() {
+    const query = `SELECT * FROM weather_icons`;
+    return this.executeQuery(query);
   }
 
   /**
