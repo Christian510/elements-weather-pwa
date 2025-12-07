@@ -1,12 +1,13 @@
-import axios from "axios";
-axios.defaults.withCredentials = process.env.REACT_APP_WITH_CREDENTIALS === "true";
-axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
-axios.defaults.headers.common['Accept'] = 'application/json';
-axios.defaults.headers.common['Content-Type'] = 'application/json';
-// axios.defaults.headers.common['mode'] = 'cors';
-axios.defaults.headers.common['credentials'] = 'include';
-axios.defaults.headers.common['access-control-allow-origin'] = '*'; // test: if this works keep it.
+// import axios from "axios";
+// axios.defaults.withCredentials = process.env.REACT_APP_WITH_CREDENTIALS === "true";
+// axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+// axios.defaults.headers.common['Accept'] = 'application/json';
+// axios.defaults.headers.common['Content-Type'] = 'application/json';
+// // axios.defaults.headers.common['mode'] = 'cors';
+// axios.defaults.headers.common['credentials'] = 'include';
+// axios.defaults.headers.common['access-control-allow-origin'] = '*'; // test: if this works keep it.
 
+import axios from "../api/client";
 export function processFetch(url, options) {
     return fetch(url, options)
         .then(response => {

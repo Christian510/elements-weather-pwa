@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Carousel from "../../components/Carousel/Carousel";
 import { useParams, useNavigate } from "react-router-dom";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
@@ -16,79 +16,110 @@ import ElmSpinner from "../../components/ElmSpinner/ElmSpinner";
 // import { formatDateTime } from '../../models/date';
 import { styled, useTheme } from "@mui/material/styles";
 import { useLoaderData } from "react-router-dom";
-import { fetchAllData, addFavorite } from "../../models/weather_api";
+import { fetchAllData, addFavorite, fetchExtendedForecast } from "../../models/weather_api";
+import { fetchOneElmIcon } from "../../models/elmIcons";
 import { Button } from "@mui/material";
 import { StyledButtonLink } from "../../components/StyledButtonLink";
 import ElmFooter from "../../components/ElmFooter/ElmFooter";
 import TerrainOutlinedIcon from "@mui/icons-material/TerrainOutlined";
 import ElmDivider from "../../components/ElmDivider";
+import { parseUrl } from "../../utils/utl_functions";
+import "../../styles/weather-icons.min.css";
+import WeatherIcon from "../../components/WeatherIcon/WeatherIcon";
 
 export default function CurrentConditions() {
-  // const theme = useTheme();
+  console.log("CurrentConditions");
+  const theme = useTheme();
   const navigate = useNavigate();
-  const { forecasts, sessionId } = useLoaderData();
   let { location } = useParams();
-  const [locationData, setLocationData] = useState(null);
-  const [match, setMatch] = useState(false);
+  const params = JSON.parse(location);
+  const { forecasts, sessionId } = useLoaderData();
+
+  // const [error, setError] = useState(null);
+  // const [loading, setLoading] = useState(true);
   // const [hourly, setHourly] = useState();
+  
+  const location_id = location ? params.location_id : null;
 
-  useEffect(() => {
-    const params = JSON.parse(location);
+  const matchedForecast = useMemo(() => {
+    return (forecasts || []).find(
+      (elm) => elm.location.location_id === location_id);
+  }, [forecasts, location_id]);
 
-    // pull locationData from Carousel and set to state here.
-    const match = forecasts.find(
-      (elm) => elm.location.location_id === params.location_id
-    );
-    if (match) {
-      setLocationData(match);
-      setMatch(true);
+  // Derive all vars memoized matchedForecast.
+  const currentPeriod = matchedForecast?.forecast.properties.periods[0];
+
+  const values = useMemo(() => {
+    if (!currentPeriod) {
+      return {
+        dateTime: null,
+        temp: null,
+        tempScale: null,
+        iconUrl: null,
+        parsedIcon: null,
+        name: null,
+        state: null,
+        elevation: null,
+        isDay: null,
+        loading: true,
+        detailedForecast: null,
+        fetchExtendedForecast: null,
+        shortForecast: null,
+        locstion: null,
+        lat: null,
+        lng: null
+      }
     }
-    if (match === undefined) {
-      setMatch(false);
-      setTimeout(() => {
-        fetchAllData(params).then((result) => setLocationData(result));
-      }, 50);
-    }
-    return () => {
-      setLocationData(null);
-      setMatch(false);
+
+    const iconUrl = currentPeriod.icon;
+    const parsedIcon = iconUrl ? parseUrl(iconUrl) : null;
+    console.log('parsedIcon: ', parsedIcon);
+    return {
+      temp: currentPeriod.temperature,
+      tempScale: currentPeriod.temperatureUnit,
+      iconUrl,
+      parsedIcon: parsedIcon,
+      name: matchedForecast.location.name,
+      state: matchedForecast.location.state,
+      elevation: Math.round(3.28084 * (matchedForecast.forecast.properties.elevation.value || 0)),
+      detailedForecast: currentPeriod.detailedForecast,
+      isDay: currentPeriod.isDaytime,
+      lat: matchedForecast.location.lat,
+      lng: matchedForecast.location.lng,
+      loading: false,
     };
-  }, [location, forecasts, sessionId]);
+  }, [matchedForecast, currentPeriod]);
 
-  // let dateTime = null;
-  let temp = null;
-  // let tempUnit = null;
-  let detailedForecast = null;
-  // let shortForecast = null;
-  // let extendedForecast = null;
-  let icon = null;
-  let name = null;
-  let state = null;
-  let elevation = null;
-  let tempScale = null;
-  if (locationData) {
-    console.log("locationData: ", locationData); // RAT
-    // dateTime = formatDateTime(locationData.dateTime.time);
-    temp = locationData?.forecast.properties.periods[0].temperature;
-    tempScale = locationData?.forecast.properties.periods[0].temperatureUnit;
-    icon = locationData?.forecast.properties.periods[0].icon;
-    name = locationData?.location.name;
-    state = locationData?.location.state;
-    elevation = `${Math.round(
-      3.28084 * locationData?.forecast.properties.elevation.value
-    )}`;
-    // tempUnit = forecast?.properties.periods[0].temperatureUnit;
-    detailedForecast =
-      locationData?.forecast.properties.periods[0].detailedForecast;
-    // shortForecast = locationData?.forecast.properties.periods[0].shortForecast;
-    // extendedForecast = locationData?.forecast.properties.periods;
-  }
+  const [ elmIcon, setElmIcon ] = useState({});
+  
+  useEffect(() => {
+
+    if (!values.parsedIcon) {
+      return;
+    }
+
+    let aborted = false;
+
+    fetchOneElmIcon(values.parsedIcon).then((result) => {
+      if (!aborted) {
+        console.log("typeof: ", typeof result.icon[0]);
+        setElmIcon(result?.icon[0]); 
+      }
+    });
+
+    return () => {
+      aborted = true;
+      setElmIcon({});
+
+    }
+
+  }, [values.parsedIcon]);
 
   function handleAddFavorite(location, sessionID) {
     setTimeout(() => {
       addFavorite(location, sessionID).then((resp) => {
         // if undefined, then something is wrong
-        console.log("addFavorite resp: ", resp);
+        // console.log("addFavorite resp: ", resp);
         if (resp === undefined) {
           alert("Location Not added to favorites. Please try again.");
           return;
@@ -103,12 +134,10 @@ export default function CurrentConditions() {
     }, 50);
   }
 
-  const theme = useTheme();
-  console.log("theme: ", theme);
   const StyledContainer = styled(Box)(({ theme }) => ({
     height: "100%",
     backgroundColor: theme.palette.primary.light,
-    backgroundImage: `url(${icon})`,
+    backgroundImage: `url(${values.iconUrl})`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     backgroundPosition: "center",
@@ -120,18 +149,21 @@ export default function CurrentConditions() {
   }));
 
   const WeatherStat = ({ icon: Icon, label, value }) => (
-  <Box display="flex" alignItems="center">
-    <Icon fontSize="small" sx={{ color: 'grey.600', mr: 1 }} />
-    <Box>
-      <Typography variant="body2" sx={{ color: 'grey.600' }}>{label}</Typography>
-      <Typography variant="body1">{value}</Typography>
+    <Box display="flex" alignItems="center">
+      <Icon fontSize="small" sx={{ color: "grey.600", mr: 1 }} />
+      <Box>
+        <Typography variant="body2" sx={{ color: "grey.600" }}>
+          {label}
+        </Typography>
+        <Typography variant="body1">{value}</Typography>
+      </Box>
     </Box>
-  </Box>
-);
+  );
 
+  console.log("elmIcon: ", elmIcon);
   return (
     <>
-      {!locationData ? (
+      {!values ? (
         <ElmSpinner size="lg" />
       ) : (
         <StyledContainer
@@ -147,7 +179,7 @@ export default function CurrentConditions() {
               padding: "0.5em 0 0.5em 0",
             }}
           >
-            {!match && (
+            {!matchedForecast && (
               <>
                 <StyledButtonLink
                   to={"/"}
@@ -162,7 +194,7 @@ export default function CurrentConditions() {
                   component={Button}
                   disableRipple
                   onClick={() =>
-                    handleAddFavorite(locationData.location, sessionId)
+                    handleAddFavorite(values.location, sessionId)
                   }
                   type="submit"
                 >
@@ -198,7 +230,7 @@ export default function CurrentConditions() {
             >
               <FlexBoxColCenter>
                 <Typography id="location" variant="h5">
-                  {name}, {state}
+                  {values.name}, {values.state}
                 </Typography>
                 <Box
                   id="coordinates"
@@ -214,14 +246,14 @@ export default function CurrentConditions() {
                 >
                   <PlaceOutlinedIcon fontSize="small" color="inherit" />
                   <StyledTypography variant="body1" sx={lateralMargins}>
-                    {`${locationData?.location.lat}\u00B0`},
+                    {`${values.lat}\u00B0`},
                   </StyledTypography>
                   <StyledTypography
                     variant="body1"
                     sx={lateralMargins}
                     color="inherit"
                   >
-                    {`${locationData?.location.lng}\u00B0`},
+                    {`${values.ng}\u00B0`},
                   </StyledTypography>
                   <TerrainOutlinedIcon fontSize="small" />
                   <StyledTypography
@@ -230,12 +262,24 @@ export default function CurrentConditions() {
                     sx={lateralMargins}
                     color="inherit"
                   >
-                    {elevation} ft
+                    {values.elevation} ft
                   </StyledTypography>
                 </Box>
               </FlexBoxColCenter>
               <FlexBoxRowCenter>
-                <FlexBoxColCenter>Icon</FlexBoxColCenter>
+                <FlexBoxColCenter
+                  sx={{ 
+                      width: "2em", 
+                      height: "2em" 
+
+                    }}>
+                  <WeatherIcon
+                    iconObj={elmIcon}
+                    isDay={values.isDay}
+                    size="med"
+                    color={theme.palette.grey[600]}
+                    />
+                </FlexBoxColCenter>
                 <Box
                   sx={{
                     marginTop: ".5em",
@@ -249,7 +293,7 @@ export default function CurrentConditions() {
                     }}
                     variant="h3"
                   >
-                    {temp}&deg;{tempScale}
+                    {values.temp}&deg;{values.tempScale}
                   </Typography>
                 </Box>
               </FlexBoxRowCenter>
@@ -260,35 +304,51 @@ export default function CurrentConditions() {
                 id="detailed-forecast"
                 sx={{ padding: "0 1.6em" }}
               >
-                <Typography variant="body1">{detailedForecast}</Typography>
+                <Typography variant="body1">{values.detailedForecast}</Typography>
               </FlexBoxRowCenter>
               <ElmDivider />
               <Box sx={{ width: "100%", maxWidth: "330px" }}>
-                <Grid
-                  container
-                  columnSpacing={{ xs: 2, sm: 3 }}
-                  rowSpacing={2}
-                >
+                <Grid container columnSpacing={{ xs: 2, sm: 3 }} rowSpacing={2}>
                   <Grid item xs={6} sm={6} md={6}>
                     <Stack spacing={2}>
-                      <WeatherStat icon={AirOutlinedIcon} label="Wind" value="25 mph" />
-                      <WeatherStat icon={WaterDropOutlinedIcon} label="Humidity" value="25%" />
-                      <WeatherStat icon={VisibilityOutlinedIcon} label="Visibility" value="10 mi" />
+                      <WeatherStat
+                        icon={AirOutlinedIcon}
+                        label="Wind"
+                        value="25 mph"
+                      />
+                      <WeatherStat
+                        icon={WaterDropOutlinedIcon}
+                        label="Humidity"
+                        value="25%"
+                      />
+                      <WeatherStat
+                        icon={VisibilityOutlinedIcon}
+                        label="Visibility"
+                        value="10 mi"
+                      />
                     </Stack>
                   </Grid>
                   <Grid item xs={6} sm={6} md={6}>
                     <Stack spacing={2}>
-                      <WeatherStat icon={SpeedOutlinedIcon} label="Pressure" value="30.1 in" />
-                      <WeatherStat icon={ThermostatOutlinedIcon} label="Dew Point" value="45°F" />
+                      <WeatherStat
+                        icon={SpeedOutlinedIcon}
+                        label="Pressure"
+                        value="30.1 in"
+                      />
+                      <WeatherStat
+                        icon={ThermostatOutlinedIcon}
+                        label="Dew Point"
+                        value="45°F"
+                      />
                     </Stack>
                   </Grid>
                 </Grid>
               </Box>
               <ElmDivider />
-              <Carousel forecast={locationData} />
+              <Carousel forecast={matchedForecast} />
             </Box>
           </Box>
-          {match && (
+          {matchedForecast && (
             <>
               <ElmFooter />
             </>

@@ -1,6 +1,8 @@
 /**
- * @fileoverview Weather icons mapping for different weather conditions.
- * @description This file contains an array of weather icons with their corresponding
+ * @fileoverview Custom Weeather.org icons for the application.
+ * @description This file contains an array of Weather.org icons mapped to corresponding
+ * Weather Icons 2.0.10.
+ * 
  * Keep for reference.
  */
 

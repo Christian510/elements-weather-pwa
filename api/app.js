@@ -12,6 +12,7 @@ const cors = require('cors');
 const path = require('path');
 const sqlformat = require('./logger.js');
 const favoritesRouter = require('./routes/favorites.js');
+const iconsRouter = require('./routes/icons.js');
 const redisStore = require('./redisStore.js');
 
 const app = express();
@@ -61,6 +62,7 @@ app.use('/favorites', session({
 ));
 
 app.use('/favorites', favoritesRouter);
+app.use('/icons', iconsRouter)
 
 // app.use('/user', userRouter);
 
