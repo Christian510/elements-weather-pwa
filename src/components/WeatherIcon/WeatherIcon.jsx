@@ -13,10 +13,7 @@ function WeatherIcon({
   color = "grey",
   sx = [],
 }) {
-//   console.log("WeatherIcon: ", iconObj);
-//   console.log('isDay: ', isDay);
-//   console.log('size: ', size);
-  // console.log('color: ', color);
+
   // const theme = useTheme();
   const [iconSize, setIconsSize] = useState(null);
   const [wIcon, setIcon] = useState({
@@ -48,7 +45,6 @@ function WeatherIcon({
     if (typeof size === "string") 
         setIconsSize(findIconSize.value);
   }, [size, color, iconSize, iconObj, isDay]);
-  console.log('iconSize: ', iconSize);
 
   const IconStyles = styled("i")(({ theme }) => ({
     fontSize: iconSize,
