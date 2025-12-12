@@ -28,26 +28,37 @@ import "../../styles/weather-icons.min.css";
 import WeatherIcon from "../../components/WeatherIcon/WeatherIcon";
 
 export default function CurrentConditions() {
-  console.log("CurrentConditions");
   const theme = useTheme();
   const navigate = useNavigate();
   let { location } = useParams();
-  const params = JSON.parse(location);
   const { forecasts, sessionId } = useLoaderData();
-
+  const params = useMemo(() => (JSON.parse(location)), [location]);
+  const [forecast, setForecast] = useState();
+  
   // const [error, setError] = useState(null);
   // const [loading, setLoading] = useState(true);
   // const [hourly, setHourly] = useState();
   
-  const location_id = location ? params.location_id : null;
+  console.log('params: ', params)
+  console.log('forecasts: ', forecasts)
 
-  const matchedForecast = useMemo(() => {
-    return (forecasts || []).find(
-      (elm) => elm.location.location_id === location_id);
-  }, [forecasts, location_id]);
-
+  const match = useMemo(() => forecasts.find((f) => f.location.location_id === params.location_id), [forecasts, params]);
+  
+  useEffect(() => {
+    if (!params) return null;
+    if (params) {
+      setTimeout(() => {
+        fetchAllData(params)
+        .then((result) => {
+          setForecast(result);
+        });
+      }, 50);
+      
+    }
+  },[params]);
+  
   // Derive all vars memoized matchedForecast.
-  const currentPeriod = matchedForecast?.forecast.properties.periods[0];
+  const currentPeriod = forecast?.forecast.properties.periods[0];
 
   const values = useMemo(() => {
     if (!currentPeriod) {
@@ -73,22 +84,22 @@ export default function CurrentConditions() {
 
     const iconUrl = currentPeriod.icon;
     const parsedIcon = iconUrl ? parseUrl(iconUrl) : null;
-    console.log('parsedIcon: ', parsedIcon);
+    
     return {
       temp: currentPeriod.temperature,
       tempScale: currentPeriod.temperatureUnit,
       iconUrl,
       parsedIcon: parsedIcon,
-      name: matchedForecast.location.name,
-      state: matchedForecast.location.state,
-      elevation: Math.round(3.28084 * (matchedForecast.forecast.properties.elevation.value || 0)),
+      name: forecast.location.name,
+      state: forecast.location.state,
+      elevation: Math.round(3.28084 * (forecast.forecast.properties.elevation.value || 0)),
       detailedForecast: currentPeriod.detailedForecast,
       isDay: currentPeriod.isDaytime,
-      lat: matchedForecast.location.lat,
-      lng: matchedForecast.location.lng,
+      lat: forecast.location.lat,
+      lng: forecast.location.lng,
       loading: false,
     };
-  }, [matchedForecast, currentPeriod]);
+  }, [forecast, currentPeriod]);
 
   const [ elmIcon, setElmIcon ] = useState({});
   
@@ -102,7 +113,6 @@ export default function CurrentConditions() {
 
     fetchOneElmIcon(values.parsedIcon).then((result) => {
       if (!aborted) {
-        console.log("typeof: ", typeof result.icon[0]);
         setElmIcon(result?.icon[0]); 
       }
     });
@@ -160,11 +170,12 @@ export default function CurrentConditions() {
     </Box>
   );
 
-  console.log("elmIcon: ", elmIcon);
   return (
     <>
-      {!values ? (
-        <ElmSpinner size="lg" />
+      {values.loading === true ? (
+        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" height='80%'>
+        <ElmSpinner size="100px" />
+        </Box>
       ) : (
         <StyledContainer
           id="weather-forecast"
@@ -179,7 +190,7 @@ export default function CurrentConditions() {
               padding: "0.5em 0 0.5em 0",
             }}
           >
-            {!matchedForecast && (
+            {!match && (
               <>
                 <StyledButtonLink
                   to={"/"}
@@ -194,7 +205,7 @@ export default function CurrentConditions() {
                   component={Button}
                   disableRipple
                   onClick={() =>
-                    handleAddFavorite(values.location, sessionId)
+                    handleAddFavorite(values.location)
                   }
                   type="submit"
                 >
@@ -222,6 +233,7 @@ export default function CurrentConditions() {
               alignItems="center"
               backgroundColor="white"
               width="100%"
+              height="100%"
               sx={{
                 padding: "1em",
                 color: "black",
@@ -345,10 +357,10 @@ export default function CurrentConditions() {
                 </Grid>
               </Box>
               <ElmDivider />
-              <Carousel forecast={matchedForecast} />
+              {/* <Carousel forecast={forecast} /> */}
             </Box>
           </Box>
-          {matchedForecast && (
+          {values.loading === false && (
             <>
               <ElmFooter />
             </>
