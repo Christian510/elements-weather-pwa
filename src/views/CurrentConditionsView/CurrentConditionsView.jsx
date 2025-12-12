@@ -76,7 +76,7 @@ export default function CurrentConditions() {
         detailedForecast: null,
         fetchExtendedForecast: null,
         shortForecast: null,
-        locstion: null,
+        location: null,
         lat: null,
         lng: null
       }
@@ -205,7 +205,7 @@ export default function CurrentConditions() {
                   component={Button}
                   disableRipple
                   onClick={() =>
-                    handleAddFavorite(values.location)
+                    handleAddFavorite(params, sessionId)
                   }
                   type="submit"
                 >
