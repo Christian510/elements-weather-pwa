@@ -6,7 +6,6 @@ import { formatDateTime } from '../../models/date.js';
 
 function ListCard({ id, data, sessionId, handleDeleteFavorite }){
   // const theme = useTheme();
-  console.log('ListCard data: ', data);
   const ForwardRefLink = forwardRef(
     (linkProps, ref) => (
       <Link ref={ref} to={linkProps.to} {...linkProps} />
