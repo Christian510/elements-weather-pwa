@@ -6,12 +6,13 @@ import { formatDateTime } from '../../models/date.js';
 
 function ListCard({ id, data, sessionId, handleDeleteFavorite }){
   // const theme = useTheme();
-
+  console.log('ListCard data: ', data);
   const ForwardRefLink = forwardRef(
     (linkProps, ref) => (
       <Link ref={ref} to={linkProps.to} {...linkProps} />
     )
   );
+
   const path = `forecast/${encodeURIComponent(JSON.stringify(data.location))}`;
   let icon = null;
   let temp = null;
@@ -21,8 +22,8 @@ function ListCard({ id, data, sessionId, handleDeleteFavorite }){
   const location_id = data.location.location_id
   const name = data?.location.name;
   if (data.forecast) {
-    icon = data?.forecast.properties.periods[0].icon;
-    temp = data?.forecast.properties.periods[0].temperature;
+    icon = data?.hourlyForecast.properties.periods[0].icon;
+    temp = data?.hourlyForecast.properties.periods[0].temperature;
     // tempUnit = data?.forecast.properties.periods[0].temperatureUnit;
     shortForecast = data?.forecast.properties.periods[0].shortForecast;
   }
