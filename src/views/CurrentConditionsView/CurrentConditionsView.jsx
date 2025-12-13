@@ -38,9 +38,6 @@ export default function CurrentConditions() {
   // const [error, setError] = useState(null);
   // const [loading, setLoading] = useState(true);
   // const [hourly, setHourly] = useState();
-  
-  console.log('params: ', params)
-  console.log('forecasts: ', forecasts)
 
   const match = useMemo(() => forecasts.find((f) => f.location.location_id === params.location_id), [forecasts, params]);
   
