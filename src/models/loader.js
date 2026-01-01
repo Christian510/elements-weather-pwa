@@ -1,4 +1,5 @@
 import { fetchAllData, fetchFavorites } from "./weather_api";
+import { fetchAllElmIcons } from "./elmIcons";
 
 export async function loader() {
     try {
@@ -9,7 +10,13 @@ export async function loader() {
       const forecasts = await Promise.all(
         data.locations.map(fetchAllData)
       );
-      return { forecasts, sessionId: data.session };
+      const iconValues = await fetchAllElmIcons();
+      if (!iconValues || typeof iconValues === 'string') {
+        return { iconValues: [] };
+      }
+      
+      return { forecasts, iconValues, sessionId: data.session };
+
     } catch (error) {
       console.error("Error fetching favorites: ", error);
       throw error;
