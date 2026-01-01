@@ -18,3 +18,18 @@ export const fetchOneElmIcon = async (icon) => {
     });
 };
 
+export const fetchAllElmIcons = async () => {
+  
+  return axios
+    .get('icons/allIcons')
+    .then((response) => {
+      if (typeof response.data === "string") {
+        return [];
+      }
+      return response.data;
+    })
+    .catch((error) => {
+      console.error("Error fetching data: ", error);
+    });
+}
+

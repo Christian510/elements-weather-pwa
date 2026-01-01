@@ -30,15 +30,18 @@ let router = createBrowserRouter([
     element: <Home />,
     id: "root",
     errorElement: <ErrorPage title="Home View" />,
+    loader: rootLoader,
     children: [
       {
         element: <Favorites />,
+        id: "favorites",
         index: true,
         errorElement: <ErrorPage title="Favorites View" />,
         loader: rootLoader,
       },
       {
         element: <CurrentConditionsView />,
+        id: "current_conditions",
         path: 'forecast/:location',
         errorElement: <ErrorPage title="Current Conditions View" />,
         loader: rootLoader,

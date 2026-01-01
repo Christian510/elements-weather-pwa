@@ -7,12 +7,14 @@ import Box from "@mui/material/Box";
 // import { fontSize } from "@mui/system";
 
 function WeatherIcon({
-  isDay = true,
-  iconObj = {},
-  size = "sm",
-  color = "grey",
-  sx = [],
-}) {
+    isDay = true,
+    iconObj = {},
+    size = "sm",
+    color = "grey",
+    sx = [],
+    }) {
+//   console.log('isDay: ', isDay);
+//   console.log('iconObj: ', iconObj);
 
   // const theme = useTheme();
   const [iconSize, setIconsSize] = useState(null);

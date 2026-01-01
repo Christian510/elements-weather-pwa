@@ -1,39 +1,20 @@
+import { useEffect, useState } from 'react';
 import Stack from '@mui/material/Stack';
 import ForecastCard from '../ForecastCard/ForecastCard';
 import ElmSpinner from '../../components/ElmSpinner/ElmSpinner';
 import WeatherIcon from '../WeatherIcon/WeatherIcon';
-// import { formatDateTime } from '../../models/date';
-import { parseUrl, convertDateStr } from '../../utils/utl_functions';
- 
-function Carousel({ forecast, loading=false }) {
-    const hourly = forecast.hourlyForecast.properties.periods;
-    // const daily = forecast.forecast.properties.periods;
-    let hourlyCards = hourly.map((item, index) => (
-        {
-            key: item.key,
-            title: forecast.location.name,
-            icon: parseUrl(item.icon),
-            forecast: item.shortForecast,
-            temp: item.temperature,
-            tempUnit: item.temperatureUnit,
-            isDaytime: item.isDaytime,
-            hour: index === 0 ? "Now" : convertDateStr(item.startTime),
-        }
-    ));
 
-    // let dailyCards = daily.map((item, index) => (
-    //     {
-    //         key: item.number,
-    //         title: forecast.location.name,
-    //         dow: forecast.forecast.name, // Day of the week
-    //         icon: item.icon,
-    //         forecast: item.shortForecast,
-    //         temp: item.temperature,
-    //         tempUnit: item.temperatureUnit,
-    //         isDaytime: item.isDaytime,
-    //     }
-    // ));
-    // loading = forecast.length === 0 ? true : false;
+function Carousel({ forecast, timeAlocated=10}) {
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (forecast) {
+            setLoading(false);
+        }
+        return () => {
+            setLoading(true);
+        }
+    }, [forecast]);
 
     return (
         <>
@@ -66,7 +47,7 @@ function Carousel({ forecast, loading=false }) {
                                 scrollSnapAlign: 'start',
                             },
                         }}>
-                        {hourlyCards?.slice(0, 25).map((item, index) => {
+                        {forecast?.slice(0, timeAlocated).map((item, index) => {
                             return <ForecastCard
                                 key={index}
                                 content={{
@@ -77,7 +58,7 @@ function Carousel({ forecast, loading=false }) {
                                 }}
                                 // direction='col'
                                 shape={{ height: 230, width: 150 }}
-                                Icon={() => <WeatherIcon isDay={item.isDaytime} icon={item.icon} size="med" />}
+                                Icon={() => <WeatherIcon isDay={item.isDaytime} iconObj={item.iconObj} size="med" color='white' />}
                                 />
                         }
                         )}

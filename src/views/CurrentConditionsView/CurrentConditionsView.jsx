@@ -16,10 +16,10 @@ import ElmSpinner from "../../components/ElmSpinner/ElmSpinner";
 // import { formatDateTime } from '../../models/date';
 import { styled, useTheme } from "@mui/material/styles";
 import { useLoaderData } from "react-router-dom";
-import { 
-  fetchAllData, 
-  addFavorite, 
-  // fetchExtendedForecast 
+import {
+  fetchAllData,
+  addFavorite,
+  // fetchExtendedForecast
 } from "../../models/weather_api";
 import { fetchOneElmIcon } from "../../models/elmIcons";
 import { Button } from "@mui/material";
@@ -27,7 +27,7 @@ import { StyledButtonLink } from "../../components/StyledButtonLink";
 import ElmFooter from "../../components/ElmFooter/ElmFooter";
 import TerrainOutlinedIcon from "@mui/icons-material/TerrainOutlined";
 import ElmDivider from "../../components/ElmDivider";
-import { parseUrl } from "../../utils/utl_functions";
+import { parseUrl, convertDateStr } from "../../utils/utl_functions";
 import "../../styles/weather-icons.min.css";
 import WeatherIcon from "../../components/WeatherIcon/WeatherIcon";
 
@@ -35,31 +35,50 @@ export default function CurrentConditions() {
   const theme = useTheme();
   const navigate = useNavigate();
   let { location } = useParams();
-  const { forecasts, sessionId } = useLoaderData();
-  const params = useMemo(() => (JSON.parse(location)), [location]);
-  const [dailyForecast, setForecast] = useState();
+  const { forecasts, iconValues, sessionId } = useLoaderData();
+  const params = useMemo(() => JSON.parse(location), [location]);
+  const [dailyForecast, setForecast] = useState(); // remame to currentPeriod
   const [hourlyForecast, setHourlyForecast] = useState();
-  
-  // const [error, setError] = useState(null);
-  // const [loading, setLoading] = useState(true);
-  // const [hourly, setHourly] = useState();
+  const match = useMemo(
+    () => forecasts.find((f) => f.location.location_id === params.location_id),
+    [forecasts, params]
+  );
 
-  const match = useMemo(() => forecasts.find((f) => f.location.location_id === params.location_id), [forecasts, params]);
-  
   useEffect(() => {
     if (!params) return null;
     if (params) {
       setTimeout(() => {
         fetchAllData(params)
-        .then((result) => {
-          setForecast(result);
-          setHourlyForecast(result.hourlyForecast);
-        });
+          .then((result) => {
+            setForecast(result);
+            setHourlyForecast(result.hourlyForecast);
+          })
+          .catch((err) => console.error(err));
       }, 50);
-      
     }
-  },[params]);
-  
+  }, [params]);
+
+  const hourlyData = useMemo(() => {
+    const iconMap = new Map(iconValues.icons.map((icon) => [icon.icon, icon]));
+
+    if (!hourlyForecast) return [];
+    return hourlyForecast.properties.periods.map((item, index) => {
+      let iconName = parseUrl(item.icon);
+      let iconObj = {};
+      iconObj = iconMap.get(iconName);
+      return {
+        key: item.number,
+        title: item.name,
+        iconObj: iconObj,
+        forecast: item.shortForecast,
+        temp: item.temperature,
+        tempUnit: item.temperatureUnit,
+        isDaytime: item.isDaytime,
+        hour: index === 0 ? "Now" : convertDateStr(item.startTime),
+      };
+    });
+  }, [hourlyForecast, iconValues]);
+
   // Derive all vars memoized matchedForecast.
   const currentPeriod = dailyForecast?.forecast.properties.periods[0];
   const currentTemp = hourlyForecast?.properties.periods[0].temperature;
@@ -82,13 +101,13 @@ export default function CurrentConditions() {
         shortForecast: null,
         location: null,
         lat: null,
-        lng: null
-      }
+        lng: null,
+      };
     }
 
     const iconUrl = hourlyForecast?.properties.periods[0].icon;
     const parsedIcon = iconUrl ? parseUrl(iconUrl) : null;
-    
+
     return {
       temp: currentTemp,
       tempScale: currentPeriod.temperatureUnit,
@@ -96,7 +115,9 @@ export default function CurrentConditions() {
       parsedIcon: parsedIcon,
       name: dailyForecast.location.name,
       state: dailyForecast.location.state,
-      elevation: Math.round(3.28084 * (dailyForecast.forecast.properties.elevation.value || 0)),
+      elevation: Math.round(
+        3.28084 * (dailyForecast.forecast.properties.elevation.value || 0)
+      ),
       detailedForecast: currentPeriod.detailedForecast,
       isDay: currentPeriod.isDaytime,
       lat: dailyForecast.location.lat,
@@ -105,28 +126,23 @@ export default function CurrentConditions() {
     };
   }, [dailyForecast, currentPeriod, hourlyForecast, currentTemp]);
 
-  const [ elmIcon, setElmIcon ] = useState({});
-  
+  const [elmIcon, setElmIcon] = useState({});
   useEffect(() => {
-
     if (!values.parsedIcon) {
       return;
     }
 
     let aborted = false;
-
     fetchOneElmIcon(values.parsedIcon).then((result) => {
       if (!aborted) {
-        setElmIcon(result?.icon[0]); 
+        setElmIcon(result?.icon[0]);
       }
     });
 
     return () => {
       aborted = true;
       setElmIcon({});
-
-    }
-
+    };
   }, [values.parsedIcon]);
 
   function handleAddFavorite(location, sessionID) {
@@ -177,8 +193,14 @@ export default function CurrentConditions() {
   return (
     <>
       {values.loading === true ? (
-        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" height='80%'>
-        <ElmSpinner size="100px" />
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          height="80%"
+        >
+          <ElmSpinner size="100px" />
         </Box>
       ) : (
         <StyledContainer
@@ -208,9 +230,7 @@ export default function CurrentConditions() {
                 <StyledButtonLink
                   component={Button}
                   disableRipple
-                  onClick={() =>
-                    handleAddFavorite(params, sessionId)
-                  }
+                  onClick={() => handleAddFavorite(params, sessionId)}
                   type="submit"
                 >
                   Add
@@ -284,17 +304,17 @@ export default function CurrentConditions() {
               </FlexBoxColCenter>
               <FlexBoxRowCenter>
                 <FlexBoxColCenter
-                  sx={{ 
-                      width: "2em", 
-                      height: "2em" 
-
-                    }}>
+                  sx={{
+                    width: "2em",
+                    height: "2em",
+                  }}
+                >
                   <WeatherIcon
                     iconObj={elmIcon}
                     isDay={values.isDay}
                     size="med"
                     color={theme.palette.grey[600]}
-                    />
+                  />
                 </FlexBoxColCenter>
                 <Box
                   sx={{
@@ -320,7 +340,9 @@ export default function CurrentConditions() {
                 id="detailed-forecast"
                 sx={{ padding: "0 1.6em" }}
               >
-                <Typography variant="body1">{values.detailedForecast}</Typography>
+                <Typography variant="body1">
+                  {values.detailedForecast}
+                </Typography>
               </FlexBoxRowCenter>
               <ElmDivider />
               <Box sx={{ width: "100%", maxWidth: "330px" }}>
@@ -361,7 +383,7 @@ export default function CurrentConditions() {
                 </Grid>
               </Box>
               <ElmDivider />
-              {/* <Carousel forecast={forecast} /> */}
+              <Carousel forecast={hourlyData} timeAlocated={25} />
             </Box>
           </Box>
           {values.loading === false && (

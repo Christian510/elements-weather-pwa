@@ -12,6 +12,9 @@ import { queryLocations } from '../../models/geo_location_api';
 import { debounce } from '@mui/material/utils';
 import { useLocation } from 'react-router-dom';
 
+// check if the location found matches any of the favorites if so,
+// flag that it matches a favorite if look up the forecast for that location
+// Send as props to the current conditions view;
 const ElmSearch = forwardRef(function ElmAutocomplete(props, ref) {
 
   const [value, setValue] = useState(null);
@@ -152,7 +155,9 @@ const ElmSearch = forwardRef(function ElmAutocomplete(props, ref) {
       {focused === true && anchorEl ? (
           <StyledListbox {...getListboxProps()}>
             {groupedOptions.map((option, index) => (
-              <StyledLink id={`option_${option.location_id}`} key={option.location_id} to={`forecast/${JSON.stringify(option)}`} >
+              <StyledLink id={`option_${option.location_id}`} 
+                key={option.location_id} 
+                to={`forecast/${JSON.stringify(option)}`} >
                 <StyledOption {...getOptionProps({ option, index })}>
                   {`${option.name}, ${option.state}`}
                 </StyledOption>
