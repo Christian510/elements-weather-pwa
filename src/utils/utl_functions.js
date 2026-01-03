@@ -67,7 +67,7 @@ export function convertDateStr(date) {
     const dateStr = `${d} ${t[0]}`;
     // console.log('dateStr: ', dateStr);
     const dateTime = formatDateTime(dateStr);
-    // console.log('dateTime: ', dateTime);
+    console.log('dateTime: ', dateTime);
     return dateTime.time
 }
 
@@ -90,7 +90,7 @@ export function formatDateStr(date) {
   return dateStr;
 }
 
-export function formatDateTime(dt, { w='short', y='numeric', m='short', d='numeric', hh, mm, ss, tz}={}) {
+export function formatDateTime(dt, { w='short', y='numeric', m='short', d='numeric', hh='numeric', mm, ss, tz, hour12=true}={}) {
   // console.log('date str: ', formatDateStr(dt));
   let dateTime = {};
   if (formatDateStr(dt) !== null) {
@@ -99,6 +99,7 @@ export function formatDateTime(dt, { w='short', y='numeric', m='short', d='numer
   }
   const newdate = new Date(dt);
   const dateOptions = {
+    hour12: hour12,
     year: y,
     month: m,
     weekday: w,
