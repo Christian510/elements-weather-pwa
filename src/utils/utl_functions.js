@@ -67,7 +67,7 @@ export function convertDateStr(date) {
     const dateStr = `${d} ${t[0]}`;
     // console.log('dateStr: ', dateStr);
     const dateTime = formatDateTime(dateStr);
-    console.log('dateTime: ', dateTime);
+    // console.log('dateTime: ', dateTime);
     return dateTime.time
 }
 
