@@ -30,6 +30,7 @@ import ElmDivider from "../../components/ElmDivider";
 import { parseUrl, convertDateStr } from "../../utils/utl_functions";
 import "../../styles/weather-icons.min.css";
 import WeatherIcon from "../../components/WeatherIcon/WeatherIcon";
+import ElmModal from "../../components/Modal/ElmModal";
 
 export default function CurrentConditions() {
   const theme = useTheme();
@@ -189,7 +190,9 @@ export default function CurrentConditions() {
       </Box>
     </Box>
   );
-
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   return (
     <>
       {values.loading === true ? (
@@ -385,6 +388,7 @@ export default function CurrentConditions() {
               <ElmDivider />
               <Carousel forecast={hourlyData} timeAlocated={25} />
             </Box>
+            <ElmModal />
           </Box>
           {values.loading === false && (
             <>
