@@ -21,6 +21,7 @@ function ListCard({ id, data, sessionId, handleDeleteFavorite }){
   let time = null;
   const location_id = data.location.location_id
   const name = data?.location.name;
+  const state = data?.location.state;
   if (data.forecast) {
     icon = data?.hourlyForecast.properties.periods[0].icon;
     temp = data?.hourlyForecast.properties.periods[0].temperature;
@@ -89,8 +90,8 @@ function ListCard({ id, data, sessionId, handleDeleteFavorite }){
                 }}
               >
                 <Box id='title'>
-                  <Typography variant="h4" >
-                    {name}
+                  <Typography variant="h5" >
+                    {name}, {state}
                   </Typography>
                   <Typography variant="subtitle2" >
                     {time}
@@ -139,7 +140,7 @@ function ListCard({ id, data, sessionId, handleDeleteFavorite }){
 };
 
 const StyledContainer = styled('div')`
-  margin: 1.25em .6em;
+  margin: .75em .6em;
   display: flex;
   justify-content: center;
 `;
@@ -155,8 +156,8 @@ const StyleScrollBehavior = styled('div')`
   border-radius: 15px;
   width: 100%;
   max-width: 31.25em;
-  height: 7.5em;
-  min-height: 7.5em;
+  height: 6.5em;
+  min-height: 6.5em;
 `;
 
 export default ListCard;
