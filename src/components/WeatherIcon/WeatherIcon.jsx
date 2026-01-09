@@ -3,7 +3,6 @@ import "../../styles/weather-icons.min.css";
 // import { useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-// import { use } from "react";
 // import { fontSize } from "@mui/system";
 
 function WeatherIcon({
