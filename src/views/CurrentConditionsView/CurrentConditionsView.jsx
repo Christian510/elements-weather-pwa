@@ -7,13 +7,13 @@ import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import AirOutlinedIcon from "@mui/icons-material/AirOutlined";
 import ThermostatOutlinedIcon from "@mui/icons-material/ThermostatOutlined";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import WaterDropOutlinedIcon from "@mui/icons-material/WaterDropOutlined";
 import SpeedOutlinedIcon from "@mui/icons-material/SpeedOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Typography from "@mui/material/Typography";
 import ElmSpinner from "../../components/ElmSpinner/ElmSpinner";
-// import ElmList from '../../components/ElmList/ElmList';
-// import { formatDateTime } from '../../models/date';
 import { styled, useTheme } from "@mui/material/styles";
 import { useLoaderData } from "react-router-dom";
 import {
@@ -30,6 +30,9 @@ import ElmDivider from "../../components/ElmDivider";
 import { parseUrl, convertDateStr } from "../../utils/utl_functions";
 import "../../styles/weather-icons.min.css";
 import WeatherIcon from "../../components/WeatherIcon/WeatherIcon";
+import HourlyForecastCard from "../../components/ForecastCard/HourlyForecastCard";
+import DailyForecastCard from "../../components/ForecastCard/DailyForecastCard";
+import WeatherStat from "../../components/WeatherStat/WeatherStat";
 
 export default function CurrentConditions() {
   const theme = useTheme();
@@ -43,7 +46,8 @@ export default function CurrentConditions() {
     () => forecasts.find((f) => f.location.location_id === params.location_id),
     [forecasts, params]
   );
-
+  
+  console.log('dailyForecast: ', dailyForecast);
   useEffect(() => {
     if (!params) return null;
     if (params) {
@@ -59,7 +63,7 @@ export default function CurrentConditions() {
   }, [params]);
 
   const hourlyData = useMemo(() => {
-    const iconMap = new Map(iconValues.icons.map((icon) => [icon.icon, icon]));
+    const iconMap = new Map(iconValues?.icons.map((icon) => [icon.icon, icon]));
 
     if (!hourlyForecast) return [];
     return hourlyForecast.properties.periods.map((item, index) => {
@@ -74,15 +78,33 @@ export default function CurrentConditions() {
         temp: item.temperature,
         tempUnit: item.temperatureUnit,
         isDaytime: item.isDaytime,
-        hour: index === 0 ? "Now" : convertDateStr(item.startTime),
+        time: index === 0 ? "Now" : convertDateStr(item.startTime),
       };
     });
   }, [hourlyForecast, iconValues]);
 
-  // Derive all vars memoized matchedForecast.
+  const dailyData = useMemo(() => {
+    if (!dailyForecast) return [];
+    return dailyForecast.forecast.properties.periods.map((item, index) => {
+      let iconName = parseUrl(item.icon);
+      let iconObj = {};
+      iconObj = iconValues.icons.find((icon) => icon.icon === iconName);
+      return {
+        key: item.number,
+        title: item.name,
+        iconObj: iconObj,
+        forecast: item.detailedForecast,
+        temp: item.temperature,
+        tempUnit: item.temperatureUnit,
+        isDaytime: item.isDaytime,
+        time: item.name,
+      };
+    });
+  }, [dailyForecast, iconValues]);
+
   const currentPeriod = dailyForecast?.forecast.properties.periods[0];
   const currentTemp = hourlyForecast?.properties.periods[0].temperature;
-
+  // console.log('currrentPeriod: ', currentPeriod);
   const values = useMemo(() => {
     if (!currentPeriod) {
       return {
@@ -111,7 +133,7 @@ export default function CurrentConditions() {
     return {
       temp: currentTemp,
       tempScale: currentPeriod.temperatureUnit,
-      iconUrl,
+      iconUrl: iconUrl,
       parsedIcon: parsedIcon,
       name: dailyForecast.location.name,
       state: dailyForecast.location.state,
@@ -177,18 +199,6 @@ export default function CurrentConditions() {
     left: 0,
     zIndex: (theme.zIndex.outlet = theme.zIndex.modal),
   }));
-
-  const WeatherStat = ({ icon: Icon, label, value }) => (
-    <Box display="flex" alignItems="center">
-      <Icon fontSize="small" sx={{ color: "grey.600", mr: 1 }} />
-      <Box>
-        <Typography variant="body2" sx={{ color: "grey.600" }}>
-          {label}
-        </Typography>
-        <Typography variant="body1">{value}</Typography>
-      </Box>
-    </Box>
-  );
 
   return (
     <>
@@ -383,14 +393,16 @@ export default function CurrentConditions() {
                 </Grid>
               </Box>
               <ElmDivider />
-              <Carousel forecast={hourlyData} timeAlocated={25} />
+              <Carousel title="Hourly Forecast" icon={AccessTimeIcon} >
+                <HourlyForecastCard content={hourlyData} styles timeCount={25} />
+              </Carousel>
+              <ElmDivider />
+              <Carousel title="Daily Forecast" icon={CalendarMonthIcon}>
+                <DailyForecastCard content={dailyData} styles />
+              </Carousel>
             </Box>
           </Box>
-          {values.loading === false && (
-            <>
-              <ElmFooter />
-            </>
-          )}
+          <ElmFooter />
         </StyledContainer>
       )}
     </>
