@@ -5,8 +5,7 @@ import ElmSpinner from "../../components/ElmSpinner/ElmSpinner";
 
 function Carousel({
   children,
-  className = '',
-  backgroundColor = "'linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%)'", // add this as a prop not fixed.
+  carouselName = 'container',
   spacing = 0,
   align = "center",    
   Icon,
@@ -15,6 +14,7 @@ function Carousel({
   loading = false,
   title = "",
   styles = {},
+  containerHeight = "100%", // if containerHeight is less than 100%, it will scroll
 }) {
 
   /* Carousel component
@@ -27,42 +27,45 @@ function Carousel({
     - title: title of the carousel
     - key: key of the carousel
   */
-
-    const StackStyles = {
-      margin: ".5em auto",
-      height: "100%",
-      maxHeight: "7.5em",
-      maxWidth: "100%",
-    }
-    const verticalScolling = {
-      overflowX: "hidden",
-      overflowY: "scroll",
-      scrollBehavior: "smooth",
-      scrollSnapType: "y mandatory",
-        "&::-webkit-scrollbar": {
-        display: "none",
-        },
-        "& > *": {
-        flexShrink: 0,
-        scrollSnapAlign: "start",
-        },
-    };
-
-    const horizontalScolling = {
-      overflowX: "scroll",
-      overflowY: "hidden",
-      scrollBehavior: "smooth",
-      scrollSnapType: "x mandatory",
-        "&::-webkit-scrollbar": {
-        display: "none",
-        },
-        "& > *": {
-        flexShrink: 0,
-        scrollSnapAlign: "start",
-        },
-    };
-
-    const scrollStyles = direction === "row" ? horizontalScolling : verticalScolling
+ 
+ // const height = {
+  //   maxHeight: containerHeight,
+  // }
+  const StackStyles = {
+    margin: ".5em auto",
+    maxWidth: "100%",
+  }
+  const verticalScolling = {
+    maxHeight: containerHeight,
+    overflowX: "hidden",
+    overflowY: "scroll",
+    scrollBehavior: "smooth",
+    scrollSnapType: "y mandatory",
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
+    "& > *": {
+      flexShrink: 0,
+      scrollSnapAlign: "start",
+    },
+  };
+  
+  const horizontalScolling = {
+    maxHeight: containerHeight,
+    overflowX: "scroll",
+    overflowY: "hidden",
+    scrollBehavior: "smooth",
+    scrollSnapType: "x mandatory",
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
+    "& > *": {
+      flexShrink: 0,
+      scrollSnapAlign: "start",
+    },
+  };
+  
+  const scrollStyles = direction === "row" ? horizontalScolling : verticalScolling
     
   return (
     <>
@@ -70,22 +73,20 @@ function Carousel({
         <ElmSpinner size="md" />
       ) : (
         <Box
-            className="carousel-container"
+            id={`carousel-${carouselName}`}
             sx={{
-                backgroundColor: (theme) => theme.palette.primary.dark,
+                ...styles,
                 borderRadius: "8px",
-                // maxHeight: "200px",
                 padding: "1em",
                 width: "100%",
                 minWidth: "23em",
-            }}
-        >
+            }} >
             <Box sx={{
                 display: "flex",
                 flexDirection: "row",
                 // alignItems: "flex-start",
                 justifyContent: "flex-start",
-            }}>
+                }}>
                 <Icon {...iconProps} />
                 <Typography variant="body1" sx={{ color: "white"}}>
                     {title}
@@ -94,29 +95,10 @@ function Carousel({
             <Stack // Controles spacing, alignment, and overflow, scolling
             className="carousel"
             direction={direction}
-            // spacing={0.15}
             spacing={spacing}
             sx={{
-              ...styles,
               ...StackStyles,
               ...scrollStyles,
-              // display: "flex",
-              // flexDirection: "row",
-              // margin: ".5em auto",
-              // height: "100%",
-              // maxHeight: "7.5em",
-              // alignItems: "flex-start",
-              // overflowX: "scroll",
-              // overflowY: "clip",
-              // scrollBehavior: "smooth",
-              // scrollSnapType: "x mandatory",
-              //   "&::-webkit-scrollbar": {
-              //   display: "none",
-              //   },
-              //   "& > *": {
-              //   flexShrink: 0,
-              //   scrollSnapAlign: "start",
-              //   },
             }}
             >
             {children}
