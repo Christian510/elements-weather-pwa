@@ -23,6 +23,7 @@ import ForgotPassword from './components/ForgotPassword';
 import ForgotUsername from './components/ForgotUsername';
 import { loader as rootLoader } from './models/loader';
 import './index.css';
+import DemoView from './views/DemoView/DemoView';
 
 let router = createBrowserRouter([
   {
@@ -86,6 +87,11 @@ let router = createBrowserRouter([
   {
     element: <Settings />,
     path: 'settings',
+    errorElement: <ErrorPage />,
+  },
+    {
+    element: <DemoView />,
+    path: 'demo',
     errorElement: <ErrorPage />,
   }
 ]);

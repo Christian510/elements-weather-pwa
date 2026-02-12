@@ -47,7 +47,7 @@ export default function CurrentConditions() {
     [forecasts, params]
   );
   
-  console.log('dailyForecast: ', dailyForecast);
+  // console.log('dailyForecast: ', dailyForecast);
   useEffect(() => {
     if (!params) return null;
     if (params) {
@@ -208,7 +208,9 @@ export default function CurrentConditions() {
           flexDirection="column"
           alignItems="center"
           justifyContent="center"
-          height="80%"
+          height="100%"
+          overflowY='scroll'
+
         >
           <ElmSpinner size="100px" />
         </Box>
@@ -267,7 +269,7 @@ export default function CurrentConditions() {
               alignItems="center"
               backgroundColor="white"
               width="100%"
-              height="100%"
+              // height="100%"
               sx={{
                 padding: "1em",
                 color: "black",
@@ -393,12 +395,25 @@ export default function CurrentConditions() {
                 </Grid>
               </Box>
               <ElmDivider />
-              <Carousel title="Hourly Forecast" icon={AccessTimeIcon} >
+              <Carousel 
+                title="Hourly Forecast" 
+                Icon={AccessTimeIcon} 
+                iconProps={{ fontSize: "small", sx: { color: "white", mr: 1 }} }
+                direction="row"
+                spacing={1} 
+                >
                 <HourlyForecastCard content={hourlyData} styles timeCount={25} />
               </Carousel>
               <ElmDivider />
-              <Carousel title="Daily Forecast" icon={CalendarMonthIcon}>
-                <DailyForecastCard content={dailyData} styles />
+                {/* <DailyForecastCard content={dailyData} styles /> */}
+              <Carousel 
+                title="Daily Forecast" 
+                Icon={CalendarMonthIcon} 
+                iconProps={{ fontSize: "small", sx: { color: "white", mr: 1 }} }
+                direction="column"
+                spacing={2}
+                >
+                <DailyForecastCard content={dailyData} styles direction="column" />
               </Carousel>
             </Box>
           </Box>
