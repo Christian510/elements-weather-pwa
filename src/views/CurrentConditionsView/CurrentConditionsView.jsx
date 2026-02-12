@@ -396,22 +396,31 @@ export default function CurrentConditions() {
               </Box>
               <ElmDivider />
               <Carousel 
-                title="Hourly Forecast" 
+                title="Hourly Forecast"
+                carouselName="hourlyForcast"
                 Icon={AccessTimeIcon} 
                 iconProps={{ fontSize: "small", sx: { color: "white", mr: 1 }} }
                 direction="row"
-                spacing={1} 
+                spacing={1}
+                containerHeight="7.5em"
+                styles={{
+                  background: 'linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%)',
+                  }}
                 >
                 <HourlyForecastCard content={hourlyData} styles timeCount={25} />
               </Carousel>
               <ElmDivider />
                 {/* <DailyForecastCard content={dailyData} styles /> */}
               <Carousel 
-                title="Daily Forecast" 
+                title="Daily Forecast"
+                carouselName="dailyForcast"
                 Icon={CalendarMonthIcon} 
                 iconProps={{ fontSize: "small", sx: { color: "white", mr: 1 }} }
                 direction="column"
                 spacing={2}
+                styles={{
+                  background: 'linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%)',
+                  }}
                 >
                 <DailyForecastCard content={dailyData} styles direction="column" />
               </Carousel>
