@@ -11,7 +11,7 @@ import WeatherIcon from "../../components/WeatherIcon/WeatherIcon";
 // tempUnit: "F"
 // title: ""
 
-export default function HourlyForecastCard({ content, styles, timeCount }) {
+export default function HourlyForecastCard({ content, styles, timeCount, gap }) {
   // console.log('content: ', content);
   const Content = styled(CardContent)(({ theme }) => ({
     // Add theme object to the styles object

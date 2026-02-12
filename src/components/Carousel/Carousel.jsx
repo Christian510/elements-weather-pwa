@@ -5,11 +5,65 @@ import ElmSpinner from "../../components/ElmSpinner/ElmSpinner";
 
 function Carousel({
   children,
-  icon: Icon,
+  className = '',
+  backgroundColor = "'linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%)'", // add this as a prop not fixed.
+  spacing = 0,
+  align = "center",    
+  Icon,
+  iconProps,
   direction = "row",
   loading = false,
   title = "",
+  styles = {},
 }) {
+
+  /* Carousel component
+    Controls direction, alignment, and spacing of items
+    Props:
+    - children: items to be displayed in the carousel
+    - icon: icon to be displayed before the title
+    - direction: direction of the carousel
+    - loading: true if the data is loading
+    - title: title of the carousel
+    - key: key of the carousel
+  */
+
+    const StackStyles = {
+      margin: ".5em auto",
+      height: "100%",
+      maxHeight: "7.5em",
+      maxWidth: "100%",
+    }
+    const verticalScolling = {
+      overflowX: "hidden",
+      overflowY: "scroll",
+      scrollBehavior: "smooth",
+      scrollSnapType: "y mandatory",
+        "&::-webkit-scrollbar": {
+        display: "none",
+        },
+        "& > *": {
+        flexShrink: 0,
+        scrollSnapAlign: "start",
+        },
+    };
+
+    const horizontalScolling = {
+      overflowX: "scroll",
+      overflowY: "hidden",
+      scrollBehavior: "smooth",
+      scrollSnapType: "x mandatory",
+        "&::-webkit-scrollbar": {
+        display: "none",
+        },
+        "& > *": {
+        flexShrink: 0,
+        scrollSnapAlign: "start",
+        },
+    };
+
+    const scrollStyles = direction === "row" ? horizontalScolling : verticalScolling
+    
   return (
     <>
       {loading ? (
@@ -20,8 +74,7 @@ function Carousel({
             sx={{
                 backgroundColor: (theme) => theme.palette.primary.dark,
                 borderRadius: "8px",
-                // height: "100%",
-                maxHeight: "200px",
+                // maxHeight: "200px",
                 padding: "1em",
                 width: "100%",
                 minWidth: "23em",
@@ -33,30 +86,37 @@ function Carousel({
                 // alignItems: "flex-start",
                 justifyContent: "flex-start",
             }}>
-                <Icon fontSize="small" sx={{ color: "white", mr: 1 }} />
+                <Icon {...iconProps} />
                 <Typography variant="body1" sx={{ color: "white"}}>
                     {title}
                 </Typography>
             </Box>
-            <Stack
+            <Stack // Controles spacing, alignment, and overflow, scolling
             className="carousel"
             direction={direction}
-            spacing={0.15}
+            // spacing={0.15}
+            spacing={spacing}
             sx={{
-                alignItems: "flex-start",
-                margin: ".5em auto",
-                height: "100%",
-                maxHeight: "7.5em",
-                overflowX: "scroll",
-                scrollBehavior: "smooth",
-                scrollSnapType: "x mandatory",
-                "&::-webkit-scrollbar": {
-                display: "none",
-                },
-                "& > *": {
-                flexShrink: 0,
-                scrollSnapAlign: "start",
-                },
+              ...styles,
+              ...StackStyles,
+              ...scrollStyles,
+              // display: "flex",
+              // flexDirection: "row",
+              // margin: ".5em auto",
+              // height: "100%",
+              // maxHeight: "7.5em",
+              // alignItems: "flex-start",
+              // overflowX: "scroll",
+              // overflowY: "clip",
+              // scrollBehavior: "smooth",
+              // scrollSnapType: "x mandatory",
+              //   "&::-webkit-scrollbar": {
+              //   display: "none",
+              //   },
+              //   "& > *": {
+              //   flexShrink: 0,
+              //   scrollSnapAlign: "start",
+              //   },
             }}
             >
             {children}
