@@ -12,111 +12,27 @@ import {
 } from "@mui/material";
 import {
   WbSunny,
-  Cloud,
-  CloudQueue,
   Grain,
   Air,
   Opacity,
-  Visibility,
-  Speed,
   ExpandMore,
-  AccessTime,
-  CalendarToday,
 } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import WeatherIcon from "../../components/WeatherIcon/WeatherIcon";
+import { color } from "@mui/system";
 
 export default function DailyForecastCard({ content, styles, timeCount }) {
   const [expandedDay, setExpandedDay] = useState(null);
   const theme = useTheme();
-  const dailyData = [
-    {
-      day: "Today",
-      date: "Jan 28",
-      high: 38,
-      low: 35,
-      condition: "partlyCloudy",
-      summary:
-        "Mostly sunny with temperatures near 38°F. West southwest wind around 8 mph. Clear skies expected throughout most of the day.",
-      wind: "25 mph SW",
-      humidity: "25%",
-      precipitation: "10%",
-      uv: "Low",
-    },
-    {
-      day: "Wed",
-      date: "Jan 29",
-      high: 18,
-      low: 12,
-      condition: "cloudy",
-      summary:
-        "Cloudy skies with much cooler temperatures. High near 18°F. North wind 15-20 mph. Bundle up for cold conditions.",
-      wind: "18 mph N",
-      humidity: "45%",
-      precipitation: "20%",
-      uv: "Low",
-    },
-    {
-      day: "Thu",
-      date: "Jan 30",
-      high: 37,
-      low: 22,
-      condition: "partlyCloudy",
-      summary:
-        "Partly cloudy and warming up. High near 37°F with light winds. A pleasant day with breaks of sunshine expected.",
-      wind: "8 mph W",
-      humidity: "35%",
-      precipitation: "5%",
-      uv: "Moderate",
-    },
-    {
-      day: "Fri",
-      date: "Jan 31",
-      high: 21,
-      low: 15,
-      condition: "cloudy",
-      summary:
-        "Overcast skies and cold temperatures persist. High near 21°F. Northeast wind around 12 mph. Gray skies expected.",
-      wind: "12 mph NE",
-      humidity: "50%",
-      precipitation: "30%",
-      uv: "Low",
-    },
-    {
-      day: "Sat",
-      date: "Feb 1",
-      high: 41,
-      low: 25,
-      condition: "sunny",
-      summary:
-        "Sunny and pleasant with high near 41°F. Light southwest wind. A beautiful day to spend outdoors with clear blue skies.",
-      wind: "6 mph SW",
-      humidity: "30%",
-      precipitation: "0%",
-      uv: "Moderate",
-    },
-    {
-      day: "Sun",
-      date: "Feb 2",
-      high: 24,
-      low: 18,
-      condition: "cloudy",
-      summary:
-        "Mostly cloudy with cooler temperatures. High near 24°F. Light variable winds throughout the day.",
-      wind: "10 mph W",
-      humidity: "40%",
-      precipitation: "15%",
-      uv: "Low",
-    },
-  ];
 
+  console.log('content: ', content[0]);
   const handleExpandClick = (index) => {
     setExpandedDay(expandedDay === index ? null : index);
   };
 
   return (
     <>
-      {dailyData.slice(0, timeCount).map((day, idx) => (
+      {content.slice(0, timeCount).map((day, idx) => (
         <Box key={idx} sx={{ width: "100" }}>
           <Card
             sx={{
@@ -157,7 +73,7 @@ export default function DailyForecastCard({ content, styles, timeCount }) {
                       variant="body1"
                       sx={{ color: "white", fontWeight: 600 }}
                     >
-                      {day.day}
+                      {day.title}
                     </Typography>
                     <Typography
                       variant="caption"
@@ -168,8 +84,13 @@ export default function DailyForecastCard({ content, styles, timeCount }) {
                   </Box>
 
                   <WeatherIcon
-                    condition={day.condition}
-                    sx={{ fontSize: 32 }}
+                    isDay={day.isDay}
+                    iconObj={day.iconObj}
+                    color="white"
+                    size="med"
+
+                    // condition={day.condition}
+                    // sx={{ fontSize: 32}}
                   />
 
                   <Box sx={{ display: "flex", gap: 1.5, ml: "auto" }}>
@@ -223,7 +144,7 @@ export default function DailyForecastCard({ content, styles, timeCount }) {
                     mb: 2,
                   }}
                 >
-                  {day.summary}
+                  {day.forecast}
                 </Typography>
 
                 <Grid container spacing={1.5}>
