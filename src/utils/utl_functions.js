@@ -115,3 +115,26 @@ export function formatDateTime(dt, { w='short', y='numeric', m='short', d='numer
   dateTime.time = newdate.toLocaleTimeString('en-US', timeOptions);
   return dateTime;
 }
+
+/*
+  May have future use if we want to calculate high/low temps
+*/
+// export function calculateHighLowTemps(periods, timeCount) {
+  // console.log('duration: ', timeCount);
+  // console.log('periods: ', periods);
+//   const dailyTemps = periods.slice(0, duration).reduce((acc, period) => {
+//   const date = period.startTime.split('T')[0]; // Get YYYY-MM-DD
+  
+//   if (!acc[date]) {
+//     acc[date] = { high: null, low: null };
+//   }
+  
+//   if (period.isDaytime) {
+//     acc[date].high = period.temperature;
+//   } else {
+//     acc[date].low = period.temperature;
+//   }
+  
+//   return acc;
+// }, {});
+// }

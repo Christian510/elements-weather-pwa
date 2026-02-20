@@ -3,7 +3,7 @@ const db = new Database();
 
 exports.fetchOneElmIcon = async (req, res, next) => {
     // Add better error handling
-    console.log('fetching one icon: ', req.query.icon)
+    // console.log('fetching one icon: ', req.query.icon)
     res.status(200).json({
         message: 'GET ONE ICON FROM DB',
         icon: await db.fetchOneIcon(req.query.icon),

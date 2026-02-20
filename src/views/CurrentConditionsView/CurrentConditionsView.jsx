@@ -47,8 +47,8 @@ export default function CurrentConditions() {
     [forecasts, params]
   );
   
-  console.log('dailyForecast: ', dailyForecast);
-  console.log('forecasts: ', forecasts);
+  // console.log('dailyForecast: ', dailyForecast);
+  // console.log('forecasts: ', forecasts);
   useEffect(() => {
     if (!params) return null;
     if (params) {
@@ -263,6 +263,7 @@ export default function CurrentConditions() {
               overflowY: "auto",
               marginRight: ".5em",
               marginLeft: ".5em",
+              borderRadius: "10px",
             }}
           >
             <Box

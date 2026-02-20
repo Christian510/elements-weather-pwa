@@ -77,7 +77,7 @@ function Carousel({
             sx={{
                 ...styles,
                 borderRadius: "8px",
-                padding: "1em",
+                padding: ".5em",
                 width: "100%",
                 minWidth: "23em",
             }} >

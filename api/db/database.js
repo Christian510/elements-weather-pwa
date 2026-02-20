@@ -76,7 +76,7 @@ async createTablesIfNonExist() {
   result.location = await this.createLocationsTable();
   result.session_favorites = await this.createSessionFavoritesTable();
   result.weather_icons = await this.createWeatherIconsTable();
-  console.log('result: ', result);
+  // console.log('result: ', result);
   return result;
 }
 
