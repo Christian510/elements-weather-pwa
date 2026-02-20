@@ -54,6 +54,7 @@ function WeatherIcon({
 
   return (
     <Box
+      id = {`weather-icon-${iconObj.id}`}
       display="flex"
       justifyContent="center"
       alignItems="center"

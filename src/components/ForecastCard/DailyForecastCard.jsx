@@ -7,7 +7,6 @@ import {
   IconButton,
   Collapse,
   Grid,
-  Divider,
   useTheme,
 } from "@mui/material";
 import {
@@ -17,9 +16,7 @@ import {
   Opacity,
   ExpandMore,
 } from "@mui/icons-material";
-import { styled } from "@mui/material/styles";
 import WeatherIcon from "../../components/WeatherIcon/WeatherIcon";
-import { color } from "@mui/system";
 
 export default function DailyForecastCard({ content, styles, timeCount }) {
   const [expandedDay, setExpandedDay] = useState(null);
@@ -88,9 +85,6 @@ export default function DailyForecastCard({ content, styles, timeCount }) {
                     iconObj={day.iconObj}
                     color="white"
                     size="med"
-
-                    // condition={day.condition}
-                    // sx={{ fontSize: 32}}
                   />
 
                   <Box sx={{ display: "flex", gap: 1.5, ml: "auto" }}>
@@ -98,14 +92,14 @@ export default function DailyForecastCard({ content, styles, timeCount }) {
                       variant="body1"
                       sx={{ color: "white", fontWeight: 600 }}
                     >
-                      {day.high}°
+                      {day.temp}°
                     </Typography>
-                    <Typography
+                    {/* <Typography
                       variant="body1"
                       sx={{ color: "rgba(255, 255, 255, 0.6)" }}
                     >
                       {day.low}°
-                    </Typography>
+                    </Typography> */}
                   </Box>
                 </Box>
 

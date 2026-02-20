@@ -23,6 +23,9 @@ export default function HourlyForecastCard({ content, styles, timeCount, gap }) 
     // padding: "0 .9em 0 .9em",
     height: "100%",
     color: theme.palette.text.primary,
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    backdropFilter: "blur(10px)",
+    borderRadius: 6,
   }));
   
   return (
