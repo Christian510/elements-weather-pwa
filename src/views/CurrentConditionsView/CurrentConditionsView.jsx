@@ -27,7 +27,7 @@ import { StyledButtonLink } from "../../components/StyledButtonLink";
 import ElmFooter from "../../components/ElmFooter/ElmFooter";
 import TerrainOutlinedIcon from "@mui/icons-material/TerrainOutlined";
 import ElmDivider from "../../components/ElmDivider";
-import { parseUrl, convertDateStr } from "../../utils/utl_functions";
+import { parseUrl, convertDateStr, formatDateTime } from "../../utils/utl_functions";
 import "../../styles/weather-icons.min.css";
 import WeatherIcon from "../../components/WeatherIcon/WeatherIcon";
 import HourlyForecastCard from "../../components/ForecastCard/HourlyForecastCard";
@@ -47,7 +47,8 @@ export default function CurrentConditions() {
     [forecasts, params]
   );
   
-  // console.log('dailyForecast: ', dailyForecast);
+  console.log('dailyForecast: ', dailyForecast);
+  console.log('forecasts: ', forecasts);
   useEffect(() => {
     if (!params) return null;
     if (params) {
@@ -89,6 +90,8 @@ export default function CurrentConditions() {
       let iconName = parseUrl(item.icon);
       let iconObj = {};
       iconObj = iconValues.icons.find((icon) => icon.icon === iconName);
+      let dateObj = formatDateTime(item.startTime);
+      let date = dateObj.date.split(', ')[1];
       return {
         key: item.number,
         title: item.name,
@@ -97,7 +100,7 @@ export default function CurrentConditions() {
         temp: item.temperature,
         tempUnit: item.temperatureUnit,
         isDaytime: item.isDaytime,
-        time: item.name,
+        date: date,
       };
     });
   }, [dailyForecast, iconValues]);
@@ -267,7 +270,7 @@ export default function CurrentConditions() {
               display="flex"
               flexDirection="column"
               alignItems="center"
-              backgroundColor="white"
+              backgroundColor="rgba(255,255,255, 0.7)"
               width="100%"
               // height="100%"
               sx={{
@@ -410,7 +413,6 @@ export default function CurrentConditions() {
                 <HourlyForecastCard content={hourlyData} styles timeCount={25} />
               </Carousel>
               <ElmDivider />
-                {/* <DailyForecastCard content={dailyData} styles /> */}
               <Carousel 
                 title="Daily Forecast"
                 carouselName="dailyForcast"
