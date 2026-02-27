@@ -23,7 +23,7 @@ const corsOptions = {
   // allowedHeaders: process.env.CORS_ALLOWED_HEADERS,
   // exposedHeaders: ['Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials'],
   credentials: true,
-  optionSuccessStatus: 200
+  optionsSuccessStatus: 200
 };
 
 // console.log('corsOptions: ', corsOptions); // RAT
