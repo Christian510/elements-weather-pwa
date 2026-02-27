@@ -87,6 +87,7 @@ export default function CurrentConditions() {
   const dailyData = useMemo(() => {
     if (!dailyForecast) return [];
     return dailyForecast.forecast.properties.periods.map((item, index) => {
+      console.log('item: ', item);
       let iconName = parseUrl(item.icon);
       let iconObj = {};
       iconObj = iconValues.icons.find((icon) => icon.icon === iconName);
