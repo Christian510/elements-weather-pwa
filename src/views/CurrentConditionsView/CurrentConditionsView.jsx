@@ -99,6 +99,8 @@ export default function CurrentConditions() {
         forecast: item.detailedForecast,
         temp: item.temperature,
         tempUnit: item.temperatureUnit,
+        wind: item.windSpeed,
+
         isDaytime: item.isDaytime,
         date: date,
       };
