@@ -1,11 +1,3 @@
-// import axios from "axios";
-// axios.defaults.withCredentials = process.env.REACT_APP_WITH_CREDENTIALS === "true";
-// axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
-// axios.defaults.headers.common['Accept'] = 'application/json';
-// axios.defaults.headers.common['Content-Type'] = 'application/json';
-// // axios.defaults.headers.common['mode'] = 'cors';
-// axios.defaults.headers.common['credentials'] = 'include';
-// axios.defaults.headers.common['access-control-allow-origin'] = '*'; // test: if this works keep it.
 
 import axios from "../api/client";
 export function processFetch(url, options) {
@@ -35,6 +27,8 @@ export const fetchFavorites = async () => {
 
 // GET WEATHER URL BY LAT AND LONG
 export const getForecastUrl = (lat, lng) => {
+    fetchObservationData(lat, lng);
+
     // const units = ['imperial', 'metric', 'standard'];
     const url = `https://api.weather.gov/points/${lat},${lng}`;
     const options = {
@@ -103,6 +97,69 @@ export async function fetchAllData(l) {
         console.error('Error message: ', err);
     }
     return data;
+}
+
+export async function fetchObservationData(lat, lng) {
+    /*
+        1. Get Your Grid Point (One-Time Setup)
+        First, convert your lat/lon to a grid point:
+        GET https://api.weather.gov/points/{latitude},{longitude}
+        Example:
+        https://api.weather.gov/points/39.7456,-97.0892
+        This returns a JSON response. Grab gridId, gridX, and gridY from it.
+
+        2. Fetch Observations from the Nearest Station
+        The gridded forecast doesn't include humidity/dewpoint/pressure directly — you need observation stations instead.
+        Step 1 – Get nearby stations:
+        GET https://api.weather.gov/points/{lat},{lon}/observationStations
+        Grab the first station ID from features[0].properties.stationIdentifier (e.g., KOKC).
+        Step 2 – Get latest observation:
+        GET https://api.weather.gov/stations/{stationId}/observations/latest
+    */
+
+    const options = {
+        'method': 'GET',
+        'mode': 'cors',
+        'headers': {
+            'Accept': 'application/json'
+        }
+    };
+  // Step 1: Get grid point info
+  const pointsRes = await fetch(`https://api.weather.gov/points/${lat},${lng}`, { options });
+  const pointsData = await pointsRes.json();
+  console.log('data: ', pointsData);
+  const forecastUrl = pointsData.properties.forecast;
+  const forecast = await fetch(forecastUrl, { options });
+  console.log('forecast: ', forecast);
+
+  const observationStationsUrl = pointsData.properties.observationStations;
+
+  // Step 2: Get nearest observation station
+  const stationsRes = await fetch(observationStationsUrl, { options });
+  const stationsData = await stationsRes.json();
+  const stationId = stationsData.features[0].properties.stationIdentifier;
+
+  console.log(`Using station: ${stationId}`);
+
+  // Step 3: Get latest observation
+  const obsRes = await fetch(`https://api.weather.gov/stations/${stationId}/observations/latest`, { options });
+  const obsData = await obsRes.json();
+  const props = obsData.properties;
+
+  // Extract and convert values
+  const humidity   = props.relativeHumidity?.value;
+  const dewpointC  = props.dewpoint?.value;
+  const dewpointF  = dewpointC != null ? (dewpointC * 9/5 + 32).toFixed(1) : null;
+  const pressurePa = props.barometricPressure?.value;
+  const pressureMb = pressurePa != null ? (pressurePa / 100).toFixed(1) : null;
+
+  console.log(`Humidity:  ${humidity}%`);
+  console.log(`Dewpoint:  ${dewpointC}°C / ${dewpointF}°F`);
+  console.log(`Pressure:  ${pressureMb} mb`);
+
+  return { humidity, dewpointC, dewpointF, pressureMb };
+
+
 }
  
 // RETURNS AN EXTENDED FORECAST FROM 1 TO 16 DAYS
