@@ -22,7 +22,7 @@ const corsOptions = {
   methods: process.env.CORS_METHODS,
   // allowedHeaders: process.env.CORS_ALLOWED_HEADERS,
   // exposedHeaders: ['Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials'],
-  credentials: true,
+  credentials: process.env.CORS_ALLOW_CREDENTIALS,
   optionsSuccessStatus: 200
 };
 
