@@ -55,7 +55,8 @@ app.use('/favorites', session({
     sameSite: 'lax', // none, lax, strict
     secure: false, // true if using https
     domain: process.env.COOKIE_DOMAIN, //Only if using multiple domains in production. 
-    maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
+    // maxAge: Number(process.env.SESSION_MAX_AGE), // 30 days
+    maxAge: 1000 * 60 * 60 * 24 * 90, // 30 days
     // maxAge: 1000 * 60 * 60 * 24 * 1, // 1 day
   }
 }
