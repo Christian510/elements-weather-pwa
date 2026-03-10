@@ -19,10 +19,10 @@ const app = express();
 
 const corsOptions = {
   origin: process.env.CORS_ORIGIN,
-  methods: process.env.CORS_METHODS,
-  // allowedHeaders: process.env.CORS_ALLOWED_HEADERS,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Custom-Header, Accept'],
   // exposedHeaders: ['Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials'],
-  credentials: process.env.CORS_ALLOW_CREDENTIALS,
+  credentials: true,
   optionsSuccessStatus: 200
 };
 
@@ -52,11 +52,11 @@ app.use('/favorites', session({
   resave: false,
   saveUninitialized: false,
   cookie: {
+    sameSite: 'lax', // none, lax, strict
     secure: false, // true if using https
-    domain: process.env.COOKIE_DOMAIN,
+    domain: process.env.COOKIE_DOMAIN, //Only if using multiple domains in production. 
     maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
     // maxAge: 1000 * 60 * 60 * 24 * 1, // 1 day
-    sameSite: 'lax', // none, lax, strict
   }
 }
 ));

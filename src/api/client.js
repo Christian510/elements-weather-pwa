@@ -1,7 +1,7 @@
 import realAxios from "axios";
 
 const axios = realAxios.create({
-    withCredentials: process.env.REACT_APP_WITH_CREDENTIALS,
+    withCredentials: true,
     baseURL: process.env.REACT_APP_BASE_URL,
     headers: {
         'Content-Type': 'application/json',
