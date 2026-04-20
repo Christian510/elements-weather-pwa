@@ -168,7 +168,7 @@ export async function fetchObservationData(lat, lng) {
 //   console.log(`Dewpoint:  ${dewpointC}°C / ${dewpointF}°F`);
 //   console.log(`Pressure:  ${pressureMb} mb`);
 
-  return { humidity, dewpointC, dewpointF, pressureMb, pressurePa, visibility, windChill_C, windSpeed_mph, windChill_F, windChill_C };
+  return { humidity, dewpointC, dewpointF, pressureMb, pressurePa, visibility, windSpeed_mph, windChill_F, windChill_C };
 
 
 }
