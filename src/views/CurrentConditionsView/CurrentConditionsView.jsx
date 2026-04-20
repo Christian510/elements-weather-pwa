@@ -27,12 +27,13 @@ import { StyledButtonLink } from "../../components/StyledButtonLink";
 import ElmFooter from "../../components/ElmFooter/ElmFooter";
 import TerrainOutlinedIcon from "@mui/icons-material/TerrainOutlined";
 import ElmDivider from "../../components/ElmDivider";
-import { parseUrl, convertDateStr, formatDateTime } from "../../utils/utl_functions";
+import { parseUrl, convertDateStr, formatDateTime} from "../../utils/utl_functions";
 import "../../styles/weather-icons.min.css";
 import WeatherIcon from "../../components/WeatherIcon/WeatherIcon";
 import HourlyForecastCard from "../../components/ForecastCard/HourlyForecastCard";
 import DailyForecastCard from "../../components/ForecastCard/DailyForecastCard";
 import WeatherStat from "../../components/WeatherStat/WeatherStat";
+import { icon } from "@fortawesome/fontawesome-svg-core";
 
 export default function CurrentConditions() {
   const theme = useTheme();
@@ -63,6 +64,7 @@ export default function CurrentConditions() {
     }
   }, [params]);
 
+  console.log('forecasts: ', forecasts);
   const hourlyData = useMemo(() => {
     const iconMap = new Map(iconValues?.icons.map((icon) => [icon.icon, icon]));
 
@@ -71,6 +73,7 @@ export default function CurrentConditions() {
       let iconName = parseUrl(item.icon);
       let iconObj = {};
       iconObj = iconMap.get(iconName);
+
       return {
         key: item.number,
         title: item.name,
@@ -78,6 +81,10 @@ export default function CurrentConditions() {
         forecast: item.shortForecast,
         temp: item.temperature,
         tempUnit: item.temperatureUnit,
+        precipChance: item.probabilityOfPrecipitation.value,
+        precipType: iconObj.description,
+        windSpeed: item.windSpeed,
+        windDirection: item.windDirection,
         isDaytime: item.isDaytime,
         time: index === 0 ? "Now" : convertDateStr(item.startTime),
       };
@@ -99,8 +106,10 @@ export default function CurrentConditions() {
         forecast: item.detailedForecast,
         temp: item.temperature,
         tempUnit: item.temperatureUnit,
-        wind: item.windSpeed,
-
+        windSpeed: item.windSpeed,
+        windDirection: item.windDirection,
+        precipChance: item.probabilityOfPrecipitation.value,
+        precipType: iconObj.description,
         isDaytime: item.isDaytime,
         date: date,
       };

@@ -9,20 +9,14 @@ import {
   Grid,
   useTheme,
 } from "@mui/material";
-import {
-  WbSunny,
-  Grain,
-  Air,
-  Opacity,
-  ExpandMore,
-} from "@mui/icons-material";
+import { WbSunny, Grain, Air, Opacity, ExpandMore } from "@mui/icons-material";
 import WeatherIcon from "../../components/WeatherIcon/WeatherIcon";
 
 export default function DailyForecastCard({ content, styles, timeCount }) {
   const [expandedDay, setExpandedDay] = useState(null);
   const theme = useTheme();
 
-  console.log('content: ', content[0]);
+  console.log("content: ", content);
   const handleExpandClick = (index) => {
     setExpandedDay(expandedDay === index ? null : index);
   };
@@ -130,17 +124,6 @@ export default function DailyForecastCard({ content, styles, timeCount }) {
                   borderBottomRightRadius: 12,
                 }}
               >
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: "white",
-                    lineHeight: 1.6,
-                    mb: 2,
-                  }}
-                >
-                  {day.forecast}
-                </Typography>
-
                 <Grid container spacing={1.5}>
                   <Grid item xs={6}>
                     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -152,13 +135,13 @@ export default function DailyForecastCard({ content, styles, timeCount }) {
                           variant="caption"
                           sx={{ color: "rgba(255, 255, 255, 0.7)" }}
                         >
-                          Wind
+                          {}
                         </Typography>
                         <Typography
                           variant="body2"
                           sx={{ color: "white", fontWeight: 500 }}
                         >
-                          {day.wind}
+                          {day.precipitation}
                         </Typography>
                       </Box>
                     </Box>
@@ -230,6 +213,16 @@ export default function DailyForecastCard({ content, styles, timeCount }) {
                     </Box>
                   </Grid>
                 </Grid>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: "white",
+                    lineHeight: 1.6,
+                    mt: 2,
+                  }}
+                >
+                  {day.forecast}
+                </Typography>
               </Box>
             </Collapse>
           </Card>
