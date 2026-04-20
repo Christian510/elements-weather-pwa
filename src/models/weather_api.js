@@ -27,8 +27,6 @@ export const fetchFavorites = async () => {
 
 // GET WEATHER URL BY LAT AND LONG
 export const getForecastUrl = (lat, lng) => {
-    fetchObservationData(lat, lng);
-
     // const units = ['imperial', 'metric', 'standard'];
     const url = `https://api.weather.gov/points/${lat},${lng}`;
     const options = {
@@ -44,6 +42,7 @@ export const getForecastUrl = (lat, lng) => {
 
 // Fetch the forecast data from url
 export function queryForecastData(url) {
+    console.log('url: ', url);
     const options = {
         'method': 'GET',
         'mode': 'cors',
@@ -84,6 +83,8 @@ export async function fetchAllData(l) {
     const data = {}
     try {
         data.location = l;
+        const observation = await fetchObservationData(l.lat, l.lng);
+        data.observation = observation;
         const api = await getForecastUrl(l.lat, l.lng);
         data.api = api;
         const forecast = await queryForecastData(api.properties.forecast);
@@ -127,10 +128,11 @@ export async function fetchObservationData(lat, lng) {
   // Step 1: Get grid point info
   const pointsRes = await fetch(`https://api.weather.gov/points/${lat},${lng}`, { options });
   const pointsData = await pointsRes.json();
-  console.log('data: ', pointsData);
+//   console.log('data: ', pointsData);
   const forecastUrl = pointsData.properties.forecast;
-  const forecast = await fetch(forecastUrl, { options });
-  console.log('forecast: ', forecast);
+  console.log('forecastUrl: ', forecastUrl);
+//   const forecast = await fetch(forecastUrl, { options });
+//   console.log('forecast: ', forecast);
 
   const observationStationsUrl = pointsData.properties.observationStations;
 
@@ -145,19 +147,28 @@ export async function fetchObservationData(lat, lng) {
   const obsRes = await fetch(`https://api.weather.gov/stations/${stationId}/observations/latest`, { options });
   const obsData = await obsRes.json();
   const props = obsData.properties;
-
+    // console.log('props: ', props);
   // Extract and convert values
+  const C_to_F = (C) => (C * 9/5 + 32).toFixed(1);
   const humidity   = props.relativeHumidity?.value;
   const dewpointC  = props.dewpoint?.value;
-  const dewpointF  = dewpointC != null ? (dewpointC * 9/5 + 32).toFixed(1) : null;
+  const dewpointF  = dewpointC != null ? C_to_F(dewpointC) : null;
   const pressurePa = props.barometricPressure?.value;
   const pressureMb = pressurePa != null ? (pressurePa / 100).toFixed(1) : null;
+  const visibility = props.visibility?.value / 1609.344;
+  const windSpeed_meters = props.windSpeed?.value;
+  const windSpeed_mph = windSpeed_meters != null ? (windSpeed_meters * 2.23694).toFixed(1) : null;
+  const windChill_C = props.windChill?.value;
+  const windChill_F = windChill_C != null ? C_to_F(windChill_C) : null;
 
-  console.log(`Humidity:  ${humidity}%`);
-  console.log(`Dewpoint:  ${dewpointC}°C / ${dewpointF}°F`);
-  console.log(`Pressure:  ${pressureMb} mb`);
+//   console.log(`Visibility: ${visibility} mi`);
+//   console.log(`Wind Speed: ${windSpeed_mph} mph`);
+//   console.log(`Wind Chill: ${windChill_F} °F`);
+//   console.log(`Humidity:  ${humidity}%`);
+//   console.log(`Dewpoint:  ${dewpointC}°C / ${dewpointF}°F`);
+//   console.log(`Pressure:  ${pressureMb} mb`);
 
-  return { humidity, dewpointC, dewpointF, pressureMb };
+  return { humidity, dewpointC, dewpointF, pressureMb, pressurePa, visibility, windChill_C, windSpeed_mph, windChill_F, windChill_C };
 
 
 }
