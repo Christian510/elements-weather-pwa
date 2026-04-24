@@ -64,12 +64,6 @@
     "debug": "DEBUG=express:router node ./bin/www",
     "seed": "NODE_ENV=production node ./api/db/seed.js"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -85,6 +79,5 @@
   "engines": {
     "node": "22.4.1",
     "npm": "10.8.1"
-  },
-  "homepage": "/"
+  }
 }

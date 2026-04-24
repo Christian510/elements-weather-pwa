@@ -14,7 +14,7 @@ node_modules
 /api/server.log
 
 # production
-build
+dist
 
 # misc
 .DS_Store

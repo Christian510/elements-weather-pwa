@@ -67,10 +67,10 @@ app.use('/icons', iconsRouter)
 
 // app.use('/user', userRouter);
 
-// Serve static files from React's build folder in production/staging
-app.use(express.static(path.join(__dirname, "..", "build")));
+// Serve static files from Vite's build folder in production/staging
+app.use(express.static(path.join(__dirname, "..", "dist")));
 app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "..", "build", "index.html"));
+    res.sendFile(path.join(__dirname, "..", "dist", "index.html"));
 });
 
 // catch 404 and forward to error handler
