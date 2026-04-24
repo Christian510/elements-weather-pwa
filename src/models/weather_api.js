@@ -73,8 +73,8 @@ export async function fetchDateTime(lat, lng, country="US") {
             'Accept': 'application/json'
         }
     };
-    const geonamesUrl = process.env.REACT_APP_GEONAMES_URL;
-    const username = process.env.REACT_APP_GEONAMES_USER_NAME;
+    const geonamesUrl = import.meta.env.VITE_GEONAMES_URL;
+    const username = import.meta.env.VITE_GEONAMES_USER_NAME;
     const url = `${geonamesUrl}/timezoneJSON?formatted=true&lat=${lat}&lng=${lng}&username=${username}`;
     return processFetch(url, options);
   }

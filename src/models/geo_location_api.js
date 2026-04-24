@@ -39,12 +39,12 @@
 
 // Fetch a list of cities and locations.
 export async function queryLocations(query, country = "US") {
-    const geonamesUrl = process.env.REACT_APP_GEONAMES_URL;
-    const username = process.env.REACT_APP_GEONAMES_USER_NAME;
+    const geonamesUrl = import.meta.env.VITE_GEONAMES_URL;
+    const username = import.meta.env.VITE_GEONAMES_USER_NAME;
     const options = {
         method: 'GET',
         // headers: {
-        //     'X-RapidAPI-Key': process.env.REACT_APP_GEODB_KEY,
+        //     'X-RapidAPI-Key': import.meta.env.VITE_GEODB_KEY,
         //     'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com',
         // }
     };

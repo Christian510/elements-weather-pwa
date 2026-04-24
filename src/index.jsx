@@ -1,11 +1,10 @@
+import '@mui/material/styles'; // Must be first — initializes createTheme before Box is evaluated
 import { StrictMode } from 'react';
 import {
   createBrowserRouter,
   RouterProvider,
 } from 'react-router-dom';
 import ReactDOM from "react-dom/client";
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import reportWebVitals from './reportWebVitals';
 import { Home } from './App';
 import ErrorPage from './views/ErrorPage/ErrorPage';
 import CurrentConditionsView from './views/CurrentConditionsView/CurrentConditionsView';
@@ -124,16 +123,6 @@ const preloader = document.getElementById('preloader');
 if (preloader) {
   preloader.remove();
 }
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://cra.link/PWA
-serviceWorkerRegistration.register();
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
 
 // Check if the app is running in standalone mode
 // Comment this out once the app is in production
