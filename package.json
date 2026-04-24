@@ -60,7 +60,7 @@
     "preview": "vite preview",
     "start:server": "node ./api/bin/www",
     "start:redis": "redis-server",
-    "heroku-postbuild": "npm install && npm run build",
+    "heroku-postbuild": "npm run build",
     "debug": "DEBUG=express:router node ./bin/www",
     "seed": "NODE_ENV=production node ./api/db/seed.js"
   },
