@@ -64,7 +64,7 @@ export default function CurrentConditions() {
     }
   }, [params]);
 
-  console.log('forecasts: ', forecasts);
+  // console.log('forecasts: ', forecasts);
   const hourlyData = useMemo(() => {
     const iconMap = new Map(iconValues?.icons.map((icon) => [icon.icon, icon]));
 
@@ -73,7 +73,7 @@ export default function CurrentConditions() {
       let iconName = parseUrl(item.icon);
       let iconObj = {};
       iconObj = iconMap.get(iconName);
-
+      // console.log('iconObj: ', iconObj);
       return {
         key: item.number,
         title: item.name,
@@ -95,9 +95,11 @@ export default function CurrentConditions() {
     if (!dailyForecast) return [];
     return dailyForecast.forecast.properties.periods.map((item, index) => {
       let iconName = parseUrl(item.icon);
+      // console.log('iconName: ', iconName);
       let iconObj = {};
       iconObj = iconValues.icons.find((icon) => icon.icon === iconName);
       let dateObj = formatDateTime(item.startTime);
+      // console.log('dateObj: ', dateObj);
       let date = dateObj.date.split(', ')[1];
       return {
         key: item.number,

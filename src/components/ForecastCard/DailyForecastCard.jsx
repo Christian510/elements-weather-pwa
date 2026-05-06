@@ -16,7 +16,7 @@ export default function DailyForecastCard({ content, styles, timeCount }) {
   const [expandedDay, setExpandedDay] = useState(null);
   const theme = useTheme();
 
-  console.log("content: ", content);
+  // console.log("content: ", content);
   const handleExpandClick = (index) => {
     setExpandedDay(expandedDay === index ? null : index);
   };

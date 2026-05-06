@@ -3,6 +3,14 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  server: {
+    proxy: {
+      '/favorites': 'http://localhost:5001',
+      '/icons': 'http://localhost:5001',
+      '/auth': 'http://localhost:5001',
+      '/user': 'http://localhost:5001',
+    },
+  },
   optimizeDeps: {
     include: [
       '@mui/material',
@@ -20,6 +28,9 @@ export default defineConfig({
     }),
     VitePWA({
       registerType: 'autoUpdate',
+      devOptions: {
+        enabled: false,
+      },
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
         name: 'Elements Weather PWA',

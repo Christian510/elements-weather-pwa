@@ -42,7 +42,7 @@ export const getForecastUrl = (lat, lng) => {
 
 // Fetch the forecast data from url
 export function queryForecastData(url) {
-    console.log('url: ', url);
+    // console.log('url: ', url);
     const options = {
         'method': 'GET',
         'mode': 'cors',
@@ -130,7 +130,7 @@ export async function fetchObservationData(lat, lng) {
   const pointsData = await pointsRes.json();
 //   console.log('data: ', pointsData);
   const forecastUrl = pointsData.properties.forecast;
-  console.log('forecastUrl: ', forecastUrl);
+//   console.log('forecastUrl: ', forecastUrl);
 //   const forecast = await fetch(forecastUrl, { options });
 //   console.log('forecast: ', forecast);
 
@@ -141,7 +141,7 @@ export async function fetchObservationData(lat, lng) {
   const stationsData = await stationsRes.json();
   const stationId = stationsData.features[0].properties.stationIdentifier;
 
-  console.log(`Using station: ${stationId}`);
+//   console.log(`Using station: ${stationId}`);
 
   // Step 3: Get latest observation
   const obsRes = await fetch(`https://api.weather.gov/stations/${stationId}/observations/latest`, { options });
