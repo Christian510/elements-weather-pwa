@@ -36,7 +36,7 @@ export default function HourlyForecastCard({ content, styles, timeCount, gap }) 
             <Typography sx={elmStyles.layout} variant="body2">{item.time}</Typography>
             <WeatherIcon
               sx={elmStyles.layout}
-              isDay={item.isDaytime}
+              isDaytime={item.isDaytime}
               iconObj={item.iconObj}
               color="white"
               size="med"

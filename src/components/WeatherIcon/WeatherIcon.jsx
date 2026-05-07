@@ -6,14 +6,13 @@ import Box from "@mui/material/Box";
 // import { fontSize } from "@mui/system";
 
 function WeatherIcon({
-    isDay = true,
+    dailyCard,
+    isDaytime = true,
     iconObj = {},
     size = "sm",
     color = "grey",
     sx = [],
     }) {
-//   console.log('isDay: ', isDay);
-//   console.log('iconObj: ', iconObj);
 
   // const theme = useTheme();
   const [iconSize, setIconsSize] = useState(null);
@@ -35,7 +34,7 @@ function WeatherIcon({
     let findIconSize = sizes.find(({ name }) => name === size);
     // console.log('findIconSize: ', findIconSize);
 
-    if (isDay === true) setIcon(iconObj.weather_icon_day);
+    if (isDaytime === true) setIcon(iconObj.weather_icon_day);
     else setIcon(iconObj.weather_icon_night);
     
     // Future work to allow for custom size 
@@ -45,7 +44,7 @@ function WeatherIcon({
     // }
     if (typeof size === "string") 
         setIconsSize(findIconSize.value);
-  }, [size, color, iconSize, iconObj, isDay]);
+  }, [size, color, iconSize, iconObj, isDaytime]);
 
   const IconStyles = styled("i")(({ theme }) => ({
     fontSize: iconSize,

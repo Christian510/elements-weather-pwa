@@ -132,7 +132,7 @@ export default function CurrentConditions() {
         name: null,
         state: null,
         elevation: null,
-        isDay: null,
+        isDaytime: null,
         loading: true,
         detailedForecast: null,
         fetchExtendedForecast: null,
@@ -157,7 +157,7 @@ export default function CurrentConditions() {
         3.28084 * (dailyForecast.forecast.properties.elevation.value || 0)
       ),
       detailedForecast: currentPeriod.detailedForecast,
-      isDay: currentPeriod.isDaytime,
+      isDaytime: currentPeriod.isDaytime,
       lat: dailyForecast.location.lat,
       lng: dailyForecast.location.lng,
       loading: false,
@@ -340,7 +340,7 @@ export default function CurrentConditions() {
                 >
                   <WeatherIcon
                     iconObj={elmIcon}
-                    isDay={values.isDay}
+                    isDay={values.isDaytime}
                     size="med"
                     color={theme.palette.grey[600]}
                   />

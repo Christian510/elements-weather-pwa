@@ -75,7 +75,7 @@ export default function DailyForecastCard({ content, styles, timeCount }) {
                   </Box>
 
                   <WeatherIcon
-                    isDay={day.isDay}
+                    isDaytime={day.isDaytime}
                     iconObj={day.iconObj}
                     color="white"
                     size="med"
