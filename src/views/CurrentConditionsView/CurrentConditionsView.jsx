@@ -11,6 +11,8 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import WaterDropOutlinedIcon from "@mui/icons-material/WaterDropOutlined";
 import SpeedOutlinedIcon from "@mui/icons-material/SpeedOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import GrainOutlinedIcon from "@mui/icons-material/GrainOutlined";
+import CloudOutlinedIcon from "@mui/icons-material/CloudOutlined";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Typography from "@mui/material/Typography";
 import ElmSpinner from "../../components/ElmSpinner/ElmSpinner";
@@ -182,6 +184,28 @@ export default function CurrentConditions() {
       setElmIcon({});
     };
   }, [values.parsedIcon]);
+
+  const weatherStats = useMemo(() => {
+    const obs = dailyForecast?.observation;
+    const period = currentPeriod;
+    const precipChance = period?.probabilityOfPrecipitation?.value;
+    const icon = values.parsedIcon ?? '';
+    let precipType = '--';
+    if (icon.includes('snow') || icon.includes('blizzard') || icon.includes('sleet') || icon.includes('ice')) {
+      precipType = 'Snow';
+    } else if (icon.includes('rain') || icon.includes('shower') || icon.includes('tsra') || icon.includes('drizzle')) {
+      precipType = 'Rain';
+    }
+    return {
+      wind: period ? `${period.windSpeed} ${period.windDirection}` : '--',
+      precipChance: precipChance != null ? `${precipChance}%` : '--',
+      precipType,
+      humidity: obs?.humidity != null ? `${Math.round(obs.humidity)}%` : '--',
+      dewPoint: obs?.dewpointF != null ? `${obs.dewpointF}°F` : '--',
+      pressure: obs?.pressureMb != null ? `${obs.pressureMb} mb` : '--',
+      visibility: obs?.visibility != null ? `${Number(obs.visibility).toFixed(1)} mi` : '--',
+    };
+  }, [dailyForecast, currentPeriod, values.parsedIcon]);
 
   function handleAddFavorite(location, sessionID) {
     setTimeout(() => {
@@ -374,38 +398,48 @@ export default function CurrentConditions() {
                 </Typography>
               </FlexBoxRowCenter>
               <ElmDivider />
-              <Box sx={{ width: "100%", maxWidth: "330px" }}>
+              <Box id="weather-stats" sx={{ width: "100%", maxWidth: "330px" }}>
                 <Grid container columnSpacing={{ xs: 2, sm: 3 }} rowSpacing={2}>
-                  <Grid item xs={6} sm={6} md={6}>
+                  <Grid item xs={6}>
                     <Stack spacing={2}>
                       <WeatherStat
                         icon={AirOutlinedIcon}
                         label="Wind"
-                        value="25 mph"
+                        value={weatherStats.wind}
+                      />
+                      <WeatherStat
+                        icon={GrainOutlinedIcon}
+                        label="Precip Chance"
+                        value={weatherStats.precipChance}
+                      />
+                      <WeatherStat
+                        icon={CloudOutlinedIcon}
+                        label="Precip Type"
+                        value={weatherStats.precipType}
                       />
                       <WeatherStat
                         icon={WaterDropOutlinedIcon}
                         label="Humidity"
-                        value="25%"
+                        value={weatherStats.humidity}
+                      />
+                    </Stack>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Stack spacing={2}>
+                      <WeatherStat
+                        icon={ThermostatOutlinedIcon}
+                        label="Dew Point"
+                        value={weatherStats.dewPoint}
+                      />
+                      <WeatherStat
+                        icon={SpeedOutlinedIcon}
+                        label="Pressure"
+                        value={weatherStats.pressure}
                       />
                       <WeatherStat
                         icon={VisibilityOutlinedIcon}
                         label="Visibility"
-                        value="10 mi"
-                      />
-                    </Stack>
-                  </Grid>
-                  <Grid item xs={6} sm={6} md={6}>
-                    <Stack spacing={2}>
-                      <WeatherStat
-                        icon={SpeedOutlinedIcon}
-                        label="Pressure"
-                        value="30.1 in"
-                      />
-                      <WeatherStat
-                        icon={ThermostatOutlinedIcon}
-                        label="Dew Point"
-                        value="45°F"
+                        value={weatherStats.visibility}
                       />
                     </Stack>
                   </Grid>
