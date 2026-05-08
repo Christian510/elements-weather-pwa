@@ -9,7 +9,7 @@ import {
   Grid,
   useTheme,
 } from "@mui/material";
-import { WbSunny, Grain, Air, Opacity, ExpandMore } from "@mui/icons-material";
+import { Grain, Air, ExpandMore } from "@mui/icons-material";
 import WeatherIcon from "../../components/WeatherIcon/WeatherIcon";
 
 export default function DailyForecastCard({ content, styles, timeCount }) {
@@ -135,35 +135,13 @@ export default function DailyForecastCard({ content, styles, timeCount }) {
                           variant="caption"
                           sx={{ color: "rgba(255, 255, 255, 0.7)" }}
                         >
-                          {}
+                          Wind
                         </Typography>
                         <Typography
                           variant="body2"
                           sx={{ color: "white", fontWeight: 500 }}
                         >
-                          {day.precipitation}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Grid>
-
-                  <Grid item xs={6}>
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                      <Opacity
-                        sx={{ color: "rgba(255, 255, 255, 0.8)", fontSize: 20 }}
-                      />
-                      <Box>
-                        <Typography
-                          variant="caption"
-                          sx={{ color: "rgba(255, 255, 255, 0.7)" }}
-                        >
-                          Humidity
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          sx={{ color: "white", fontWeight: 500 }}
-                        >
-                          {day.humidity}
+                          {day.windSpeed} {day.windDirection}
                         </Typography>
                       </Box>
                     </Box>
@@ -179,39 +157,18 @@ export default function DailyForecastCard({ content, styles, timeCount }) {
                           variant="caption"
                           sx={{ color: "rgba(255, 255, 255, 0.7)" }}
                         >
-                          Precip
+                          Precip Chance
                         </Typography>
                         <Typography
                           variant="body2"
                           sx={{ color: "white", fontWeight: 500 }}
                         >
-                          {day.precipitation}
+                          {day.precipChance != null ? `${day.precipChance}%` : '--'}
                         </Typography>
                       </Box>
                     </Box>
                   </Grid>
 
-                  <Grid item xs={6}>
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                      <WbSunny
-                        sx={{ color: "rgba(255, 255, 255, 0.8)", fontSize: 20 }}
-                      />
-                      <Box>
-                        <Typography
-                          variant="caption"
-                          sx={{ color: "rgba(255, 255, 255, 0.7)" }}
-                        >
-                          UV Index
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          sx={{ color: "white", fontWeight: 500 }}
-                        >
-                          {day.uv}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Grid>
                 </Grid>
                 <Typography
                   variant="body2"

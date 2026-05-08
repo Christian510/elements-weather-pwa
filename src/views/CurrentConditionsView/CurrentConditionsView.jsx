@@ -46,7 +46,7 @@ export default function CurrentConditions() {
   const [dailyForecast, setForecast] = useState(); // remame to currentPeriod
   const [hourlyForecast, setHourlyForecast] = useState();
   const match = useMemo(
-    () => forecasts.find((f) => f.location.location_id === params.location_id),
+    () => forecasts?.find((f) => f.location.location_id === params.location_id),
     [forecasts, params]
   );
   
@@ -68,14 +68,11 @@ export default function CurrentConditions() {
 
   // console.log('forecasts: ', forecasts);
   const hourlyData = useMemo(() => {
-    const iconMap = new Map(iconValues?.icons.map((icon) => [icon.icon, icon]));
-
-    if (!hourlyForecast) return [];
+    if (!hourlyForecast || !iconValues?.icons) return [];
+    const iconMap = new Map(iconValues.icons.map((icon) => [icon.icon, icon]));
     return hourlyForecast.properties.periods.map((item, index) => {
       let iconName = parseUrl(item.icon);
-      let iconObj = {};
-      iconObj = iconMap.get(iconName);
-      // console.log('iconObj: ', iconObj);
+      let iconObj = iconMap.get(iconName) ?? {};
       return {
         key: item.number,
         title: item.name,
@@ -84,7 +81,7 @@ export default function CurrentConditions() {
         temp: item.temperature,
         tempUnit: item.temperatureUnit,
         precipChance: item.probabilityOfPrecipitation.value,
-        precipType: iconObj.description,
+        precipType: iconObj?.description ?? '--',
         windSpeed: item.windSpeed,
         windDirection: item.windDirection,
         isDaytime: item.isDaytime,
@@ -94,14 +91,11 @@ export default function CurrentConditions() {
   }, [hourlyForecast, iconValues]);
 
   const dailyData = useMemo(() => {
-    if (!dailyForecast) return [];
+    if (!dailyForecast || !iconValues?.icons) return [];
     return dailyForecast.forecast.properties.periods.map((item, index) => {
       let iconName = parseUrl(item.icon);
-      // console.log('iconName: ', iconName);
-      let iconObj = {};
-      iconObj = iconValues.icons.find((icon) => icon.icon === iconName);
+      let iconObj = iconValues.icons.find((icon) => icon.icon === iconName) ?? {};
       let dateObj = formatDateTime(item.startTime);
-      // console.log('dateObj: ', dateObj);
       let date = dateObj.date.split(', ')[1];
       return {
         key: item.number,
@@ -113,7 +107,7 @@ export default function CurrentConditions() {
         windSpeed: item.windSpeed,
         windDirection: item.windDirection,
         precipChance: item.probabilityOfPrecipitation.value,
-        precipType: iconObj.description,
+        precipType: iconObj?.description ?? '--',
         isDaytime: item.isDaytime,
         date: date,
       };
