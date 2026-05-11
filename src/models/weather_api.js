@@ -79,6 +79,19 @@ export async function fetchDateTime(lat, lng, country="US") {
     return processFetch(url, options);
   }
 
+async function fetchUvIndex(lat, lng) {
+    try {
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=uv_index`;
+        const res = await fetch(url, { headers: { Accept: 'application/json' } });
+        if (!res.ok) return null;
+        const data = await res.json();
+        const uv = data.current?.uv_index;
+        return uv != null ? Math.round(uv) : null;
+    } catch {
+        return null;
+    }
+}
+
 export async function fetchAllData(l) {
     const data = {}
     try {
@@ -92,7 +105,9 @@ export async function fetchAllData(l) {
         const hourlyForecast = await fetchHourlyForecast(api.properties.forecastHourly);
         data.hourlyForecast = hourlyForecast;
         const dateTime = await fetchDateTime(l.lat, l.lng);
-            data.dateTime = dateTime;
+        data.dateTime = dateTime;
+        const uvIndex = await fetchUvIndex(l.lat, l.lng);
+        data.uvIndex = uvIndex;
     }
     catch (err) {
         console.error('Error message: ', err);

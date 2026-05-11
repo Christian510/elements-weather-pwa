@@ -11,6 +11,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import WaterDropOutlinedIcon from "@mui/icons-material/WaterDropOutlined";
 import SpeedOutlinedIcon from "@mui/icons-material/SpeedOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
 import GrainOutlinedIcon from "@mui/icons-material/GrainOutlined";
 import CloudOutlinedIcon from "@mui/icons-material/CloudOutlined";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -198,9 +199,11 @@ export default function CurrentConditions() {
       dewPoint: obs?.dewpointF != null ? `${obs.dewpointF}°F` : '--',
       pressure: obs?.pressureMb != null ? `${obs.pressureMb} mb` : '--',
       visibility: obs?.visibility != null ? `${Number(obs.visibility).toFixed(1)} mi` : '--',
+      uvIndex: dailyForecast?.uvIndex != null ? String(dailyForecast.uvIndex) : '--',
     };
   }, [dailyForecast, currentPeriod, values.parsedIcon]);
 
+  console.log('uvIndex: ', weatherStats.uvIndex);
   function handleAddFavorite(location, sessionID) {
     setTimeout(() => {
       addFavorite(location, sessionID).then((resp) => {
@@ -394,7 +397,7 @@ export default function CurrentConditions() {
               <ElmDivider />
               <Box id="weather-stats" sx={{ width: "100%", maxWidth: "330px" }}>
                 <Grid container columnSpacing={{ xs: 2, sm: 3 }} rowSpacing={2}>
-                  <Grid item xs={6}>
+                  <Grid id="current-conditions" item xs={6}>
                     <Stack spacing={2}>
                       <WeatherStat
                         icon={AirOutlinedIcon}
@@ -434,6 +437,11 @@ export default function CurrentConditions() {
                         icon={VisibilityOutlinedIcon}
                         label="Visibility"
                         value={weatherStats.visibility}
+                      />
+                      <WeatherStat
+                        icon={WbSunnyOutlinedIcon}
+                        label="UV Index"
+                        value={weatherStats.uvIndex}
                       />
                     </Stack>
                   </Grid>
