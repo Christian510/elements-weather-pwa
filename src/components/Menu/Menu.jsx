@@ -14,24 +14,29 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
-export default function ElmMenu({ isLogedIn = false }) {
+export default function ElmMenu({ onLoginClick }) {
   const theme = useTheme();
+  const { user, signOut } = useAuth();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
+
+  const handleClick = (event) => setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
+
+  const handleLoginClick = () => {
+    handleClose();
+    onLoginClick();
   };
 
-  const login = isLogedIn ? (
-    <Logout fontSize="small" />
-  ) : (
-    <Login fontSize="small" />
-  );
-  const loginText = isLogedIn ? "Logout" : "Login";
+  const handleLogout = () => {
+    handleClose();
+    signOut();
+  };
+
+  const avatarInitial = user?.email?.[0]?.toUpperCase() ?? null;
+
   return (
     <Fragment>
       <Box
@@ -55,16 +60,18 @@ export default function ElmMenu({ isLogedIn = false }) {
             aria-expanded={open ? "true" : undefined}
           >
             <Avatar
+              src={user?.photoURL ?? undefined}
               sx={{
                 width: 32,
                 height: 32,
                 borderStyle: "solid",
                 borderWidth: ".15em",
                 borderColor: theme.palette.primary.light,
-                backgroundColor: "transparent",
+                backgroundColor: user ? theme.palette.primary.main : "transparent",
+                fontSize: "0.875rem",
               }}
             >
-              <MoreHorizIcon color="action" fontSize="medium"></MoreHorizIcon>
+              {user ? (user.photoURL ? null : avatarInitial) : <MoreHorizIcon color="action" fontSize="medium" />}
             </Avatar>
           </IconButton>
         </Tooltip>
@@ -106,24 +113,16 @@ export default function ElmMenu({ isLogedIn = false }) {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>
-          <Avatar /> My account
+        <MenuItem>
+          <Avatar src={user?.photoURL ?? undefined} sx={{ fontSize: "0.875rem" }}>
+            {user?.photoURL ? null : avatarInitial}
+          </Avatar>
+          <Typography variant="body2" noWrap sx={{ maxWidth: 160 }}>
+            {user ? user.email : "My account"}
+          </Typography>
         </MenuItem>
         <Divider />
         <NavLink to="/settings">
-          <MenuItem 
-            sx={{
-              color: theme.palette.common.white,
-              textDecoration: "none",
-            }}
-            onClick={handleClose}>
-            <ListItemIcon>
-              <Settings fontSize="small" />
-            </ListItemIcon>
-            Settings
-          </MenuItem>
-        </NavLink>
-        <NavLink to="/login">
           <MenuItem
             sx={{
               color: theme.palette.common.white,
@@ -131,10 +130,33 @@ export default function ElmMenu({ isLogedIn = false }) {
             }}
             onClick={handleClose}
           >
-            <ListItemIcon>{login}</ListItemIcon>
-            {loginText}
+            <ListItemIcon>
+              <Settings fontSize="small" />
+            </ListItemIcon>
+            Settings
           </MenuItem>
         </NavLink>
+        {user ? (
+          <MenuItem
+            sx={{ color: theme.palette.common.white }}
+            onClick={handleLogout}
+          >
+            <ListItemIcon>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            Logout
+          </MenuItem>
+        ) : (
+          <MenuItem
+            sx={{ color: theme.palette.common.white }}
+            onClick={handleLoginClick}
+          >
+            <ListItemIcon>
+              <Login fontSize="small" />
+            </ListItemIcon>
+            Login
+          </MenuItem>
+        )}
       </Menu>
     </Fragment>
   );
