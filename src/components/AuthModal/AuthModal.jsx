@@ -94,13 +94,12 @@ export default function AuthModal({ open, onClose }) {
       <Paper
         sx={{
           position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: { xs: '90%', sm: 420 },
-          maxHeight: '90vh',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
           overflowY: 'auto',
-          borderRadius: 2,
+          borderRadius: 0,
           p: 3,
           outline: 'none',
         }}
