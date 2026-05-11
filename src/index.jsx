@@ -21,6 +21,7 @@ import ElmSpinner from './components/ElmSpinner/ElmSpinner';
 import ForgotPassword from './components/ForgotPassword';
 import ForgotUsername from './components/ForgotUsername';
 import { loader as rootLoader } from './models/loader';
+import { AuthProvider } from './contexts/AuthContext';
 import './index.css';
 import DemoView from './views/DemoView/DemoView';
 
@@ -114,7 +115,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <StrictMode>
     <ThemeProvider theme={ElmTheme}>
-      <RouterProvider router={router} fallbackElement={<Fallback />} />
+      <AuthProvider>
+        <RouterProvider router={router} fallbackElement={<Fallback />} />
+      </AuthProvider>
     </ThemeProvider>
   </StrictMode>
 );
