@@ -203,7 +203,7 @@ export default function CurrentConditions() {
     };
   }, [dailyForecast, currentPeriod, values.parsedIcon]);
 
-  console.log('uvIndex: ', weatherStats.uvIndex);
+  // console.log('uvIndex: ', weatherStats.uvIndex);
   function handleAddFavorite(location, sessionID) {
     setTimeout(() => {
       addFavorite(location, sessionID).then((resp) => {
