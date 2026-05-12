@@ -13,6 +13,7 @@ const path = require('path');
 const sqlformat = require('./logger.js');
 const favoritesRouter = require('./routes/favorites.js');
 const iconsRouter = require('./routes/icons.js');
+const authRouter = require('./routes/auth.js');
 const redisStore = require('./redisStore.js');
 
 const app = express();
@@ -46,24 +47,25 @@ app.use(bodyParser.json())
 
 app.set('trust proxy', 1) // trust first proxy
 const sessionSecret = process.env.SESSION_SECRET;
-app.use('/favorites', session({
+const sessionMiddleware = session({
   secret: sessionSecret,
   store: redisStore,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    sameSite: 'lax', // none, lax, strict
-    secure: false, // true if using https
-    domain: process.env.COOKIE_DOMAIN, //Only if using multiple domains in production. 
-    // maxAge: Number(process.env.SESSION_MAX_AGE), // 30 days
-    maxAge: 1000 * 60 * 60 * 24 * 90, // 30 days
-    // maxAge: 1000 * 60 * 60 * 24 * 1, // 1 day
+    sameSite: 'lax',
+    secure: false,
+    domain: process.env.COOKIE_DOMAIN,
+    maxAge: 1000 * 60 * 60 * 24 * 90, // 90 days for anonymous users
   }
-}
-));
+});
+
+app.use('/favorites', sessionMiddleware);
+app.use('/auth', sessionMiddleware);
 
 app.use('/favorites', favoritesRouter);
-app.use('/icons', iconsRouter)
+app.use('/icons', iconsRouter);
+app.use('/auth', authRouter);
 
 // app.use('/user', userRouter);
 

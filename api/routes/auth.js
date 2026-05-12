@@ -1,19 +1,23 @@
-// import express from 'express';
-// const router = express.Router();
-// // const db = require('../../db/database')
+const express = require('express');
+const router = express.Router();
 
-// router.post('/login', function (req, res) {
+const TEN_YEARS_MS = 1000 * 60 * 60 * 24 * 365 * 10;
 
-//     res.send({ message: 'LOGIN USER' });
-//   });
-  
-//   router.put('/login', function (req, res) {
-  
-//     res.send({ message: 'LOGOUT USER' });
-//   });
-  
-//   router.post('/create_account', function (req, res) {
-//     res.send({ message: 'CREATE ACCOUNT' });
-//   });
+// Called after a user successfully creates a Firebase account.
+// Upgrades the anonymous session cookie to a persistent one with no expiry.
+router.post('/upgrade-session', (req, res) => {
+  if (!req.session) {
+    return res.status(400).json({ error: 'No session found' });
+  }
+  req.session.cookie.maxAge = TEN_YEARS_MS;
+  req.session.isRegistered = true;
+  req.session.save((err) => {
+    if (err) {
+      console.error('Failed to upgrade session:', err);
+      return res.status(500).json({ error: 'Failed to upgrade session' });
+    }
+    res.json({ result: 1 });
+  });
+});
 
-// export default router;
+module.exports = router;
