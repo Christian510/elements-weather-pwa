@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAuth } from '../../contexts/AuthContext';
+import axios from '../../api/client';
 
 const FIREBASE_ERRORS = {
   'auth/user-not-found': 'No account found with this email.',
@@ -65,6 +66,7 @@ export default function AuthModal({ open, onClose }) {
         await signIn(email, password);
       } else {
         await signUp(email, password);
+        await axios.post('/auth/upgrade-session').catch(() => {});
       }
       reset();
       onClose();
