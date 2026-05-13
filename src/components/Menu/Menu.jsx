@@ -14,11 +14,13 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function ElmMenu({ onLoginClick }) {
   const theme = useTheme();
   const { user, signOut } = useAuth();
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -113,7 +115,7 @@ export default function ElmMenu({ onLoginClick }) {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem>
+        <MenuItem onClick={() => navigate('/user_account')} disabled={!user}>
           <Avatar src={user?.photoURL ?? undefined} sx={{ fontSize: "0.875rem" }}>
             {user?.photoURL ? null : avatarInitial}
           </Avatar>
