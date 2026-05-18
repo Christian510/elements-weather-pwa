@@ -10,8 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { useAuth } from '../../contexts/AuthContext';
-import axios from '../../api/client';
+import { useAuth, linkSession } from '../../contexts/AuthContext';
 
 const FIREBASE_ERRORS = {
   'auth/user-not-found': 'No account found with this email.',
@@ -33,7 +32,7 @@ const GoogleG = () => (
   </svg>
 );
 
-export default function AuthModal({ open, onClose }) {
+export default function AuthModal({ open, onClose, onLoginSuccess }) {
   const { signIn, signUp, signInWithGoogle } = useAuth();
   const [mode, setMode] = useState('login');
   const [email, setEmail] = useState('');
@@ -62,14 +61,13 @@ export default function AuthModal({ open, onClose }) {
     setError('');
     setSubmitting(true);
     try {
-      if (mode === 'login') {
-        await signIn(email, password);
-      } else {
-        await signUp(email, password);
-        await axios.post('/auth/upgrade-session').catch(() => {});
-      }
+      const credential = mode === 'login'
+        ? await signIn(email, password)
+        : await signUp(email, password);
+      await linkSession(credential.user);
       reset();
       onClose();
+      onLoginSuccess?.();
     } catch (err) {
       setError(FIREBASE_ERRORS[err.code] ?? 'Something went wrong. Please try again.');
     } finally {
@@ -81,9 +79,11 @@ export default function AuthModal({ open, onClose }) {
     setError('');
     setSubmitting(true);
     try {
-      await signInWithGoogle();
+      const credential = await signInWithGoogle();
+      await linkSession(credential.user);
       reset();
       onClose();
+      onLoginSuccess?.();
     } catch (err) {
       setError(FIREBASE_ERRORS[err.code] ?? 'Google sign-in failed. Please try again.');
     } finally {

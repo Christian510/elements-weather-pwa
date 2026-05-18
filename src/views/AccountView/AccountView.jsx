@@ -18,7 +18,8 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { sendPasswordResetEmail } from 'firebase/auth';
-import { auth } from '../../firebase';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { auth, db } from '../../firebase';
 import { useAuth } from '../../contexts/AuthContext';
 
 const glassCard = {
@@ -65,6 +66,23 @@ export default function AccountView() {
     if (user === null) navigate('/');
   }, [user, navigate]);
 
+  useEffect(() => {
+    if (!user) return;
+    getDoc(doc(db, 'users', user.uid)).then((snap) => {
+      if (snap.exists()) {
+        const data = snap.data();
+        setForm({
+          firstName: data.firstName ?? '',
+          lastName: data.lastName ?? '',
+          city: data.city ?? '',
+          state: data.state ?? '',
+          lat: data.lat ?? '',
+          lng: data.lng ?? '',
+        });
+      }
+    }).catch((err) => console.error('Failed to load profile:', err));
+  }, [user]);
+
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handlePasswordReset = async () => {
@@ -77,9 +95,14 @@ export default function AccountView() {
     }
   };
 
-  const handleSave = () => {
-    // TODO: persist form to backend
-    setEditMode(false);
+  const handleSave = async () => {
+    if (!user) return;
+    try {
+      await setDoc(doc(db, 'users', user.uid), form, { merge: true });
+      setEditMode(false);
+    } catch (err) {
+      console.error('Failed to save profile:', err);
+    }
   };
 
   const handleDeleteAccount = () => {
