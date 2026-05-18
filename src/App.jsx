@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Outlet,
   useFetchers,
@@ -10,20 +11,21 @@ import './index.css';
 import ElmMenu from './components/Menu/Menu';
 import Header from './components/NavBar/Header';
 import ElmSearch from './components/ElmSearch/ElmSearch';
+import AuthModal from './components/AuthModal/AuthModal';
 // import OfflineLoader from './components/OfflineLoader/OfflineLoader';
 // import ElmSkeleton from "./components/ElmSkeleton/ElmSkeleton";
 
 export function Home() {
 
   const theme = useTheme();
-  // console.log("theme: ", theme)
   let navigation = useNavigation();
-  // console.log("navigation: ", navigation); // ****** DEBUG ****** //
   let revalidator = useRevalidator();
   let fetchers = useFetchers();
   let fetcherInProgress = fetchers.some((f) =>
     ["loading", "submitting"].includes(f.state)
   );
+
+  const [authModalOpen, setAuthModalOpen] = useState(false);
 
   // Add the loading spinner/skeleton placeholder here to show when a fetcher is in progress
   return (
@@ -43,13 +45,18 @@ export function Home() {
         }}
       >
         <Header>
-          <ElmMenu isLogedIn={ false } />
+          <ElmMenu onLoginClick={() => setAuthModalOpen(true)} />
           <ElmSearch />
         </Header>
         <StyledOutlet id="outlet">
           {/* <OfflineLoader skeletonLoader={<ElmSkeleton height={150} width={400}/>} time={3000} /> */}
           <Outlet />
         </StyledOutlet>
+        <AuthModal
+          open={authModalOpen}
+          onClose={() => setAuthModalOpen(false)}
+          onLoginSuccess={() => revalidator.revalidate()}
+        />
         <div style={{ position: "fixed", top: 40, right: 20 }}>
           {navigation.state !== "idle" && <p>Navigation in progress...</p>}
           {revalidator.state !== "idle" && <p>Revalidation in progress...</p>}
