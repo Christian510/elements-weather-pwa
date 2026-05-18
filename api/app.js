@@ -3,7 +3,7 @@
  * @description This is the main entry point for the API.
  * This is the production version of the API. DO NOT CHANGE THE PATH!!
  */
-require('dotenv').config({path: 'api/.env.production' })
+require('dotenv').config({ path: process.env.NODE_ENV === 'production' ? 'api/.env.production' : 'api/.env.development' })
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -55,7 +55,6 @@ const sessionMiddleware = session({
   cookie: {
     sameSite: 'lax',
     secure: false,
-    domain: process.env.COOKIE_DOMAIN,
     maxAge: 1000 * 60 * 60 * 24 * 90, // 90 days for anonymous users
   }
 });

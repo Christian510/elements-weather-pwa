@@ -6,7 +6,7 @@
  * @description: This file contains the redis store for the session.
  */
 const dotenv = require('dotenv');
-dotenv.config({ path: './.env.production' });
+dotenv.config({ path: process.env.NODE_ENV === 'production' ? './.env.production' : './api/.env.development' });
 const { RedisStore } = require('connect-redis');
 const getRedisClient = require('./redisClient');
 const client = getRedisClient();

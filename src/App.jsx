@@ -18,9 +18,7 @@ import AuthModal from './components/AuthModal/AuthModal';
 export function Home() {
 
   const theme = useTheme();
-  // console.log("theme: ", theme)
   let navigation = useNavigation();
-  // console.log("navigation: ", navigation); // ****** DEBUG ****** //
   let revalidator = useRevalidator();
   let fetchers = useFetchers();
   let fetcherInProgress = fetchers.some((f) =>
@@ -54,7 +52,11 @@ export function Home() {
           {/* <OfflineLoader skeletonLoader={<ElmSkeleton height={150} width={400}/>} time={3000} /> */}
           <Outlet />
         </StyledOutlet>
-        <AuthModal open={authModalOpen} onClose={() => setAuthModalOpen(false)} />
+        <AuthModal
+          open={authModalOpen}
+          onClose={() => setAuthModalOpen(false)}
+          onLoginSuccess={() => revalidator.revalidate()}
+        />
         <div style={{ position: "fixed", top: 40, right: 20 }}>
           {navigation.state !== "idle" && <p>Navigation in progress...</p>}
           {revalidator.state !== "idle" && <p>Revalidation in progress...</p>}

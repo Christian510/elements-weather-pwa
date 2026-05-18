@@ -44,6 +44,7 @@ class Database {
     this.deleteOne = this.deleteOne.bind(this);
     this.addIconsToDB = this.addIconsToDB.bind(this);
     this.fetchAllIcons = this.fetchAllIcons.bind(this);
+    this.migrateFavorites = this.migrateFavorites.bind(this);
   }
 
   /**
@@ -184,24 +185,25 @@ async createWeatherIconsTable() {
    * @param {Object} params - Parameters for the insert operation.
    * @returns {Promise<number>} - Result of the insert operation (1 for success, 0 for failure).
    */
-  async insertOne(params) {
+  async insertOne(params, sessionID) {
+    const sId = sessionID || params.session_id;
     let conn;
     try {
       conn = await this.pool.getConnection();
       await conn.beginTransaction();
 
       const sf_query = `SELECT * FROM session_favorites WHERE l_id = ? AND s_id = ?;`;
-      const [sf] = await conn.execute(sf_query, [params.location_id, params.session_id]);
+      const [sf] = await conn.execute(sf_query, [params.location_id, sId]);
 
       const l_query = `SELECT * FROM locations WHERE location_id = ?;`;
       const [location] = await conn.execute(l_query, [params.location_id]);
 
       if (sf.length < 1 && location.length < 1) {
         const sf_insert_query = `
-          INSERT INTO session_favorites (s_id, l_id, l_name) 
+          INSERT INTO session_favorites (s_id, l_id, l_name)
           VALUES (?, ?, ?)`;
         const [sfResult] = await conn.execute(sf_insert_query, [
-          params.session_id,
+          sId,
           params.location_id,
           params.name,
         ]);
@@ -227,11 +229,11 @@ async createWeatherIconsTable() {
 
       if (sf.length < 1 && location.length > 0) {
         const sf_insert_query = `
-        INSERT INTO session_favorites (s_id, l_id, l_name) 
+        INSERT INTO session_favorites (s_id, l_id, l_name)
         VALUES (?, ?, ?)
         ON DUPLICATE KEY UPDATE l_name = VALUES(l_name);`;
         const [sfResult] = await conn.execute(sf_insert_query, [
-          params.session_id,
+          sId,
           params.location_id,
           params.name,
         ]);
@@ -271,6 +273,13 @@ async createWeatherIconsTable() {
   async deleteOne(s_id, l_id) {
     const query = `DELETE FROM session_favorites WHERE s_id = ? AND l_id = ? LIMIT 1;`;
     return this.executeQuery(query, [s_id, l_id]);
+  }
+
+  // Reassigns all session_favorites rows from oldId to newId (used on login
+  // to move anonymous favorites under the Firebase UID).
+  async migrateFavorites(oldId, newId) {
+    const query = `UPDATE session_favorites SET s_id = ? WHERE s_id = ?`;
+    return this.executeQuery(query, [newId, oldId]);
   }
 
   async addIconsToDB(icon) {

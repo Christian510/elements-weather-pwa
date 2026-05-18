@@ -7,15 +7,28 @@ import {
   signOut as firebaseSignOut,
 } from 'firebase/auth';
 import { auth, googleProvider } from '../firebase';
+import axios from '../api/client';
 
 const AuthContext = createContext(null);
+
+export async function linkSession(firebaseUser) {
+  try {
+    const idToken = await firebaseUser.getIdToken();
+    await axios.post('/auth/link-session', { idToken });
+  } catch (err) {
+    console.error('Failed to link session:', err);
+  }
+}
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        await linkSession(firebaseUser);
+      }
       setUser(firebaseUser);
       setLoading(false);
     });
@@ -30,7 +43,10 @@ export function AuthProvider({ children }) {
 
   const signInWithGoogle = () => signInWithPopup(auth, googleProvider);
 
-  const signOut = () => firebaseSignOut(auth);
+  const signOut = async () => {
+    await axios.post('/auth/logout').catch(() => {});
+    return firebaseSignOut(auth);
+  };
 
   return (
     <AuthContext.Provider value={{ user, loading, signIn, signUp, signInWithGoogle, signOut }}>

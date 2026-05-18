@@ -1,6 +1,7 @@
 import { Fragment, useState } from "react";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
+import PendingOutlinedIcon from '@mui/icons-material/PendingOutlined';
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -61,20 +62,16 @@ export default function ElmMenu({ onLoginClick }) {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar
+            <PendingOutlinedIcon
               src={user?.photoURL ?? undefined}
               sx={{
                 width: 32,
                 height: 32,
-                borderStyle: "solid",
-                borderWidth: ".15em",
-                borderColor: theme.palette.primary.light,
-                backgroundColor: user ? theme.palette.primary.main : "transparent",
                 fontSize: "0.875rem",
               }}
             >
               {user ? (user.photoURL ? null : avatarInitial) : <MoreHorizIcon color="action" fontSize="medium" />}
-            </Avatar>
+            </PendingOutlinedIcon>
           </IconButton>
         </Tooltip>
       </Box>
