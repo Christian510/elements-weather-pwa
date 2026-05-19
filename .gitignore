@@ -18,6 +18,7 @@ dist
 
 # misc
 .DS_Store
+api/serviceAccountKey.json
 *.env*
 ./api/*.env*
 readme.md

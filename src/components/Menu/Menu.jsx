@@ -1,6 +1,7 @@
 import { Fragment, useState } from "react";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
+import PendingOutlinedIcon from '@mui/icons-material/PendingOutlined';
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -14,24 +15,32 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
-export default function ElmMenu({ isLogedIn = false }) {
+export default function ElmMenu({ onLoginClick }) {
   const theme = useTheme();
+  const { user, profile, signOut } = useAuth();
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
+
+  const handleClick = (event) => setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
+
+  const handleLoginClick = () => {
+    handleClose();
+    onLoginClick();
   };
 
-  const login = isLogedIn ? (
-    <Logout fontSize="small" />
-  ) : (
-    <Login fontSize="small" />
-  );
-  const loginText = isLogedIn ? "Logout" : "Login";
+  const handleLogout = () => {
+    handleClose();
+    signOut();
+  };
+
+  const displayName = [profile?.firstName, profile?.lastName].filter(Boolean).join(' ') || user?.email || 'My account';
+  const avatarInitial = profile?.firstName?.[0]?.toUpperCase() ?? user?.email?.[0]?.toUpperCase() ?? null;
+
   return (
     <Fragment>
       <Box
@@ -54,18 +63,16 @@ export default function ElmMenu({ isLogedIn = false }) {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar
+            <PendingOutlinedIcon
+              src={user?.photoURL ?? undefined}
               sx={{
                 width: 32,
                 height: 32,
-                borderStyle: "solid",
-                borderWidth: ".15em",
-                borderColor: theme.palette.primary.light,
-                backgroundColor: "transparent",
+                fontSize: "0.875rem",
               }}
             >
-              <MoreHorizIcon color="action" fontSize="medium"></MoreHorizIcon>
-            </Avatar>
+              {user ? (user.photoURL ? null : avatarInitial) : <MoreHorizIcon color="action" fontSize="medium" />}
+            </PendingOutlinedIcon>
           </IconButton>
         </Tooltip>
       </Box>
@@ -106,24 +113,16 @@ export default function ElmMenu({ isLogedIn = false }) {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>
-          <Avatar /> My account
+        <MenuItem onClick={() => navigate('/user_account')} disabled={!user}>
+          <Avatar src={user?.photoURL ?? undefined} sx={{ fontSize: "0.875rem" }}>
+            {user?.photoURL ? null : avatarInitial}
+          </Avatar>
+          <Typography variant="body2" noWrap sx={{ maxWidth: 160 }}>
+            {user ? displayName : 'My account'}
+          </Typography>
         </MenuItem>
         <Divider />
         <NavLink to="/settings">
-          <MenuItem 
-            sx={{
-              color: theme.palette.common.white,
-              textDecoration: "none",
-            }}
-            onClick={handleClose}>
-            <ListItemIcon>
-              <Settings fontSize="small" />
-            </ListItemIcon>
-            Settings
-          </MenuItem>
-        </NavLink>
-        <NavLink to="/login">
           <MenuItem
             sx={{
               color: theme.palette.common.white,
@@ -131,10 +130,33 @@ export default function ElmMenu({ isLogedIn = false }) {
             }}
             onClick={handleClose}
           >
-            <ListItemIcon>{login}</ListItemIcon>
-            {loginText}
+            <ListItemIcon>
+              <Settings fontSize="small" />
+            </ListItemIcon>
+            Settings
           </MenuItem>
         </NavLink>
+        {user ? (
+          <MenuItem
+            sx={{ color: theme.palette.common.white }}
+            onClick={handleLogout}
+          >
+            <ListItemIcon>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            Logout
+          </MenuItem>
+        ) : (
+          <MenuItem
+            sx={{ color: theme.palette.common.white }}
+            onClick={handleLoginClick}
+          >
+            <ListItemIcon>
+              <Login fontSize="small" />
+            </ListItemIcon>
+            Login
+          </MenuItem>
+        )}
       </Menu>
     </Fragment>
   );

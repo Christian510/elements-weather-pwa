@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLoaderData } from "react-router-dom";
 import List from '@mui/material/List';
 import ListCard from '../../components/ListCard/ListCard';
@@ -7,6 +7,10 @@ import { deleteFavorite } from '../../models/weather_api';
 function Favorites() {
     const { forecasts, sessionId } = useLoaderData();
     const [favorites, setFavorites] = useState(forecasts || []);
+
+    useEffect(() => {
+      setFavorites(forecasts || []);
+    }, [forecasts]);
 
     function handleDeleteFavorite(id, s_id) {
         deleteFavorite(id, s_id);
