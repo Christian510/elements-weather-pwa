@@ -12,8 +12,8 @@ import ElmMenu from './components/Menu/Menu';
 import Header from './components/NavBar/Header';
 import ElmSearch from './components/ElmSearch/ElmSearch';
 import AuthModal from './components/AuthModal/AuthModal';
+import ElmSkeleton from "./components/ElmSkeleton/ElmSkeleton";
 // import OfflineLoader from './components/OfflineLoader/OfflineLoader';
-// import ElmSkeleton from "./components/ElmSkeleton/ElmSkeleton";
 
 export function Home() {
 
@@ -49,8 +49,10 @@ export function Home() {
           <ElmSearch />
         </Header>
         <StyledOutlet id="outlet">
-          {/* <OfflineLoader skeletonLoader={<ElmSkeleton height={150} width={400}/>} time={3000} /> */}
-          <Outlet />
+          {navigation.state === 'loading' && navigation.location?.pathname === '/'
+            ? <ElmSkeleton count={5} />
+            : <Outlet />
+          }
         </StyledOutlet>
         <AuthModal
           open={authModalOpen}
