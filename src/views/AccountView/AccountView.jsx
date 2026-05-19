@@ -18,8 +18,7 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { sendPasswordResetEmail } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { auth, db } from '../../firebase';
+import { auth } from '../../firebase';
 import { useAuth } from '../../contexts/AuthContext';
 
 const glassCard = {
@@ -49,7 +48,7 @@ const glassInput = {
 };
 
 export default function AccountView() {
-  const { user } = useAuth();
+  const { user, profile, saveProfile } = useAuth();
   const navigate = useNavigate();
   const [editMode, setEditMode] = useState(false);
   const [resetSent, setResetSent] = useState(false);
@@ -67,21 +66,16 @@ export default function AccountView() {
   }, [user, navigate]);
 
   useEffect(() => {
-    if (!user) return;
-    getDoc(doc(db, 'users', user.uid)).then((snap) => {
-      if (snap.exists()) {
-        const data = snap.data();
-        setForm({
-          firstName: data.firstName ?? '',
-          lastName: data.lastName ?? '',
-          city: data.city ?? '',
-          state: data.state ?? '',
-          lat: data.lat ?? '',
-          lng: data.lng ?? '',
-        });
-      }
-    }).catch((err) => console.error('Failed to load profile:', err));
-  }, [user]);
+    if (!profile) return;
+    setForm({
+      firstName: profile.firstName ?? '',
+      lastName: profile.lastName ?? '',
+      city: profile.city ?? '',
+      state: profile.state ?? '',
+      lat: profile.lat ?? '',
+      lng: profile.lng ?? '',
+    });
+  }, [profile]);
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -96,9 +90,8 @@ export default function AccountView() {
   };
 
   const handleSave = async () => {
-    if (!user) return;
     try {
-      await setDoc(doc(db, 'users', user.uid), form, { merge: true });
+      await saveProfile(form);
       setEditMode(false);
     } catch (err) {
       console.error('Failed to save profile:', err);
@@ -111,7 +104,8 @@ export default function AccountView() {
     }
   };
 
-  const avatarInitial = user?.email?.[0]?.toUpperCase() ?? '?';
+  const displayName = [profile?.firstName, profile?.lastName].filter(Boolean).join(' ') || user?.email || '';
+  const avatarInitial = profile?.firstName?.[0]?.toUpperCase() ?? user?.email?.[0]?.toUpperCase() ?? '?';
 
   return (
     <Box
@@ -182,7 +176,7 @@ export default function AccountView() {
             </IconButton>
           </Box>
           <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
-            {form.firstName || user?.email || ''}
+            {displayName}
           </Typography>
           <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mt: 0.25 }}>
             Premium Elements Member
