@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useNavigation } from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -20,6 +20,7 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { useAuth } from '../../contexts/AuthContext';
+import ElmSkeleton from '../../components/ElmSkeleton/ElmSkeleton';
 
 const glassCard = {
   background: 'rgba(255,255,255,0.15)',
@@ -50,6 +51,7 @@ const glassInput = {
 export default function AccountView() {
   const { user, profile, saveProfile } = useAuth();
   const navigate = useNavigate();
+  const navigation = useNavigation();
   const [editMode, setEditMode] = useState(false);
   const [resetSent, setResetSent] = useState(false);
   const [form, setForm] = useState({
@@ -106,6 +108,14 @@ export default function AccountView() {
 
   const displayName = [profile?.firstName, profile?.lastName].filter(Boolean).join(' ') || user?.email || '';
   const avatarInitial = profile?.firstName?.[0]?.toUpperCase() ?? user?.email?.[0]?.toUpperCase() ?? '?';
+
+  if (navigation.state === 'loading' && navigation.location?.pathname === '/') {
+    return (
+      <Box sx={{ height: '100vh', width: '100%', display: 'flex', flexDirection: 'column', pt: 8 }}>
+        <ElmSkeleton count={5} />
+      </Box>
+    );
+  }
 
   return (
     <Box
