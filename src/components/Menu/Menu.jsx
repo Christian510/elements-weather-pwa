@@ -20,7 +20,7 @@ import { useAuth } from "../../contexts/AuthContext";
 
 export default function ElmMenu({ onLoginClick }) {
   const theme = useTheme();
-  const { user, signOut } = useAuth();
+  const { user, profile, signOut } = useAuth();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -38,7 +38,8 @@ export default function ElmMenu({ onLoginClick }) {
     signOut();
   };
 
-  const avatarInitial = user?.email?.[0]?.toUpperCase() ?? null;
+  const displayName = [profile?.firstName, profile?.lastName].filter(Boolean).join(' ') || user?.email || 'My account';
+  const avatarInitial = profile?.firstName?.[0]?.toUpperCase() ?? user?.email?.[0]?.toUpperCase() ?? null;
 
   return (
     <Fragment>
@@ -117,7 +118,7 @@ export default function ElmMenu({ onLoginClick }) {
             {user?.photoURL ? null : avatarInitial}
           </Avatar>
           <Typography variant="body2" noWrap sx={{ maxWidth: 160 }}>
-            {user ? user.email : "My account"}
+            {user ? displayName : 'My account'}
           </Typography>
         </MenuItem>
         <Divider />

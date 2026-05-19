@@ -6,7 +6,8 @@ import {
   signInWithPopup,
   signOut as firebaseSignOut,
 } from 'firebase/auth';
-import { auth, googleProvider } from '../firebase';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { auth, googleProvider, db } from '../firebase';
 import axios from '../api/client';
 
 const AuthContext = createContext(null);
@@ -22,6 +23,7 @@ export async function linkSession(firebaseUser) {
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -34,6 +36,19 @@ export function AuthProvider({ children }) {
     });
     return unsubscribe;
   }, []);
+
+  useEffect(() => {
+    if (!user) { setProfile(null); return; }
+    getDoc(doc(db, 'users', user.uid))
+      .then((snap) => setProfile(snap.exists() ? snap.data() : {}))
+      .catch((err) => console.error('Failed to load profile:', err));
+  }, [user]);
+
+  const saveProfile = async (data) => {
+    if (!user) return;
+    await setDoc(doc(db, 'users', user.uid), data, { merge: true });
+    setProfile((prev) => ({ ...prev, ...data }));
+  };
 
   const signIn = (email, password) =>
     signInWithEmailAndPassword(auth, email, password);
@@ -49,7 +64,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, signIn, signUp, signInWithGoogle, signOut }}>
+    <AuthContext.Provider value={{ user, profile, loading, signIn, signUp, signInWithGoogle, signOut, saveProfile }}>
       {children}
     </AuthContext.Provider>
   );
